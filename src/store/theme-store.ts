@@ -48,6 +48,12 @@ export const useThemeStore = create<ThemeState>()(
       partialize: (state) => ({
         theme: state.theme,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.themeColors = state.theme === 'light' ? lightTheme : darkTheme;
+          document.documentElement.setAttribute('data-theme', state.theme);
+        }
+      },
     }
   )
 );
