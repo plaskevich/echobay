@@ -10,7 +10,7 @@ export const ImagePreviewContainer = styled.div`
 export const ImagePreview = styled.div`
   position: relative;
   aspect-ratio: 1;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
   border: 1px solid ${(props) => props.theme.border.primary};
 `;

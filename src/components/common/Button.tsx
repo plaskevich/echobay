@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'danger-outline';
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -84,6 +84,21 @@ const getVariantStyles = (variant: ButtonVariant) => {
           transform: translateY(1px);
         }
       `;
+    case 'danger-outline':
+      return css`
+        background-color: transparent;
+        color: ${({ theme }) => theme.state.error};
+        border: 2px solid ${({ theme }) => theme.state.error};
+
+        &:hover:not(:disabled) {
+          background-color: ${({ theme }) => theme.state.error};
+          color: white;
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(1px);
+        }
+      `;
     default:
       return '';
   }
@@ -122,7 +137,7 @@ const StyledButton = styled.button.withConfig({
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;

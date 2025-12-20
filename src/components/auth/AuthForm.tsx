@@ -87,7 +87,7 @@ const ErrorMessage = styled.div`
   background-color: ${({ theme }) => theme.state.error}20;
   color: ${({ theme }) => theme.state.error};
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 0.875rem;
 `;
 
@@ -96,6 +96,6 @@ const SuccessMessage = styled.div`
   background-color: ${({ theme }) => theme.state.success}20;
   color: ${({ theme }) => theme.state.success};
   border: 1px solid ${({ theme }) => theme.state.success};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 0.875rem;
 `;

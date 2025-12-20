@@ -60,7 +60,7 @@ const CloseResultsButton = styled.button`
   align-items: center;
   gap: 0.25rem;
   font-size: 0.875rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 
   &:hover {
     color: ${(props) => props.theme.text.primary};

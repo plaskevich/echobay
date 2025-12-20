@@ -33,7 +33,7 @@ const StyledSelect = styled.select`
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -64,7 +64,7 @@ const SelectIcon = styled(IoChevronDown)`
 export const TextArea = styled.textarea`
   padding: 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -91,7 +91,7 @@ export const TextArea = styled.textarea`
 export const FileInput = styled.input`
   padding: 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -106,7 +106,7 @@ export const FileInput = styled.input`
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     border: none;
-    border-radius: 0.375rem;
+    border-radius: 0.75rem;
     background-color: ${(props) => props.theme.primary.main};
     color: white;
     cursor: pointer;

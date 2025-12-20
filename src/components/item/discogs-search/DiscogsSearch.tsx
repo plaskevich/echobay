@@ -63,7 +63,7 @@ const SearchSection = styled.div`
   padding: 1.5rem;
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: 1rem;
 `;
 
 const SearchContainer = styled.div`

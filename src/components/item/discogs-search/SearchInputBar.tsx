@@ -60,7 +60,7 @@ const SearchInput = styled.input`
   flex: 1;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -94,7 +94,7 @@ const ClearButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 
   &:hover {
     color: ${(props) => props.theme.text.primary};
@@ -112,7 +112,7 @@ const SearchButton = styled.button`
   background-color: ${(props) => props.theme.primary.main};
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;

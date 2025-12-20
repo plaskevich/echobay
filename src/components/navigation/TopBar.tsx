@@ -70,7 +70,7 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 2.5rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -107,7 +107,7 @@ const IconButton = styled.button`
   color: ${(props) => props.theme.text.secondary};
   background: none;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;

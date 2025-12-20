@@ -36,7 +36,7 @@ const StyledInput = styled.input`
   padding: 0.75rem 1rem;
   font-size: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   transition: all 0.2s ease;

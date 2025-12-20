@@ -61,7 +61,7 @@ const Overlay = styled.div`
 const DialogContainer = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 15px 30px -15px rgba(0, 0, 0, 0.3);
