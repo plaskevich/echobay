@@ -1,11 +1,11 @@
-export const FORMATS = ['vinyl', 'cd', 'cassette'] as const;
+export const FORMATS = ['vinyl', 'cd', 'tape'] as const;
 export type Format = (typeof FORMATS)[number];
 
 export const FORMAT_OPTIONS = [
   { value: '', label: 'Select a format' },
   { value: 'vinyl', label: 'Vinyl' },
   { value: 'cd', label: 'CD' },
-  { value: 'cassette', label: 'Cassette' },
+  { value: 'tape', label: 'Tape' },
 ] as const;
 
 export const CONDITION_OPTIONS = [

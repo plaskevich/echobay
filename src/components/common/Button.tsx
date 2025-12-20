@@ -46,7 +46,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
       return css`
         background-color: transparent;
         color: ${({ theme }) => theme.primary.main};
-        border: 2px solid ${({ theme }) => theme.primary.main};
+        border: 1px solid ${({ theme }) => theme.primary.main};
 
         &:hover:not(:disabled) {
           background-color: ${({ theme }) => theme.primary.light};
@@ -88,7 +88,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
       return css`
         background-color: transparent;
         color: ${({ theme }) => theme.state.error};
-        border: 2px solid ${({ theme }) => theme.state.error};
+        border: 1px solid ${({ theme }) => theme.state.error};
 
         &:hover:not(:disabled) {
           background-color: ${({ theme }) => theme.state.error};
@@ -158,7 +158,7 @@ const StyledButton = styled.button.withConfig({
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.primary.main};
+    outline: 1px solid ${({ theme }) => theme.primary.main};
     outline-offset: 2px;
   }
 
@@ -174,7 +174,7 @@ const Spinner = styled.span`
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  border: 2px solid ${({ theme }) => theme.spinner.background};
+  border: 1px solid ${({ theme }) => theme.spinner.background};
   border-top-color: ${({ theme }) => theme.spinner.foreground};
   border-radius: 50%;
   animation: spin 0.6s linear infinite;

@@ -27,6 +27,7 @@ export interface ThemeColors {
     error: string;
     info: string;
   };
+  price: string;
   shadow: {
     small: string;
     medium: string;
@@ -69,6 +70,7 @@ export const lightTheme: ThemeColors = {
     error: '#c91e28',
     info: '#0588f0',
   },
+  price: '#16a34a',
   shadow: {
     small: 'rgba(0, 0, 0, 0.08)',
     medium: 'rgba(0, 0, 0, 0.12)',
@@ -111,10 +113,11 @@ export const darkTheme: ThemeColors = {
     error: '#e2839d',
     info: '#8ec8f6',
   },
+  price: '#4ade80',
   shadow: {
-    small: 'rgba(0, 0, 0, 0.5)',
-    medium: 'rgba(0, 0, 0, 0.6)',
-    large: 'rgba(0, 0, 0, 0.7)',
+    small: 'rgba(255, 255, 255, 0.1)',
+    medium: 'rgba(255, 255, 255, 0.15)',
+    large: 'rgba(255, 255, 255, 0.2)',
   },
   overlay: {
     dark: 'rgba(0, 0, 0, 0.7)',

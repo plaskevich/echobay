@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase';
 export interface ListingFormData {
   title: string;
   artist: string;
-  format: 'vinyl' | 'cd' | 'cassette' | '';
+  format: 'vinyl' | 'cd' | 'tape' | '';
   genre: string;
   label: string;
   condition: string;
