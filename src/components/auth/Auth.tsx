@@ -6,121 +6,6 @@ import { useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/common/Button';
 import { useAuthStore } from '@/store/auth-store';
 
-const AuthContainer = styled.div`
-  min-height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-`;
-
-const AuthCard = styled.div`
-  background-color: ${({ theme }) => theme.background.secondary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 1rem;
-  padding: 3rem;
-  width: 100%;
-  max-width: 450px;
-  box-shadow: 0 4px 6px ${({ theme }) => theme.shadow.medium};
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: ${({ theme }) => theme.text.primary};
-  text-align: center;
-`;
-
-const Subtitle = styled.p`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.text.secondary};
-  margin-bottom: 2rem;
-  text-align: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.text.primary};
-`;
-
-const Input = styled.input`
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.5rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  color: ${({ theme }) => theme.text.primary};
-  transition: all 0.2s ease;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.primary.main};
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary.light};
-  }
-
-  &::placeholder {
-    color: ${({ theme }) => theme.text.tertiary};
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.state.error}20;
-  color: ${({ theme }) => theme.state.error};
-  border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-`;
-
-const SuccessMessage = styled.div`
-  padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.state.success}20;
-  color: ${({ theme }) => theme.state.success};
-  border: 1px solid ${({ theme }) => theme.state.success};
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-`;
-
-const ToggleText = styled.p`
-  margin-top: 1.5rem;
-  text-align: center;
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.text.secondary};
-`;
-
-const ToggleButton = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.primary.main};
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 0.25rem;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 type AuthMode = 'signin' | 'signup';
 
 export function Auth() {
@@ -249,3 +134,118 @@ export function Auth() {
     </AuthContainer>
   );
 }
+
+const AuthContainer = styled.div`
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+`;
+
+const AuthCard = styled.div`
+  background-color: ${({ theme }) => theme.background.secondary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: 1rem;
+  padding: 3rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 6px ${({ theme }) => theme.shadow.medium};
+`;
+
+const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: ${({ theme }) => theme.text.primary};
+  text-align: center;
+`;
+
+const Subtitle = styled.p`
+  font-size: 1rem;
+  color: ${({ theme }) => theme.text.secondary};
+  margin-bottom: 2rem;
+  text-align: center;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const Label = styled.label`
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text.primary};
+`;
+
+const Input = styled.input`
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: 0.5rem;
+  background-color: ${({ theme }) => theme.background.primary};
+  color: ${({ theme }) => theme.text.primary};
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.primary.main};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary.light};
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.text.tertiary};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  padding: 0.75rem 1rem;
+  background-color: ${({ theme }) => theme.state.error}20;
+  color: ${({ theme }) => theme.state.error};
+  border: 1px solid ${({ theme }) => theme.state.error};
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+`;
+
+const SuccessMessage = styled.div`
+  padding: 0.75rem 1rem;
+  background-color: ${({ theme }) => theme.state.success}20;
+  color: ${({ theme }) => theme.state.success};
+  border: 1px solid ${({ theme }) => theme.state.success};
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+`;
+
+const ToggleText = styled.p`
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.text.secondary};
+`;
+
+const ToggleButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.primary.main};
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;

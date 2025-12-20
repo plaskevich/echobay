@@ -1,4 +1,4 @@
-import { IoHeart, IoMoon, IoPerson, IoSearch, IoSunny } from 'react-icons/io5';
+import { IoHeartOutline, IoMoonOutline, IoPersonOutline, IoSearch, IoSunnyOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 
 import { Link } from '@tanstack/react-router';
@@ -134,18 +134,18 @@ export function TopBar() {
 
           <RightSection>
             <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'light' ? <IoMoon /> : <IoSunny />}
+              {theme === 'light' ? <IoMoonOutline /> : <IoSunnyOutline />}
             </IconButton>
             {user ? (
               <>
                 <Link to="/favorites">
                   <IconButton aria-label="Favorites">
-                    <IoHeart />
+                    <IoHeartOutline />
                   </IconButton>
                 </Link>
                 <Link to="/profile">
                   <IconButton aria-label="Profile">
-                    <IoPerson />
+                    <IoPersonOutline />
                   </IconButton>
                 </Link>
                 <Link to="/items/new">
