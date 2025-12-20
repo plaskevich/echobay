@@ -9,7 +9,9 @@ const Card = styled.div`
   padding: 1.5rem;
   box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
   transition: all 0.2s;
-
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
   &:hover {
     box-shadow: 0 4px 6px -1px ${(props) => props.theme.shadow.medium};
     cursor: pointer;
@@ -27,20 +29,21 @@ const ListingImage = styled.img`
 const ListingTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin: 0;
   color: ${(props) => props.theme.text.primary};
 `;
 
 const Artist = styled.p`
   font-size: 0.875rem;
   color: ${(props) => props.theme.text.secondary};
-  margin-bottom: 0.75rem;
+  margin: 0;
 `;
 
 const Price = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: ${(props) => props.theme.state.success};
+  margin: 1rem 0 0 0;
 `;
 
 export interface Listing {
