@@ -148,7 +148,7 @@ export function TopBar() {
                     <IoPerson />
                   </IconButton>
                 </Link>
-                <Link to="/items">
+                <Link to="/items/new">
                   <Button variant="primary" size="small">
                     Sell
                   </Button>

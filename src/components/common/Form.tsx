@@ -133,6 +133,7 @@ export const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  justify-content: flex-end;
 `;
 
 export const OptionalLabel = styled.span`

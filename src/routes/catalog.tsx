@@ -16,7 +16,7 @@ interface Listing {
   price: number;
   image_url?: string;
   created_at: string;
-  user_id: string;
+  owner_id: string;
 }
 
 const Container = styled.div`
