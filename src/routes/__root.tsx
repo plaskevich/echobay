@@ -7,7 +7,7 @@ import { TopBar } from '@/components/navigation/TopBar';
 
 const AppWrapper = styled.div`
   min-height: 100vh;
-  background-color: ${(props) => props.theme.background.secondary};
+  background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text};
 `;
 
