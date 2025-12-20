@@ -2,6 +2,34 @@ import styled from 'styled-components';
 
 import placeholder from '@/assets/cd.png';
 
+export interface Listing {
+  id: string;
+  title: string;
+  artist: string;
+  description: string;
+  price: number;
+  images?: string[];
+  created_at: string;
+  owner_id: string;
+}
+
+interface ListingCardProps {
+  listing: Listing;
+}
+
+export function ListingCard({ listing }: ListingCardProps) {
+  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
+
+  return (
+    <Card>
+      <ListingImage src={imageUrl} alt={listing.title} />
+      <Artist>{listing.artist}</Artist>
+      <ListingTitle>{listing.title}</ListingTitle>
+      <Price>{listing.price.toFixed(2)}€</Price>
+    </Card>
+  );
+}
+
 const Card = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
@@ -45,31 +73,3 @@ const Price = styled.p`
   color: ${(props) => props.theme.state.success};
   margin: 1rem 0 0 0;
 `;
-
-export interface Listing {
-  id: string;
-  title: string;
-  artist: string;
-  description: string;
-  price: number;
-  images?: string[];
-  created_at: string;
-  owner_id: string;
-}
-
-interface ListingCardProps {
-  listing: Listing;
-}
-
-export function ListingCard({ listing }: ListingCardProps) {
-  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
-
-  return (
-    <Card>
-      <ListingImage src={imageUrl} alt={listing.title} />
-      <Artist>{listing.artist}</Artist>
-      <ListingTitle>{listing.title}</ListingTitle>
-      <Price>{listing.price.toFixed(2)}€</Price>
-    </Card>
-  );
-}

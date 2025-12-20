@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { createFileRoute } from '@tanstack/react-router';
 
-import { NewListingForm } from '@/components/listings/NewListingForm';
+import { NewListingForm } from '@/components/item/new-listing/NewListingForm';
 
 export const Route = createFileRoute('/items/new')({
   component: NewListing,

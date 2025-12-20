@@ -12,6 +12,7 @@ interface UseImageUploadReturn {
   images: File[];
   imagePreviews: string[];
   handleImageChange: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
+  addImageFromUrl: (url: string, filename?: string) => Promise<void>;
   removeImage: (index: number) => void;
   uploadImages: () => Promise<string[]>;
   resetImages: () => void;
@@ -131,6 +132,47 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     e.target.value = '';
   };
 
+  const addImageFromUrl = async (url: string, filename = 'discogs-image.jpg') => {
+    if (images.length >= MAX_IMAGES_PER_LISTING) {
+      setError(`You can only upload up to ${MAX_IMAGES_PER_LISTING} images per listing`);
+      return;
+    }
+
+    setError(null);
+
+    try {
+      const proxyUrl = 'https://corsproxy.io/?';
+      const imageUrl = proxyUrl + encodeURIComponent(url);
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch image from URL');
+      }
+
+      const blob = await response.blob();
+      const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
+
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        setError('Invalid image type from Discogs. Only JPEG, PNG, WebP, and GIF are allowed.');
+        return;
+      }
+
+      if (file.size > MAX_IMAGE_SIZE) {
+        setError(`Image from Discogs is too large. Maximum size is ${MAX_IMAGE_SIZE / 1024 / 1024}MB.`);
+        return;
+      }
+      const compressedFile = await compressImage(file, MAX_IMAGE_DIMENSION);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviews((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(compressedFile);
+      setImages((prev) => [...prev, compressedFile]);
+    } catch (err) {
+      console.error('Error loading image from URL:', err);
+      setError('Failed to load image from Discogs. You can still upload your own images manually.');
+    }
+  };
+
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
@@ -173,6 +215,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     images,
     imagePreviews,
     handleImageChange,
+    addImageFromUrl,
     removeImage,
     uploadImages,
     resetImages,

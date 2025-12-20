@@ -13,7 +13,6 @@ export function CatalogView() {
     async function fetchListings() {
       try {
         const { data, error } = await supabase.from('listings').select('*').order('created_at', { ascending: false });
-
         if (error) throw error;
         setListings(data || []);
       } catch (err) {
@@ -30,7 +29,7 @@ export function CatalogView() {
     return (
       <Container>
         <Title>Items</Title>
-        <LoadingText>Loading listings...</LoadingText>
+        <LoadingText>Loading...</LoadingText>
       </Container>
     );
   }

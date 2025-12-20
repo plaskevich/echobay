@@ -1,4 +1,15 @@
+import { type SelectHTMLAttributes } from 'react';
+import { IoChevronDown } from 'react-icons/io5';
 import styled from 'styled-components';
+
+export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <SelectWrapper>
+      <StyledSelect {...props} />
+      <SelectIcon />
+    </SelectWrapper>
+  );
+}
 
 export const Form = styled.form`
   display: flex;
@@ -10,6 +21,7 @@ export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 `;
 
 export const Label = styled.label`
@@ -42,14 +54,22 @@ export const Input = styled.input`
   }
 `;
 
-export const Select = styled.select`
-  padding: 0.75rem;
+const SelectWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+`;
+
+const StyledSelect = styled.select`
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: 0.5rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
   cursor: pointer;
+  appearance: none;
 
   &:focus {
     outline: none;
@@ -61,6 +81,15 @@ export const Select = styled.select`
     opacity: 0.6;
     cursor: not-allowed;
   }
+`;
+
+const SelectIcon = styled(IoChevronDown)`
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: ${(props) => props.theme.text.secondary};
 `;
 
 export const TextArea = styled.textarea`
