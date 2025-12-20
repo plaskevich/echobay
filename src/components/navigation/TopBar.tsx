@@ -1,8 +1,10 @@
-import { IoAdd, IoHeart, IoMoon, IoPerson, IoSearch, IoSunny } from 'react-icons/io5';
+import { IoHeart, IoMoon, IoPerson, IoSearch, IoSunny } from 'react-icons/io5';
 import styled from 'styled-components';
 
 import { Link } from '@tanstack/react-router';
 
+import { Button } from '@/components/common/Button';
+import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
 const Nav = styled.nav`
@@ -110,15 +112,9 @@ const IconButton = styled.button`
     background-color: ${(props) => props.theme.primary.light};
   }
 `;
-
-const SellButtonContent = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-`;
-
 export function TopBar() {
   const { theme, toggleTheme } = useThemeStore();
+  const { user } = useAuthStore();
 
   return (
     <Nav>
@@ -140,25 +136,31 @@ export function TopBar() {
             <IconButton onClick={toggleTheme} aria-label="Toggle theme">
               {theme === 'light' ? <IoMoon /> : <IoSunny />}
             </IconButton>
-            <Link to="/favorites">
-              <IconButton aria-label="Favorites">
-                <IoHeart />
-              </IconButton>
-            </Link>
-
-            <Link to="/items">
-              <button>
-                <SellButtonContent>
-                  <IoAdd />
-                  Sell
-                </SellButtonContent>
-              </button>
-            </Link>
-            <Link to="/profile">
-              <IconButton aria-label="Profile">
-                <IoPerson />
-              </IconButton>
-            </Link>
+            {user ? (
+              <>
+                <Link to="/favorites">
+                  <IconButton aria-label="Favorites">
+                    <IoHeart />
+                  </IconButton>
+                </Link>
+                <Link to="/profile">
+                  <IconButton aria-label="Profile">
+                    <IoPerson />
+                  </IconButton>
+                </Link>
+                <Link to="/items">
+                  <Button variant="primary" size="small">
+                    Sell
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="primary" size="small">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </RightSection>
         </NavContent>
       </NavContainer>
