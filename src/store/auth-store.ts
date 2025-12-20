@@ -11,7 +11,7 @@ interface AuthState {
   setUser: (user: User | null) => void;
   setLoading: (isLoading: boolean) => void;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  logIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   initialize: () => Promise<void>;
 }
@@ -47,7 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  signIn: async (email: string, password: string) => {
+  logIn: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
       const { data, error } = await supabase.auth.signInWithPassword({

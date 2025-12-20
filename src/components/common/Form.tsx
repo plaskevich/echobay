@@ -2,6 +2,8 @@ import { type SelectHTMLAttributes } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
 import styled from 'styled-components';
 
+import { BaseInput, FormGroup as InputFormGroup, Label as InputLabel } from './Input';
+
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <SelectWrapper>
@@ -17,42 +19,9 @@ export const Form = styled.form`
   gap: 1.5rem;
 `;
 
-export const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: relative;
-`;
-
-export const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: ${(props) => props.theme.text.primary};
-`;
-
-export const Input = styled.input`
-  padding: 0.75rem;
-  border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  background-color: ${(props) => props.theme.background.primary};
-  color: ${(props) => props.theme.text.primary};
-
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
-  }
-
-  &::placeholder {
-    color: ${(props) => props.theme.text.tertiary};
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
+export const FormGroup = InputFormGroup;
+export const Label = InputLabel;
+export const Input = BaseInput;
 
 const SelectWrapper = styled.div`
   position: relative;

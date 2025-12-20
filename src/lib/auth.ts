@@ -14,7 +14,7 @@ export async function isAuthenticated(): Promise<boolean> {
   return user !== null;
 }
 
-export async function signInWithEmail(email: string, password: string) {
+export async function logInWithEmail(email: string, password: string) {
   return await supabase.auth.signInWithPassword({
     email,
     password,

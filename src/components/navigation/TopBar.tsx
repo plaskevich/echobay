@@ -157,7 +157,7 @@ export function TopBar() {
             ) : (
               <Link to="/auth">
                 <Button variant="primary" size="small">
-                  Sign In
+                  Log In | Sign Up
                 </Button>
               </Link>
             )}
