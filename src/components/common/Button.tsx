@@ -114,7 +114,9 @@ const getSizeStyles = (size: ButtonSize) => {
   }
 };
 
-const StyledButton = styled.button<ButtonProps>`
+const StyledButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['fullWidth', 'isLoading', 'variant', 'size'].includes(prop),
+})<ButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -169,13 +171,23 @@ const Spinner = styled.span`
   }
 `;
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, isLoading, disabled, ...props }, ref) => {
-  return (
-    <StyledButton ref={ref} disabled={disabled || isLoading} {...props}>
-      {isLoading && <Spinner />}
-      {children}
-    </StyledButton>
-  );
-});
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, isLoading, disabled, variant, size, fullWidth, ...props }, ref) => {
+    return (
+      <StyledButton
+        ref={ref}
+        disabled={disabled || isLoading}
+        variant={variant}
+        size={size}
+        fullWidth={fullWidth}
+        isLoading={isLoading}
+        {...props}
+      >
+        {isLoading && <Spinner />}
+        {children}
+      </StyledButton>
+    );
+  }
+);
 
 Button.displayName = 'Button';
