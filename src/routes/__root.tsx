@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import { TopBar } from '@/components/navigation/TopBar';
 
