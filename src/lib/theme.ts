@@ -10,6 +10,7 @@ export interface ThemeColors {
     primary: string;
     secondary: string;
     tertiary: string;
+    muted: string;
   };
   border: {
     primary: string;
@@ -31,6 +32,14 @@ export interface ThemeColors {
     medium: string;
     large: string;
   };
+  overlay: {
+    dark: string;
+    darker: string;
+  };
+  spinner: {
+    background: string;
+    foreground: string;
+  };
 }
 
 export const lightTheme: ThemeColors = {
@@ -43,6 +52,7 @@ export const lightTheme: ThemeColors = {
     primary: '#0a0a0a',
     secondary: '#525252',
     tertiary: '#737373',
+    muted: '#6b7280',
   },
   border: {
     primary: '#e5e5e5',
@@ -55,7 +65,7 @@ export const lightTheme: ThemeColors = {
   },
   state: {
     success: '#509109',
-    warning: '#F2C012',
+    warning: '#f59e0b',
     error: '#c91e28',
     info: '#0588f0',
   },
@@ -63,6 +73,14 @@ export const lightTheme: ThemeColors = {
     small: 'rgba(0, 0, 0, 0.08)',
     medium: 'rgba(0, 0, 0, 0.12)',
     large: 'rgba(0, 0, 0, 0.16)',
+  },
+  overlay: {
+    dark: 'rgba(0, 0, 0, 0.6)',
+    darker: 'rgba(0, 0, 0, 0.8)',
+  },
+  spinner: {
+    background: 'rgba(255, 255, 255, 0.3)',
+    foreground: '#ffffff',
   },
 };
 
@@ -76,6 +94,7 @@ export const darkTheme: ThemeColors = {
     primary: '#fafafa',
     secondary: '#a3a3a3',
     tertiary: '#798da3',
+    muted: '#9ca3af',
   },
   border: {
     primary: '#2d3748',
@@ -88,7 +107,7 @@ export const darkTheme: ThemeColors = {
   },
   state: {
     success: '#8bd0b9',
-    warning: '#FFF5B1',
+    warning: '#fbbf24',
     error: '#e2839d',
     info: '#8ec8f6',
   },
@@ -96,6 +115,14 @@ export const darkTheme: ThemeColors = {
     small: 'rgba(0, 0, 0, 0.5)',
     medium: 'rgba(0, 0, 0, 0.6)',
     large: 'rgba(0, 0, 0, 0.7)',
+  },
+  overlay: {
+    dark: 'rgba(0, 0, 0, 0.7)',
+    darker: 'rgba(0, 0, 0, 0.85)',
+  },
+  spinner: {
+    background: 'rgba(255, 255, 255, 0.2)',
+    foreground: '#ffffff',
   },
 };
 

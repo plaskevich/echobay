@@ -157,8 +157,8 @@ const Spinner = styled.span`
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  border: 2px solid ${({ theme }) => theme.spinner.background};
+  border-top-color: ${({ theme }) => theme.spinner.foreground};
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 
