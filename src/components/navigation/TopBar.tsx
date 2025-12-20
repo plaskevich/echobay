@@ -1,4 +1,11 @@
-import { IoHeartOutline, IoMoonOutline, IoPersonOutline, IoSearch, IoSunnyOutline } from 'react-icons/io5';
+import {
+  IoHeartOutline,
+  IoLogOutOutline,
+  IoMoonOutline,
+  IoPersonOutline,
+  IoSearch,
+  IoSunnyOutline,
+} from 'react-icons/io5';
 import styled from 'styled-components';
 
 import { Link } from '@tanstack/react-router';
@@ -46,7 +53,7 @@ const LogoLink = styled(Link)`
 const Logo = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.text.secondary};
 `;
 
 const SearchContainer = styled.div`
@@ -92,7 +99,7 @@ const SearchIconWrapper = styled.div`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.7rem;
 `;
 
 const IconButton = styled.button`
@@ -114,7 +121,11 @@ const IconButton = styled.button`
 `;
 export function TopBar() {
   const { theme, toggleTheme } = useThemeStore();
-  const { user } = useAuthStore();
+  const { user, signOut } = useAuthStore();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <Nav>
@@ -148,6 +159,9 @@ export function TopBar() {
                     <IoPersonOutline />
                   </IconButton>
                 </Link>
+                <IconButton onClick={handleLogout} aria-label="Log out">
+                  <IoLogOutOutline />
+                </IconButton>
                 <Link to="/items/new">
                   <Button variant="primary" size="small">
                     Sell

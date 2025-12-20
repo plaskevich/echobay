@@ -47,7 +47,7 @@ export function Auth() {
 }
 
 const AuthContainer = styled.div`
-  min-height: calc(100vh - 80px);
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
