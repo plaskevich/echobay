@@ -5,7 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
 import { SuccessMessage } from '@/components/common/Message';
-import { DiscogsSearch } from '@/components/item/discogs-search/DiscogsSearch';
+import { DiscogsSearch } from '@/components/item/discogs-search';
 import { FormActions } from '@/components/item/new-listing/FormActions';
 import { FormFields } from '@/components/item/new-listing/FormFields';
 import { ImageUploadSection } from '@/components/item/new-listing/ImageUploadSection';
