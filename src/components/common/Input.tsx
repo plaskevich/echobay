@@ -33,7 +33,7 @@ const Label = styled.label`
 `;
 
 const StyledInput = styled.input`
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   font-size: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
   border-radius: 0.75rem;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 
+import { signInWithGoogle } from '@/lib/auth';
 import { useAuthStore } from '@/store/auth-store';
 
 type AuthMode = 'login' | 'signup';
@@ -78,6 +79,14 @@ export function useAuthForm() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setError('');
+    const { error } = await signInWithGoogle();
+    if (error) {
+      setError(error.message);
+    }
+  };
+
   return {
     mode,
     email,
@@ -90,6 +99,7 @@ export function useAuthForm() {
     setPassword,
     setConfirmPassword,
     handleSubmit,
+    handleGoogleSignIn,
     toggleMode,
   };
 }

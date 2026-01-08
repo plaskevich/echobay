@@ -17,6 +17,7 @@ export function Auth() {
     setPassword,
     setConfirmPassword,
     handleSubmit,
+    handleGoogleSignIn,
     toggleMode,
   } = useAuthForm();
 
@@ -38,6 +39,7 @@ export function Auth() {
           onPasswordChange={setPassword}
           onConfirmPasswordChange={setConfirmPassword}
           onSubmit={handleSubmit}
+          onGoogleSignIn={handleGoogleSignIn}
         />
 
         <AuthToggle mode={mode} onToggle={toggleMode} />
