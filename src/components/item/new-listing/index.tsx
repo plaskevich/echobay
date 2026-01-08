@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 
@@ -12,14 +12,22 @@ import { ImageUploadSection } from '@/components/item/new-listing/ImageUploadSec
 import { type DiscogsRelease, extractArtistName, extractGenre, useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useListingSubmit } from '@/hooks/useListingSubmit';
+import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth-store';
 
-export function NewListingForm() {
+interface ListingFormProps {
+  listingId?: string;
+  mode?: 'create' | 'edit';
+}
+
+export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [isDirty, setIsDirty] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isLoadingListing, setIsLoadingListing] = useState(mode === 'edit');
+  const [existingImages, setExistingImages] = useState<string[]>([]);
 
   const {
     searchQuery,
@@ -40,13 +48,50 @@ export function NewListingForm() {
     uploadImages,
     resetImages,
     error: imageError,
+    setImagePreviews,
   } = useImageUpload(user?.id);
 
-  const { formData, setFormData, isSubmitting, error, success, handleSubmit } = useListingSubmit({
+  const { formData, setFormData, isSubmitting, error, success, handleSubmit, isEditMode } = useListingSubmit({
     userId: user?.id,
     uploadImages,
     resetImages,
+    listingId,
+    existingImages,
   });
+
+  useEffect(() => {
+    async function loadListing() {
+      if (!listingId || mode !== 'edit') return;
+      setIsLoadingListing(true);
+      try {
+        const { data, error } = await supabase.from('listings').select('*').eq('id', listingId).single();
+        if (error) throw error;
+        if (data) {
+          setFormData({
+            title: data.title || '',
+            artist: data.artist || '',
+            format: data.format || '',
+            genre: data.genre || '',
+            label: data.label || '',
+            condition: data.condition || '',
+            price: data.price?.toString() || '',
+            description: data.description || '',
+          });
+
+          if (data.images && Array.isArray(data.images)) {
+            setExistingImages(data.images);
+            setImagePreviews(data.images);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading listing:', err);
+      } finally {
+        setIsLoadingListing(false);
+      }
+    }
+
+    loadListing();
+  }, [listingId, mode, setFormData, setImagePreviews]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -61,13 +106,21 @@ export function NewListingForm() {
     if (isDirty) {
       setShowCancelDialog(true);
     } else {
-      navigate({ to: '/catalog' });
+      if (isEditMode && listingId) {
+        navigate({ to: `/items/${listingId}` });
+      } else {
+        navigate({ to: '/catalog' });
+      }
     }
   };
 
   const confirmCancel = () => {
     setShowCancelDialog(false);
-    navigate({ to: '/catalog' });
+    if (isEditMode && listingId) {
+      navigate({ to: `/items/${listingId}` });
+    } else {
+      navigate({ to: '/catalog' });
+    }
   };
 
   const handleImageChangeWrapper = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -113,9 +166,15 @@ export function NewListingForm() {
     setShowSearchResults(false);
   };
 
+  if (isLoadingListing) {
+    return <div>Loading listing data...</div>;
+  }
+
   return (
     <>
-      {success && <SuccessMessage>Listing created successfully! Redirecting...</SuccessMessage>}
+      {success && (
+        <SuccessMessage>Listing {isEditMode ? 'updated' : 'created'} successfully! Redirecting...</SuccessMessage>
+      )}
 
       <Dialog
         isOpen={showCancelDialog}

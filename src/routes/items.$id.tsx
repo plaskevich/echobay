@@ -1,7 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
-
-import { ItemDetail } from '@/components/item/item-detail';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/items/$id')({
-  component: ItemDetail,
+  component: ItemsIdLayout,
 });
+
+function ItemsIdLayout() {
+  return <Outlet />;
+}

@@ -18,6 +18,7 @@ interface UseImageUploadReturn {
   resetImages: () => void;
   error: string | null;
   clearError: () => void;
+  setImagePreviews: (previews: string[]) => void;
 }
 
 async function compressImage(file: File, maxDimension: number): Promise<File> {
@@ -221,5 +222,6 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     resetImages,
     error,
     clearError,
+    setImagePreviews,
   };
 }

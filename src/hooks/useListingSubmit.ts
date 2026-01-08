@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 
@@ -19,13 +19,24 @@ interface UseListingSubmitProps {
   userId: string | undefined;
   uploadImages: () => Promise<string[]>;
   resetImages: () => void;
+  listingId?: string;
+  initialData?: Partial<ListingFormData>;
+  existingImages?: string[];
 }
 
-export function useListingSubmit({ userId, uploadImages, resetImages }: UseListingSubmitProps) {
+export function useListingSubmit({
+  userId,
+  uploadImages,
+  resetImages,
+  listingId,
+  initialData,
+  existingImages = [],
+}: UseListingSubmitProps) {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const isEditMode = !!listingId;
 
   const initialFormData: ListingFormData = {
     title: '',
@@ -39,6 +50,21 @@ export function useListingSubmit({ userId, uploadImages, resetImages }: UseListi
   };
 
   const [formData, setFormData] = useState<ListingFormData>(initialFormData);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || '',
+        artist: initialData.artist || '',
+        format: initialData.format || '',
+        genre: initialData.genre || '',
+        label: initialData.label || '',
+        condition: initialData.condition || '',
+        price: initialData.price || '',
+        description: initialData.description || '',
+      });
+    }
+  }, [initialData]);
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -65,7 +91,9 @@ export function useListingSubmit({ userId, uploadImages, resetImages }: UseListi
     try {
       const imageUrls = await uploadImages();
 
-      const { error: insertError } = await supabase.from('listings').insert({
+      const allImages = imageUrls.length > 0 ? imageUrls : existingImages;
+
+      const listingData = {
         owner_id: userId,
         title: formData.title,
         artist: formData.artist,
@@ -75,21 +103,39 @@ export function useListingSubmit({ userId, uploadImages, resetImages }: UseListi
         condition: formData.condition || null,
         price: parseFloat(formData.price),
         description: formData.description || null,
-        images: imageUrls,
-      });
+        images: allImages,
+      };
 
-      if (insertError) {
-        throw new Error(`Failed to create listing: ${insertError.message}`);
+      if (isEditMode) {
+        const { error: updateError } = await supabase.from('listings').update(listingData).eq('id', listingId);
+
+        if (updateError) {
+          throw new Error(`Failed to update listing: ${updateError.message}`);
+        }
+      } else {
+        const { error: insertError } = await supabase.from('listings').insert(listingData);
+
+        if (insertError) {
+          throw new Error(`Failed to create listing: ${insertError.message}`);
+        }
       }
 
       setSuccess(true);
       resetForm();
 
       setTimeout(() => {
-        navigate({ to: '/catalog' });
+        if (isEditMode) {
+          navigate({ to: `/items/${listingId}` });
+        } else {
+          navigate({ to: '/catalog' });
+        }
       }, 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while creating the listing');
+      setError(
+        err instanceof Error
+          ? err.message
+          : `An error occurred while ${isEditMode ? 'updating' : 'creating'} the listing`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -102,5 +148,6 @@ export function useListingSubmit({ userId, uploadImages, resetImages }: UseListi
     error,
     success,
     handleSubmit,
+    isEditMode,
   };
 }

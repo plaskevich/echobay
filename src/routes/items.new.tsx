@@ -1,32 +1,17 @@
-import styled from 'styled-components';
-
 import { createFileRoute } from '@tanstack/react-router';
 
-import { NewListingForm } from '@/components/item/new-listing';
+import { ListingForm } from '@/components/item/new-listing';
+import { Container, Title } from '@/components/item/new-listing/ListingPageLayout';
 
 export const Route = createFileRoute('/items/new')({
   component: NewListing,
 });
 
-const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  width: 100%;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.primary};
-  margin-bottom: 2rem;
-`;
-
 function NewListing() {
   return (
     <Container>
       <Title>Sell Your Item</Title>
-      <NewListingForm />
+      <ListingForm mode="create" />
     </Container>
   );
 }

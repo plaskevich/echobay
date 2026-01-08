@@ -22,7 +22,7 @@ export function OwnerActions({ onMarkAsSold, onHide, onEdit, onDelete }: OwnerAc
       </Button>
       <Button variant="outline" size="medium" fullWidth onClick={onEdit}>
         <IoCreate size={20} />
-        Edit Lisitng
+        Edit Listing
       </Button>
       <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete}>
         <IoTrash size={20} />
