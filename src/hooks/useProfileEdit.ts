@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { supabase } from '@/lib/supabase';
+import { getPublicUrl, uploadImage } from '@/api/storage';
+import { useProfile, useUpsertProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
 interface ProfileData {
@@ -14,8 +15,8 @@ interface ProfileData {
 export function useProfileEdit() {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const { data: existingProfile, isLoading: loading } = useProfile(user?.id);
+  const upsertProfileMutation = useUpsertProfile();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -28,41 +29,15 @@ export function useProfileEdit() {
   });
 
   useEffect(() => {
-    async function fetchProfile() {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('username, location, about, avatar_url')
-          .eq('id', user.id)
-          .single();
-
-        if (error && error.code !== 'PGRST116') {
-          throw error;
-        }
-
-        if (data) {
-          setProfileData({
-            username: data.username || '',
-            location: data.location || '',
-            about: data.about || '',
-            avatar_url: data.avatar_url || '',
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching profile:', err);
-        setError('Failed to load profile data');
-      } finally {
-        setLoading(false);
-      }
+    if (existingProfile) {
+      setProfileData({
+        username: existingProfile.username || '',
+        location: existingProfile.location || '',
+        about: existingProfile.about || '',
+        avatar_url: existingProfile.avatar_url || '',
+      });
     }
-
-    fetchProfile();
-  }, [user]);
+  }, [existingProfile]);
 
   const updateField = (field: keyof ProfileData, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
@@ -101,7 +76,6 @@ export function useProfileEdit() {
     e.preventDefault();
     if (!user) return;
 
-    setSubmitting(true);
     setError(null);
     setSuccess(false);
 
@@ -112,7 +86,7 @@ export function useProfileEdit() {
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `${user.id}/avatar-${fileName}`;
 
-        const { error: uploadError } = await supabase.storage.from('images').upload(filePath, avatarFile, {
+        const { error: uploadError } = await uploadImage(filePath, avatarFile, {
           cacheControl: '3600',
           upsert: true,
         });
@@ -121,20 +95,18 @@ export function useProfileEdit() {
 
         const {
           data: { publicUrl },
-        } = supabase.storage.from('images').getPublicUrl(filePath);
+        } = getPublicUrl(filePath);
 
         avatarUrl = publicUrl;
       }
 
-      const { error: updateError } = await supabase.from('profiles').upsert({
+      await upsertProfileMutation.mutateAsync({
         id: user.id,
         username: profileData.username,
         location: profileData.location,
         about: profileData.about,
         avatar_url: avatarUrl,
       });
-
-      if (updateError) throw updateError;
 
       setSuccess(true);
       setTimeout(() => {
@@ -143,8 +115,6 @@ export function useProfileEdit() {
     } catch (err) {
       console.error('Error updating profile:', err);
       setError('Failed to update profile. Please try again.');
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -155,7 +125,7 @@ export function useProfileEdit() {
   return {
     profileData,
     loading,
-    submitting,
+    submitting: upsertProfileMutation.isPending,
     error,
     success,
     avatarFile,

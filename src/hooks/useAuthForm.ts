@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { signInWithGoogle } from '@/lib/auth';
+import { signInWithGoogle } from '@/api/auth';
 import { useAuthStore } from '@/store/auth-store';
 
 type AuthMode = 'login' | 'signup';

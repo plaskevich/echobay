@@ -1,12 +1,12 @@
 import { type ChangeEvent, useState } from 'react';
 
+import { getPublicUrl, uploadImage } from '@/api/storage';
 import {
   ACCEPTED_IMAGE_TYPES,
   MAX_IMAGES_PER_LISTING,
   MAX_IMAGE_DIMENSION,
   MAX_IMAGE_SIZE,
 } from '@/lib/constants/listings';
-import { supabase } from '@/lib/supabase';
 
 interface UseImageUploadReturn {
   images: File[];
@@ -190,7 +190,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const filePath = `listings/${userId}/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage.from('images').upload(filePath, image);
+      const { error: uploadError } = await uploadImage(filePath, image);
 
       if (uploadError) {
         throw new Error(`Failed to upload image: ${uploadError.message}`);
@@ -198,7 +198,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
 
       const {
         data: { publicUrl },
-      } = supabase.storage.from('images').getPublicUrl(filePath);
+      } = getPublicUrl(filePath);
 
       uploadedUrls.push(publicUrl);
     }

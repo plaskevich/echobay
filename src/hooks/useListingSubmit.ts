@@ -1,7 +1,7 @@
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { supabase } from '@/lib/supabase';
+import { useCreateListing, useUpdateListing } from '@/queries/useListings';
 
 export interface ListingFormData {
   title: string;
@@ -32,38 +32,24 @@ export function useListingSubmit({
   existingImages = [],
 }: UseListingSubmitProps) {
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createMutation = useCreateListing();
+  const updateMutation = useUpdateListing();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const isEditMode = !!listingId;
 
   const initialFormData: ListingFormData = {
-    title: '',
-    artist: '',
-    format: '',
-    genre: '',
-    label: '',
-    condition: '',
-    price: '',
-    description: '',
+    title: initialData?.title || '',
+    artist: initialData?.artist || '',
+    format: initialData?.format || '',
+    genre: initialData?.genre || '',
+    label: initialData?.label || '',
+    condition: initialData?.condition || '',
+    price: initialData?.price || '',
+    description: initialData?.description || '',
   };
 
   const [formData, setFormData] = useState<ListingFormData>(initialFormData);
-
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        title: initialData.title || '',
-        artist: initialData.artist || '',
-        format: initialData.format || '',
-        genre: initialData.genre || '',
-        label: initialData.label || '',
-        condition: initialData.condition || '',
-        price: initialData.price || '',
-        description: initialData.description || '',
-      });
-    }
-  }, [initialData]);
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -85,8 +71,6 @@ export function useListingSubmit({
       return;
     }
 
-    setIsSubmitting(true);
-
     try {
       const imageUrls = await uploadImages();
 
@@ -106,17 +90,9 @@ export function useListingSubmit({
       };
 
       if (isEditMode) {
-        const { error: updateError } = await supabase.from('listings').update(listingData).eq('id', listingId);
-
-        if (updateError) {
-          throw new Error(`Failed to update listing: ${updateError.message}`);
-        }
+        await updateMutation.mutateAsync({ id: listingId, data: listingData });
       } else {
-        const { error: insertError } = await supabase.from('listings').insert(listingData);
-
-        if (insertError) {
-          throw new Error(`Failed to create listing: ${insertError.message}`);
-        }
+        await createMutation.mutateAsync(listingData);
       }
 
       setSuccess(true);
@@ -126,7 +102,7 @@ export function useListingSubmit({
         if (isEditMode) {
           navigate(`/items/${listingId}`);
         } else {
-          navigate('/catalog');
+          navigate('/profile');
         }
       }, 2000);
     } catch (err) {
@@ -135,15 +111,13 @@ export function useListingSubmit({
           ? err.message
           : `An error occurred while ${isEditMode ? 'updating' : 'creating'} the listing`
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return {
     formData,
     setFormData,
-    isSubmitting,
+    isSubmitting: createMutation.isPending || updateMutation.isPending,
     error,
     success,
     handleSubmit,

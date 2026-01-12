@@ -2,7 +2,8 @@ import { create } from 'zustand';
 
 import type { User } from '@supabase/supabase-js';
 
-import { supabase } from '@/lib/supabase';
+import { getSession, logInWithEmail, onAuthStateChange, signOut, signUpWithEmail } from '@/api/auth';
+import { upsertProfile } from '@/api/profile';
 
 interface AuthState {
   user: User | null;
@@ -28,10 +29,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   signUp: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      const { data, error } = await signUpWithEmail(email, password);
 
       if (error) throw error;
 
@@ -50,10 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   logIn: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await logInWithEmail(email, password);
 
       if (error) throw error;
 
@@ -72,7 +67,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   signOut: async () => {
     set({ isLoading: true });
     try {
-      await supabase.auth.signOut();
+      await signOut();
       set({ user: null });
     } catch (error) {
       console.error('Error signing out:', error);
@@ -86,13 +81,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const {
         data: { session },
-      } = await supabase.auth.getSession();
+      } = await getSession();
 
       if (session?.user) {
         set({ user: session.user });
       }
 
-      supabase.auth.onAuthStateChange(async (_event, session) => {
+      onAuthStateChange(async (_event, session) => {
         set({ user: session?.user ?? null });
         if (session?.user) {
           await createProfile(session.user);
@@ -110,17 +105,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 async function createProfile(user: User) {
   try {
-    const { error } = await supabase.from('profiles').upsert(
-      {
-        id: user.id,
-        username: user.email?.split('@')[0] || 'user',
-        avatar_url: user.user_metadata?.avatar_url || '',
-      },
-      {
-        onConflict: 'id',
-        ignoreDuplicates: true,
-      }
-    );
+    const { error } = await upsertProfile({
+      id: user.id,
+      username: user.email?.split('@')[0] || 'user',
+      avatar_url: user.user_metadata?.avatar_url || '',
+    });
 
     if (error) {
       if (!error.message.includes('duplicate key')) {

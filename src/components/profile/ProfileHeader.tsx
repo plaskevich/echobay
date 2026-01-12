@@ -1,55 +1,14 @@
-import { useEffect, useState } from 'react';
 import { PiUserCircleDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
-import { supabase } from '@/lib/supabase';
+import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ProfileHeader() {
   const user = useAuthStore((state) => state.user);
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
-  const [about, setAbout] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchProfile() {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const { data } = await supabase
-          .from('profiles')
-          .select('avatar_url, username, location, about')
-          .eq('id', user.id)
-          .single();
-
-        if (data?.avatar_url) {
-          setProfilePicture(data.avatar_url);
-        }
-        if (data?.username) {
-          setUsername(data.username);
-        }
-        if (data?.location) {
-          setLocation(data.location);
-        }
-        if (data?.about) {
-          setAbout(data.about);
-        }
-      } catch (err) {
-        console.error('Error fetching profile:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProfile();
-  }, [user]);
+  const { data: profile, isLoading } = useProfile(user?.id);
 
   if (!user) {
     return null;
@@ -58,12 +17,12 @@ export function ProfileHeader() {
   return (
     <Header>
       <ProfilePictureContainer>
-        {loading ? (
+        {isLoading ? (
           <Placeholder>
             <PiUserCircleDuotone size={120} />
           </Placeholder>
-        ) : profilePicture ? (
-          <ProfilePicture src={profilePicture} alt="Profile" />
+        ) : profile?.avatar_url ? (
+          <ProfilePicture src={profile.avatar_url} alt="Profile" />
         ) : (
           <Placeholder>
             <PiUserCircleDuotone size={120} />
@@ -71,10 +30,10 @@ export function ProfileHeader() {
         )}
       </ProfilePictureContainer>
       <ProfileInfo>
-        <Username>{username || user.email}</Username>
+        <Username>{profile?.username || user.email}</Username>
         <ProfileMeta>Member since {new Date(user.created_at).toLocaleDateString()}</ProfileMeta>
-        {location && <ProfileMeta>{location}</ProfileMeta>}
-        {about && <ProfileAbout>{about}</ProfileAbout>}
+        {profile?.location && <ProfileMeta>{profile.location}</ProfileMeta>}
+        {profile?.about && <ProfileAbout>{profile.about}</ProfileAbout>}
       </ProfileInfo>
       <EditButtonWrapper>
         <Link to="/profile/edit">

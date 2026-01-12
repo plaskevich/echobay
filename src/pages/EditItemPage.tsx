@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,29 +6,34 @@ import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
 import { SuccessMessage } from '@/components/common/Message';
 import { DiscogsSearch } from '@/components/item/discogs-search';
-import { FormActions } from '@/components/item/new-listing/FormActions';
-import { FormFields } from '@/components/item/new-listing/FormFields';
-import { ImageUploadSection } from '@/components/item/new-listing/ImageUploadSection';
+import { FormActions } from '@/components/item/edit/FormActions';
+import { FormFields } from '@/components/item/edit/FormFields';
+import { ImageUploadSection } from '@/components/item/edit/ImageUploadSection';
 import { type DiscogsRelease, extractArtistName, extractGenre, useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useListingSubmit } from '@/hooks/useListingSubmit';
-import { supabase } from '@/lib/supabase';
+import { useListing } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 
 interface ListingFormProps {
-  listingId?: string;
   mode?: 'create' | 'edit';
 }
 
-export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
+export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { user } = useAuthStore();
+  const { data: existingListing, isLoading: isLoadingListing } = useListing(id || '');
   const [isDirty, setIsDirty] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [isLoadingListing, setIsLoadingListing] = useState(mode === 'edit');
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+
+  const computedExistingImages = useMemo(() => {
+    if (existingListing?.images && Array.isArray(existingListing.images)) {
+      return existingListing.images;
+    }
+    return [];
+  }, [existingListing]);
   const {
     searchQuery,
     setSearchQuery,
@@ -55,44 +60,28 @@ export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
     userId: user?.id,
     uploadImages,
     resetImages,
-    listingId,
-    existingImages,
+    listingId: id,
+    existingImages: computedExistingImages,
   });
 
   useEffect(() => {
-    async function loadListing() {
-      if (!id || mode !== 'edit') return;
-      setIsLoadingListing(true);
-      try {
-        const { data, error } = await supabase.from('listings').select('*').eq('id', id).single();
-        if (error) throw error;
-        console.log(data);
-        if (data) {
-          setFormData({
-            title: data.title || '',
-            artist: data.artist || '',
-            format: data.format || '',
-            genre: data.genre || '',
-            label: data.label || '',
-            condition: data.condition || '',
-            price: data.price?.toString() || '',
-            description: data.description || '',
-          });
+    if (!existingListing || mode !== 'edit') return;
 
-          if (data.images && Array.isArray(data.images)) {
-            setExistingImages(data.images);
-            setImagePreviews(data.images);
-          }
-        }
-      } catch (err) {
-        console.error('Error loading listing:', err);
-      } finally {
-        setIsLoadingListing(false);
-      }
+    setFormData({
+      title: existingListing.title || '',
+      artist: existingListing.artist || '',
+      format: existingListing.format || '',
+      genre: existingListing.genre || '',
+      label: existingListing.label || '',
+      condition: existingListing.condition || '',
+      price: existingListing.price?.toString() || '',
+      description: existingListing.description || '',
+    });
+
+    if (existingListing.images && Array.isArray(existingListing.images)) {
+      setImagePreviews(existingListing.images);
     }
-
-    loadListing();
-  }, [id, mode, setFormData, setImagePreviews]);
+  }, [existingListing, mode, setFormData, setImagePreviews]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,20 +96,20 @@ export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
     if (isDirty) {
       setShowCancelDialog(true);
     } else {
-      if (isEditMode && listingId) {
-        navigate(`/items/${listingId}`);
+      if (isEditMode && id) {
+        navigate(`/items/${id}`);
       } else {
-        navigate('/catalog');
+        navigate('/profile');
       }
     }
   };
 
   const confirmCancel = () => {
     setShowCancelDialog(false);
-    if (isEditMode && listingId) {
-      navigate(`/items/${listingId}`);
+    if (isEditMode && id) {
+      navigate(`/items/${id}`);
     } else {
-      navigate('/catalog');
+      navigate('/profile');
     }
   };
 
@@ -173,7 +162,7 @@ export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
 
   return (
     <>
-      <Title>Sell Your Item</Title>
+      <Title>{mode === 'create' ? 'Sell Your Item' : 'Edit Listing'}</Title>
       {success && (
         <SuccessMessage>Listing {isEditMode ? 'updated' : 'created'} successfully! Redirecting...</SuccessMessage>
       )}
@@ -202,7 +191,7 @@ export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
 
         <FormFields formData={formData} isSubmitting={isSubmitting} onChange={handleInputChange} />
 
-        <FormActions error={error} isSubmitting={isSubmitting} onCancel={handleCancel} />
+        <FormActions error={error} isSubmitting={isSubmitting} onCancel={handleCancel} mode={mode} />
       </Form>
 
       <Dialog

@@ -1,6 +1,6 @@
-import type { User } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 
-import { supabase } from './supabase';
+import { supabase } from '@/lib/supabase';
 
 export async function getCurrentUser(): Promise<User | null> {
   const {
@@ -51,4 +51,12 @@ export async function updatePassword(newPassword: string) {
   return await supabase.auth.updateUser({
     password: newPassword,
   });
+}
+
+export async function getSession() {
+  return await supabase.auth.getSession();
+}
+
+export function onAuthStateChange(callback: (event: AuthChangeEvent, session: Session | null) => void) {
+  return supabase.auth.onAuthStateChange(callback);
 }

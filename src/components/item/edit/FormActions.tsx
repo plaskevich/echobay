@@ -6,9 +6,10 @@ interface FormActionsProps {
   error: string | null;
   isSubmitting: boolean;
   onCancel: () => void;
+  mode: 'create' | 'edit';
 }
 
-export function FormActions({ error, isSubmitting, onCancel }: FormActionsProps) {
+export function FormActions({ error, isSubmitting, onCancel, mode }: FormActionsProps) {
   return (
     <>
       {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -18,7 +19,13 @@ export function FormActions({ error, isSubmitting, onCancel }: FormActionsProps)
           Cancel
         </Button>
         <Button isLoading={isSubmitting} type="submit" variant="primary" disabled={isSubmitting}>
-          {isSubmitting ? 'Creating Listing...' : 'Create Listing'}
+          {isSubmitting
+            ? mode === 'create'
+              ? 'Creating Listing...'
+              : 'Saving Changes...'
+            : mode === 'create'
+              ? 'Create Listing'
+              : 'Save Changes'}
         </Button>
       </ButtonGroup>
     </>

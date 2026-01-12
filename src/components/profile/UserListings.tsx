@@ -1,45 +1,16 @@
-import { useEffect, useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
-import { type Listing, ListingCard } from '@/components/item/ListingCard';
-import { supabase } from '@/lib/supabase';
+import { ListingCard } from '@/components/item/ListingCard';
+import { useUserListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 
 export function UserListings() {
   const user = useAuthStore((state) => state.user);
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: listings = [], isLoading, error } = useUserListings(user?.id);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function fetchUserListings() {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const { data, error } = await supabase
-          .from('listings')
-          .select('*')
-          .eq('owner_id', user.id)
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setListings(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchUserListings();
-  }, [user]);
 
   if (!user) {
     return (
@@ -49,7 +20,7 @@ export function UserListings() {
     );
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Container>
         <SectionTitle>My Listings</SectionTitle>
@@ -62,7 +33,7 @@ export function UserListings() {
     return (
       <Container>
         <SectionTitle>My Listings</SectionTitle>
-        <ErrorMessage>Error: {error}</ErrorMessage>
+        <ErrorMessage>Error: {error instanceof Error ? error.message : 'An error occurred'}</ErrorMessage>
       </Container>
     );
   }

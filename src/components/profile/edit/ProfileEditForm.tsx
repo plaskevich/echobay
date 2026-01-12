@@ -26,14 +26,14 @@ export function ProfileEditForm() {
 
   if (loading) {
     return (
-      <Container>
+      <>
         <LoadingMessage>Loading profile...</LoadingMessage>
-      </Container>
+      </>
     );
   }
 
   return (
-    <Container>
+    <>
       <FormHeader title="Edit Profile" subtitle="Update your profile information" />
 
       <Form onSubmit={handleSubmit}>
@@ -67,14 +67,9 @@ export function ProfileEditForm() {
           </Button>
         </ButtonGroup>
       </Form>
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-`;
 
 const LoadingMessage = styled.div`
   text-align: center;

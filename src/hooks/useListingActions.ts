@@ -1,17 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
-import { supabase } from '@/lib/supabase';
+import { useDeleteListing, useHideListing, useMarkListingAsSold } from '@/queries/useListings';
 
 export function useListingActions(listingId: string) {
   const navigate = useNavigate();
+  const markAsSoldMutation = useMarkListingAsSold();
+  const hideMutation = useHideListing();
+  const deleteMutation = useDeleteListing();
 
   const handleMarkAsSold = async () => {
     try {
-      const { error } = await supabase.from('listings').update({ status: 'sold' }).eq('id', listingId);
-
-      if (error) throw error;
+      await markAsSoldMutation.mutateAsync(listingId);
       alert('Listing marked as sold');
-      navigate('/catalog');
+      navigate('/profile');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to mark as sold');
     }
@@ -19,11 +20,9 @@ export function useListingActions(listingId: string) {
 
   const handleHide = async () => {
     try {
-      const { error } = await supabase.from('listings').update({ status: 'hidden' }).eq('id', listingId);
-
-      if (error) throw error;
+      await hideMutation.mutateAsync(listingId);
       alert('Listing hidden');
-      navigate('/catalog');
+      navigate('/profile');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to hide listing');
     }
@@ -37,11 +36,9 @@ export function useListingActions(listingId: string) {
     if (!confirm('Are you sure you want to delete this listing?')) return;
 
     try {
-      const { error } = await supabase.from('listings').delete().eq('id', listingId);
-
-      if (error) throw error;
+      await deleteMutation.mutateAsync(listingId);
       alert('Listing deleted');
-      navigate('/catalog');
+      navigate('/profile');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to delete listing');
     }

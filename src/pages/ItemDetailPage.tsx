@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { IoChevronBack } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,54 +9,20 @@ import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
-import { supabase } from '@/lib/supabase';
+import { useListing } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
-
-interface ListingDetail {
-  id: string;
-  title: string;
-  artist: string;
-  description: string;
-  price: number;
-  images?: string[];
-  genre?: string;
-  label?: string;
-  format?: string;
-  condition?: string;
-  created_at: string;
-  owner_id: string;
-}
 
 export function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
-  const [listing, setListing] = useState<ListingDetail | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: listing, isLoading, error } = useListing(id!);
 
   const { handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id!);
 
-  useEffect(() => {
-    async function fetchListing() {
-      try {
-        const { data, error } = await supabase.from('listings').select('*').eq('id', id).single();
-
-        if (error) throw error;
-        setListing(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchListing();
-  }, [id]);
-
   const isOwner = user?.id === listing?.owner_id;
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Container>
         <LoadingText>Loading...</LoadingText>
@@ -68,8 +33,8 @@ export function ItemDetailPage() {
   if (error || !listing) {
     return (
       <Container>
-        <ErrorText>Error: {error || 'Listing not found'}</ErrorText>
-        <Button onClick={() => navigate('/catalog')}>Back to Catalog</Button>
+        <ErrorText>Error: {error instanceof Error ? error.message : 'Listing not found'}</ErrorText>
+        <Button onClick={() => navigate('/')}>Back</Button>
       </Container>
     );
   }
@@ -78,7 +43,7 @@ export function ItemDetailPage() {
 
   return (
     <Container>
-      <BackButton onClick={() => navigate('/catalog')}>
+      <BackButton onClick={() => navigate('/')}>
         <IoChevronBack /> Back
       </BackButton>
 

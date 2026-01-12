@@ -1,51 +1,31 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { type Listing, ListingCard } from '@/components/item/ListingCard';
-import { supabase } from '@/lib/supabase';
+import { ListingCard } from '@/components/item/ListingCard';
+import { useListings } from '@/queries/useListings';
 
 export function CatalogView() {
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: listings = [], isLoading, error } = useListings();
 
-  useEffect(() => {
-    async function fetchListings() {
-      try {
-        const { data, error } = await supabase.from('listings').select('*').order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setListings(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchListings();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <Container>
+      <>
         <Title>Items</Title>
         <LoadingText>Loading listings...</LoadingText>
-      </Container>
+      </>
     );
   }
 
   if (error) {
     return (
-      <Container>
+      <>
         <Title>Items</Title>
-        <ErrorText>Error: {error}</ErrorText>
-      </Container>
+        <ErrorText>Error: {error instanceof Error ? error.message : 'An error occurred'}</ErrorText>
+      </>
     );
   }
 
   return (
-    <Container>
+    <>
       <Title>Items</Title>
 
       {listings.length === 0 ? (
@@ -57,15 +37,9 @@ export function CatalogView() {
           ))}
         </Grid>
       )}
-    </Container>
+    </>
   );
 }
-
-const Container = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-`;
 
 const Title = styled.h1`
   font-size: 1.875rem;

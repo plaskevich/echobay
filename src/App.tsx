@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
-import { CatalogView } from '@/components/catalog/CatalogView';
+import { CatalogView } from '@/components/listings/CatalogView';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { EditItemPage } from '@/pages/EditItemPage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
@@ -27,7 +29,6 @@ export function App() {
           <Route element={<RootLayout />}>
             <Route index element={<CatalogView />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/catalog" element={<CatalogView />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/edit" element={<ProfileEditForm />} />
             <Route path="/items/new" element={<EditItemPage mode="create" />} />
@@ -36,6 +37,7 @@ export function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
     </StyledThemeProvider>
   );
 }
