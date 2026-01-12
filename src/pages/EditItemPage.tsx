@@ -1,6 +1,6 @@
 import { type ChangeEvent, useEffect, useState } from 'react';
-
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
@@ -20,15 +20,15 @@ interface ListingFormProps {
   mode?: 'create' | 'edit';
 }
 
-export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
+export function EditItemPage({ listingId, mode = 'create' }: ListingFormProps) {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuthStore();
   const [isDirty, setIsDirty] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isLoadingListing, setIsLoadingListing] = useState(mode === 'edit');
   const [existingImages, setExistingImages] = useState<string[]>([]);
-
   const {
     searchQuery,
     setSearchQuery,
@@ -61,11 +61,12 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
 
   useEffect(() => {
     async function loadListing() {
-      if (!listingId || mode !== 'edit') return;
+      if (!id || mode !== 'edit') return;
       setIsLoadingListing(true);
       try {
-        const { data, error } = await supabase.from('listings').select('*').eq('id', listingId).single();
+        const { data, error } = await supabase.from('listings').select('*').eq('id', id).single();
         if (error) throw error;
+        console.log(data);
         if (data) {
           setFormData({
             title: data.title || '',
@@ -91,7 +92,7 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
     }
 
     loadListing();
-  }, [listingId, mode, setFormData, setImagePreviews]);
+  }, [id, mode, setFormData, setImagePreviews]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,9 +108,9 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
       setShowCancelDialog(true);
     } else {
       if (isEditMode && listingId) {
-        navigate({ to: `/items/${listingId}` });
+        navigate(`/items/${listingId}`);
       } else {
-        navigate({ to: '/catalog' });
+        navigate('/catalog');
       }
     }
   };
@@ -117,9 +118,9 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
   const confirmCancel = () => {
     setShowCancelDialog(false);
     if (isEditMode && listingId) {
-      navigate({ to: `/items/${listingId}` });
+      navigate(`/items/${listingId}`);
     } else {
-      navigate({ to: '/catalog' });
+      navigate('/catalog');
     }
   };
 
@@ -172,19 +173,10 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
 
   return (
     <>
+      <Title>Sell Your Item</Title>
       {success && (
         <SuccessMessage>Listing {isEditMode ? 'updated' : 'created'} successfully! Redirecting...</SuccessMessage>
       )}
-
-      <Dialog
-        isOpen={showCancelDialog}
-        onClose={() => setShowCancelDialog(false)}
-        onConfirm={confirmCancel}
-        title="Unsaved Changes"
-        message="You have unsaved changes. Are you sure you want to leave this page?"
-        confirmText="Leave Page"
-        cancelText="Stay"
-      />
 
       <DiscogsSearch
         searchQuery={searchQuery}
@@ -212,6 +204,23 @@ export function ListingForm({ listingId, mode = 'create' }: ListingFormProps) {
 
         <FormActions error={error} isSubmitting={isSubmitting} onCancel={handleCancel} />
       </Form>
+
+      <Dialog
+        isOpen={showCancelDialog}
+        onClose={() => setShowCancelDialog(false)}
+        onConfirm={confirmCancel}
+        title="Unsaved Changes"
+        message="You have unsaved changes. Are you sure you want to leave this page?"
+        confirmText="Leave Page"
+        cancelText="Stay"
+      />
     </>
   );
 }
+
+export const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${(props) => props.theme.text.primary};
+  margin-bottom: 2rem;
+`;

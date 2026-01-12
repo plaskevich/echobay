@@ -6,9 +6,8 @@ import {
   IoSearch,
   IoSunnyOutline,
 } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Link } from '@tanstack/react-router';
 
 import { Button } from '@/components/common/Button';
 import { useAuthStore } from '@/store/auth-store';

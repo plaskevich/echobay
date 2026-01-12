@@ -1,6 +1,5 @@
 import { type FormEvent, useEffect, useState } from 'react';
-
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/lib/supabase';
 
@@ -125,9 +124,9 @@ export function useListingSubmit({
 
       setTimeout(() => {
         if (isEditMode) {
-          navigate({ to: `/items/${listingId}` });
+          navigate(`/items/${listingId}`);
         } else {
-          navigate({ to: '/catalog' });
+          navigate('/catalog');
         }
       }, 2000);
     } catch (err) {

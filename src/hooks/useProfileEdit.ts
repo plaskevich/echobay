@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth-store';
@@ -139,7 +138,7 @@ export function useProfileEdit() {
 
       setSuccess(true);
       setTimeout(() => {
-        navigate({ to: '/profile' });
+        navigate('/profile');
       }, 1500);
     } catch (err) {
       console.error('Error updating profile:', err);
@@ -150,7 +149,7 @@ export function useProfileEdit() {
   };
 
   const handleCancel = () => {
-    navigate({ to: '/profile' });
+    navigate('/profile');
   };
 
   return {

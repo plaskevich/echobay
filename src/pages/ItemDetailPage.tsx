@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoChevronBack } from 'react-icons/io5';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useNavigate, useParams } from '@tanstack/react-router';
 
 import placeholder from '@/assets/cd.png';
 import { Button } from '@/components/common/Button';
@@ -29,15 +28,15 @@ interface ListingDetail {
   owner_id: string;
 }
 
-export function ItemDetail() {
-  const { id } = useParams({ from: '/items/$id' });
+export function ItemDetailPage() {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id);
+  const { handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id!);
 
   useEffect(() => {
     async function fetchListing() {
@@ -70,7 +69,7 @@ export function ItemDetail() {
     return (
       <Container>
         <ErrorText>Error: {error || 'Listing not found'}</ErrorText>
-        <Button onClick={() => navigate({ to: '/catalog' })}>Back to Catalog</Button>
+        <Button onClick={() => navigate('/catalog')}>Back to Catalog</Button>
       </Container>
     );
   }
@@ -79,7 +78,7 @@ export function ItemDetail() {
 
   return (
     <Container>
-      <BackButton onClick={() => navigate({ to: '/catalog' })}>
+      <BackButton onClick={() => navigate('/catalog')}>
         <IoChevronBack /> Back
       </BackButton>
 

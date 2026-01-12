@@ -1,7 +1,5 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import { TopBar } from '@/components/navigation/TopBar';
 
@@ -17,16 +15,19 @@ const MainContent = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
 `;
 
-export const Route = createRootRoute({
-  component: () => (
+export function RootLayout() {
+  return (
     <AppWrapper>
       <TopBar />
       <MainContent>
         <Outlet />
       </MainContent>
-      <TanStackRouterDevtools />
     </AppWrapper>
-  ),
-});
+  );
+}

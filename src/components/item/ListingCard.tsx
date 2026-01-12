@@ -1,7 +1,6 @@
 import { PiCassetteTapeDuotone, PiDiscDuotone, PiVinylRecordDuotone } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Link } from '@tanstack/react-router';
 
 import placeholder from '@/assets/cd.png';
 import { FORMAT_OPTIONS } from '@/lib/constants/listings';
@@ -45,7 +44,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   };
 
   return (
-    <Link to="/items/$id" params={{ id: listing.id }} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <Card>
         <ListingImage src={imageUrl} alt={listing.title} />
         <Artist>{listing.artist}</Artist>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@/lib/auth';
 import { useAuthStore } from '@/store/auth-store';
@@ -74,7 +73,7 @@ export function useAuthForm() {
       if (error) {
         setError(error.message);
       } else {
-        navigate({ to: '/' });
+        navigate('/');
       }
     }
   };

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useNavigate } from '@tanstack/react-router';
 
 import { Button } from '@/components/common/Button';
 import { type Listing, ListingCard } from '@/components/item/ListingCard';
@@ -77,7 +76,7 @@ export function UserListings() {
       {listings.length === 0 ? (
         <EmptyState>
           <EmptyMessage>You haven't created any listings yet</EmptyMessage>
-          <Button onClick={() => navigate({ to: '/items/new' })} variant="primary" size="medium">
+          <Button onClick={() => navigate('/items/new')} variant="primary" size="medium">
             <IoAdd size={20} />
             Create Your First Listing
           </Button>

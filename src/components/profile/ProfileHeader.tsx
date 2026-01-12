@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PiUserCircleDuotone } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Link } from '@tanstack/react-router';
 
 import { Button } from '@/components/common/Button';
 import { supabase } from '@/lib/supabase';

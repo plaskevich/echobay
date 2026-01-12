@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/lib/supabase';
 
@@ -11,7 +11,7 @@ export function useListingActions(listingId: string) {
 
       if (error) throw error;
       alert('Listing marked as sold');
-      navigate({ to: '/catalog' });
+      navigate('/catalog');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to mark as sold');
     }
@@ -23,14 +23,14 @@ export function useListingActions(listingId: string) {
 
       if (error) throw error;
       alert('Listing hidden');
-      navigate({ to: '/catalog' });
+      navigate('/catalog');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to hide listing');
     }
   };
 
   const handleEdit = () => {
-    navigate({ to: `/items/${listingId}/edit` });
+    navigate(`/items/${listingId}/edit`);
   };
 
   const handleDelete = async () => {
@@ -41,7 +41,7 @@ export function useListingActions(listingId: string) {
 
       if (error) throw error;
       alert('Listing deleted');
-      navigate({ to: '/catalog' });
+      navigate('/catalog');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to delete listing');
     }
