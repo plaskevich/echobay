@@ -14,6 +14,69 @@ import { Button } from '@/components/common/Button';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
+export function TopBar() {
+  const { theme, toggleTheme } = useThemeStore();
+  const { user, signOut } = useAuthStore();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+
+  return (
+    <Nav>
+      <NavContainer>
+        <NavContent>
+          <LogoLink to="/">
+            <Logo>EchoBay</Logo>
+          </LogoLink>
+          <SearchContainer>
+            <SearchWrapper>
+              <SearchInput type="text" placeholder="Search for items..." />
+              <SearchIconWrapper>
+                <IoSearch />
+              </SearchIconWrapper>
+            </SearchWrapper>
+          </SearchContainer>
+
+          <RightSection>
+            <IconButton onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === 'light' ? <IoMoonOutline /> : <IoSunnyOutline />}
+            </IconButton>
+            {user ? (
+              <>
+                <Link to="/favorites">
+                  <IconButton aria-label="Favorites">
+                    <IoHeartOutline />
+                  </IconButton>
+                </Link>
+                <Link to="/profile">
+                  <IconButton aria-label="Profile">
+                    <IoPersonOutline />
+                  </IconButton>
+                </Link>
+                <IconButton onClick={handleLogout} aria-label="Log out">
+                  <IoLogOutOutline />
+                </IconButton>
+                <Link to="/items/new">
+                  <Button variant="primary" size="small">
+                    Sell
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="primary" size="small">
+                  Log in | Sign up
+                </Button>
+              </Link>
+            )}
+          </RightSection>
+        </NavContent>
+      </NavContainer>
+    </Nav>
+  );
+}
+
 const Nav = styled.nav`
   background-color: ${(props) => props.theme.background.primary};
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
@@ -119,65 +182,3 @@ const IconButton = styled.button`
     background-color: ${(props) => props.theme.primary.light};
   }
 `;
-export function TopBar() {
-  const { theme, toggleTheme } = useThemeStore();
-  const { user, signOut } = useAuthStore();
-
-  const handleLogout = async () => {
-    await signOut();
-  };
-
-  return (
-    <Nav>
-      <NavContainer>
-        <NavContent>
-          <LogoLink to="/">
-            <Logo>EchoBay</Logo>
-          </LogoLink>
-          <SearchContainer>
-            <SearchWrapper>
-              <SearchInput type="text" placeholder="Search for items..." />
-              <SearchIconWrapper>
-                <IoSearch />
-              </SearchIconWrapper>
-            </SearchWrapper>
-          </SearchContainer>
-
-          <RightSection>
-            <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'light' ? <IoMoonOutline /> : <IoSunnyOutline />}
-            </IconButton>
-            {user ? (
-              <>
-                <Link to="/favorites">
-                  <IconButton aria-label="Favorites">
-                    <IoHeartOutline />
-                  </IconButton>
-                </Link>
-                <Link to="/profile">
-                  <IconButton aria-label="Profile">
-                    <IoPersonOutline />
-                  </IconButton>
-                </Link>
-                <IconButton onClick={handleLogout} aria-label="Log out">
-                  <IoLogOutOutline />
-                </IconButton>
-                <Link to="/items/new">
-                  <Button variant="primary" size="small">
-                    Sell
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <Link to="/auth">
-                <Button variant="primary" size="small">
-                  Log in | Sign up
-                </Button>
-              </Link>
-            )}
-          </RightSection>
-        </NavContent>
-      </NavContainer>
-    </Nav>
-  );
-}

@@ -95,11 +95,11 @@ export const darkTheme: ThemeColors = {
   text: {
     primary: '#fafafa',
     secondary: '#a3a3a3',
-    tertiary: '#798da3',
+    tertiary: '#4d515c',
     muted: '#9ca3af',
   },
   border: {
-    primary: '#2d3748',
+    primary: '#4d515c',
     hover: '#404040',
   },
   primary: {

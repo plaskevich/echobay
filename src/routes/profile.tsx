@@ -1,18 +1,22 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import styled from 'styled-components';
+
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/profile')({
-  component: ProfilePage,
+  component: ProfileLayout,
 });
 
-function ProfilePage() {
+function ProfileLayout() {
   return (
-    <div>
-      <nav>
-        <div>
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
-        </div>
-      </nav>
-    </div>
+    <Container>
+      <Outlet />
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+`;

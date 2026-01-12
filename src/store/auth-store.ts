@@ -92,8 +92,11 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ user: session.user });
       }
 
-      supabase.auth.onAuthStateChange((_event, session) => {
+      supabase.auth.onAuthStateChange(async (_event, session) => {
         set({ user: session?.user ?? null });
+        if (session?.user) {
+          await createProfile(session.user);
+        }
       });
 
       set({ isInitialized: true });
@@ -104,3 +107,27 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 }));
+
+async function createProfile(user: User) {
+  try {
+    const { error } = await supabase.from('profiles').upsert(
+      {
+        id: user.id,
+        username: user.email?.split('@')[0] || 'user',
+        avatar_url: user.user_metadata?.avatar_url || '',
+      },
+      {
+        onConflict: 'id',
+        ignoreDuplicates: true,
+      }
+    );
+
+    if (error) {
+      if (!error.message.includes('duplicate key')) {
+        console.error('Error ensuring profile exists:', error);
+      }
+    }
+  } catch (error) {
+    console.error('Error ensuring profile exists:', error);
+  }
+}
