@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import placeholder from '@/assets/cd.png';
 import { Button } from '@/components/common/Button';
+import { Dialog } from '@/components/common/Dialog';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
@@ -18,7 +19,16 @@ export function ItemDetailPage() {
   const user = useAuthStore((state) => state.user);
   const { data: listing, isLoading, error } = useListing(id!);
 
-  const { handleSetActive, handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id!);
+  const {
+    handleSetActive,
+    handleMarkAsSold,
+    handleHide,
+    handleEdit,
+    handleDelete,
+    showDeleteDialog,
+    setShowDeleteDialog,
+    confirmDelete,
+  } = useListingActions(id!);
 
   const isOwner = user?.id === listing?.owner_id;
 
@@ -87,6 +97,17 @@ export function ItemDetailPage() {
           </ButtonGroup>
         </DetailsSection>
       </Content>
+
+      <Dialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={confirmDelete}
+        title="Delete Listing"
+        message="Are you sure you want to delete this listing? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="destructive"
+      />
     </Container>
   );
 }

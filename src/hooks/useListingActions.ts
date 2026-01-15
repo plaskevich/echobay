@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { useDeleteListing, useHideListing, useMarkListingAsSold, useSetListingActive } from '@/queries/useListings';
@@ -8,33 +10,34 @@ export function useListingActions(listingId: string) {
   const hideMutation = useHideListing();
   const setActiveMutation = useSetListingActive();
   const deleteMutation = useDeleteListing();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const handleSetActive = async () => {
     try {
       await setActiveMutation.mutateAsync(listingId);
-      alert('Listing is now active');
+      toast.success('Listing is now active');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to set listing as active');
+      toast.error(err instanceof Error ? err.message : 'Failed to set listing as active');
     }
   };
 
   const handleMarkAsSold = async () => {
     try {
       await markAsSoldMutation.mutateAsync(listingId);
-      alert('Listing marked as sold');
+      toast.success('Listing marked as sold');
       navigate('/profile');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to mark as sold');
+      toast.error(err instanceof Error ? err.message : 'Failed to mark as sold');
     }
   };
 
   const handleHide = async () => {
     try {
       await hideMutation.mutateAsync(listingId);
-      alert('Listing hidden');
+      toast.success('Listing hidden');
       navigate('/profile');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to hide listing');
+      toast.error(err instanceof Error ? err.message : 'Failed to hide listing');
     }
   };
 
@@ -42,15 +45,18 @@ export function useListingActions(listingId: string) {
     navigate(`/items/${listingId}/edit`);
   };
 
-  const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this listing?')) return;
+  const handleDelete = () => {
+    setShowDeleteDialog(true);
+  };
 
+  const confirmDelete = async () => {
+    setShowDeleteDialog(false);
     try {
       await deleteMutation.mutateAsync(listingId);
-      alert('Listing deleted');
+      toast.success('Listing deleted');
       navigate('/profile');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to delete listing');
+      toast.error(err instanceof Error ? err.message : 'Failed to delete listing');
     }
   };
 
@@ -60,5 +66,8 @@ export function useListingActions(listingId: string) {
     handleHide,
     handleEdit,
     handleDelete,
+    showDeleteDialog,
+    setShowDeleteDialog,
+    confirmDelete,
   };
 }

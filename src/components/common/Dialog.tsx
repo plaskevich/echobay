@@ -10,6 +10,7 @@ interface DialogProps {
   message: string;
   confirmText?: string;
   cancelText?: string;
+  variant?: 'default' | 'destructive';
 }
 
 export function Dialog({
@@ -20,8 +21,11 @@ export function Dialog({
   message,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
+  variant = 'default',
 }: DialogProps) {
   if (!isOpen) return null;
+
+  const confirmButtonVariant = variant === 'destructive' ? 'danger' : 'primary';
 
   return (
     <Overlay onClick={onClose}>
@@ -33,10 +37,10 @@ export function Dialog({
           <DialogMessage>{message}</DialogMessage>
         </DialogBody>
         <DialogFooter>
-          <Button onClick={onClose} type="button" variant="outline">
+          <Button onClick={onClose} type="button" variant="secondary">
             {cancelText}
           </Button>
-          <Button onClick={onConfirm} type="button" variant="primary">
+          <Button onClick={onConfirm} type="button" variant={confirmButtonVariant}>
             {confirmText}
           </Button>
         </DialogFooter>
@@ -51,7 +55,7 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +67,8 @@ const DialogContainer = styled.div`
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: 1rem;
   box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.25),
-    0 15px 30px -15px rgba(0, 0, 0, 0.3);
+    0 25px 50px -12px ${(props) => props.theme.shadow.large},
+    0 15px 30px -15px ${(props) => props.theme.shadow.large};
   max-width: 28rem;
   width: 90%;
   overflow: hidden;

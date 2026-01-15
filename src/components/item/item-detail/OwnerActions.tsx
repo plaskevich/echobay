@@ -26,7 +26,6 @@ export function OwnerActions({
   onEdit,
   onDelete,
 }: OwnerActionsProps) {
-  // If sold, only show delete button
   if (status === 'sold') {
     return (
       <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete}>
