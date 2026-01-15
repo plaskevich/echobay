@@ -114,9 +114,14 @@ export function ItemDetailPage() {
 
 const Container = styled.div`
   flex: 1;
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem 1.5rem;
+  }
 `;
 
 const BackButton = styled.button`
@@ -139,10 +144,16 @@ const BackButton = styled.button`
 const Content = styled.div`
   display: grid;
   gap: 2rem;
+  width: 100%;
 
   @media (min-width: 768px) {
-    grid-template-columns: auto 1fr;
-    max-width: 1000px;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 420px;
+    gap: 2rem;
   }
 `;
 
@@ -150,6 +161,8 @@ const DetailsSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
+  min-width: 0;
 `;
 
 const TitleSection = styled.div`

@@ -96,7 +96,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     }
 
     const validatedFiles: File[] = [];
-    const newPreviews: string[] = [];
+    const previewPromises: Promise<string>[] = [];
 
     for (const file of newFiles) {
       if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
@@ -113,14 +113,13 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
         const compressedFile = await compressImage(file, MAX_IMAGE_DIMENSION);
         validatedFiles.push(compressedFile);
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          newPreviews.push(reader.result as string);
-          if (newPreviews.length === validatedFiles.length) {
-            setImagePreviews((prev) => [...prev, ...newPreviews]);
-          }
-        };
-        reader.readAsDataURL(compressedFile);
+        const previewPromise = new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsDataURL(compressedFile);
+        });
+        previewPromises.push(previewPromise);
       } catch (err) {
         setError(`Failed to process image: ${file.name}`);
         console.error('Image compression error:', err);
@@ -129,6 +128,9 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
 
     if (validatedFiles.length > 0) {
       setImages((prev) => [...prev, ...validatedFiles]);
+
+      const newPreviews = await Promise.all(previewPromises);
+      setImagePreviews((prev) => [...prev, ...newPreviews]);
     }
     e.target.value = '';
   };

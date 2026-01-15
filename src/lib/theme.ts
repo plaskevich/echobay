@@ -90,7 +90,7 @@ export const lightTheme: ThemeColors = {
       text: '#065f46',
     },
   },
-  price: '#16a34a',
+  price: '#404040',
   shadow: {
     small: 'rgba(0, 0, 0, 0.08)',
     medium: 'rgba(0, 0, 0, 0.12)',
@@ -143,7 +143,7 @@ export const darkTheme: ThemeColors = {
       text: '#d1fae5',
     },
   },
-  price: '#4ade80',
+  price: '#d4d4d4',
   shadow: {
     small: 'rgba(255, 255, 255, 0.1)',
     medium: 'rgba(255, 255, 255, 0.15)',

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 
 interface ImageGalleryProps {
   images: string[];
@@ -8,24 +10,66 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ images, title }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  const slides = images.map((src) => ({ src }));
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedImage((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
-    <ImageSection>
-      <MainImage src={images[selectedImage]} alt={title} />
-      {images.length > 1 && (
-        <ThumbnailGrid>
-          {images.map((image, index) => (
-            <Thumbnail
-              key={index}
-              src={image}
-              alt={`${title} ${index + 1}`}
-              onClick={() => setSelectedImage(index)}
-              $active={selectedImage === index}
-            />
-          ))}
-        </ThumbnailGrid>
-      )}
-    </ImageSection>
+    <>
+      <ImageSection>
+        <MainImageWrapper onClick={() => setIsLightboxOpen(true)}>
+          <MainImage src={images[selectedImage]} alt={title} />
+          <ZoomHint>Click to view fullscreen</ZoomHint>
+          {images.length > 1 && (
+            <>
+              <ImageCounter>
+                {selectedImage + 1} / {images.length}
+              </ImageCounter>
+              <NavButton $position="left" onClick={prevImage} aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </NavButton>
+              <NavButton $position="right" onClick={nextImage} aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </NavButton>
+            </>
+          )}
+        </MainImageWrapper>
+
+        {images.length > 1 && (
+          <ThumbnailGrid>
+            {images.map((image, index) => (
+              <ThumbnailWrapper key={index} $active={selectedImage === index}>
+                <Thumbnail src={image} alt={`${title} ${index + 1}`} onClick={() => setSelectedImage(index)} />
+              </ThumbnailWrapper>
+            ))}
+          </ThumbnailGrid>
+        )}
+      </ImageSection>
+
+      <Lightbox
+        open={isLightboxOpen}
+        close={() => setIsLightboxOpen(false)}
+        slides={slides}
+        index={selectedImage}
+        on={{
+          view: ({ index }) => setSelectedImage(index),
+        }}
+      />
+    </>
   );
 }
 
@@ -33,33 +77,132 @@ const ImageSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
+`;
+
+const MainImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  aspect-ratio: 1;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  cursor: zoom-in;
+  background: ${({ theme }) => theme.background.secondary};
+
+  &:hover > div {
+    opacity: 1;
+  }
 `;
 
 const MainImage = styled.img`
   width: 100%;
-  max-width: 700px;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
-  border-radius: 1.25rem;
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  transition: transform 0.3s ease;
+`;
+
+const ZoomHint = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: ${({ theme }) => theme.overlay.darker};
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+`;
+
+const ImageCounter = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: ${({ theme }) => theme.overlay.darker};
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
 `;
 
 const ThumbnailGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 0.5rem;
+  gap: 0.75rem;
+  max-width: 700px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 0.5rem;
+  }
 `;
 
-const Thumbnail = styled.img<{ $active: boolean }>`
-  width: 100%;
+const ThumbnailWrapper = styled.div<{ $active: boolean }>`
+  position: relative;
   aspect-ratio: 1;
-  object-fit: cover;
   border-radius: 0.75rem;
+  overflow: hidden;
   border: 2px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: ${({ $active, theme }) => ($active ? `0 0 0 2px ${theme.primary.light}` : 'none')};
 
   &:hover {
     border-color: ${({ theme }) => theme.primary.main};
+    box-shadow: ${({ theme }) => theme.shadow.medium};
+  }
+`;
+
+const Thumbnail = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+`;
+
+const NavButton = styled.button<{ $position: 'left' | 'right' }>`
+  position: absolute;
+  top: 50%;
+  ${({ $position }) => $position}: 1rem;
+  transform: translateY(-50%);
+  background: ${({ theme }) => theme.overlay.dark};
+  color: white;
+  border: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+
+  ${MainImageWrapper}:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.overlay.darker};
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    opacity: 1;
+    width: 40px;
+    height: 40px;
   }
 `;
