@@ -18,7 +18,12 @@ export async function fetchListing(id: string) {
 }
 
 export async function fetchAllListings() {
-  return await supabase.from('listings').select('*').order('created_at', { ascending: false });
+  return await supabase
+    .from('listings')
+    .select('*')
+    // .not('status', 'in', '("hidden","sold")')
+    .order('created_at', { ascending: false })
+    .limit(20);
 }
 
 export async function fetchUserListings(userId: string) {

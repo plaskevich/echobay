@@ -29,6 +29,8 @@ export function useListings() {
       if (error) throw error;
       return data || [];
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    gcTime: 1000 * 60 * 10, // 10 minutes
   });
 }
 
@@ -41,6 +43,7 @@ export function useListing(id: string) {
       return data;
     },
     enabled: !!id,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
 
@@ -54,6 +57,7 @@ export function useUserListings(userId: string | undefined) {
       return data || [];
     },
     enabled: !!userId,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
 
