@@ -1,9 +1,11 @@
-import { PiCassetteTapeDuotone, PiDiscDuotone, PiVinylRecordDuotone } from 'react-icons/pi';
+import { PiCassetteTapeDuotone, PiDiscDuotone, PiHeart, PiHeartFill, PiVinylRecordDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import placeholder from '@/assets/cd.png';
 import { FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
+import { useAuthStore } from '@/store/auth-store';
 
 export type ListingStatus = 'active' | 'hidden' | 'sold';
 
@@ -27,6 +29,17 @@ interface ListingCardProps {
 
 export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) {
   const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
+  const { user } = useAuthStore();
+  const isOwner = user?.id === listing.owner_id;
+  const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
+  const { toggleFavorite, isLoading } = useToggleFavorite();
+
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) return;
+    await toggleFavorite(user.id, listing.id, isFavorited);
+  };
 
   const getFormatLabel = (value?: string) => {
     if (!value) return null;
@@ -48,6 +61,7 @@ export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) 
   };
 
   const showStatusBanner = isOwnerView && listing.status !== 'active';
+  const showFavoriteButton = user && !isOwner;
 
   return (
     <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -65,12 +79,23 @@ export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) 
           </Format>
         )}
         <Price>{listing.price.toFixed(2)}€</Price>
+        {showFavoriteButton && (
+          <FavoriteButton
+            onClick={handleFavoriteClick}
+            $isFavorited={isFavorited}
+            disabled={isLoading}
+            aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {isFavorited ? <PiHeartFill /> : <PiHeart />}
+          </FavoriteButton>
+        )}
       </Card>
     </Link>
   );
 }
 
 const Card = styled.div`
+  position: relative;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: 1rem;
@@ -154,4 +179,43 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   align-items: center;
   gap: 0.5rem;
   text-transform: capitalize;
+`;
+
+const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  z-index: 10;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: ${(props) => (props.$isFavorited ? props.theme.state.error : props.theme.text.secondary)};
+    filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    svg {
+      color: ${(props) => props.theme.state.error};
+    }
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    transform: none;
+  }
 `;

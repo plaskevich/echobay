@@ -10,6 +10,7 @@ import { Auth } from '@/components/auth/Auth';
 import { CatalogView } from '@/components/listings/CatalogView';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { EditItemPage } from '@/pages/EditItemPage';
+import FavoritesPage from '@/pages/FavoritesPage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
 import ProfilePage from '@/pages/ProfilePage';
 import { useAuthStore } from '@/store/auth-store';
@@ -30,6 +31,7 @@ export function App() {
           <Route element={<RootLayout />}>
             <Route index element={<CatalogView />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/edit" element={<ProfileEditForm />} />
             <Route path="/items/new" element={<EditItemPage mode="create" />} />
