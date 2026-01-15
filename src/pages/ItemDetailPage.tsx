@@ -1,4 +1,4 @@
-import { IoChevronBack } from 'react-icons/io5';
+import { PiCaretLeft } from 'react-icons/pi';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -44,7 +44,7 @@ export function ItemDetailPage() {
   return (
     <Container>
       <BackButton onClick={() => navigate('/')}>
-        <IoChevronBack /> Back
+        <PiCaretLeft /> Back
       </BackButton>
 
       <Content>

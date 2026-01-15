@@ -1,5 +1,5 @@
 import { type SelectHTMLAttributes } from 'react';
-import { IoChevronDown } from 'react-icons/io5';
+import { PiCaretDown } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { BaseInput, FormGroup as InputFormGroup, Label as InputLabel } from './Input';
@@ -52,7 +52,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const SelectIcon = styled(IoChevronDown)`
+const SelectIcon = styled(PiCaretDown)`
   position: absolute;
   right: 0.75rem;
   top: 50%;

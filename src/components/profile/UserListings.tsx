@@ -1,4 +1,4 @@
-import { IoAdd } from 'react-icons/io5';
+import { PiPlusCircle } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -48,7 +48,7 @@ export function UserListings() {
         <EmptyState>
           <EmptyMessage>You haven't created any listings yet</EmptyMessage>
           <Button onClick={() => navigate('/items/new')} variant="primary" size="medium">
-            <IoAdd size={20} />
+            <PiPlusCircle size={20} />
             Create Your First Listing
           </Button>
         </EmptyState>

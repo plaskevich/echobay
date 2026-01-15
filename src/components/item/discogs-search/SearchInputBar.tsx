@@ -1,5 +1,5 @@
 import { type KeyboardEvent } from 'react';
-import { IoClose, IoSearch } from 'react-icons/io5';
+import { PiMagnifyingGlass, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 interface SearchInputBarProps {
@@ -38,13 +38,11 @@ export function SearchInputBar({
       />
       {searchQuery && (
         <ClearButton type="button" onClick={onClear} disabled={isSearching} aria-label="Clear search">
-          <IoClose />
+          <PiX />
         </ClearButton>
       )}
       <SearchButton type="button" onClick={onSearch} disabled={isSearching || !searchQuery.trim() || isDisabled}>
-        <>
-          <IoSearch size={18} />
-        </>
+        <PiMagnifyingGlass size={18} />
       </SearchButton>
     </SearchInputGroup>
   );

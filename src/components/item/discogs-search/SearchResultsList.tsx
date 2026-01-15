@@ -1,4 +1,4 @@
-import { IoClose } from 'react-icons/io5';
+import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { type DiscogsSearchResult } from '@/hooks/useDiscogsSearch';
@@ -18,7 +18,7 @@ export function SearchResultsList({ results, onSelectRelease, onClose, isSearchi
       <ResultsHeader>
         <ResultsTitle>Select a release to auto-fill the form:</ResultsTitle>
         <CloseResultsButton type="button" onClick={onClose}>
-          <IoClose /> Close
+          <PiX /> Close
         </CloseResultsButton>
       </ResultsHeader>
       <ResultsList>

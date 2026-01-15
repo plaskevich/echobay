@@ -1,4 +1,4 @@
-import { PiUserCircleDuotone } from 'react-icons/pi';
+import { PiPencilSimpleLineDuotone, PiSignOut, PiUserCircleDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,7 +8,12 @@ import { useAuthStore } from '@/store/auth-store';
 
 export function ProfileHeader() {
   const user = useAuthStore((state) => state.user);
+  const signOut = useAuthStore((state) => state.signOut);
   const { data: profile, isLoading } = useProfile(user?.id);
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   if (!user) {
     return null;
@@ -35,13 +40,18 @@ export function ProfileHeader() {
         {profile?.location && <ProfileMeta>{profile.location}</ProfileMeta>}
         {profile?.about && <ProfileAbout>{profile.about}</ProfileAbout>}
       </ProfileInfo>
-      <EditButtonWrapper>
+      <ButtonsWrapper>
         <Link to="/profile/edit">
           <Button variant="outline" size="medium">
+            <PiPencilSimpleLineDuotone size={20} />
             Edit Profile
           </Button>
         </Link>
-      </EditButtonWrapper>
+        <Button variant="danger-outline" size="medium" onClick={handleLogout}>
+          <PiSignOut size={20} />
+          Log out
+        </Button>
+      </ButtonsWrapper>
     </Header>
   );
 }
@@ -111,8 +121,11 @@ const ProfileAbout = styled.p`
   max-width: 300px;
 `;
 
-const EditButtonWrapper = styled.div`
+const ButtonsWrapper = styled.div`
   margin-left: auto;
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
 
   @media (max-width: 640px) {
     margin-left: 0;

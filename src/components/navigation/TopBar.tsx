@@ -1,11 +1,4 @@
-import {
-  IoHeartOutline,
-  IoLogOutOutline,
-  IoMoonOutline,
-  IoPersonOutline,
-  IoSearch,
-  IoSunnyOutline,
-} from 'react-icons/io5';
+import { PiHeartDuotone, PiMagnifyingGlass, PiMoonDuotone, PiSunDuotone, PiUserCircleDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -15,11 +8,7 @@ import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
   const { theme, toggleTheme } = useThemeStore();
-  const { user, signOut } = useAuthStore();
-
-  const handleLogout = async () => {
-    await signOut();
-  };
+  const { user } = useAuthStore();
 
   return (
     <Nav>
@@ -32,30 +21,27 @@ export function TopBar() {
             <SearchWrapper>
               <SearchInput type="text" placeholder="Search for items..." />
               <SearchIconWrapper>
-                <IoSearch />
+                <PiMagnifyingGlass />
               </SearchIconWrapper>
             </SearchWrapper>
           </SearchContainer>
 
           <RightSection>
             <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'light' ? <IoMoonOutline /> : <IoSunnyOutline />}
+              {theme === 'light' ? <PiMoonDuotone /> : <PiSunDuotone />}
             </IconButton>
             {user ? (
               <>
                 <Link to="/favorites">
                   <IconButton aria-label="Favorites">
-                    <IoHeartOutline />
+                    <PiHeartDuotone />
                   </IconButton>
                 </Link>
                 <Link to="/profile">
                   <IconButton aria-label="Profile">
-                    <IoPersonOutline />
+                    <PiUserCircleDuotone />
                   </IconButton>
                 </Link>
-                <IconButton onClick={handleLogout} aria-label="Log out">
-                  <IoLogOutOutline />
-                </IconButton>
                 <Link to="/items/new">
                   <Button variant="primary" size="small">
                     Sell
