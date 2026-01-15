@@ -27,6 +27,16 @@ export interface ThemeColors {
     error: string;
     info: string;
   };
+  status: {
+    hidden: {
+      background: string;
+      text: string;
+    };
+    sold: {
+      background: string;
+      text: string;
+    };
+  };
   price: string;
   shadow: {
     small: string;
@@ -70,6 +80,16 @@ export const lightTheme: ThemeColors = {
     error: '#c91e28',
     info: '#0588f0',
   },
+  status: {
+    hidden: {
+      background: '#737373',
+      text: '#fafafa',
+    },
+    sold: {
+      background: '#d1fae5',
+      text: '#065f46',
+    },
+  },
   price: '#16a34a',
   shadow: {
     small: 'rgba(0, 0, 0, 0.08)',
@@ -112,6 +132,16 @@ export const darkTheme: ThemeColors = {
     warning: '#fbbf24',
     error: '#e2839d',
     info: '#8ec8f6',
+  },
+  status: {
+    hidden: {
+      background: '#404040',
+      text: '#e5e5e5',
+    },
+    sold: {
+      background: '#065f46',
+      text: '#d1fae5',
+    },
   },
   price: '#4ade80',
   shadow: {

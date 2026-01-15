@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import placeholder from '@/assets/cd.png';
 import { FORMAT_OPTIONS } from '@/lib/constants/listings';
 
+export type ListingStatus = 'active' | 'hidden' | 'sold';
+
 export interface Listing {
   id: string;
   title: string;
@@ -15,13 +17,15 @@ export interface Listing {
   images?: string[];
   created_at: string;
   owner_id: string;
+  status?: ListingStatus;
 }
 
 interface ListingCardProps {
   listing: Listing;
+  isOwnerView?: boolean;
 }
 
-export function ListingCard({ listing }: ListingCardProps) {
+export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) {
   const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
 
   const getFormatLabel = (value?: string) => {
@@ -43,10 +47,15 @@ export function ListingCard({ listing }: ListingCardProps) {
     }
   };
 
+  const showStatusBanner = isOwnerView && listing.status !== 'active';
+
   return (
     <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <Card>
-        <ListingImage src={imageUrl} alt={listing.title} />
+        <ImageContainer>
+          <ListingImage src={imageUrl} alt={listing.title} />
+          {showStatusBanner && <StatusBanner status={listing.status!}>{listing.status!}</StatusBanner>}
+        </ImageContainer>
         <Artist>{listing.artist}</Artist>
         <ListingTitle>{listing.title}</ListingTitle>
         {listing.format && (
@@ -77,16 +86,21 @@ const Card = styled.div`
   }
 `;
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+`;
+
 const ListingImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 0.75rem;
-  margin-bottom: 1rem;
 `;
 
 const ListingTitle = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0;
   color: ${(props) => props.theme.text.primary};
@@ -107,7 +121,7 @@ const Artist = styled.p`
 const Format = styled.p`
   font-size: 0.75rem;
   color: ${(props) => props.theme.text.tertiary};
-  margin: 0.25rem 0 0 0;
+  margin: 0;
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -117,8 +131,27 @@ const Format = styled.p`
 `;
 
 const Price = styled.p`
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   color: ${(props) => props.theme.price};
-  margin: 1rem 0 0 0;
+  margin: 0.5rem 0 0 0;
+`;
+
+const StatusBanner = styled.div<{ status: ListingStatus }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  background-color: ${(props) =>
+    props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
+  color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0 0 0.75rem 0.75rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: capitalize;
 `;

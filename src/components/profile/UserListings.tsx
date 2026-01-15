@@ -55,7 +55,7 @@ export function UserListings() {
       ) : (
         <Grid>
           {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
+            <ListingCard key={listing.id} listing={listing} isOwnerView={true} />
           ))}
         </Grid>
       )}

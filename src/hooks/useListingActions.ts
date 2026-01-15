@@ -1,12 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useDeleteListing, useHideListing, useMarkListingAsSold } from '@/queries/useListings';
+import { useDeleteListing, useHideListing, useMarkListingAsSold, useSetListingActive } from '@/queries/useListings';
 
 export function useListingActions(listingId: string) {
   const navigate = useNavigate();
   const markAsSoldMutation = useMarkListingAsSold();
   const hideMutation = useHideListing();
+  const setActiveMutation = useSetListingActive();
   const deleteMutation = useDeleteListing();
+
+  const handleSetActive = async () => {
+    try {
+      await setActiveMutation.mutateAsync(listingId);
+      alert('Listing is now active');
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to set listing as active');
+    }
+  };
 
   const handleMarkAsSold = async () => {
     try {
@@ -45,6 +55,7 @@ export function useListingActions(listingId: string) {
   };
 
   return {
+    handleSetActive,
     handleMarkAsSold,
     handleHide,
     handleEdit,

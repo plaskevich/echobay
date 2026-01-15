@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
+export type ListingStatus = 'active' | 'hidden' | 'sold';
+
 export interface ListingData {
   owner_id: string;
   title: string;
@@ -11,6 +13,7 @@ export interface ListingData {
   price: number;
   description?: string | null;
   images: string[];
+  status?: ListingStatus;
 }
 
 export async function fetchListing(id: string) {
@@ -21,7 +24,7 @@ export async function fetchAllListings() {
   return await supabase
     .from('listings')
     .select('*')
-    // .not('status', 'in', '("hidden","sold")')
+    .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(20);
 }
@@ -42,10 +45,6 @@ export async function deleteListing(id: string) {
   return await supabase.from('listings').delete().eq('id', id);
 }
 
-export async function markListingAsSold(id: string) {
-  return await supabase.from('listings').update({ status: 'sold' }).eq('id', id);
-}
-
-export async function hideListing(id: string) {
-  return await supabase.from('listings').update({ status: 'hidden' }).eq('id', id);
+export async function updateListingStatus(id: string, status: ListingStatus) {
+  return await supabase.from('listings').update({ status }).eq('id', id);
 }

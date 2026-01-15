@@ -18,7 +18,7 @@ export function ItemDetailPage() {
   const user = useAuthStore((state) => state.user);
   const { data: listing, isLoading, error } = useListing(id!);
 
-  const { handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id!);
+  const { handleSetActive, handleMarkAsSold, handleHide, handleEdit, handleDelete } = useListingActions(id!);
 
   const isOwner = user?.id === listing?.owner_id;
 
@@ -43,7 +43,7 @@ export function ItemDetailPage() {
 
   return (
     <Container>
-      <BackButton onClick={() => navigate('/')}>
+      <BackButton onClick={() => navigate(-1)}>
         <PiCaretLeft /> Back
       </BackButton>
 
@@ -74,6 +74,8 @@ export function ItemDetailPage() {
           <ButtonGroup>
             {isOwner ? (
               <OwnerActions
+                status={listing.status}
+                onSetActive={handleSetActive}
                 onMarkAsSold={handleMarkAsSold}
                 onHide={handleHide}
                 onEdit={handleEdit}
@@ -151,8 +153,8 @@ const Title = styled.h1`
 const Price = styled.p`
   font-size: 1.875rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.state.success};
-  margin: 1rem 0 0 0;
+  color: ${({ theme }) => theme.price};
+  margin: 0;
 `;
 
 const DescriptionSection = styled.div`

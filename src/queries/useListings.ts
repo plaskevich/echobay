@@ -7,9 +7,8 @@ import {
   fetchAllListings,
   fetchListing,
   fetchUserListings,
-  hideListing,
-  markListingAsSold,
   updateListing,
+  updateListingStatus,
 } from '@/api/listings';
 
 export const listingKeys = {
@@ -110,12 +109,11 @@ export function useMarkListingAsSold() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await markListingAsSold(id);
+      const { error } = await updateListingStatus(id, 'sold');
       if (error) throw error;
     },
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries({ queryKey: listingKeys.detail(id) });
-      queryClient.invalidateQueries({ queryKey: listingKeys.lists() });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: listingKeys.all });
     },
   });
 }
@@ -125,12 +123,25 @@ export function useHideListing() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await hideListing(id);
+      const { error } = await updateListingStatus(id, 'hidden');
       if (error) throw error;
     },
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries({ queryKey: listingKeys.detail(id) });
-      queryClient.invalidateQueries({ queryKey: listingKeys.lists() });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: listingKeys.all });
+    },
+  });
+}
+
+export function useSetListingActive() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await updateListingStatus(id, 'active');
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: listingKeys.all });
     },
   });
 }
