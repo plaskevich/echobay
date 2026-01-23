@@ -1,18 +1,32 @@
 import { useState } from 'react';
+import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import styled from 'styled-components';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
+import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
+import { useAuthStore } from '@/store/auth-store';
+
 interface ImageGalleryProps {
   images: string[];
   title: string;
+  listingId: string;
 }
 
-export function ImageGallery({ images, title }: ImageGalleryProps) {
+export function ImageGallery({ images, title, listingId }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const { data: isFavorited = false } = useIsFavorited(user?.id, listingId);
+  const { toggleFavorite, isLoading } = useToggleFavorite();
 
   const slides = images.map((src) => ({ src }));
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+    toggleFavorite(user.id, listingId, isFavorited);
+  };
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -30,6 +44,11 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
         <MainImageWrapper onClick={() => setIsLightboxOpen(true)}>
           <MainImage src={images[selectedImage]} alt={title} />
           <ZoomHint>Click to view fullscreen</ZoomHint>
+          {user && (
+            <FavoriteButton onClick={handleFavoriteClick} disabled={isLoading}>
+              {isFavorited ? <PiHeartFill size={24} /> : <PiHeart size={24} />}
+            </FavoriteButton>
+          )}
           {images.length > 1 && (
             <>
               <ImageCounter>
@@ -83,7 +102,7 @@ const ImageSection = styled.div`
 const MainImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
   aspect-ratio: 1;
   border-radius: 1.25rem;
   overflow: hidden;
@@ -204,5 +223,44 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
     opacity: 1;
     width: 40px;
     height: 40px;
+  }
+`;
+
+const FavoriteButton = styled.button`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: ${({ theme }) => theme.overlay.dark};
+  color: ${({ theme }) => theme.state.error};
+  border: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+
+  &:hover {
+    background: ${({ theme }) => theme.overlay.darker};
+    transform: scale(1.1);
+    color: ${({ theme }) => theme.state.error};
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 `;

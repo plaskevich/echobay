@@ -58,7 +58,7 @@ export function ItemDetailPage() {
       </BackButton>
 
       <Content>
-        <ImageGallery images={images} title={listing.title} />
+        <ImageGallery images={images} title={listing.title} listingId={listing.id} />
 
         <DetailsSection>
           <TitleSection>
