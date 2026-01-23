@@ -1,4 +1,5 @@
-import { PiMagnifyingGlass } from 'react-icons/pi';
+import { useState } from 'react';
+import { PiMagnifyingGlass, PiX } from 'react-icons/pi';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,6 +8,7 @@ export function SearchBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchQuery = searchParams.get('q') || '';
+  const [inputValue, setInputValue] = useState(searchQuery);
 
   const handleSearchChange = (value: string) => {
     if (location.pathname !== '/') {
@@ -32,19 +34,36 @@ export function SearchBar() {
     }
   };
 
+  const handleClear = () => {
+    setInputValue('');
+    setSearchParams({});
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <SearchContainer>
       <SearchWrapper>
         <SearchInput
           type="text"
           placeholder="Search for items..."
-          defaultValue={searchQuery}
-          key={searchQuery}
+          value={inputValue}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
         <SearchIconWrapper>
           <PiMagnifyingGlass />
         </SearchIconWrapper>
+        {inputValue && (
+          <ClearButton onClick={handleClear} aria-label="Clear search">
+            <PiX />
+          </ClearButton>
+        )}
       </SearchWrapper>
     </SearchContainer>
   );
@@ -58,16 +77,19 @@ const SearchContainer = styled.div`
 
 const SearchWrapper = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: 0.75rem;
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
+  box-sizing: border-box;
+
   &:focus {
     outline: none;
     border-color: ${(props) => props.theme.primary.main};
@@ -88,4 +110,27 @@ const SearchIconWrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.25rem;
+  pointer-events: none;
+`;
+
+const ClearButton = styled.button`
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: ${(props) => props.theme.text.tertiary};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+
+  &:hover {
+    color: ${(props) => props.theme.text.primary};
+    background-color: ${(props) => props.theme.background.secondary};
+  }
 `;
