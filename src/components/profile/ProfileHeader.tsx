@@ -1,4 +1,11 @@
-import { PiPencilSimpleLineDuotone, PiSignOut, PiUserCircleDuotone } from 'react-icons/pi';
+import {
+  PiCalendarDuotone,
+  PiMapPinDuotone,
+  PiNotePencilDuotone,
+  PiPencilSimpleLineDuotone,
+  PiSignOut,
+  PiUserCircleDuotone,
+} from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -38,9 +45,22 @@ export function ProfileHeader() {
       </ProfilePictureContainer>
       <ProfileInfo>
         <Username>{profile?.username || user.email}</Username>
-        <ProfileMeta>Member since {new Date(user.created_at).toLocaleDateString()}</ProfileMeta>
-        {profile?.location && <ProfileMeta>{profile.location}</ProfileMeta>}
-        {profile?.about && <ProfileAbout>{profile.about}</ProfileAbout>}
+        <ProfileMeta>
+          <PiCalendarDuotone size={16} />
+          Member since {new Date(user.created_at).toLocaleDateString()}
+        </ProfileMeta>
+        {profile?.location && (
+          <ProfileMeta>
+            <PiMapPinDuotone size={16} />
+            {profile.location}
+          </ProfileMeta>
+        )}
+        {profile?.about && (
+          <ProfileAbout>
+            <PiNotePencilDuotone size={16} />
+            {profile.about}
+          </ProfileAbout>
+        )}
       </ProfileInfo>
       <ButtonsWrapper>
         <Link to="/profile/edit">
@@ -113,6 +133,9 @@ const ProfileMeta = styled.p`
   font-size: 0.875rem;
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const ProfileAbout = styled.p`
@@ -121,6 +144,9 @@ const ProfileAbout = styled.p`
   margin: 0;
   margin-top: 0.25rem;
   max-width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const ButtonsWrapper = styled.div`

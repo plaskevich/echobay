@@ -12,7 +12,6 @@ interface AuthFormProps {
   password: string;
   confirmPassword: string;
   error: string;
-  success: string;
   isLoading: boolean;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
@@ -27,7 +26,6 @@ export function AuthForm({
   password,
   confirmPassword,
   error,
-  success,
   isLoading,
   onEmailChange,
   onPasswordChange,
@@ -80,7 +78,6 @@ export function AuthForm({
       )}
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      {success && <SuccessMessage>{success}</SuccessMessage>}
 
       <Button type="submit" fullWidth isLoading={isLoading}>
         {mode === 'login' ? 'Log In' : 'Sign Up'}
@@ -100,15 +97,6 @@ const ErrorMessage = styled.div`
   background-color: ${({ theme }) => theme.state.error}20;
   color: ${({ theme }) => theme.state.error};
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
-`;
-
-const SuccessMessage = styled.div`
-  padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.state.success}20;
-  color: ${({ theme }) => theme.state.success};
-  border: 1px solid ${({ theme }) => theme.state.success};
   border-radius: 0.75rem;
   font-size: 0.875rem;
 `;

@@ -1,4 +1,5 @@
 import { FormGroup, Input, Label, TextArea } from '@/components/common/Form';
+import { LocationAutocomplete } from '@/components/common/LocationAutocomplete';
 
 interface ProfileFormFieldsProps {
   username: string;
@@ -34,14 +35,13 @@ export function ProfileFormFields({
       </FormGroup>
 
       <FormGroup>
-        <Label htmlFor="location">Location</Label>
-        <Input
+        <LocationAutocomplete
           id="location"
-          type="text"
           value={location}
-          onChange={(e) => onLocationChange(e.target.value)}
+          onChange={onLocationChange}
           placeholder="City, Country"
           disabled={disabled}
+          label="Location"
         />
       </FormGroup>
 

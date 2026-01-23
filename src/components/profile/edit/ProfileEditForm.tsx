@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Form } from '@/components/common/Form';
-import { ErrorMessage, SuccessMessage } from '@/components/common/Message';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
 
 import { AvatarUpload } from './AvatarUpload';
@@ -14,8 +13,6 @@ export function ProfileEditForm() {
     profileData,
     loading,
     submitting,
-    error,
-    success,
     avatarPreview,
     updateField,
     handleAvatarChange,
@@ -37,9 +34,6 @@ export function ProfileEditForm() {
       <FormHeader title="Edit Profile" subtitle="Update your profile information" />
 
       <Form onSubmit={handleSubmit}>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {success && <SuccessMessage>Profile updated successfully!</SuccessMessage>}
-
         <AvatarUpload
           avatarUrl={profileData.avatar_url}
           avatarPreview={avatarPreview || undefined}

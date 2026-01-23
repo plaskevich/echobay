@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
-import { SuccessMessage } from '@/components/common/Message';
 import { DiscogsSearch } from '@/components/item/discogs-search';
 import { FormActions } from '@/components/item/edit/FormActions';
 import { FormFields } from '@/components/item/edit/FormFields';
@@ -56,7 +55,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     setImagePreviews,
   } = useImageUpload(user?.id);
 
-  const { formData, setFormData, isSubmitting, error, success, handleSubmit, isEditMode } = useListingSubmit({
+  const { formData, setFormData, isSubmitting, error, handleSubmit, isEditMode } = useListingSubmit({
     userId: user?.id,
     uploadImages,
     resetImages,
@@ -163,9 +162,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   return (
     <>
       <Title>{mode === 'create' ? 'Sell Your Item' : 'Edit Listing'}</Title>
-      {success && (
-        <SuccessMessage>Listing {isEditMode ? 'updated' : 'created'} successfully! Redirecting...</SuccessMessage>
-      )}
 
       <DiscogsSearch
         searchQuery={searchQuery}

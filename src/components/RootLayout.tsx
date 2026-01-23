@@ -17,7 +17,7 @@ const MainContent = styled.main`
   flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem 1rem;
   width: 100%;
   box-sizing: border-box;
 `;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@/api/auth';
@@ -12,7 +13,6 @@ export function useAuthForm() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const navigate = useNavigate();
   const { logIn, signUp, isLoading } = useAuthStore();
@@ -22,7 +22,6 @@ export function useAuthForm() {
     setPassword('');
     setConfirmPassword('');
     setError('');
-    setSuccess('');
   };
 
   const toggleMode = () => {
@@ -52,7 +51,6 @@ export function useAuthForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
 
     if (!validateForm()) {
       return;
@@ -63,7 +61,7 @@ export function useAuthForm() {
       if (error) {
         setError(error.message);
       } else {
-        setSuccess('Account created successfully! Please check your email to verify your account.');
+        toast.success('Account created successfully! Please check your email to verify your account.');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
@@ -92,7 +90,6 @@ export function useAuthForm() {
     password,
     confirmPassword,
     error,
-    success,
     isLoading,
     setEmail,
     setPassword,

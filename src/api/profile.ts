@@ -15,6 +15,5 @@ export async function fetchProfile(userId: string) {
 export async function upsertProfile(profileData: ProfileData) {
   return await supabase.from('profiles').upsert(profileData, {
     onConflict: 'id',
-    ignoreDuplicates: true,
   });
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { getPublicUrl, uploadImage } from '@/api/storage';
@@ -17,8 +18,6 @@ export function useProfileEdit() {
   const navigate = useNavigate();
   const { data: existingProfile, isLoading: loading } = useProfile(user?.id);
   const upsertProfileMutation = useUpsertProfile();
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<ProfileData>({
@@ -41,7 +40,6 @@ export function useProfileEdit() {
 
   const updateField = (field: keyof ProfileData, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
-    setError(null);
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,16 +47,15 @@ export function useProfileEdit() {
     if (!file) return;
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!validTypes.includes(file.type)) {
-      setError('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
+      toast.error('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setError('Image size must be less than 5MB');
+      toast.error('Image size must be less than 5MB');
       return;
     }
 
     setAvatarFile(file);
-    setError(null);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -75,9 +72,6 @@ export function useProfileEdit() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
-
-    setError(null);
-    setSuccess(false);
 
     try {
       let avatarUrl = profileData.avatar_url;
@@ -108,13 +102,11 @@ export function useProfileEdit() {
         avatar_url: avatarUrl,
       });
 
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/profile');
-      }, 1500);
+      toast.success('Profile updated successfully!');
+      navigate('/profile');
     } catch (err) {
       console.error('Error updating profile:', err);
-      setError('Failed to update profile. Please try again.');
+      toast.error('Failed to update profile. Please try again.');
     }
   };
 
@@ -126,8 +118,6 @@ export function useProfileEdit() {
     profileData,
     loading,
     submitting: upsertProfileMutation.isPending,
-    error,
-    success,
     avatarFile,
     avatarPreview,
     updateField,

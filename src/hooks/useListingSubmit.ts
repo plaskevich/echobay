@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { useCreateListing, useUpdateListing } from '@/queries/useListings';
@@ -35,7 +36,6 @@ export function useListingSubmit({
   const createMutation = useCreateListing();
   const updateMutation = useUpdateListing();
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const isEditMode = !!listingId;
 
   const initialFormData: ListingFormData = {
@@ -59,7 +59,6 @@ export function useListingSubmit({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
 
     if (!formData.title || !formData.artist || !formData.format || !formData.price) {
       setError('Please fill in all required fields (Title, Artist, Format, Price)');
@@ -95,16 +94,14 @@ export function useListingSubmit({
         await createMutation.mutateAsync(listingData);
       }
 
-      setSuccess(true);
+      toast.success(`Listing ${isEditMode ? 'updated' : 'created'} successfully!`);
       resetForm();
 
-      setTimeout(() => {
-        if (isEditMode) {
-          navigate(`/items/${listingId}`);
-        } else {
-          navigate('/profile');
-        }
-      }, 2000);
+      if (isEditMode) {
+        navigate(`/items/${listingId}`);
+      } else {
+        navigate('/profile');
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -119,7 +116,6 @@ export function useListingSubmit({
     setFormData,
     isSubmitting: createMutation.isPending || updateMutation.isPending,
     error,
-    success,
     handleSubmit,
     isEditMode,
   };
