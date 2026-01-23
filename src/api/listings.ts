@@ -20,13 +20,17 @@ export async function fetchListing(id: string) {
   return await supabase.from('listings').select('*').eq('id', id).single();
 }
 
-export async function fetchAllListings() {
-  return await supabase
-    .from('listings')
-    .select('*')
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(20);
+export async function fetchAllListings(searchQuery?: string) {
+  let query = supabase.from('listings').select('*').eq('status', 'active').order('created_at', { ascending: false });
+
+  if (searchQuery && searchQuery.trim()) {
+    const searchTerm = `%${searchQuery.trim()}%`;
+    query = query.or(
+      `title.ilike.${searchTerm},artist.ilike.${searchTerm},genre.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
+    );
+  }
+
+  return await query.limit(20);
 }
 
 export async function fetchUserListings(userId: string) {

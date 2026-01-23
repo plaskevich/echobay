@@ -1,30 +1,25 @@
-import { PiHeartDuotone, PiMagnifyingGlass, PiMoonDuotone, PiSunDuotone, PiUserCircleDuotone } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { PiHeartDuotone, PiMoonDuotone, PiSunDuotone, PiUserCircleDuotone } from 'react-icons/pi';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
+import { SearchBar } from '@/components/navigation/SearchBar';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
   const { theme, toggleTheme } = useThemeStore();
   const { user } = useAuthStore();
+  const location = useLocation();
 
   return (
     <Nav>
       <NavContainer>
         <NavContent>
-          <LogoLink to="/">
+          <LogoLink to="/" onClick={() => location.pathname === '/'}>
             <Logo>EchoBay</Logo>
           </LogoLink>
-          <SearchContainer>
-            <SearchWrapper>
-              <SearchInput type="text" placeholder="Search for items..." />
-              <SearchIconWrapper>
-                <PiMagnifyingGlass />
-              </SearchIconWrapper>
-            </SearchWrapper>
-          </SearchContainer>
+          <SearchBar />
 
           <RightSection>
             <IconButton onClick={toggleTheme} aria-label="Toggle theme">
@@ -102,46 +97,6 @@ const Logo = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   color: ${(props) => props.theme.text.secondary};
-`;
-
-const SearchContainer = styled.div`
-  flex: 1;
-  max-width: 42rem;
-  margin: 0 2rem;
-`;
-
-const SearchWrapper = styled.div`
-  position: relative;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 0.5rem 1rem 0.5rem 2.5rem;
-  border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  background-color: ${(props) => props.theme.background.primary};
-  color: ${(props) => props.theme.text.primary};
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
-  }
-
-  &::placeholder {
-    color: ${(props) => props.theme.text.tertiary};
-  }
-`;
-
-const SearchIconWrapper = styled.div`
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: ${(props) => props.theme.text.tertiary};
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
 `;
 
 const RightSection = styled.div`

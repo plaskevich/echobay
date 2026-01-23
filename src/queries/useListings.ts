@@ -14,17 +14,17 @@ import {
 export const listingKeys = {
   all: ['listings'] as const,
   lists: () => [...listingKeys.all, 'list'] as const,
-  list: (filters?: unknown) => [...listingKeys.lists(), filters] as const,
+  list: (filters?: { search?: string }) => [...listingKeys.lists(), filters] as const,
   details: () => [...listingKeys.all, 'detail'] as const,
   detail: (id: string) => [...listingKeys.details(), id] as const,
   userListings: (userId: string) => [...listingKeys.all, 'user', userId] as const,
 };
 
-export function useListings() {
+export function useListings(searchQuery?: string) {
   return useQuery({
-    queryKey: listingKeys.lists(),
+    queryKey: listingKeys.list({ search: searchQuery }),
     queryFn: async () => {
-      const { data, error } = await fetchAllListings();
+      const { data, error } = await fetchAllListings(searchQuery);
       if (error) throw error;
       return data || [];
     },

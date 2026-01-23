@@ -216,7 +216,7 @@ const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: auto;
+  margin-top: 1rem;
 `;
 
 const LoadingText = styled.p`

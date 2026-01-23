@@ -1,10 +1,13 @@
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ListingCard } from '@/components/item/ListingCard';
 import { useListings } from '@/queries/useListings';
 
 export function CatalogView() {
-  const { data: listings = [], isLoading, error } = useListings();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('q') || '';
+  const { data: listings = [], isLoading, error } = useListings(searchQuery);
 
   if (isLoading) {
     return (
@@ -29,7 +32,7 @@ export function CatalogView() {
       <Title>Items</Title>
 
       {listings.length === 0 ? (
-        <EmptyText>No listings found.</EmptyText>
+        <EmptyText>{searchQuery.trim() ? 'No items match your search.' : 'No listings found.'}</EmptyText>
       ) : (
         <Grid>
           {listings.map((listing) => (
