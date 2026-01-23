@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
-import { CatalogView } from '@/components/listings/CatalogView';
+import { ListingsView } from '@/components/listings/ListingsView';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
@@ -29,7 +29,7 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<RootLayout />}>
-            <Route index element={<CatalogView />} />
+            <Route index element={<ListingsView />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/profile" element={<ProfilePage />} />

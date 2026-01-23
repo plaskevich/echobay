@@ -54,6 +54,8 @@ const InfoGrid = styled.div`
   background-color: ${({ theme }) => theme.background.secondary};
   border-radius: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
+  box-sizing: border-box;
+  width: 100%;
 `;
 
 const InfoItem = styled.div`

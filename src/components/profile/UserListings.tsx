@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
-import { ListingCard } from '@/components/item/ListingCard';
+import { ListingCard } from '@/components/listings/ListingCard';
 import { useUserListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 

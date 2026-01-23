@@ -143,6 +143,8 @@ const StyledButton = styled.button.withConfig({
   font-family: inherit;
   white-space: nowrap;
   user-select: none;
+  box-sizing: border-box;
+  min-width: 0;
 
   ${({ variant = 'primary' }) => getVariantStyles(variant)}
   ${({ size = 'medium' }) => getSizeStyles(size)}

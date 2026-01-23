@@ -118,6 +118,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  box-sizing: border-box;
 
   @media (min-width: 768px) {
     padding: 2rem 1.5rem;
@@ -147,12 +148,12 @@ const Content = styled.div`
   width: 100%;
 
   @media (min-width: 768px) {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr minmax(0, 300px);
     gap: 1.5rem;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1fr 420px;
+    grid-template-columns: 1fr minmax(0, 420px);
     gap: 2rem;
   }
 `;

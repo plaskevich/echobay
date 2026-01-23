@@ -1,5 +1,5 @@
 import { PiPencilSimpleLineDuotone, PiSignOut, PiUserCircleDuotone } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
@@ -10,9 +10,11 @@ export function ProfileHeader() {
   const user = useAuthStore((state) => state.user);
   const signOut = useAuthStore((state) => state.signOut);
   const { data: profile, isLoading } = useProfile(user?.id);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await signOut();
+    navigate('/');
   };
 
   if (!user) {

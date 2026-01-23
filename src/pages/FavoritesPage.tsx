@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
-import { type Listing, ListingCard } from '@/components/item/ListingCard';
+import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 

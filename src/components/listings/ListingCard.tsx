@@ -1,5 +1,5 @@
 import { PiCassetteTapeDuotone, PiDiscDuotone, PiHeart, PiHeartFill, PiVinylRecordDuotone } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import placeholder from '@/assets/cd.png';
@@ -33,12 +33,13 @@ export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) 
   const isOwner = user?.id === listing.owner_id;
   const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
   const { toggleFavorite, isLoading } = useToggleFavorite();
+  const navigate = useNavigate();
 
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) return;
-    await toggleFavorite(user.id, listing.id, isFavorited);
+    if (!user) navigate('/auth');
+    else await toggleFavorite(user.id, listing.id, isFavorited);
   };
 
   const getFormatLabel = (value?: string) => {
@@ -61,7 +62,7 @@ export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) 
   };
 
   const showStatusBanner = isOwnerView && listing.status !== 'active';
-  const showFavoriteButton = user && !isOwner;
+  const showFavoriteButton = !isOwner;
 
   return (
     <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
