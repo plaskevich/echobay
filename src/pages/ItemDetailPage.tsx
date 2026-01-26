@@ -92,7 +92,7 @@ export function ItemDetailPage() {
                 onDelete={handleDelete}
               />
             ) : (
-              <BuyerActions />
+              <BuyerActions listingId={listing.id} />
             )}
           </ButtonGroup>
         </DetailsSection>

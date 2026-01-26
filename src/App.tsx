@@ -9,6 +9,7 @@ import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
 import { ListingsView } from '@/components/listings/ListingsView';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
+import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
@@ -37,6 +38,7 @@ export function App() {
             <Route path="/items/new" element={<EditItemPage mode="create" />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
             <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
+            <Route path="/checkout/:id" element={<CheckoutPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

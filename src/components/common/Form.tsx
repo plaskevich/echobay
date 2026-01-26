@@ -29,7 +29,7 @@ const SelectWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledSelect = styled.select`
+export const StyledSelect = styled.select`
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
