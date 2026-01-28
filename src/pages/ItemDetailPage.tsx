@@ -58,7 +58,13 @@ export function ItemDetailPage() {
       </BackButton>
 
       <Content>
-        <ImageGallery images={images} title={listing.title} listingId={listing.id} />
+        <ImageGallery
+          images={images}
+          title={listing.title}
+          listingId={listing.id}
+          isOwner={isOwner}
+          status={listing.status}
+        />
 
         <DetailsSection>
           <TitleSection>
@@ -92,7 +98,7 @@ export function ItemDetailPage() {
                 onDelete={handleDelete}
               />
             ) : (
-              <BuyerActions listingId={listing.id} />
+              listing.status === 'active' && <BuyerActions listingId={listing.id} />
             )}
           </ButtonGroup>
         </DetailsSection>

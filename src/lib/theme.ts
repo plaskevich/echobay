@@ -38,6 +38,7 @@ export interface ThemeColors {
     };
   };
   price: string;
+  favorite: string;
   shadow: {
     small: string;
     medium: string;
@@ -86,11 +87,12 @@ export const lightTheme: ThemeColors = {
       text: '#fafafa',
     },
     sold: {
-      background: '#d1fae5',
-      text: '#065f46',
+      background: '#238166',
+      text: '#E7FBF1',
     },
   },
   price: '#404040',
+  favorite: 'rgb(247, 82, 107)',
   shadow: {
     small: 'rgba(0, 0, 0, 0.08)',
     medium: 'rgba(0, 0, 0, 0.12)',
@@ -139,11 +141,12 @@ export const darkTheme: ThemeColors = {
       text: '#e5e5e5',
     },
     sold: {
-      background: '#065f46',
-      text: '#d1fae5',
+      background: '#238166',
+      text: '#E7FBF1',
     },
   },
   price: '#d4d4d4',
+  favorite: '#EB567E',
   shadow: {
     small: 'rgba(255, 255, 255, 0.1)',
     medium: 'rgba(255, 255, 255, 0.15)',

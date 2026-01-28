@@ -24,10 +24,9 @@ export interface Listing {
 
 interface ListingCardProps {
   listing: Listing;
-  isOwnerView?: boolean;
 }
 
-export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) {
+export function ListingCard({ listing }: ListingCardProps) {
   const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
   const { user } = useAuthStore();
   const isOwner = user?.id === listing.owner_id;
@@ -61,15 +60,27 @@ export function ListingCard({ listing, isOwnerView = false }: ListingCardProps) 
     }
   };
 
-  const showStatusBanner = isOwnerView && listing.status !== 'active';
+  const showStatusBanner = listing.status !== 'active';
   const showFavoriteButton = !isOwner;
+
+  const getStatusLabel = (status?: ListingStatus) => {
+    if (!status) return '';
+    switch (status) {
+      case 'sold':
+        return 'Sold';
+      case 'hidden':
+        return 'Hidden';
+      default:
+        return status;
+    }
+  };
 
   return (
     <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <Card>
         <ImageContainer>
           <ListingImage src={imageUrl} alt={listing.title} />
-          {showStatusBanner && <StatusBanner status={listing.status!}>{listing.status!}</StatusBanner>}
+          {showStatusBanner && <StatusBanner status={listing.status!}>{getStatusLabel(listing.status)}</StatusBanner>}
         </ImageContainer>
         <Artist>{listing.artist}</Artist>
         <ListingTitle>{listing.title}</ListingTitle>
@@ -169,17 +180,16 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   left: 0;
   right: 0;
   padding: 0.5rem 1rem;
+  border-radius: 0 0 0.75rem 0.75rem;
   background-color: ${(props) =>
     props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
   color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
   font-size: 0.875rem;
   font-weight: 600;
-  border-radius: 0 0 0.75rem 0.75rem;
-  letter-spacing: 1px;
-  display: flex;
+  letter-spacing: 0.01em;
   align-items: center;
-  gap: 0.5rem;
-  text-transform: capitalize;
+  gap: 0.4rem;
+  box-shadow: 0 6px 16px ${(props) => props.theme.shadow.medium};
 `;
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
@@ -199,7 +209,7 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   svg {
     width: 1.5rem;
     height: 1.5rem;
-    color: ${(props) => (props.$isFavorited ? props.theme.state.error : props.theme.text.secondary)};
+    color: ${(props) => (props.$isFavorited ? props.theme.favorite : props.theme.text.secondary)};
     filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
     transition: all 0.2s;
   }
@@ -207,7 +217,7 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   &:hover {
     transform: scale(1.1);
     svg {
-      color: ${(props) => props.theme.state.error};
+      color: ${(props) => props.theme.favorite};
     }
   }
 

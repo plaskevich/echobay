@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
+import type { ListingStatus } from '@/components/listings/ListingCard';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -11,9 +12,23 @@ interface ImageGalleryProps {
   images: string[];
   title: string;
   listingId: string;
+  isOwner: boolean;
+  status?: ListingStatus;
 }
 
-export function ImageGallery({ images, title, listingId }: ImageGalleryProps) {
+function getStatusLabel(status?: ListingStatus) {
+  if (!status) return '';
+  switch (status) {
+    case 'sold':
+      return 'Sold';
+    case 'hidden':
+      return 'Hidden';
+    default:
+      return status;
+  }
+}
+
+export function ImageGallery({ images, title, listingId, isOwner, status }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
@@ -21,6 +36,7 @@ export function ImageGallery({ images, title, listingId }: ImageGalleryProps) {
   const { toggleFavorite, isLoading } = useToggleFavorite();
 
   const slides = images.map((src) => ({ src }));
+  const showStatusBanner = status && status !== 'active';
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -43,8 +59,9 @@ export function ImageGallery({ images, title, listingId }: ImageGalleryProps) {
       <ImageSection>
         <MainImageWrapper onClick={() => setIsLightboxOpen(true)}>
           <MainImage src={images[selectedImage]} alt={title} />
+          {showStatusBanner && <StatusBanner $status={status!}>{getStatusLabel(status)}</StatusBanner>}
           <ZoomHint>Click to view fullscreen</ZoomHint>
-          {user && (
+          {user && !isOwner && (
             <FavoriteButton onClick={handleFavoriteClick} disabled={isLoading}>
               {isFavorited ? <PiHeartFill size={24} /> : <PiHeart size={24} />}
             </FavoriteButton>
@@ -106,13 +123,28 @@ const MainImageWrapper = styled.div`
   aspect-ratio: 1;
   border-radius: 1.25rem;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.border.primary};
   cursor: zoom-in;
   background: ${({ theme }) => theme.background.secondary};
 
   &:hover > div {
     opacity: 1;
   }
+`;
+
+const StatusBanner = styled.div<{ $status: ListingStatus }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  border-radius: 0 0 1.25rem 1.25rem;
+  background-color: ${(props) =>
+    props.$status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
+  color: ${(props) => (props.$status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  z-index: 1;
 `;
 
 const MainImage = styled.img`
@@ -231,7 +263,7 @@ const FavoriteButton = styled.button`
   bottom: 1rem;
   right: 1rem;
   background: ${({ theme }) => theme.overlay.dark};
-  color: ${({ theme }) => theme.state.error};
+  color: ${({ theme }) => theme.favorite};
   border: none;
   width: 3rem;
   height: 3rem;
@@ -247,7 +279,7 @@ const FavoriteButton = styled.button`
   &:hover {
     background: ${({ theme }) => theme.overlay.darker};
     transform: scale(1.1);
-    color: ${({ theme }) => theme.state.error};
+    color: ${({ theme }) => theme.favorite};
   }
 
   &:active {
