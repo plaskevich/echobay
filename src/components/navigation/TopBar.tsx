@@ -1,16 +1,40 @@
-import { PiHeartDuotone, PiMoonDuotone, PiSunDuotone, PiUserCircleDuotone } from 'react-icons/pi';
-import { Link, useLocation } from 'react-router-dom';
+import {
+  PiBasketBold,
+  PiGearBold,
+  PiHeartDuotone,
+  PiMoonDuotone,
+  PiSignOutBold,
+  PiSunDuotone,
+  PiUserBold,
+  PiUserCircleDuotone,
+} from 'react-icons/pi';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
+import {
+  Dropdown,
+  DropdownMenuButton,
+  DropdownMenuLink,
+  DropdownMenuSeparator,
+} from '@/components/common/DropdownMenu';
 import { SearchBar } from '@/components/navigation/SearchBar';
+import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
   const { theme, toggleTheme } = useThemeStore();
   const { user } = useAuthStore();
+  const signOut = useAuthStore((state) => state.signOut);
+  const { data: profile } = useProfile(user?.id);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <Nav>
@@ -32,11 +56,29 @@ export function TopBar() {
                     <PiHeartDuotone />
                   </IconButton>
                 </Link>
-                <Link to="/profile">
-                  <IconButton aria-label="Profile">
-                    <PiUserCircleDuotone />
-                  </IconButton>
-                </Link>
+                <Dropdown
+                  menuLabel="Profile options"
+                  trigger={({ onClick, ...triggerProps }) => (
+                    <IconButton type="button" aria-label="Profile menu" onClick={onClick} {...triggerProps}>
+                      {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <PiUserCircleDuotone />}
+                    </IconButton>
+                  )}
+                >
+                  <DropdownMenuLink to="/profile">
+                    <PiUserBold /> Profile
+                  </DropdownMenuLink>
+                  <DropdownMenuLink to="/orders">
+                    <PiBasketBold />
+                    Orders
+                  </DropdownMenuLink>
+                  <DropdownMenuLink to="/settings">
+                    <PiGearBold /> Settings
+                  </DropdownMenuLink>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuButton onClick={handleLogout}>
+                    <PiSignOutBold /> Log out
+                  </DropdownMenuButton>
+                </Dropdown>
                 <Link to="/items/new">
                   <Button variant="primary" size="small">
                     Sell
@@ -116,6 +158,14 @@ const IconButton = styled.button`
   display: flex;
   align-items: center;
   font-size: 1.5rem;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    display: block;
+  }
 
   &:hover {
     color: ${(props) => props.theme.primary.main};

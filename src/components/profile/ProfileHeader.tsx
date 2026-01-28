@@ -3,10 +3,9 @@ import {
   PiMapPinDuotone,
   PiNotePencilDuotone,
   PiPencilSimpleLineDuotone,
-  PiSignOut,
   PiUserCircleDuotone,
 } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
@@ -15,14 +14,7 @@ import { useAuthStore } from '@/store/auth-store';
 
 export function ProfileHeader() {
   const user = useAuthStore((state) => state.user);
-  const signOut = useAuthStore((state) => state.signOut);
   const { data: profile, isLoading } = useProfile(user?.id);
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await signOut();
-    navigate('/');
-  };
 
   if (!user) {
     return null;
@@ -69,10 +61,6 @@ export function ProfileHeader() {
             Edit Profile
           </Button>
         </Link>
-        <Button variant="danger-outline" size="medium" onClick={handleLogout}>
-          <PiSignOut size={20} />
-          Log out
-        </Button>
       </ButtonsWrapper>
     </Header>
   );

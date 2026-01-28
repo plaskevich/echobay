@@ -13,7 +13,9 @@ import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
+import OrdersPage from '@/pages/OrdersPage';
 import ProfilePage from '@/pages/ProfilePage';
+import SettingsPage from '@/pages/SettingsPage';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
@@ -33,8 +35,10 @@ export function App() {
             <Route index element={<ListingsView />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/edit" element={<ProfileEditForm />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/items/new" element={<EditItemPage mode="create" />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
             <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
