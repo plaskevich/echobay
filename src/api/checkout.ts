@@ -103,13 +103,3 @@ export async function confirmPayment(checkoutData: CheckoutData): Promise<OrderR
     };
   }
 }
-
-export async function getOrder(orderId: string) {
-  const { data, error } = await supabase.from('orders').select('*').eq('id', orderId).single();
-
-  if (error) {
-    throw new Error(`Failed to fetch order: ${error.message}`);
-  }
-
-  return data;
-}
