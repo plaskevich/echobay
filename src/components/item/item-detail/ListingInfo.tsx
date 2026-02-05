@@ -3,14 +3,20 @@ import styled from 'styled-components';
 import { FORMAT_OPTIONS } from '@/lib/constants/listings';
 import { capitalize } from '@/lib/utils';
 
+interface Genre {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface ListingInfoProps {
   format?: string;
   condition?: string;
-  genre?: string;
+  genres?: Genre[];
   label?: string;
 }
 
-export function ListingInfo({ format, condition, genre, label }: ListingInfoProps) {
+export function ListingInfo({ format, condition, genres, label }: ListingInfoProps) {
   const getFormatLabel = (value: string) => {
     const option = FORMAT_OPTIONS.find((opt) => opt.value === value);
     return option?.label || capitalize(value);
@@ -30,10 +36,14 @@ export function ListingInfo({ format, condition, genre, label }: ListingInfoProp
           <InfoValue>{capitalize(condition)}</InfoValue>
         </InfoItem>
       )}
-      {genre && (
+      {genres && genres.length > 0 && (
         <InfoItem>
-          <InfoLabel>Genre</InfoLabel>
-          <InfoValue>{capitalize(genre)}</InfoValue>
+          <InfoLabel>Genre{genres.length > 1 ? 's' : ''}</InfoLabel>
+          <GenreList>
+            {genres.map((genre) => (
+              <GenreTag key={genre.id}>{genre.name}</GenreTag>
+            ))}
+          </GenreList>
         </InfoItem>
       )}
       {label && (
@@ -74,4 +84,20 @@ const InfoValue = styled.span`
   font-size: 1rem;
   color: ${({ theme }) => theme.text.primary};
   font-weight: 600;
+`;
+
+const GenreList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+const GenreTag = styled.span`
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: ${({ theme }) => theme.primary.light};
+  color: ${({ theme }) => theme.primary.main};
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 `;

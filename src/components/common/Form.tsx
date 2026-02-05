@@ -31,7 +31,7 @@ const SelectWrapper = styled.div`
 
 export const StyledSelect = styled.select`
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  padding: 1rem 2.5rem 1rem 1rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: 0.75rem;
   font-size: 1rem;

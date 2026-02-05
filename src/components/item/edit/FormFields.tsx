@@ -2,6 +2,7 @@ import { type ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 import { FormGroup, Input, Label, OptionalLabel, Select, TextArea } from '@/components/common/Form';
+import { GenreSelector } from '@/components/common/GenreSelector';
 import { type ListingFormData } from '@/hooks/useListingSubmit';
 import { CONDITION_OPTIONS, FORMAT_OPTIONS } from '@/lib/constants/listings';
 
@@ -9,9 +10,21 @@ interface FormFieldsProps {
   formData: ListingFormData;
   isSubmitting: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
+  selectedMainGenreIds: string[];
+  selectedSubgenreIds: string[];
+  onMainGenresChange: (genreIds: string[]) => void;
+  onSubgenresChange: (genreIds: string[]) => void;
 }
 
-export function FormFields({ formData, isSubmitting, onChange }: FormFieldsProps) {
+export function FormFields({
+  formData,
+  isSubmitting,
+  onChange,
+  selectedMainGenreIds,
+  selectedSubgenreIds,
+  onMainGenresChange,
+  onSubgenresChange,
+}: FormFieldsProps) {
   return (
     <>
       <FieldsGrid>
@@ -78,20 +91,17 @@ export function FormFields({ formData, isSubmitting, onChange }: FormFieldsProps
           </Select>
         </FormGroup>
 
-        <FormGroup>
-          <Label htmlFor="genre">
-            Genre <OptionalLabel>(optional)</OptionalLabel>
-          </Label>
-          <Input
-            id="genre"
-            name="genre"
-            onChange={onChange}
-            placeholder="e.g., Rock, Jazz, Electronic"
-            type="text"
-            value={formData.genre}
+        <GenreSelectorWrapper>
+          <GenreSelector
+            selectedMainGenreIds={selectedMainGenreIds}
+            selectedSubgenreIds={selectedSubgenreIds}
+            onMainGenresChange={onMainGenresChange}
+            onSubgenresChange={onSubgenresChange}
             disabled={isSubmitting}
+            maxMainGenres={3}
+            maxSubgenres={5}
           />
-        </FormGroup>
+        </GenreSelectorWrapper>
 
         <FormGroup>
           <Label htmlFor="label">
@@ -150,4 +160,8 @@ const FieldsGrid = styled.div`
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
   }
+`;
+
+const GenreSelectorWrapper = styled.div`
+  grid-column: 1 / -1;
 `;

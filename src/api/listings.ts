@@ -7,7 +7,6 @@ export interface ListingData {
   title: string;
   artist: string;
   format: string;
-  genre?: string | null;
   label?: string | null;
   condition?: string | null;
   price: number;
@@ -16,17 +15,51 @@ export interface ListingData {
   status?: ListingStatus;
 }
 
+export interface ListingWithGenres extends ListingData {
+  id: string;
+  created_at: string;
+  listing_genres?: Array<{
+    genres: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  }>;
+}
+
 export async function fetchListing(id: string) {
-  return await supabase.from('listings').select('*').eq('id', id).single();
+  return await supabase
+    .from('listings')
+    .select(
+      `
+      *,
+      listing_genres(
+        genres(id, name, slug)
+      )
+    `
+    )
+    .eq('id', id)
+    .single();
 }
 
 export async function fetchAllListings(searchQuery?: string) {
-  let query = supabase.from('listings').select('*').eq('status', 'active').order('created_at', { ascending: false });
+  let query = supabase
+    .from('listings')
+    .select(
+      `
+      *,
+      listing_genres(
+        genres(id, name, slug)
+      )
+    `
+    )
+    .eq('status', 'active')
+    .order('created_at', { ascending: false });
 
   if (searchQuery && searchQuery.trim()) {
     const searchTerm = `%${searchQuery.trim()}%`;
     query = query.or(
-      `title.ilike.${searchTerm},artist.ilike.${searchTerm},genre.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
+      `title.ilike.${searchTerm},artist.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
     );
   }
 
@@ -34,11 +67,22 @@ export async function fetchAllListings(searchQuery?: string) {
 }
 
 export async function fetchUserListings(userId: string) {
-  return await supabase.from('listings').select('*').eq('owner_id', userId).order('created_at', { ascending: false });
+  return await supabase
+    .from('listings')
+    .select(
+      `
+      *,
+      listing_genres(
+        genres(id, name, slug)
+      )
+    `
+    )
+    .eq('owner_id', userId)
+    .order('created_at', { ascending: false });
 }
 
 export async function createListing(listingData: ListingData) {
-  return await supabase.from('listings').insert(listingData);
+  return await supabase.from('listings').insert(listingData).select('id');
 }
 
 export async function updateListing(id: string, listingData: Partial<ListingData>) {

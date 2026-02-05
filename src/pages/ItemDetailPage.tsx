@@ -51,6 +51,11 @@ export function ItemDetailPage() {
 
   const images = listing.images && listing.images.length > 0 ? listing.images : [placeholder];
 
+  const genres =
+    listing.listing_genres
+      ?.map((lg: { genres: { id: string; name: string; slug: string } }) => lg.genres)
+      .filter(Boolean) || [];
+
   return (
     <Container>
       <BackButton onClick={() => navigate(-1)}>
@@ -73,12 +78,7 @@ export function ItemDetailPage() {
           </TitleSection>
           <Price>{listing.price.toFixed(2)}€</Price>
 
-          <ListingInfo
-            format={listing.format}
-            condition={listing.condition}
-            genre={listing.genre}
-            label={listing.label}
-          />
+          <ListingInfo format={listing.format} condition={listing.condition} genres={genres} label={listing.label} />
 
           {listing.description && (
             <DescriptionSection>

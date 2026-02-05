@@ -144,8 +144,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     setError(null);
 
     try {
-      const proxyUrl = 'https://corsproxy.io/?';
-      const imageUrl = proxyUrl + encodeURIComponent(url);
+      const imageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
       const response = await fetch(imageUrl);
       if (!response.ok) {
         throw new Error('Failed to fetch image from URL');

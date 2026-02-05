@@ -2,13 +2,13 @@ import { type FormEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+import { setListingGenres } from '@/api/genres';
 import { useCreateListing, useUpdateListing } from '@/queries/useListings';
 
 export interface ListingFormData {
   title: string;
   artist: string;
   format: 'vinyl' | 'cd' | 'tape' | '';
-  genre: string;
   label: string;
   condition: string;
   price: string;
@@ -22,6 +22,8 @@ interface UseListingSubmitProps {
   listingId?: string;
   initialData?: Partial<ListingFormData>;
   existingImages?: string[];
+  initialMainGenreIds?: string[];
+  initialSubgenreIds?: string[];
 }
 
 export function useListingSubmit({
@@ -31,6 +33,8 @@ export function useListingSubmit({
   listingId,
   initialData,
   existingImages = [],
+  initialMainGenreIds = [],
+  initialSubgenreIds = [],
 }: UseListingSubmitProps) {
   const navigate = useNavigate();
   const createMutation = useCreateListing();
@@ -42,7 +46,6 @@ export function useListingSubmit({
     title: initialData?.title || '',
     artist: initialData?.artist || '',
     format: initialData?.format || '',
-    genre: initialData?.genre || '',
     label: initialData?.label || '',
     condition: initialData?.condition || '',
     price: initialData?.price || '',
@@ -50,9 +53,14 @@ export function useListingSubmit({
   };
 
   const [formData, setFormData] = useState<ListingFormData>(initialFormData);
+  const [selectedMainGenreIds, setSelectedMainGenreIds] = useState<string[]>(initialMainGenreIds);
+  const [selectedSubgenreIds, setSelectedSubgenreIds] = useState<string[]>(initialSubgenreIds);
+  const selectedGenreIds = [...selectedMainGenreIds, ...selectedSubgenreIds];
 
   const resetForm = () => {
     setFormData(initialFormData);
+    setSelectedMainGenreIds([]);
+    setSelectedSubgenreIds([]);
     resetImages();
   };
 
@@ -80,7 +88,6 @@ export function useListingSubmit({
         title: formData.title,
         artist: formData.artist,
         format: formData.format,
-        genre: formData.genre || null,
         label: formData.label || null,
         condition: formData.condition || null,
         price: parseFloat(formData.price),
@@ -88,10 +95,20 @@ export function useListingSubmit({
         images: allImages,
       };
 
+      let savedListingId: string;
+
       if (isEditMode) {
         await updateMutation.mutateAsync({ id: listingId, data: listingData });
+        savedListingId = listingId;
       } else {
-        await createMutation.mutateAsync(listingData);
+        const result = await createMutation.mutateAsync(listingData);
+        savedListingId = (result as { id: string }[])?.[0]?.id || listingId || '';
+      }
+
+      if (savedListingId && selectedGenreIds.length > 0) {
+        await setListingGenres(savedListingId, selectedGenreIds);
+      } else if (savedListingId && isEditMode) {
+        await setListingGenres(savedListingId, []);
       }
 
       toast.success(`Listing ${isEditMode ? 'updated' : 'created'} successfully!`);
@@ -114,6 +131,11 @@ export function useListingSubmit({
   return {
     formData,
     setFormData,
+    selectedMainGenreIds,
+    setSelectedMainGenreIds,
+    selectedSubgenreIds,
+    setSelectedSubgenreIds,
+    selectedGenreIds,
     isSubmitting: createMutation.isPending || updateMutation.isPending,
     error,
     handleSubmit,
