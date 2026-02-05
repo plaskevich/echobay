@@ -60,7 +60,11 @@ export function TopBar() {
                   menuLabel="Profile options"
                   trigger={({ onClick, ...triggerProps }) => (
                     <IconButton type="button" aria-label="Profile menu" onClick={onClick} {...triggerProps}>
-                      {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <PiUserCircleDuotone />}
+                      {profile?.avatar_url ? (
+                        <img src={profile.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
+                      ) : (
+                        <PiUserCircleDuotone />
+                      )}
                     </IconButton>
                   )}
                 >

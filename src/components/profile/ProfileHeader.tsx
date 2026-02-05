@@ -86,7 +86,9 @@ const ProfilePictureContainer = styled.div`
   flex-shrink: 0;
 `;
 
-export const ProfilePicture = styled.img`
+export const ProfilePicture = styled.img.attrs({
+  referrerPolicy: 'no-referrer',
+})`
   width: 6rem;
   height: 6rem;
   border-radius: 50%;

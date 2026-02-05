@@ -1,9 +1,11 @@
+import { PiHeartDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
+import { useThemeStore } from '@/store/theme-store';
 
 interface FavoriteWithListing {
   id: string;
@@ -15,6 +17,7 @@ interface FavoriteWithListing {
 
 export function FavoritesPage() {
   const { user } = useAuthStore();
+  const themeColors = useThemeStore((state) => state.themeColors);
   const { data: favorites = [], isLoading, error } = useUserFavorites(user?.id);
 
   if (!user) {
@@ -54,7 +57,7 @@ export function FavoritesPage() {
 
       {listings.length === 0 ? (
         <EmptyState>
-          <EmptyIcon>♥</EmptyIcon>
+          <PiHeartDuotone size={60} color={themeColors.text.secondary} />
           <EmptyTitle>No favorites yet</EmptyTitle>
           <EmptyText>Start exploring and add items to your favorites by clicking the heart icon.</EmptyText>
         </EmptyState>
@@ -114,17 +117,11 @@ const EmptyState = styled.div`
   text-align: center;
 `;
 
-const EmptyIcon = styled.div`
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  opacity: 0.3;
-`;
-
 const EmptyTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
-  margin: 0 0 0.5rem 0;
+  margin: 2rem 0 0.5rem 0;
 `;
 
 const EmptyText = styled.p`
