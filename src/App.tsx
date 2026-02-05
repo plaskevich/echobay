@@ -24,7 +24,15 @@ export function App() {
   const initialize = useAuthStore((state) => state.initialize);
 
   useEffect(() => {
-    initialize();
+    let cleanup: (() => void) | undefined;
+
+    initialize().then((cleanupFn) => {
+      cleanup = cleanupFn;
+    });
+
+    return () => {
+      cleanup?.();
+    };
   }, [initialize]);
 
   return (

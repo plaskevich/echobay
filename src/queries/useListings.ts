@@ -10,6 +10,7 @@ import {
   updateListing,
   updateListingStatus,
 } from '@/api/listings';
+import { useAuthStore } from '@/store/auth-store';
 
 export const listingKeys = {
   all: ['listings'] as const,
@@ -21,6 +22,8 @@ export const listingKeys = {
 };
 
 export function useListings(searchQuery?: string) {
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+
   return useQuery({
     queryKey: listingKeys.list({ search: searchQuery }),
     queryFn: async () => {
@@ -28,12 +31,15 @@ export function useListings(searchQuery?: string) {
       if (error) throw error;
       return data || [];
     },
+    enabled: isInitialized,
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes
   });
 }
 
 export function useListing(id: string) {
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+
   return useQuery({
     queryKey: listingKeys.detail(id),
     queryFn: async () => {
@@ -41,7 +47,7 @@ export function useListing(id: string) {
       if (error) throw error;
       return data;
     },
-    enabled: !!id,
+    enabled: !!id && isInitialized,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }

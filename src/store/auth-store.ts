@@ -1,9 +1,11 @@
 import { create } from 'zustand';
 
-import type { User } from '@supabase/supabase-js';
+import type { Subscription, User } from '@supabase/supabase-js';
 
 import { getSession, logInWithEmail, onAuthStateChange, signOut, signUpWithEmail } from '@/api/auth';
 import { upsertProfile } from '@/api/profile';
+
+let authSubscription: Subscription | null = null;
 
 interface AuthState {
   user: User | null;
@@ -14,10 +16,10 @@ interface AuthState {
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   logIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  initialize: () => Promise<void>;
+  initialize: () => Promise<() => void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isLoading: false,
   isInitialized: false,
@@ -77,6 +79,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   initialize: async () => {
+    // Prevent multiple initializations
+    if (get().isInitialized) {
+      return () => {};
+    }
+
     set({ isLoading: true });
     try {
       const {
@@ -87,19 +94,35 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ user: session.user });
       }
 
-      onAuthStateChange(async (_event, session) => {
+      // Clean up existing subscription if any
+      if (authSubscription) {
+        authSubscription.unsubscribe();
+      }
+
+      const { data } = onAuthStateChange(async (_event, session) => {
         set({ user: session?.user ?? null });
         if (session?.user) {
           await createProfile(session.user);
         }
       });
+      authSubscription = data.subscription;
 
       set({ isInitialized: true });
     } catch (error) {
       console.error('Error initializing auth:', error);
+      // Still mark as initialized to prevent queries from being stuck
+      set({ isInitialized: true });
     } finally {
       set({ isLoading: false });
     }
+
+    // Return cleanup function
+    return () => {
+      if (authSubscription) {
+        authSubscription.unsubscribe();
+        authSubscription = null;
+      }
+    };
   },
 }));
 
