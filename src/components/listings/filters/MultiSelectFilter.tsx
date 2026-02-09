@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
+  ApplyButtonWrapper,
   CaretIcon,
   Checkbox,
   CheckboxItem,
@@ -41,7 +42,7 @@ export function MultiSelectFilter({
   onToggle,
   searchable,
 }: MultiSelectFilterProps) {
-  const hasSelection = selectedValues.length > 0;
+  const hasSelection = appliedValues.length > 0;
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,10 +71,6 @@ export function MultiSelectFilter({
       : [...selectedValues, value];
     onChange(newValues);
   };
-
-  const draftDiffersFromApplied =
-    selectedValues.length !== appliedValues.length ||
-    [...selectedValues].sort().join(',') !== [...appliedValues].sort().join(',');
 
   return (
     <FilterDropdownContainer>
@@ -110,9 +107,9 @@ export function MultiSelectFilter({
               </CheckboxItem>
             )}
           </CheckboxList>
-          <DropdownApplyButton disabled={!draftDiffersFromApplied} onClick={onApply}>
-            Apply filters
-          </DropdownApplyButton>
+          <ApplyButtonWrapper>
+            <DropdownApplyButton onClick={onApply}>Apply filters</DropdownApplyButton>
+          </ApplyButtonWrapper>
         </DropdownMenu>
       )}
     </FilterDropdownContainer>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import {
+  ApplyButtonWrapper,
   CaretIcon,
   ClearOption,
   DropdownApplyButton,
@@ -76,9 +77,11 @@ export function PriceRangeFilter({
           </PriceInputs>
           {hasInvalidRange && <ValidationError>Min price must be less than max</ValidationError>}
           {hasValue && <ClearOption onClick={handleClear}>Clear</ClearOption>}
-          <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
-            Apply
-          </DropdownApplyButton>
+          <ApplyButtonWrapper>
+            <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
+              Apply
+            </DropdownApplyButton>
+          </ApplyButtonWrapper>
         </DropdownMenu>
       )}
     </FilterDropdownContainer>

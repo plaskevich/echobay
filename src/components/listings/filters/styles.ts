@@ -125,9 +125,16 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   }
 `;
 
-export const DropdownApplyButton = styled.button`
+export const ApplyButtonWrapper = styled.div`
   position: sticky;
-  bottom: 0;
+  bottom: -0.4rem;
+  z-index: 2;
+  margin: 0 -0.4rem -0.4rem -0.4rem;
+  padding: 0.25rem 0.4rem 0.4rem 0.4rem;
+  background-color: ${({ theme }) => theme.background.primary};
+`;
+
+export const DropdownApplyButton = styled.button`
   width: 100%;
   padding: 0.625rem 0.75rem;
   border: none;
@@ -139,16 +146,9 @@ export const DropdownApplyButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
-  z-index: 2;
 
   &:hover {
     background-color: ${({ theme }) => theme.primary.hover};
-  }
-
-  &:disabled {
-    background-color: ${({ theme }) => theme.background.secondary};
-    color: ${({ theme }) => theme.text.tertiary};
-    cursor: auto;
   }
 `;
 
