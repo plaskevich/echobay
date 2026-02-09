@@ -79,7 +79,7 @@ export function AuthForm({
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      <Button type="submit" fullWidth isLoading={isLoading}>
+      <Button type="submit" fullWidth isLoading={isLoading} data-testid="auth-submit-button">
         {mode === 'login' ? 'Log In' : 'Sign Up'}
       </Button>
     </Form>

@@ -9,7 +9,7 @@ export function AuthToggle({ mode, onToggle }: AuthToggleProps) {
   return (
     <ToggleText>
       {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
-      <ToggleButton type="button" onClick={onToggle}>
+      <ToggleButton type="button" onClick={onToggle} data-testid="auth-toggle-button">
         {mode === 'login' ? 'Sign Up' : 'Log In'}
       </ToggleButton>
     </ToggleText>
