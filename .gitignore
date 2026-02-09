@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 .env
 
-# TanStack Router
-routeTree.gen.ts
+supabase/.temp/*

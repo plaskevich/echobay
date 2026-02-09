@@ -1,8 +1,6 @@
-const DISCOGS_API_BASE = 'https://api.discogs.com';
-const USER_AGENT = 'EchoBay/1.0 +https://github.com/plaskevich/EchoBay';
+import { supabase } from '@/lib/supabase';
 
-const DISCOGS_KEY = import.meta.env.VITE_DISCOGS_KEY || '';
-const DISCOGS_SECRET = import.meta.env.VITE_DISCOGS_SECRET || '';
+const SUPABASE_FUNCTIONS_URL = import.meta.env.VITE_SUPABASE_URL + '/functions/v1';
 
 export interface DiscogsSearchResult {
   id: number;
@@ -35,19 +33,42 @@ interface DiscogsSearchResponse {
   };
 }
 
-function getAuthParams(): Record<string, string> {
-  if (DISCOGS_KEY && DISCOGS_SECRET) {
-    return { key: DISCOGS_KEY, secret: DISCOGS_SECRET };
+async function callDiscogsProxy(body: Record<string, unknown>) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const token = session?.access_token || import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  const response = await fetch(`${SUPABASE_FUNCTIONS_URL}/discogs-proxy`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => null);
+    const message = errorData?.error || `Discogs API error: ${response.status} ${response.statusText}`;
+
+    if (response.status === 401) {
+      throw new Error('Authentication failed. Please check your Discogs API credentials.');
+    } else if (response.status === 429) {
+      throw new Error('Rate limit exceeded. Please wait a moment and try again.');
+    }
+    throw new Error(message);
   }
-  return {};
+
+  return response.json();
 }
 
 export function isDiscogsConfigured(): boolean {
-  return !!(DISCOGS_KEY && DISCOGS_SECRET);
+  return true;
 }
 
 export function getSetupMessage(): string {
-  return 'Discogs API credentials not found. Add VITE_DISCOGS_KEY and VITE_DISCOGS_SECRET to your .env file. See DISCOGS_SETUP.md for instructions.';
+  return 'Discogs API credentials not configured on the server. Set DISCOGS_KEY and DISCOGS_SECRET as Supabase secrets.';
 }
 
 export async function searchDiscogs(query: string): Promise<DiscogsSearchResult[]> {
@@ -55,36 +76,8 @@ export async function searchDiscogs(query: string): Promise<DiscogsSearchResult[
     return [];
   }
 
-  if (!isDiscogsConfigured()) {
-    throw new Error(getSetupMessage());
-  }
-
   try {
-    const params = new URLSearchParams({
-      q: query,
-      type: 'master',
-      per_page: '10',
-      ...getAuthParams(),
-    });
-
-    const response = await fetch(`${DISCOGS_API_BASE}/database/search?${params}`, {
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('Authentication failed. Please check your Discogs API credentials.');
-      } else if (response.status === 429) {
-        throw new Error('Rate limit exceeded. Please wait a moment and try again.');
-      } else {
-        throw new Error(`Discogs API error: ${response.status} ${response.statusText}`);
-      }
-    }
-
-    const data: DiscogsSearchResponse = await response.json();
+    const data: DiscogsSearchResponse = await callDiscogsProxy({ action: 'search', query });
     return data.results || [];
   } catch (error) {
     console.error('Error searching Discogs:', error);
@@ -97,27 +90,7 @@ export async function searchDiscogs(query: string): Promise<DiscogsSearchResult[
 
 export async function getDiscogsRelease(releaseId: number): Promise<DiscogsRelease> {
   try {
-    const params = new URLSearchParams(getAuthParams());
-    const url = `${DISCOGS_API_BASE}/masters/${releaseId}${params.toString() ? '?' + params.toString() : ''}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('Authentication failed. Please check your Discogs API credentials.');
-      } else if (response.status === 429) {
-        throw new Error('Rate limit exceeded. Please wait a moment and try again.');
-      } else {
-        throw new Error(`Discogs API error: ${response.status} ${response.statusText}`);
-      }
-    }
-
-    const data: DiscogsRelease = await response.json();
+    const data: DiscogsRelease = await callDiscogsProxy({ action: 'release', releaseId });
     return data;
   } catch (error) {
     console.error('Error fetching Discogs release:', error);
