@@ -11,7 +11,6 @@ export function Auth() {
     password,
     confirmPassword,
     error,
-    success,
     isLoading,
     setEmail,
     setPassword,
@@ -33,7 +32,6 @@ export function Auth() {
           password={password}
           confirmPassword={confirmPassword}
           error={error}
-          success={success}
           isLoading={isLoading}
           onEmailChange={setEmail}
           onPasswordChange={setPassword}
