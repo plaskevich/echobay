@@ -1,7 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
   type ListingData,
+  type ListingFilters,
   createListing,
   deleteListing,
   fetchAllListings,
@@ -12,27 +13,41 @@ import {
 } from '@/api/listings';
 import { useAuthStore } from '@/store/auth-store';
 
+function normalizeFilters(filters?: ListingFilters): ListingFilters {
+  if (!filters) return {};
+  const normalized: ListingFilters = {};
+  if (filters.search) normalized.search = filters.search;
+  if (filters.formats?.length) normalized.formats = [...filters.formats].sort();
+  if (filters.conditions?.length) normalized.conditions = [...filters.conditions].sort();
+  if (filters.genres?.length) normalized.genres = [...filters.genres].sort();
+  if (filters.minPrice !== undefined) normalized.minPrice = filters.minPrice;
+  if (filters.maxPrice !== undefined) normalized.maxPrice = filters.maxPrice;
+  return normalized;
+}
+
 export const listingKeys = {
   all: ['listings'] as const,
   lists: () => [...listingKeys.all, 'list'] as const,
-  list: (filters?: { search?: string }) => [...listingKeys.lists(), filters] as const,
+  list: (filters?: ListingFilters) => [...listingKeys.lists(), normalizeFilters(filters)] as const,
   details: () => [...listingKeys.all, 'detail'] as const,
   detail: (id: string) => [...listingKeys.details(), id] as const,
   userListings: (userId: string) => [...listingKeys.all, 'user', userId] as const,
 };
 
-export function useListings(searchQuery?: string) {
+export function useListings(filters?: ListingFilters) {
   const isInitialized = useAuthStore((state) => state.isInitialized);
+  const normalizedFilters = normalizeFilters(filters);
 
   return useQuery({
-    queryKey: listingKeys.list({ search: searchQuery }),
+    queryKey: listingKeys.list(normalizedFilters),
     queryFn: async () => {
-      const { data, error } = await fetchAllListings(searchQuery);
+      const { data, error } = await fetchAllListings(normalizedFilters);
       if (error) throw error;
       return data || [];
     },
     enabled: isInitialized,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    placeholderData: keepPreviousData,
+    staleTime: 1000 * 30, // 30 seconds
     gcTime: 1000 * 60 * 10, // 10 minutes
   });
 }

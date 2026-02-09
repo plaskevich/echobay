@@ -27,6 +27,15 @@ export interface ListingWithGenres extends ListingData {
   }>;
 }
 
+export interface ListingFilters {
+  search?: string;
+  formats?: string[];
+  conditions?: string[];
+  genres?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+}
+
 export async function fetchListing(id: string) {
   return await supabase
     .from('listings')
@@ -42,28 +51,58 @@ export async function fetchListing(id: string) {
     .single();
 }
 
-export async function fetchAllListings(searchQuery?: string) {
-  let query = supabase
-    .from('listings')
-    .select(
-      `
+export async function fetchAllListings(filters?: ListingFilters) {
+  const hasGenreFilter = filters?.genres && filters.genres.length > 0;
+
+  const selectQuery = hasGenreFilter
+    ? `
+      *,
+      listing_genres!inner(
+        genre_id,
+        genres(id, name, slug)
+      )
+    `
+    : `
       *,
       listing_genres(
         genres(id, name, slug)
       )
-    `
-    )
+    `;
+
+  let query = supabase
+    .from('listings')
+    .select(selectQuery)
     .eq('status', 'active')
     .order('created_at', { ascending: false });
 
-  if (searchQuery && searchQuery.trim()) {
-    const searchTerm = `%${searchQuery.trim()}%`;
+  if (filters?.search?.trim()) {
+    const searchTerm = `%${filters.search.trim()}%`;
     query = query.or(
       `title.ilike.${searchTerm},artist.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
     );
   }
 
-  return await query.limit(20);
+  if (filters?.formats && filters.formats.length > 0) {
+    query = query.in('format', filters.formats);
+  }
+
+  if (filters?.conditions && filters.conditions.length > 0) {
+    query = query.in('condition', filters.conditions);
+  }
+
+  if (filters?.minPrice !== undefined) {
+    query = query.gte('price', filters.minPrice);
+  }
+
+  if (filters?.maxPrice !== undefined) {
+    query = query.lte('price', filters.maxPrice);
+  }
+
+  if (hasGenreFilter) {
+    query = query.in('listing_genres.genre_id', filters.genres!);
+  }
+
+  return await query.limit(100);
 }
 
 export async function fetchUserListings(userId: string) {

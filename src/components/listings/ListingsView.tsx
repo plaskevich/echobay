@@ -1,45 +1,60 @@
+import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import type { ListingFilters } from '@/api/listings';
 import { ListingCard } from '@/components/listings/ListingCard';
+import { FilterBar } from '@/components/listings/filters/FilterBar';
+import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { useListings } from '@/queries/useListings';
 
 export function ListingsView() {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
-  const { data: listings = [], isLoading, error } = useListings(searchQuery);
+  const [filters, setFilters] = useState<ListingFilters>({});
+  const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({});
+
+  const handleApply = useCallback((filtersToApply: ListingFilters) => {
+    setAppliedFilters(filtersToApply);
+  }, []);
+
+  const combinedFilters = useMemo(
+    () => ({
+      ...appliedFilters,
+      search: searchQuery || undefined,
+    }),
+    [appliedFilters, searchQuery]
+  );
+
+  const { data: listings = [], isLoading, error } = useListings(combinedFilters);
+
+  let content: React.ReactNode;
 
   if (isLoading) {
-    return (
-      <>
-        <Title>Items</Title>
-        <LoadingText>Loading listings...</LoadingText>
-      </>
+    content = <LoadingText>Loading listings...</LoadingText>;
+  } else if (error) {
+    content = <ErrorText>Error: {error instanceof Error ? error.message : 'An error occurred'}</ErrorText>;
+  } else if (listings.length === 0) {
+    content = (
+      <EmptyText>
+        {searchQuery.trim() || hasActiveFilters(appliedFilters) ? 'No items match your filters.' : 'No listings found.'}
+      </EmptyText>
     );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Title>Items</Title>
-        <ErrorText>Error: {error instanceof Error ? error.message : 'An error occurred'}</ErrorText>
-      </>
+  } else {
+    content = (
+      <Grid>
+        {listings.map((listing) => (
+          <ListingCard key={listing.id} listing={listing} />
+        ))}
+      </Grid>
     );
   }
 
   return (
     <>
       <Title>Items</Title>
-
-      {listings.length === 0 ? (
-        <EmptyText>{searchQuery.trim() ? 'No items match your search.' : 'No listings found.'}</EmptyText>
-      ) : (
-        <Grid>
-          {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </Grid>
-      )}
+      <FilterBar filters={filters} appliedFilters={appliedFilters} onFiltersChange={setFilters} onApply={handleApply} />
+      {content}
     </>
   );
 }
