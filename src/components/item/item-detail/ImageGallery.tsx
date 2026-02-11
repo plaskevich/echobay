@@ -262,7 +262,7 @@ const FavoriteButton = styled.button`
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  background: ${({ theme }) => theme.overlay.dark};
+  background: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.favorite};
   border: none;
   width: 3rem;

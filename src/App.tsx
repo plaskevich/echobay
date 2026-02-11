@@ -13,6 +13,7 @@ import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
+import MessagesPage from '@/pages/MessagesPage';
 import OrdersPage from '@/pages/OrdersPage';
 import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
@@ -43,6 +44,7 @@ export function App() {
             <Route index element={<ListingsView />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/profile/edit" element={<ProfileEditForm />} />

@@ -1,5 +1,6 @@
 import {
   PiBasketBold,
+  PiChatCircleDuotone,
   PiGearBold,
   PiHeartDuotone,
   PiMoonDuotone,
@@ -19,6 +20,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
 import { SearchBar } from '@/components/navigation/SearchBar';
+import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
@@ -28,8 +30,11 @@ export function TopBar() {
   const { user } = useAuthStore();
   const signOut = useAuthStore((state) => state.signOut);
   const { data: profile } = useProfile(user?.id);
+  const { data: unreadChats } = useUnreadChats();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const hasUnread = unreadChats ? unreadChats.size > 0 : false;
 
   const handleLogout = async () => {
     await signOut();
@@ -55,6 +60,14 @@ export function TopBar() {
                   <IconButton aria-label="Favorites">
                     <PiHeartDuotone />
                   </IconButton>
+                </Link>
+                <Link to="/messages">
+                  <IconButtonWrapper>
+                    <IconButton aria-label="Messages">
+                      <PiChatCircleDuotone />
+                    </IconButton>
+                    {hasUnread && <NavUnreadDot />}
+                  </IconButtonWrapper>
                 </Link>
                 <Dropdown
                   menuLabel="Profile options"
@@ -175,4 +188,20 @@ const IconButton = styled.button`
     color: ${(props) => props.theme.primary.main};
     background-color: ${(props) => props.theme.primary.light};
   }
+`;
+
+const IconButtonWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+`;
+
+const NavUnreadDot = styled.span`
+  position: absolute;
+  top: 0.6rem;
+  right: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 100rem;
+  background-color: ${(props) => props.theme.state.error};
+  pointer-events: none;
 `;

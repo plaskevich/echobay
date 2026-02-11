@@ -5,6 +5,8 @@ export interface ThemeColors {
     primary: string;
     secondary: string;
     tertiary: string;
+    primaryHover: string;
+    secondaryHover: string;
   };
   text: {
     primary: string;
@@ -56,18 +58,20 @@ export interface ThemeColors {
 
 export const lightTheme: ThemeColors = {
   background: {
-    primary: '#ffffff',
-    secondary: '#fafafa',
-    tertiary: '#f5f5f5',
+    primary: '#F5F5F5',
+    secondary: '#E7E7E7',
+    tertiary: '#EEEEEE',
+    primaryHover: '#F0F0F0',
+    secondaryHover: '#DEDEDE',
   },
   text: {
     primary: '#0a0a0a',
     secondary: '#525252',
-    tertiary: '#737373',
+    tertiary: '#515151',
     muted: '#6b7280',
   },
   border: {
-    primary: '#e5e5e5',
+    primary: '#D0D0D0',
     hover: '#d4d4d4',
   },
   primary: {
@@ -111,13 +115,15 @@ export const lightTheme: ThemeColors = {
 export const darkTheme: ThemeColors = {
   background: {
     primary: '#0a0a0a',
-    secondary: '#141414',
-    tertiary: '#1a1a2e',
+    secondary: '#1B1B1B',
+    tertiary: '#111117',
+    primaryHover: '#161616',
+    secondaryHover: '#262626',
   },
   text: {
-    primary: '#fafafa',
+    primary: '#EFEFEF',
     secondary: '#a3a3a3',
-    tertiary: '#4d515c',
+    tertiary: '#61656F',
     muted: '#9ca3af',
   },
   border: {
@@ -130,9 +136,9 @@ export const darkTheme: ThemeColors = {
     light: '#16213e',
   },
   state: {
-    success: '#8bd0b9',
+    success: '#5FCFAA',
     warning: '#fbbf24',
-    error: '#e2839d',
+    error: '#C84B6C',
     info: '#8ec8f6',
   },
   status: {
