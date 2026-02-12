@@ -204,7 +204,7 @@ const ClearAllButton = styled.button`
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
@@ -231,7 +231,7 @@ const FilterPill = styled.div`
   padding: 0.375rem 0.5rem 0.375rem 0.75rem;
   background-color: ${({ theme }) => theme.background.tertiary};
   color: ${({ theme }) => theme.text.primary};
-  border-radius: 2rem;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: 0.8125rem;
   font-weight: 500;
 
@@ -251,7 +251,7 @@ const PillRemoveButton = styled.button`
   height: 1.25rem;
   padding: 0;
   border: none;
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: transparent;
   color: ${({ theme }) => theme.text.primary};
   cursor: pointer;

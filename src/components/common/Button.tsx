@@ -137,7 +137,7 @@ const StyledButton = styled.button.withConfig({
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
@@ -178,7 +178,7 @@ const Spinner = styled.span`
   height: 1rem;
   border: 1px solid ${({ theme }) => theme.spinner.background};
   border-top-color: ${({ theme }) => theme.spinner.foreground};
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   animation: spin 0.6s linear infinite;
 
   @keyframes spin {

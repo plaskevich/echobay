@@ -169,7 +169,7 @@ const IconButton = styled.button`
   color: ${(props) => props.theme.text.secondary};
   background: none;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
@@ -179,7 +179,7 @@ const IconButton = styled.button`
   img {
     width: 1.5rem;
     height: 1.5rem;
-    border-radius: 9999px;
+    border-radius: ${(props) => props.theme.borderRadius.full};
     object-fit: cover;
     display: block;
   }
@@ -201,7 +201,7 @@ const NavUnreadDot = styled.span`
   right: 0.5rem;
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 100rem;
+  border-radius: ${(props) => props.theme.borderRadius.full};
   background-color: ${(props) => props.theme.state.error};
   pointer-events: none;
 `;

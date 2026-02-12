@@ -1,5 +1,12 @@
 export type Theme = 'light' | 'dark';
 
+export interface BorderRadius {
+  sm: string;
+  md: string;
+  lg: string;
+  full: string;
+}
+
 export interface ThemeColors {
   background: {
     primary: string;
@@ -54,7 +61,15 @@ export interface ThemeColors {
     background: string;
     foreground: string;
   };
+  borderRadius: BorderRadius;
 }
+
+const borderRadius: BorderRadius = {
+  sm: '0.5rem',
+  md: '0.75rem',
+  lg: '1rem',
+  full: '9999px',
+};
 
 export const lightTheme: ThemeColors = {
   background: {
@@ -110,6 +125,7 @@ export const lightTheme: ThemeColors = {
     background: 'rgba(255, 255, 255, 0.3)',
     foreground: '#ffffff',
   },
+  borderRadius,
 };
 
 export const darkTheme: ThemeColors = {
@@ -166,6 +182,7 @@ export const darkTheme: ThemeColors = {
     background: 'rgba(255, 255, 255, 0.2)',
     foreground: '#ffffff',
   },
+  borderRadius,
 };
 
 export const themes = {

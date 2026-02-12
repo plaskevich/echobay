@@ -76,7 +76,7 @@ const ChatItemAvatar = styled.div<{ $hasImage?: boolean }>`
   flex-shrink: 0;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   overflow: hidden;
   background: ${({ theme, $hasImage }) => ($hasImage ? 'transparent' : theme.background.tertiary)};
   display: flex;
@@ -133,7 +133,7 @@ const ChatItemTimestamp = styled.span<{ $unread?: boolean }>`
 const UnreadDot = styled.span`
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 100rem;
+  border-radius: ${(props) => props.theme.borderRadius.full};
   background-color: ${(props) => props.theme.primary.main};
 `;
 
@@ -173,5 +173,5 @@ const ChatItemThumbnail = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
-  border-radius: 0.3rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;

@@ -10,7 +10,7 @@ export const ImagePreviewContainer = styled.div`
 export const ImagePreview = styled.div`
   position: relative;
   aspect-ratio: 1;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
   border: 1px solid ${(props) => props.theme.border.primary};
 `;
@@ -28,7 +28,7 @@ export const RemoveImageButton = styled.button`
   background-color: ${(props) => props.theme.overlay.dark};
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: ${(props) => props.theme.borderRadius.full};
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;

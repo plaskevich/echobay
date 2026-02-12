@@ -64,7 +64,7 @@ export function App() {
             background: themeColors.background.secondary,
             color: themeColors.text.primary,
             border: `1px solid ${themeColors.border.primary}`,
-            borderRadius: '0.5rem',
+            borderRadius: themeColors.borderRadius.sm,
             padding: '0.75rem 1rem',
             boxShadow: `0 0.25rem 0.75rem ${themeColors.shadow.medium}`,
           },

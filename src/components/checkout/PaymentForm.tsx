@@ -129,7 +129,7 @@ const OrderAmount = styled.div`
   align-items: center;
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.secondary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
@@ -159,7 +159,7 @@ const Label = styled.label`
 const CardElementWrapper = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   transition: all 0.2s;
 
@@ -179,7 +179,7 @@ const TestModeNotice = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   margin-top: 1rem;
 `;
 
@@ -198,7 +198,7 @@ const NoticeText = styled.div`
   code {
     padding: 0.125rem 0.375rem;
     background-color: ${({ theme }) => theme.background.primary};
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.borderRadius.sm};
     font-family: monospace;
     font-size: 0.875rem;
   }

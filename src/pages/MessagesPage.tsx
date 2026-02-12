@@ -204,7 +204,7 @@ const Layout = styled.div`
   flex: 1;
   min-height: 400px;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 1rem;
+  border-radius: ${(props) => props.theme.borderRadius.lg};
   overflow: hidden;
 
   @media (max-width: 768px) {

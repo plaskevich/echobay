@@ -62,7 +62,7 @@ const InfoGrid = styled.div`
   gap: 1rem;
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.background.secondary};
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-sizing: border-box;
   width: 100%;
@@ -97,7 +97,7 @@ const GenreTag = styled.span`
   padding: 0.25rem 0.75rem;
   background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.primary.main};
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   font-size: 0.875rem;
   font-weight: 500;
 `;

@@ -148,14 +148,14 @@ const ItemCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const ItemImage = styled.img`
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const ItemInfo = styled.div`
@@ -187,7 +187,7 @@ const AddressCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const AddressLine = styled.div`
@@ -200,7 +200,7 @@ const PaymentCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const PaymentText = styled.div`
@@ -221,7 +221,7 @@ const TotalSection = styled.div`
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.background.secondary};
   border: 2px solid ${({ theme }) => theme.primary.main};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   margin-top: 1rem;
 `;
 
@@ -241,7 +241,7 @@ const ErrorText = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.state.error}22;
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   color: ${({ theme }) => theme.state.error};
   font-size: 0.875rem;
 `;

@@ -167,7 +167,7 @@ const ProgressStep = styled.div<{ active: boolean; completed: boolean }>`
 const StepNumber = styled.div<{ active: boolean; completed: boolean }>`
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -11,7 +11,7 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
   font-size: 0.875rem;
@@ -43,7 +43,7 @@ export const DropdownMenu = styled.div`
   padding: 0.4rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: 0 6px 12px -6px ${({ theme }) => theme.shadow.medium};
   z-index: 100;
 `;
@@ -53,7 +53,7 @@ export const ClearOption = styled.button`
   padding: 0.6rem 0.75rem;
   margin-top: 0.25rem;
   border: none;
-  border-radius: 0.6rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background: none;
   cursor: pointer;
   color: ${({ theme }) => theme.state.error};
@@ -79,7 +79,7 @@ export const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.secondary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.8125rem;
@@ -112,7 +112,7 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   font-size: 0.875rem;
   color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.secondary)};
   font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
-  border-radius: 0.6rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   transition: all 0.15s ease;
 
   &:hover {
@@ -139,7 +139,7 @@ export const DropdownApplyButton = styled.button`
   padding: 0.625rem 0.75rem;
   border: none;
   border-top: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.6rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.8125rem;
@@ -156,7 +156,7 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
   border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
-  border-radius: 0.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.background.primary)};
   transition: all 0.15s ease;
   flex-shrink: 0;

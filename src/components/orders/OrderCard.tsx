@@ -53,7 +53,7 @@ export default function OrderCard({ order }: OrderCardProps) {
 const Card = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 1rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
   transition: all 0.2s;
   box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
@@ -90,7 +90,7 @@ const OrderImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
 
   @media (max-width: 768px) {
     aspect-ratio: 1 / 1;
@@ -149,7 +149,7 @@ const DetailValue = styled.span`
 
 const StatusBadge = styled.span<{ status: string }>`
   display: inline-block;
-  border-radius: 0.5rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;

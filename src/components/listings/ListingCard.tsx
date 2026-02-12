@@ -110,7 +110,7 @@ const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 1rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   padding: 1.5rem;
   box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
   transition: all 0.2s;
@@ -133,7 +133,7 @@ const ListingImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
 `;
 
 const ListingTitle = styled.h3`
@@ -180,7 +180,7 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   left: 0;
   right: 0;
   padding: 0.5rem 1rem;
-  border-radius: 0 0 0.75rem 0.75rem;
+  border-radius: 0 0 ${(props) => props.theme.borderRadius.md} ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) =>
     props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
   color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};

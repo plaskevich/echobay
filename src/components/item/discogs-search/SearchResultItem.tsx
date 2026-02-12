@@ -30,7 +30,7 @@ const ResultItem = styled.button`
   padding: 0.75rem;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   cursor: pointer;
   text-align: left;
   transition: all 0.2s;
@@ -50,7 +50,7 @@ const ResultImage = styled.img`
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   flex-shrink: 0;
 `;
 

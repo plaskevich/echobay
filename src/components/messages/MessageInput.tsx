@@ -46,7 +46,7 @@ const MessageInputWrapper = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) => props.theme.background.tertiary};
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
 `;
 

@@ -65,7 +65,7 @@ const AvatarSection = styled.div`
   gap: 1.5rem;
   padding: 2rem;
   background: ${(props) => props.theme.background.secondary};
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid ${(props) => props.theme.border.primary};
   margin-bottom: 2rem;
 `;

@@ -111,7 +111,7 @@ const PriceInput = styled.input<{ $hasError?: boolean }>`
   width: 80px;
   padding: 0.625rem 0.75rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: 0.6rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;

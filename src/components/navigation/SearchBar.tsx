@@ -84,9 +84,9 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
-  background-color: ${(props) => props.theme.background.primary};
+  background-color: ${(props) => props.theme.background.tertiary};
   color: ${(props) => props.theme.text.primary};
   box-sizing: border-box;
 
@@ -126,7 +126,7 @@ const ClearButton = styled.button`
   align-items: center;
   font-size: 1.25rem;
   padding: 0.25rem;
-  border-radius: 0.375rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   transition: all 0.2s;
 
   &:hover {

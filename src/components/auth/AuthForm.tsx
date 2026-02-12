@@ -97,7 +97,7 @@ const ErrorMessage = styled.div`
   background-color: ${({ theme }) => theme.state.error}20;
   color: ${({ theme }) => theme.state.error};
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: 0.875rem;
 `;
 
@@ -110,7 +110,7 @@ const GoogleButton = styled.button`
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;

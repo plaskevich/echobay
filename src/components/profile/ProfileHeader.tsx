@@ -71,8 +71,8 @@ const Header = styled.div`
   align-items: center;
   gap: 2rem;
   padding: 2rem;
-  background: ${(props) => props.theme.background.secondary};
-  border-radius: 0.75rem;
+  background: ${(props) => props.theme.background.tertiary};
+  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid ${(props) => props.theme.border.primary};
   margin-bottom: 2rem;
 
@@ -91,7 +91,7 @@ export const ProfilePicture = styled.img.attrs({
 })`
   width: 6rem;
   height: 6rem;
-  border-radius: 50%;
+  border-radius: ${(props) => props.theme.borderRadius.full};
   object-fit: cover;
   border: 2px solid ${(props) => props.theme.border.primary};
 `;
@@ -99,7 +99,7 @@ export const ProfilePicture = styled.img.attrs({
 export const Placeholder = styled.div`
   width: 6rem;
   height: 6rem;
-  border-radius: 50%;
+  border-radius: ${(props) => props.theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -156,7 +156,7 @@ const InputContainer = styled.div<{ $isOpen: boolean; $disabled: boolean }>`
   align-items: center;
   padding: 0.625rem 0.75rem;
   border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.primary.main : theme.border.primary)};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
   opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
@@ -184,7 +184,7 @@ const Tag = styled.span`
   padding: 0.25rem 0.5rem;
   background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.primary.main};
-  border-radius: 0.375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.875rem;
   font-weight: 500;
 `;
@@ -249,7 +249,7 @@ const Dropdown = styled.div`
   overflow-y: auto;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 100;
 `;
@@ -265,11 +265,11 @@ const DropdownItem = styled.div<{ $disabled?: boolean }>`
   }
 
   &:first-child {
-    border-radius: 0.75rem 0.75rem 0 0;
+    border-radius: ${({ theme }) => theme.borderRadius.md} ${({ theme }) => theme.borderRadius.md} 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 0.75rem 0.75rem;
+    border-radius: 0 0 ${({ theme }) => theme.borderRadius.md} ${({ theme }) => theme.borderRadius.md};
   }
 `;
 

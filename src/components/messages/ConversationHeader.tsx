@@ -54,7 +54,7 @@ const ItemImage = styled.img`
   width: 56px;
   height: 56px;
   object-fit: cover;
-  border-radius: 0.3rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;
 
 const ItemDetails = styled.div`

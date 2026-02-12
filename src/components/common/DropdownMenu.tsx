@@ -157,7 +157,7 @@ const DropdownPanel = styled.div.withConfig({
   max-width: calc(100vw - 1rem);
   padding: 0.4rem;
   box-sizing: border-box;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   background: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: 0 6px 12px -6px ${(props) => props.theme.shadow.medium};
@@ -167,7 +167,7 @@ const DropdownPanel = styled.div.withConfig({
 const dropdownItemStyles = css`
   width: 100%;
   box-sizing: border-box;
-  border-radius: 0.6rem;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   padding: 0.6rem 0.75rem;
   font-size: 1rem;
   color: ${(props) => props.theme.text.secondary};

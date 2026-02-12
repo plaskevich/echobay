@@ -57,7 +57,7 @@ const AuthContainer = styled.div`
 const AuthCard = styled.div`
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: 1.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: 3rem;
   width: 100%;
   max-width: 450px;

@@ -9,7 +9,7 @@ export const ErrorMessage = styled.div`
 export const WarningMessage = styled.div`
   color: ${(props) => props.theme.state.warning};
   padding: 1rem;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.state.warning};
   margin-bottom: 1rem;
@@ -18,7 +18,7 @@ export const WarningMessage = styled.div`
 export const InfoMessage = styled.div`
   color: ${(props) => props.theme.text.secondary};
   padding: 1rem;
-  border-radius: 0.75rem;
+  border-radius: ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
   margin-bottom: 1rem;

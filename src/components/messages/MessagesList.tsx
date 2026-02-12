@@ -41,7 +41,7 @@ const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
   max-width: 75%;
   padding: 0.5rem 1rem;
-  border-radius: 10rem;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   border: 1px solid ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.border.primary)};
   background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.tertiary)};
   color: ${({ theme, $isOwn }) => ($isOwn ? 'white' : theme.text.primary)};
