@@ -17,10 +17,12 @@ import {
   DropdownMenuLink,
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
+import { Logo } from '@/components/common/Logo';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
+import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
   const { user } = useAuthStore();
@@ -29,6 +31,7 @@ export function TopBar() {
   const { data: unreadChats } = useUnreadChats();
   const location = useLocation();
   const navigate = useNavigate();
+  const { themeColors } = useThemeStore();
 
   const hasUnread = unreadChats ? unreadChats.size > 0 : false;
 
@@ -42,7 +45,7 @@ export function TopBar() {
       <NavContainer>
         <NavContent>
           <LogoLink to="/" onClick={() => location.pathname === '/'}>
-            <Logo>EchoBay</Logo>
+            <Logo color={themeColors.text.muted} height={40} style={{ display: 'block' }} />
           </LogoLink>
           <SearchBar />
 
@@ -139,16 +142,13 @@ const NavContent = styled.div`
 `;
 
 const LogoLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-`;
+  svg text {
+    transition: fill 0.2s;
+  }
 
-const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.secondary};
+  &:hover svg text {
+    fill: ${(props) => props.theme.text.accent};
+  }
 `;
 
 const RightSection = styled.div`

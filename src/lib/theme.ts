@@ -21,6 +21,7 @@ export interface ThemeColors {
     secondary: string;
     tertiary: string;
     muted: string;
+    accent: string;
   };
   border: {
     primary: string;
@@ -86,15 +87,16 @@ export const lightTheme: ThemeColors = {
     secondary: '#525252',
     tertiary: '#515151',
     muted: '#6b7280',
+    accent: '#3E86F9',
   },
   border: {
     primary: '#D0D0D0',
     hover: '#d4d4d4',
   },
   primary: {
-    main: '#0588f0',
-    hover: '#0d74ce',
-    light: '#E3F2FD',
+    main: '#3a86ff',
+    hover: '#3272D8',
+    light: '#DCE9FA',
   },
   state: {
     success: '#509109',
@@ -143,15 +145,16 @@ export const darkTheme: ThemeColors = {
     secondary: '#a3a3a3',
     tertiary: '#61656F',
     muted: '#9ca3af',
+    accent: '#6DA4FC',
   },
   border: {
     primary: '#4d515c',
     hover: '#404040',
   },
   primary: {
-    main: '#0588f0',
-    hover: '#0d74ce',
-    light: '#16213e',
+    main: '#3F79D7',
+    hover: '#2D69CA',
+    light: '#0A122B',
   },
   state: {
     success: '#5FCFAA',
