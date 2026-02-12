@@ -1,40 +1,39 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { InfoMessage } from '@/components/common/Message';
+import SettingsContent from '@/components/settings/SettingsContent';
+import SettingsSidebar, { type SettingsSection } from '@/components/settings/SettingsSidebar';
 import { useAuthStore } from '@/store/auth-store';
 
 export default function SettingsPage() {
   const { user } = useAuthStore();
+  const [activeSection, setActiveSection] = useState<SettingsSection>('email');
 
   if (!user) {
     return (
       <Container>
-        <InfoMessage>Please log in to view settings.</InfoMessage>
+        <InfoMessage>Please log in to view settings</InfoMessage>
       </Container>
     );
   }
 
   return (
     <Container>
-      <Header>
-        <Title>Settings</Title>
-      </Header>
+      <SettingsSidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <SettingsContent activeSection={activeSection} />
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
-`;
+  margin: 4rem auto;
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
 
-const Header = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.primary};
-  margin: 0 0 0.5rem 0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;

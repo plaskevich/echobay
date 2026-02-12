@@ -114,7 +114,7 @@ const getSizeStyles = (size: ButtonSize) => {
       `;
     case 'medium':
       return css`
-        padding: 0.75rem 1.5rem;
+        padding: 0.5rem 1rem;
         font-size: 1rem;
         height: 2.75rem;
       `;

@@ -3,9 +3,7 @@ import {
   PiChatCircleDuotone,
   PiGearBold,
   PiHeartDuotone,
-  PiMoonDuotone,
   PiSignOutBold,
-  PiSunDuotone,
   PiUserBold,
   PiUserCircleDuotone,
 } from 'react-icons/pi';
@@ -23,10 +21,8 @@ import { SearchBar } from '@/components/navigation/SearchBar';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
-  const { theme, toggleTheme } = useThemeStore();
   const { user } = useAuthStore();
   const signOut = useAuthStore((state) => state.signOut);
   const { data: profile } = useProfile(user?.id);
@@ -51,9 +47,6 @@ export function TopBar() {
           <SearchBar />
 
           <RightSection>
-            <IconButton onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'light' ? <PiMoonDuotone /> : <PiSunDuotone />}
-            </IconButton>
             {user ? (
               <>
                 <Link to="/favorites">
