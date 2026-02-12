@@ -64,7 +64,7 @@ export function ConversationPanel({
         </>
       ) : (
         <EmptyConversation>
-          <EmptyConversationText>Select a conversation or contact a seller from a listing.</EmptyConversationText>
+          <EmptyConversationText>Select a conversation or contact a seller from a listing</EmptyConversationText>
         </EmptyConversation>
       )}
     </Panel>

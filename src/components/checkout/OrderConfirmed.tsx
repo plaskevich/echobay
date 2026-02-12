@@ -13,7 +13,7 @@ export default function OrderConfirmed() {
         <PiCheckCircle size={80} />
       </SuccessIcon>
       <SuccessTitle>Order Confirmed!</SuccessTitle>
-      <SuccessMessage>Thank you for your purchase. You will receive a confirmation email shortly.</SuccessMessage>
+      <SuccessMessage>Thank you for your purchase. You will receive a confirmation email shortly</SuccessMessage>
       <Button onClick={() => navigate('/')}>Continue shopping</Button>
     </SuccessContainer>
   );

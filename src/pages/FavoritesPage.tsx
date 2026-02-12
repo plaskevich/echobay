@@ -23,7 +23,7 @@ export function FavoritesPage() {
   if (!user) {
     return (
       <Container>
-        <InfoMessage>Please log in to view your favorites.</InfoMessage>
+        <InfoMessage>Please log in to view your favorites</InfoMessage>
       </Container>
     );
   }
@@ -39,7 +39,7 @@ export function FavoritesPage() {
   if (error) {
     return (
       <Container>
-        <ErrorMessage>Failed to load favorites. Please try again later.</ErrorMessage>
+        <ErrorMessage>Failed to load favorites. Please try again later</ErrorMessage>
       </Container>
     );
   }
@@ -59,7 +59,7 @@ export function FavoritesPage() {
         <EmptyState>
           <PiHeartDuotone size={60} color={themeColors.text.secondary} />
           <EmptyTitle>No favorites yet</EmptyTitle>
-          <EmptyText>Start exploring and add items to your favorites by clicking the heart icon.</EmptyText>
+          <EmptyText>Start exploring and add items to your favorites by clicking the heart icon</EmptyText>
         </EmptyState>
       ) : (
         <Grid>

@@ -135,7 +135,7 @@ export default function MessagesPage() {
   if (!user) {
     return (
       <Container>
-        <EmptyState>Please log in to view your messages.</EmptyState>
+        <EmptyState>Please log in to view your messages</EmptyState>
       </Container>
     );
   }

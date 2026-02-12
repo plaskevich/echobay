@@ -16,7 +16,7 @@ export default function OrdersContent({ isLoading, orders, filter }: OrdersConte
       {isLoading ? (
         <LoadingText>Loading orders...</LoadingText>
       ) : orders.length === 0 ? (
-        <EmptyText>No {filter} orders found.</EmptyText>
+        <EmptyText>No {filter} orders found</EmptyText>
       ) : (
         <OrdersList>
           {orders.map((order) => (

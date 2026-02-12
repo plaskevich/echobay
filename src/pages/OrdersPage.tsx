@@ -18,7 +18,7 @@ export default function OrdersPage() {
   if (!user) {
     return (
       <Container>
-        <InfoMessage>Please log in to view your orders.</InfoMessage>
+        <InfoMessage>Please log in to view your orders</InfoMessage>
       </Container>
     );
   }

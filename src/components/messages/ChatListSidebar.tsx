@@ -52,7 +52,7 @@ export function ChatListSidebar({
       {isLoading ? (
         <LoadingText>Loading chats...</LoadingText>
       ) : chats.length === 0 && !pendingListing ? (
-        <EmptyState>No conversations yet.</EmptyState>
+        <EmptyState>No conversations yet</EmptyState>
       ) : (
         <>
           {chats.map((chat) => {
