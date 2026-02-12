@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 
 import { InfoMessage } from '@/components/common/Message';
+import { SidebarLayout } from '@/components/layout/SidebarLayout';
 import SettingsContent from '@/components/settings/SettingsContent';
 import SettingsSidebar, { type SettingsSection } from '@/components/settings/SettingsSidebar';
 import { useAuthStore } from '@/store/auth-store';
@@ -12,28 +12,16 @@ export default function SettingsPage() {
 
   if (!user) {
     return (
-      <Container>
+      <SidebarLayout>
         <InfoMessage>Please log in to view settings</InfoMessage>
-      </Container>
+      </SidebarLayout>
     );
   }
 
   return (
-    <Container>
+    <SidebarLayout>
       <SettingsSidebar activeSection={activeSection} setActiveSection={setActiveSection} />
       <SettingsContent activeSection={activeSection} />
-    </Container>
+    </SidebarLayout>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  margin: 4rem auto;
-  display: flex;
-  gap: 4rem;
-  align-items: flex-start;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
