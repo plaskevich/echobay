@@ -77,7 +77,6 @@ const MessageSendButton = styled.button`
   border: none;
   background: transparent;
   color: ${(props) => props.theme.primary.main};
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

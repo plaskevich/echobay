@@ -15,7 +15,6 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
   background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
   font-size: 0.875rem;
-  cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 
@@ -46,24 +45,6 @@ export const DropdownMenu = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: 0 6px 12px -6px ${({ theme }) => theme.shadow.medium};
   z-index: 100;
-`;
-
-export const ClearOption = styled.button`
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  margin-top: 0.25rem;
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background: none;
-  cursor: pointer;
-  color: ${({ theme }) => theme.state.error};
-  font-size: 0.875rem;
-  text-align: center;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background-color: color-mix(in srgb, ${({ theme }) => theme.state.error} 8%, transparent);
-  }
 `;
 
 export const SearchInputWrapper = styled.div`
@@ -116,7 +97,7 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   transition: all 0.15s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.primary.light};
+    background-color: ${({ theme }) => theme.background.tertiary};
     color: ${({ theme }) => theme.primary.main};
   }
 
@@ -144,7 +125,6 @@ export const DropdownApplyButton = styled.button`
   color: white;
   font-size: 0.8125rem;
   font-weight: 600;
-  cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {
@@ -156,7 +136,7 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
   border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
   background-color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.background.primary)};
   transition: all 0.15s ease;
   flex-shrink: 0;

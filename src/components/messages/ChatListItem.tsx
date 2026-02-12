@@ -62,7 +62,6 @@ const ChatItem = styled.button<{ $active?: boolean }>`
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
   background: ${({ theme, $active }) => ($active ? theme.background.secondary : 'transparent')};
   color: ${(props) => props.theme.text.primary};
-  cursor: pointer;
   text-align: left;
   transition: background 0.2s;
   width: 100%;

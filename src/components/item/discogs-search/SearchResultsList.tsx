@@ -54,7 +54,6 @@ const CloseResultsButton = styled.button`
   background: none;
   border: none;
   color: ${(props) => props.theme.text.secondary};
-  cursor: pointer;
   padding: 0.25rem 0.5rem;
   display: flex;
   align-items: center;

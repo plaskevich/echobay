@@ -61,7 +61,7 @@ const InfoGrid = styled.div`
   grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   padding: 1.5rem;
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.background.tertiary};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-sizing: border-box;
@@ -96,8 +96,9 @@ const GenreTag = styled.span`
   display: inline-block;
   padding: 0.25rem 0.75rem;
   background-color: ${({ theme }) => theme.primary.light};
-  color: ${({ theme }) => theme.primary.main};
+  color: ${({ theme }) => theme.text.primary};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: 0.875rem;
   font-weight: 500;
 `;

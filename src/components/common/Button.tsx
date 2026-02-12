@@ -138,7 +138,6 @@ const StyledButton = styled.button.withConfig({
   gap: 0.5rem;
   font-weight: 500;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
   white-space: nowrap;

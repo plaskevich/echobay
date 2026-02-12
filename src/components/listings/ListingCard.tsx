@@ -199,7 +199,6 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

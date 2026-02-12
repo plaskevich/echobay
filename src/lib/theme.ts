@@ -1,6 +1,7 @@
 export type Theme = 'light' | 'dark';
 
 export interface BorderRadius {
+  xs: string;
   sm: string;
   md: string;
   lg: string;
@@ -65,6 +66,7 @@ export interface ThemeColors {
 }
 
 const borderRadius: BorderRadius = {
+  xs: '0.25rem',
   sm: '0.5rem',
   md: '0.75rem',
   lg: '1rem',

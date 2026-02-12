@@ -113,7 +113,6 @@ const GoogleButton = styled.button`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: 1rem;
   font-weight: 500;
-  cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
 

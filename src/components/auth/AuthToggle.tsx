@@ -28,7 +28,6 @@ const ToggleButton = styled.button`
   border: none;
   color: ${({ theme }) => theme.primary.main};
   font-weight: 500;
-  cursor: pointer;
   padding: 0;
   margin-left: 0.25rem;
 

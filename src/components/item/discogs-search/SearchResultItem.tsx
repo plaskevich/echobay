@@ -31,7 +31,6 @@ const ResultItem = styled.button`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: ${(props) => props.theme.borderRadius.md};
-  cursor: pointer;
   text-align: left;
   transition: all 0.2s;
 

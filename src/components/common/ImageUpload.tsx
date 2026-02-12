@@ -31,7 +31,6 @@ export const RemoveImageButton = styled.button`
   border-radius: ${(props) => props.theme.borderRadius.full};
   width: 1.5rem;
   height: 1.5rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

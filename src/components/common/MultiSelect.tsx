@@ -204,7 +204,6 @@ const TagRemove = styled.button`
   border: none;
   background: none;
   color: ${({ theme }) => theme.primary.main};
-  cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.15s ease;
 

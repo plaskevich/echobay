@@ -157,7 +157,6 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
           onApply={handleApply}
           isOpen={openDropdown === 'price'}
           onToggle={() => toggleDropdown('price')}
-          onClose={() => setOpenDropdown(null)}
         />
 
         {isActive && (
@@ -208,7 +207,6 @@ const ClearAllButton = styled.button`
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
-  cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {
@@ -254,7 +252,6 @@ const PillRemoveButton = styled.button`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: transparent;
   color: ${({ theme }) => theme.text.primary};
-  cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {

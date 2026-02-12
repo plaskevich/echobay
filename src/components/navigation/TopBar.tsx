@@ -170,7 +170,6 @@ const IconButton = styled.button`
   background: none;
   border: none;
   border-radius: ${(props) => props.theme.borderRadius.md};
-  cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;

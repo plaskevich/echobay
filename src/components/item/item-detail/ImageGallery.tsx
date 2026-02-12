@@ -232,7 +232,6 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   opacity: 0;
   transition: all 0.3s ease;
   backdrop-filter: blur(8px);
@@ -271,7 +270,6 @@ const FavoriteButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(8px);
   z-index: 2;

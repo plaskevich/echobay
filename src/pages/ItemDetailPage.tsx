@@ -136,7 +136,6 @@ const BackButton = styled.button`
   border: none;
   color: ${({ theme }) => theme.primary.main};
   font-size: 1rem;
-  cursor: pointer;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;

@@ -31,3 +31,7 @@ body {
 a:visited {
   color: none;
 }
+
+button {
+  cursor: pointer;
+}

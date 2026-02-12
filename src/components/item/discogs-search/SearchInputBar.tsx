@@ -87,7 +87,6 @@ const ClearButton = styled.button`
   background: none;
   border: none;
   color: ${(props) => props.theme.text.secondary};
-  cursor: pointer;
   padding: 0.5rem;
   display: flex;
   align-items: center;
@@ -113,7 +112,6 @@ const SearchButton = styled.button`
   border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

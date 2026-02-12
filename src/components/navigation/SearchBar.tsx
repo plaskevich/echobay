@@ -121,7 +121,6 @@ const ClearButton = styled.button`
   background: none;
   border: none;
   color: ${(props) => props.theme.text.tertiary};
-  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 1.25rem;

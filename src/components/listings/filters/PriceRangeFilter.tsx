@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
   ApplyButtonWrapper,
   CaretIcon,
-  ClearOption,
   DropdownApplyButton,
   DropdownMenu,
   FilterButton,
@@ -17,25 +16,11 @@ interface PriceRangeFilterProps {
   onApply: () => void;
   isOpen: boolean;
   onToggle: () => void;
-  onClose: () => void;
 }
 
-export function PriceRangeFilter({
-  minPrice,
-  maxPrice,
-  onChange,
-  onApply,
-  isOpen,
-  onToggle,
-  onClose,
-}: PriceRangeFilterProps) {
+export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen, onToggle }: PriceRangeFilterProps) {
   const hasValue = minPrice !== undefined || maxPrice !== undefined;
   const hasInvalidRange = minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice;
-
-  const handleClear = () => {
-    onChange(undefined, undefined);
-    onClose();
-  };
 
   const getLabel = () => {
     if (!hasValue) return 'Price Range';
@@ -76,7 +61,6 @@ export function PriceRangeFilter({
             </PriceInputWrapper>
           </PriceInputs>
           {hasInvalidRange && <ValidationError>Min price must be less than max</ValidationError>}
-          {hasValue && <ClearOption onClick={handleClear}>Clear</ClearOption>}
           <ApplyButtonWrapper>
             <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
               Apply
@@ -103,7 +87,7 @@ const PriceInputWrapper = styled.div`
 
 const PriceLabel = styled.span`
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.tertiary};
+  color: ${({ theme }) => theme.text.secondary};
   font-weight: 500;
 `;
 
