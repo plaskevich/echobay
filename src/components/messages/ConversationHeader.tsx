@@ -40,6 +40,10 @@ const Header = styled.div`
   &:hover {
     background-color: ${(props) => props.theme.background.tertiary};
   }
+
+  @media (max-width: 640px) {
+    padding: 0.75rem;
+  }
 `;
 
 const ItemLink = styled(Link)`
@@ -55,6 +59,12 @@ const ItemImage = styled.img`
   height: 56px;
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.sm};
+  flex-shrink: 0;
+
+  @media (max-width: 640px) {
+    width: 44px;
+    height: 44px;
+  }
 `;
 
 const ItemDetails = styled.div`

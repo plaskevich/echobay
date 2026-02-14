@@ -85,7 +85,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       <Section>
         <SectionTitle>Payment Method</SectionTitle>
         <PaymentCard>
-          <PaymentText>Credit Card ending in ****</PaymentText>
+          <PaymentText>Credit Card</PaymentText>
           <PaymentSubtext>Payment will be processed securely via Stripe</PaymentSubtext>
         </PaymentCard>
       </Section>
@@ -128,6 +128,10 @@ const FormTitle = styled.h2`
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 1rem;
+
+  @media (max-width: 640px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const Section = styled.div`
@@ -223,6 +227,10 @@ const TotalSection = styled.div`
   border: 2px solid ${({ theme }) => theme.primary.main};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   margin-top: 1rem;
+
+  @media (max-width: 640px) {
+    padding: 1rem;
+  }
 `;
 
 const TotalLabel = styled.span`
@@ -235,6 +243,10 @@ const TotalAmount = styled.span`
   font-size: 1.75rem;
   font-weight: 700;
   color: ${({ theme }) => theme.primary.main};
+
+  @media (max-width: 640px) {
+    font-size: 1.375rem;
+  }
 `;
 
 const ErrorText = styled.div`
@@ -253,7 +265,8 @@ const ButtonContainer = styled.div`
   margin-top: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
   }
 
   .spin {

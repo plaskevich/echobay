@@ -52,6 +52,11 @@ const AuthContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
+
+  @media (max-width: 640px) {
+    padding: 1rem 0;
+    align-items: flex-start;
+  }
 `;
 
 const AuthCard = styled.div`
@@ -62,6 +67,14 @@ const AuthCard = styled.div`
   width: 100%;
   max-width: 450px;
   box-shadow: 0 4px 6px ${({ theme }) => theme.shadow.medium};
+
+  @media (max-width: 640px) {
+    padding: 1.5rem;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+  }
 `;
 
 const Title = styled.h1`
@@ -70,6 +83,10 @@ const Title = styled.h1`
   margin-bottom: 0.5rem;
   color: ${({ theme }) => theme.text.primary};
   text-align: center;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Subtitle = styled.p`
@@ -77,4 +94,8 @@ const Subtitle = styled.p`
   color: ${({ theme }) => theme.text.secondary};
   margin-bottom: 2rem;
   text-align: center;
+
+  @media (max-width: 640px) {
+    margin-bottom: 1.5rem;
+  }
 `;

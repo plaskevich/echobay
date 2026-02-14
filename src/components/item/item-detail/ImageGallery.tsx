@@ -129,6 +129,10 @@ const MainImageWrapper = styled.div`
   &:hover > div {
     opacity: 1;
   }
+
+  @media (max-width: 640px) {
+    max-width: 100%;
+  }
 `;
 
 const StatusBanner = styled.div<{ $status: ListingStatus }>`

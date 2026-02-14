@@ -107,8 +107,8 @@ const ChatList = styled.div`
     width: 100%;
     min-width: 0;
     border-right: none;
-    border-bottom: 1px solid ${(props) => props.theme.border.primary};
-    max-height: 200px;
+    max-height: none;
+    flex: 1;
   }
 `;
 

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { PiCaretLeft } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import {
@@ -7,6 +9,11 @@ import {
   DropdownMenu,
   FilterButton,
   FilterDropdownContainer,
+  MobileHeader,
+  MobileHeaderAction,
+  MobileHeaderBack,
+  MobileHeaderTitle,
+  MobileOverlay,
 } from './styles';
 
 interface PriceRangeFilterProps {
@@ -22,9 +29,22 @@ export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen
   const hasValue = minPrice !== undefined || maxPrice !== undefined;
   const hasInvalidRange = minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice;
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const getLabel = () => {
     if (!hasValue) return 'Price Range';
     return `${minPrice ?? 0}€ - ${maxPrice ?? '∞'}€`;
+  };
+
+  const handleClear = () => {
+    onChange(undefined, undefined);
   };
 
   return (
@@ -34,39 +54,49 @@ export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen
         <CaretIcon />
       </FilterButton>
       {isOpen && (
-        <DropdownMenu>
-          <PriceInputs>
-            <PriceInputWrapper>
-              <PriceLabel>Min</PriceLabel>
-              <PriceInput
-                type="number"
-                placeholder="0"
-                value={minPrice ?? ''}
-                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined, maxPrice)}
-                min={0}
-                $hasError={hasInvalidRange}
-              />
-            </PriceInputWrapper>
-            <PriceSeparator>-</PriceSeparator>
-            <PriceInputWrapper>
-              <PriceLabel>Max</PriceLabel>
-              <PriceInput
-                type="number"
-                placeholder="Any"
-                value={maxPrice ?? ''}
-                onChange={(e) => onChange(minPrice, e.target.value ? Number(e.target.value) : undefined)}
-                min={0}
-                $hasError={hasInvalidRange}
-              />
-            </PriceInputWrapper>
-          </PriceInputs>
-          {hasInvalidRange && <ValidationError>Min price must be less than max</ValidationError>}
-          <ApplyButtonWrapper>
-            <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
-              Apply
-            </DropdownApplyButton>
-          </ApplyButtonWrapper>
-        </DropdownMenu>
+        <>
+          <MobileOverlay onClick={onToggle} />
+          <DropdownMenu>
+            <MobileHeader>
+              <MobileHeaderBack onClick={onToggle} aria-label="Close">
+                <PiCaretLeft />
+              </MobileHeaderBack>
+              <MobileHeaderTitle>Price Range</MobileHeaderTitle>
+              <MobileHeaderAction onClick={handleClear}>Clear</MobileHeaderAction>
+            </MobileHeader>
+            <PriceInputs>
+              <PriceInputWrapper>
+                <PriceLabel>Min</PriceLabel>
+                <PriceInput
+                  type="number"
+                  placeholder="0"
+                  value={minPrice ?? ''}
+                  onChange={(e) => onChange(e.target.value ? Number(e.target.value) : undefined, maxPrice)}
+                  min={0}
+                  $hasError={hasInvalidRange}
+                />
+              </PriceInputWrapper>
+              <PriceSeparator>-</PriceSeparator>
+              <PriceInputWrapper>
+                <PriceLabel>Max</PriceLabel>
+                <PriceInput
+                  type="number"
+                  placeholder="Any"
+                  value={maxPrice ?? ''}
+                  onChange={(e) => onChange(minPrice, e.target.value ? Number(e.target.value) : undefined)}
+                  min={0}
+                  $hasError={hasInvalidRange}
+                />
+              </PriceInputWrapper>
+            </PriceInputs>
+            {hasInvalidRange && <ValidationError>Min price must be less than max</ValidationError>}
+            <ApplyButtonWrapper>
+              <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
+                Show results
+              </DropdownApplyButton>
+            </ApplyButtonWrapper>
+          </DropdownMenu>
+        </>
       )}
     </FilterDropdownContainer>
   );
@@ -77,12 +107,18 @@ const PriceInputs = styled.div`
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
+
+  @media (max-width: 640px) {
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+  }
 `;
 
 const PriceInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
+  flex: 1;
 `;
 
 const PriceLabel = styled.span`
@@ -115,6 +151,13 @@ const PriceInput = styled.input<{ $hasError?: boolean }>`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 `;
 

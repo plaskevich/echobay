@@ -79,6 +79,9 @@ const Header = styled.div`
   @media (max-width: 640px) {
     flex-direction: column;
     text-align: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -126,6 +129,10 @@ const ProfileMeta = styled.p`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 640px) {
+    justify-content: center;
+  }
 `;
 
 const ProfileAbout = styled.p`
@@ -137,6 +144,11 @@ const ProfileAbout = styled.p`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media (max-width: 640px) {
+    justify-content: center;
+    max-width: none;
+  }
 `;
 
 const ButtonsWrapper = styled.div`

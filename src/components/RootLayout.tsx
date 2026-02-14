@@ -20,6 +20,10 @@ const MainContent = styled.main`
   padding: 2rem 1rem;
   width: 100%;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 export function RootLayout() {

@@ -78,6 +78,10 @@ const Container = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
+  }
 `;
 
 const Header = styled.div`
@@ -89,6 +93,10 @@ const Title = styled.h1`
   font-weight: bold;
   color: ${(props) => props.theme.text.primary};
   margin: 0 0 0.5rem 0;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Subtitle = styled.p`
@@ -106,6 +114,11 @@ const Grid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
 `;
 
 const EmptyState = styled.div`
@@ -115,6 +128,10 @@ const EmptyState = styled.div`
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
+
+  @media (max-width: 640px) {
+    padding: 3rem 1rem;
+  }
 `;
 
 const EmptyTitle = styled.h2`

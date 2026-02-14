@@ -308,4 +308,9 @@ export const Title = styled.h1`
   font-weight: bold;
   color: ${(props) => props.theme.text.primary};
   margin-bottom: 2rem;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 `;

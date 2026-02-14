@@ -39,10 +39,8 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
     }
 
     try {
-      // Step 1: Create payment intent on the backend
       const { clientSecret, paymentIntentId } = await createPaymentIntent(amount, listingId);
 
-      // Step 2: Confirm the payment with Stripe
       const { error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardElement,
@@ -121,6 +119,10 @@ const FormTitle = styled.h2`
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 1rem;
+
+  @media (max-width: 640px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const OrderAmount = styled.div`
@@ -142,6 +144,10 @@ const AmountValue = styled.span`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.primary.main};
+
+  @media (max-width: 640px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const PaymentSection = styled.div`
@@ -211,6 +217,7 @@ const ButtonContainer = styled.div`
   margin-top: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
   }
 `;

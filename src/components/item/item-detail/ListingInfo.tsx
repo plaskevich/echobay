@@ -66,6 +66,11 @@ const InfoGrid = styled.div`
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-sizing: border-box;
   width: 100%;
+
+  @media (max-width: 640px) {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
 `;
 
 const InfoItem = styled.div`

@@ -123,6 +123,12 @@ const getSizeStyles = (size: ButtonSize) => {
         padding: 1rem 2rem;
         font-size: 1.125rem;
         height: 3.5rem;
+
+        @media (max-width: 640px) {
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+          height: 3rem;
+        }
       `;
     default:
       return '';

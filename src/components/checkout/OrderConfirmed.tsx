@@ -28,6 +28,12 @@ const SuccessContainer = styled.div`
   margin: 0 auto;
   text-align: center;
   width: 100%;
+  padding: 2rem 1rem;
+
+  @media (max-width: 640px) {
+    gap: 1rem;
+    padding: 1.5rem 0.75rem;
+  }
 `;
 
 const SuccessIcon = styled.div`
@@ -38,6 +44,10 @@ const SuccessTitle = styled.h2`
   font-size: 2rem;
   font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const SuccessMessage = styled.p`

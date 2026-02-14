@@ -9,6 +9,9 @@ export const SidebarLayout = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+    margin: 0 auto;
+    gap: 1.5rem;
+    padding: 1rem 0.75rem;
   }
 `;
 
@@ -19,6 +22,7 @@ export const Sidebar = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+    min-width: 0;
   }
 `;
 
@@ -27,6 +31,11 @@ export const SidebarTitle = styled.h1`
   font-weight: bold;
   color: ${({ theme }) => theme.text.primary};
   margin: 0 0 1.5rem 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+  }
 `;
 
 export const SidebarNav = styled.div`
@@ -37,6 +46,14 @@ export const SidebarNav = styled.div`
   @media (max-width: 768px) {
     flex-direction: row;
     overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -61,5 +78,12 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
 
   &:active {
     transform: translateY(1px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
+    background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   }
 `;

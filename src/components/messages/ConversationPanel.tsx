@@ -1,3 +1,4 @@
+import { PiArrowLeft } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
@@ -29,6 +30,8 @@ interface ConversationPanelProps {
   messagesEndRef: React.RefObject<HTMLDivElement | null>;
   showConversation: boolean;
   isLoading: boolean;
+  onBack?: () => void;
+  otherUsername?: string;
 }
 
 export function ConversationPanel({
@@ -41,11 +44,22 @@ export function ConversationPanel({
   messagesEndRef,
   showConversation,
   isLoading,
+  onBack,
+  otherUsername,
 }: ConversationPanelProps) {
   return (
     <Panel $hidden={!showConversation}>
       {showConversation && displayListing ? (
         <>
+          {onBack && (
+            <MobileHeader>
+              <BackButton onClick={onBack}>
+                <PiArrowLeft size={20} />
+              </BackButton>
+              {otherUsername && <MobileUsername>{otherUsername}</MobileUsername>}
+              <Spacer />
+            </MobileHeader>
+          )}
           <ConversationHeader
             listingId={displayListing.id}
             title={displayListing.title}
@@ -80,6 +94,47 @@ const Panel = styled.div<{ $hidden?: boolean }>`
   @media (max-width: 768px) {
     min-height: 300px;
   }
+`;
+
+const MobileHeader = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: ${(props) => props.theme.background.tertiary};
+    border-bottom: 1px solid ${(props) => props.theme.border.primary};
+  }
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: ${(props) => props.theme.text.muted};
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 24px;
+`;
+
+const MobileUsername = styled.span`
+  flex: 1;
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.text.muted};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const Spacer = styled.div`
+  width: 24px;
+  flex-shrink: 0;
 `;
 
 const EmptyConversation = styled.div`

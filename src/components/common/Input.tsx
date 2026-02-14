@@ -55,4 +55,13 @@ const StyledInput = styled.input`
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px ${({ theme }) => theme.background.primary} inset;
+    -webkit-text-fill-color: ${({ theme }) => theme.text.primary};
+    caret-color: ${({ theme }) => theme.text.primary};
+    transition: background-color 5000s ease-in-out 0s;
+  }
 `;

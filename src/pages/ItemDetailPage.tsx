@@ -123,11 +123,12 @@ const Container = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0;
   box-sizing: border-box;
+  padding: 2rem 1.5rem;
 
-  @media (min-width: 768px) {
-    padding: 2rem 1.5rem;
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
   }
 `;
 
@@ -136,7 +137,7 @@ const BackButton = styled.button`
   border: none;
   color: ${({ theme }) => theme.primary.main};
   font-size: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -145,11 +146,16 @@ const BackButton = styled.button`
   &:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 640px) {
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+  }
 `;
 
 const Content = styled.div`
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
 
   @media (min-width: 768px) {
@@ -181,6 +187,10 @@ const Artist = styled.p`
   font-size: 1.5rem;
   color: ${({ theme }) => theme.text.secondary};
   margin: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1.125rem;
+  }
 `;
 
 const Title = styled.h1`
@@ -188,6 +198,10 @@ const Title = styled.h1`
   font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Price = styled.p`
@@ -195,6 +209,10 @@ const Price = styled.p`
   font-weight: 700;
   color: ${({ theme }) => theme.price};
   margin: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const DescriptionSection = styled.div`

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   flex: 1;
+  width: 100%;
 `;
 
 export const SectionTitle = styled.h2`
@@ -23,12 +24,24 @@ export const Form = styled.form`
   gap: 1.25rem;
   max-width: 480px;
   margin-top: 3rem;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+    max-width: none;
+  }
 `;
 
 export const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    button {
+      width: 100%;
+    }
+  }
 `;
 
 export const Message = styled.p<{ $type: 'success' | 'error' }>`

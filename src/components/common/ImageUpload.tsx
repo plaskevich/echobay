@@ -5,6 +5,11 @@ export const ImagePreviewContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
   margin-top: 0.5rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
 `;
 
 export const ImagePreview = styled.div`

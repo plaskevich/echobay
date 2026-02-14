@@ -121,12 +121,20 @@ const Card = styled.div`
     box-shadow: 0 4px 6px -1px ${(props) => props.theme.shadow.medium};
     cursor: pointer;
   }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
+
+  @media (max-width: 480px) {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const ListingImage = styled.img`
@@ -144,6 +152,10 @@ const ListingTitle = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 0.875rem;
+  }
 `;
 
 const Artist = styled.p`
@@ -153,6 +165,10 @@ const Artist = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: 480px) {
+    font-size: 0.8125rem;
+  }
 `;
 
 const Format = styled.p`
@@ -194,8 +210,8 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   position: absolute;
-  bottom: 1.2rem;
-  right: 1.2rem;
+  bottom: 0.75rem;
+  right: 0.75rem;
   background: none;
   border: none;
   padding: 0;

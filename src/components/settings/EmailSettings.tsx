@@ -8,7 +8,7 @@ import { ButtonRow, Container, Description, Form, Message, SectionTitle } from '
 
 export default function EmailSettings() {
   const { user } = useAuthStore();
-  const [email, setEmail] = useState(user?.email ?? '');
+  const [email, setEmail] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 

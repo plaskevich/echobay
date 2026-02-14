@@ -3,6 +3,7 @@ import {
   PiChatCircleDuotone,
   PiGearBold,
   PiHeartDuotone,
+  PiPlusCircleBold,
   PiSignOutBold,
   PiUserBold,
   PiUserCircleDuotone,
@@ -47,7 +48,9 @@ export function TopBar() {
           <LogoLink to="/" onClick={() => location.pathname === '/'}>
             <Logo color={themeColors.text.muted} height={40} style={{ display: 'block' }} />
           </LogoLink>
-          <SearchBar />
+          <SearchWrapper>
+            <SearchBar />
+          </SearchWrapper>
 
           <RightSection>
             {user ? (
@@ -77,6 +80,9 @@ export function TopBar() {
                     </IconButton>
                   )}
                 >
+                  <MobileSellLink to="/items/new">
+                    <PiPlusCircleBold /> Sell an Item
+                  </MobileSellLink>
                   <DropdownMenuLink to="/profile">
                     <PiUserBold /> Profile
                   </DropdownMenuLink>
@@ -92,11 +98,13 @@ export function TopBar() {
                     <PiSignOutBold /> Log out
                   </DropdownMenuButton>
                 </Dropdown>
-                <Link to="/items/new">
-                  <Button variant="primary" size="small">
-                    Sell
-                  </Button>
-                </Link>
+                <DesktopSellButton>
+                  <Link to="/items/new">
+                    <Button variant="primary" size="small">
+                      Sell
+                    </Button>
+                  </Link>
+                </DesktopSellButton>
               </>
             ) : (
               <Link to="/auth">
@@ -123,7 +131,7 @@ const Nav = styled.nav`
 const NavContainer = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 
   @media (min-width: 640px) {
     padding: 0 1.5rem;
@@ -138,10 +146,16 @@ const NavContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 3.5rem;
+
+  @media (min-width: 640px) {
+    height: 4rem;
+  }
 `;
 
 const LogoLink = styled(Link)`
+  flex-shrink: 0;
+
   svg text {
     transition: fill 0.2s;
   }
@@ -149,12 +163,46 @@ const LogoLink = styled(Link)`
   &:hover svg text {
     fill: ${(props) => props.theme.text.accent};
   }
+
+  @media (max-width: 640px) {
+    svg {
+      height: 32px;
+    }
+  }
+`;
+
+const SearchWrapper = styled.div`
+  flex: 1;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+    margin: 0 2rem;
+  }
 `;
 
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.35rem;
+
+  @media (min-width: 640px) {
+    gap: 0.7rem;
+  }
+`;
+
+const DesktopSellButton = styled.div`
+  @media (max-width: 360px) {
+    display: none;
+  }
+`;
+
+const MobileSellLink = styled(DropdownMenuLink)`
+  display: none;
+
+  @media (max-width: 360px) {
+    display: flex;
+  }
 `;
 
 const IconButton = styled.button`
@@ -179,6 +227,16 @@ const IconButton = styled.button`
   &:hover {
     color: ${(props) => props.theme.primary.main};
     background-color: ${(props) => props.theme.primary.light};
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.4rem;
+    font-size: 1.35rem;
+
+    img {
+      width: 1.35rem;
+      height: 1.35rem;
+    }
   }
 `;
 

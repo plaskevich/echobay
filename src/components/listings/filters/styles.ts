@@ -27,10 +27,25 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
   svg {
     font-size: 0.75rem;
     transition: transform 0.2s ease;
+    @media (max-width: 640px) {
+      display: none;
+    }
   }
 `;
 
 export const CaretIcon = styled(PiCaretDown)``;
+
+export const MobileOverlay = styled.div`
+  display: none;
+
+  @media (max-width: 640px) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+  }
+`;
 
 export const DropdownMenu = styled.div`
   position: absolute;
@@ -45,6 +60,64 @@ export const DropdownMenu = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: 0 6px 12px -6px ${({ theme }) => theme.shadow.medium};
   z-index: 100;
+
+  @media (max-width: 640px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: none;
+    min-width: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+export const MobileHeader = styled.div`
+  display: none;
+
+  @media (max-width: 640px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.border.primary};
+    flex-shrink: 0;
+  }
+`;
+
+export const MobileHeaderBack = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.text.primary};
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+`;
+
+export const MobileHeaderTitle = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.text.primary};
+`;
+
+export const MobileHeaderAction = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.text.secondary};
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem;
+
+  &:hover {
+    color: ${({ theme }) => theme.primary.main};
+  }
 `;
 
 export const SearchInputWrapper = styled.div`
@@ -54,6 +127,14 @@ export const SearchInputWrapper = styled.div`
   margin: -0.4rem -0.4rem 0 -0.4rem;
   padding: 0.4rem 0.4rem 0.25rem 0.4rem;
   background-color: ${({ theme }) => theme.background.primary};
+
+  @media (max-width: 640px) {
+    position: static;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.border.primary};
+    flex-shrink: 0;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -76,11 +157,23 @@ export const SearchInput = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.primary.main};
   }
+
+  @media (max-width: 640px) {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
+  }
 `;
 
 export const CheckboxList = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 640px) {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
 `;
 
 export const CheckboxItem = styled.div<{ $checked?: boolean }>`
@@ -104,6 +197,13 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   span {
     flex: 1;
   }
+
+  @media (max-width: 640px) {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 0;
+    border-bottom: 1px solid ${({ theme }) => theme.border.primary};
+  }
 `;
 
 export const ApplyButtonWrapper = styled.div`
@@ -113,6 +213,14 @@ export const ApplyButtonWrapper = styled.div`
   margin: 0 -0.4rem -0.4rem -0.4rem;
   padding: 0.25rem 0.4rem 0.4rem 0.4rem;
   background-color: ${({ theme }) => theme.background.primary};
+
+  @media (max-width: 640px) {
+    position: static;
+    margin: 0;
+    padding: 1rem;
+    flex-shrink: 0;
+    border-top: 1px solid ${({ theme }) => theme.border.primary};
+  }
 `;
 
 export const DropdownApplyButton = styled.button`
@@ -129,6 +237,13 @@ export const DropdownApplyButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.primary.hover};
+  }
+
+  @media (max-width: 640px) {
+    padding: 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 `;
 
@@ -153,5 +268,15 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+  }
+
+  @media (max-width: 640px) {
+    width: 1.25rem;
+    height: 1.25rem;
+
+    &::after {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
   }
 `;

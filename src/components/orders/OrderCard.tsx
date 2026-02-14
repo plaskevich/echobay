@@ -71,6 +71,11 @@ const CardLink = styled(Link)`
   padding: 1.5rem;
 
   @media (max-width: 768px) {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  @media (max-width: 480px) {
     flex-direction: column;
   }
 `;
@@ -81,6 +86,11 @@ const ImageContainer = styled.div`
   height: 120px;
 
   @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (max-width: 480px) {
     width: 100%;
     height: auto;
   }
@@ -92,8 +102,8 @@ const OrderImage = styled.img`
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.md};
 
-  @media (max-width: 768px) {
-    aspect-ratio: 1 / 1;
+  @media (max-width: 480px) {
+    aspect-ratio: 16 / 9;
   }
 `;
 

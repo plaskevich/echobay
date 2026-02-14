@@ -50,6 +50,15 @@ export const StyledSelect = styled.select`
     opacity: 0.6;
     cursor: not-allowed;
   }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px ${(props) => props.theme.background.primary} inset;
+    -webkit-text-fill-color: ${(props) => props.theme.text.primary};
+    caret-color: ${(props) => props.theme.text.primary};
+    transition: background-color 5000s ease-in-out 0s;
+  }
 `;
 
 const SelectIcon = styled(PiCaretDown)`
@@ -132,6 +141,12 @@ export const ButtonGroup = styled.div`
   gap: 1rem;
   margin-top: 1rem;
   justify-content: flex-end;
+
+  @media (max-width: 640px) {
+    button {
+      width: 50%;
+    }
+  }
 `;
 
 export const OptionalLabel = styled.span`

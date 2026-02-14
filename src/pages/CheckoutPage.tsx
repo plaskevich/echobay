@@ -61,9 +61,6 @@ export function CheckoutPage() {
   return (
     <Container>
       <Header>
-        {/* <BackButton onClick={() => navigate(`/items/${id}`)}>
-          <PiCaretLeft /> Back to Item
-        </BackButton> */}
         <Title>Checkout</Title>
       </Header>
 

@@ -40,6 +40,10 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
 const MessageInputArea = styled.div`
   padding: 1rem 1.25rem;
   border-top: 1px solid ${(props) => props.theme.border.primary};
+
+  @media (max-width: 640px) {
+    padding: 0.75rem;
+  }
 `;
 
 const MessageInputWrapper = styled.div`

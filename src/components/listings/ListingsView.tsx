@@ -6,6 +6,7 @@ import type { ListingFilters } from '@/api/listings';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
+import { SearchBar } from '@/components/navigation/SearchBar';
 import { useListings } from '@/queries/useListings';
 
 export function ListingsView() {
@@ -52,18 +53,21 @@ export function ListingsView() {
 
   return (
     <>
-      <Title>Items</Title>
+      <SearchWrapper>
+        <SearchBar />
+      </SearchWrapper>
       <FilterBar filters={filters} appliedFilters={appliedFilters} onFiltersChange={setFilters} onApply={handleApply} />
       {content}
     </>
   );
 }
 
-const Title = styled.h1`
-  font-size: 1.875rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  color: ${(props) => props.theme.text.primary};
+const SearchWrapper = styled.div`
+  padding: 0.25rem 0 1rem 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const LoadingText = styled.p`
@@ -82,4 +86,9 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
 `;

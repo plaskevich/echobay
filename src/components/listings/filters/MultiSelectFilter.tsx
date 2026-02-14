@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { PiCaretLeft } from 'react-icons/pi';
 
 import {
   ApplyButtonWrapper,
@@ -10,6 +11,11 @@ import {
   DropdownMenu,
   FilterButton,
   FilterDropdownContainer,
+  MobileHeader,
+  MobileHeaderAction,
+  MobileHeaderBack,
+  MobileHeaderTitle,
+  MobileOverlay,
   SearchInput,
   SearchInputWrapper,
 } from './styles';
@@ -52,11 +58,24 @@ export function MultiSelectFilter({
     }
   }, [isOpen, searchable]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const handleToggle = () => {
     if (!isOpen) {
       setSearchQuery('');
     }
     onToggle();
+  };
+
+  const handleClear = () => {
+    onChange([]);
   };
 
   const filteredOptions = useMemo(() => {
@@ -79,38 +98,48 @@ export function MultiSelectFilter({
         <CaretIcon />
       </FilterButton>
       {isOpen && (
-        <DropdownMenu>
-          {searchable && (
-            <SearchInputWrapper>
-              <SearchInput
-                ref={searchInputRef}
-                type="text"
-                placeholder={`Search ${label.toLowerCase()}...`}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </SearchInputWrapper>
-          )}
-          <CheckboxList>
-            {filteredOptions.map((opt) => {
-              const isChecked = selectedValues.includes(opt.value);
-              return (
-                <CheckboxItem key={opt.value} $checked={isChecked} onClick={() => toggleValue(opt.value)}>
-                  <span>{opt.label}</span>
-                  <Checkbox $checked={isChecked} />
-                </CheckboxItem>
-              );
-            })}
-            {searchable && filteredOptions.length === 0 && (
-              <CheckboxItem as="div" style={{ cursor: 'default', opacity: 0.5, justifyContent: 'center' }}>
-                <span>No results found</span>
-              </CheckboxItem>
+        <>
+          <MobileOverlay onClick={onToggle} />
+          <DropdownMenu>
+            <MobileHeader>
+              <MobileHeaderBack onClick={onToggle} aria-label="Close">
+                <PiCaretLeft />
+              </MobileHeaderBack>
+              <MobileHeaderTitle>{label}</MobileHeaderTitle>
+              <MobileHeaderAction onClick={handleClear}>Clear</MobileHeaderAction>
+            </MobileHeader>
+            {searchable && (
+              <SearchInputWrapper>
+                <SearchInput
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder={`Search ${label.toLowerCase()}...`}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </SearchInputWrapper>
             )}
-          </CheckboxList>
-          <ApplyButtonWrapper>
-            <DropdownApplyButton onClick={onApply}>Apply filters</DropdownApplyButton>
-          </ApplyButtonWrapper>
-        </DropdownMenu>
+            <CheckboxList>
+              {filteredOptions.map((opt) => {
+                const isChecked = selectedValues.includes(opt.value);
+                return (
+                  <CheckboxItem key={opt.value} $checked={isChecked} onClick={() => toggleValue(opt.value)}>
+                    <span>{opt.label}</span>
+                    <Checkbox $checked={isChecked} />
+                  </CheckboxItem>
+                );
+              })}
+              {searchable && filteredOptions.length === 0 && (
+                <CheckboxItem as="div" style={{ cursor: 'default', opacity: 0.5, justifyContent: 'center' }}>
+                  <span>No results found</span>
+                </CheckboxItem>
+              )}
+            </CheckboxList>
+            <ApplyButtonWrapper>
+              <DropdownApplyButton onClick={onApply}>Show results</DropdownApplyButton>
+            </ApplyButtonWrapper>
+          </DropdownMenu>
+        </>
       )}
     </FilterDropdownContainer>
   );

@@ -90,7 +90,7 @@ export const lightTheme: ThemeColors = {
     accent: '#3E86F9',
   },
   border: {
-    primary: '#D0D0D0',
+    primary: '#B8B8B8',
     hover: '#d4d4d4',
   },
   primary: {
@@ -135,7 +135,7 @@ export const lightTheme: ThemeColors = {
 export const darkTheme: ThemeColors = {
   background: {
     primary: '#0a0a0a',
-    secondary: '#1B1B1B',
+    secondary: '#161618',
     tertiary: '#111117',
     primaryHover: '#161616',
     secondaryHover: '#262626',

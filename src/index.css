@@ -7,6 +7,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 * {
@@ -14,12 +15,20 @@
     background-color 0.3s ease,
     color 0.3s ease,
     border-color 0.3s ease;
+  -webkit-overflow-scrolling: touch;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overscroll-behavior-y: none;
 }
 
 #root {
@@ -34,4 +43,16 @@ a:visited {
 
 button {
   cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
 }

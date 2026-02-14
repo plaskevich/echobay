@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -23,7 +23,7 @@ export default function MessagesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const chatIdParam = searchParams.get('chatId');
   const listingIdParam = searchParams.get('listingId');
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.user)!;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messageDraft, setMessageDraft] = useState('');
 
@@ -37,7 +37,7 @@ export default function MessagesPage() {
   const sellerId = listing?.owner_id || '';
 
   const { data: existingChatByListing } = useChatByListing(
-    listingIdParam && user ? user.id : undefined,
+    listingIdParam ? user.id : undefined,
     sellerId || undefined,
     listingIdParam || undefined
   );
@@ -52,7 +52,7 @@ export default function MessagesPage() {
   const { data: messages = [] } = useMessages(effectiveChatId || undefined);
 
   const otherUserIds = [
-    ...chats.map((c) => (c.buyer_id === user?.id ? c.seller_id : c.buyer_id)),
+    ...chats.map((c) => (c.buyer_id === user.id ? c.seller_id : c.buyer_id)),
     ...(listing?.owner_id ? [listing.owner_id] : []),
   ];
   const { data: profilesMap } = useProfilesMap(otherUserIds);
@@ -76,7 +76,7 @@ export default function MessagesPage() {
 
   const getOtherUserInfo = useCallback(
     (chat: ChatWithDetails) => {
-      const otherId = chat.buyer_id === user?.id ? chat.seller_id : chat.buyer_id;
+      const otherId = chat.buyer_id === user.id ? chat.seller_id : chat.buyer_id;
       const isSeller = chat.seller_id === otherId;
       const profile = otherId ? profilesMap?.get(otherId) : undefined;
       return {
@@ -84,14 +84,14 @@ export default function MessagesPage() {
         avatar_url: profile?.avatar_url ?? null,
       };
     },
-    [user?.id, profilesMap]
+    [user.id, profilesMap]
   );
 
   const handleSelectChat = useCallback((chatId: string) => setSearchParams({ chatId }), [setSearchParams]);
 
   const handleSendMessage = useCallback(() => {
     const content = messageDraft.trim();
-    if (!content || !user) return;
+    if (!content) return;
 
     const chatId = effectiveChatId;
 
@@ -123,7 +123,7 @@ export default function MessagesPage() {
     }
   }, [
     messageDraft,
-    user,
+    user.id,
     effectiveChatId,
     listingIdParam,
     listing,
@@ -132,18 +132,37 @@ export default function MessagesPage() {
     setSearchParams,
   ]);
 
-  if (!user) {
-    return (
-      <Container>
-        <EmptyState>Please log in to view your messages</EmptyState>
-      </Container>
-    );
-  }
-
   const displayListing = selectedChat?.listings ?? (listingIdParam && listing ? listing : null);
   const showConversation = effectiveChatId || (listingIdParam && listing);
   const isLoading = createChatMutation.isPending || sendMessageMutation.isPending;
   const pendingListingForSidebar = listingIdParam && listing && !existingChatByListing ? listing : null;
+  const otherUsername = selectedChat
+    ? getOtherUserInfo(selectedChat).username
+    : pendingListingForSidebar && listing?.owner_id
+      ? (profilesMap?.get(listing.owner_id)?.username ?? 'Seller')
+      : undefined;
+
+  const [mobileShowConversation, setMobileShowConversation] = useState(!!showConversation);
+
+  useEffect(() => {
+    if (showConversation) {
+      setMobileShowConversation(true);
+    }
+  }, [showConversation]);
+
+  const handleSelectChatMobile = useCallback(
+    (chatId: string) => {
+      handleSelectChat(chatId);
+      setMobileShowConversation(true);
+    },
+    [handleSelectChat]
+  );
+
+  const handleBackToChats = useCallback(() => {
+    setMobileShowConversation(false);
+  }, []);
+
+  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth <= 768, []);
 
   return (
     <Container>
@@ -152,28 +171,34 @@ export default function MessagesPage() {
       </Header>
 
       <Layout>
-        <ChatListSidebar
-          chats={chats}
-          pendingListing={pendingListingForSidebar}
-          effectiveChatId={effectiveChatId}
-          profilesMap={profilesMap}
-          unreadChats={unreadChats}
-          isLoading={chatsLoading}
-          onSelectChat={handleSelectChat}
-          getOtherUserInfo={getOtherUserInfo}
-        />
+        <ChatListWrapper $mobileHidden={mobileShowConversation}>
+          <ChatListSidebar
+            chats={chats}
+            pendingListing={pendingListingForSidebar}
+            effectiveChatId={effectiveChatId}
+            profilesMap={profilesMap}
+            unreadChats={unreadChats}
+            isLoading={chatsLoading}
+            onSelectChat={isMobile ? handleSelectChatMobile : handleSelectChat}
+            getOtherUserInfo={getOtherUserInfo}
+          />
+        </ChatListWrapper>
 
-        <ConversationPanel
-          displayListing={displayListing}
-          messages={messages}
-          currentUserId={user.id}
-          messageDraft={messageDraft}
-          onMessageDraftChange={setMessageDraft}
-          onSendMessage={handleSendMessage}
-          messagesEndRef={messagesEndRef}
-          showConversation={!!showConversation}
-          isLoading={isLoading}
-        />
+        <ConversationWrapper $mobileHidden={!mobileShowConversation}>
+          <ConversationPanel
+            displayListing={displayListing}
+            messages={messages}
+            currentUserId={user.id}
+            messageDraft={messageDraft}
+            onMessageDraftChange={setMessageDraft}
+            onSendMessage={handleSendMessage}
+            messagesEndRef={messagesEndRef}
+            showConversation={!!showConversation}
+            isLoading={isLoading}
+            onBack={handleBackToChats}
+            otherUsername={otherUsername}
+          />
+        </ConversationWrapper>
       </Layout>
     </Container>
   );
@@ -190,6 +215,12 @@ const Container = styled.div`
 
 const Header = styled.div`
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem 1rem 0.75rem;
+    margin: 0;
+    border-bottom: 1px solid ${(props) => props.theme.border.primary};
+  }
 `;
 
 const Title = styled.h1`
@@ -197,23 +228,40 @@ const Title = styled.h1`
   font-weight: bold;
   color: ${(props) => props.theme.text.primary};
   margin: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Layout = styled.div`
   display: flex;
   flex: 1;
   min-height: 400px;
-  border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.lg};
   overflow: hidden;
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+    width: 100%;
   }
 `;
 
-const EmptyState = styled.p`
-  padding: 2rem;
-  color: ${(props) => props.theme.text.secondary};
-  text-align: center;
+const ChatListWrapper = styled.div<{ $mobileHidden: boolean }>`
+  display: flex;
+
+  @media (max-width: 768px) {
+    ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
+    flex: 1;
+  }
+`;
+
+const ConversationWrapper = styled.div<{ $mobileHidden: boolean }>`
+  display: flex;
+  flex: 1;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
+  }
 `;

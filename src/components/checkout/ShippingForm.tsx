@@ -190,6 +190,10 @@ const FormTitle = styled.h2`
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 1rem;
+
+  @media (max-width: 640px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const FormField = styled.div`

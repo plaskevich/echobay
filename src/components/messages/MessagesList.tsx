@@ -35,6 +35,9 @@ const MessagesArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
+  }
 `;
 
 const MessageBubble = styled.div<{ $isOwn: boolean }>`

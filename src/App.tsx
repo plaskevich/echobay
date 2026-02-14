@@ -8,11 +8,11 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
-import { ListingsView } from '@/components/listings/ListingsView';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
+import HomePage from '@/pages/HomePage';
 import { ItemDetailPage } from '@/pages/ItemDetailPage';
 import MessagesPage from '@/pages/MessagesPage';
 import OrdersPage from '@/pages/OrdersPage';
@@ -42,7 +42,7 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<RootLayout />}>
-            <Route index element={<ListingsView />} />
+            <Route index element={<HomePage />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
 
