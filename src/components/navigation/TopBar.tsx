@@ -88,7 +88,7 @@ export function TopBar() {
                     <PiGearBold /> Settings
                   </DropdownMenuLink>
                   <DropdownMenuSeparator />
-                  <DropdownMenuButton onClick={handleLogout}>
+                  <DropdownMenuButton variant="danger" onClick={handleLogout}>
                     <PiSignOutBold /> Log out
                   </DropdownMenuButton>
                 </Dropdown>

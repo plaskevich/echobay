@@ -51,7 +51,7 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   color: ${({ theme, $active }) => ($active ? theme.text.accent : theme.text.primary)};
   font-size: 1rem;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
-  transition: color 0.2s ease-in-out;
+  transition: background-color 0.3s ease;
   white-space: nowrap;
   cursor: pointer;
 

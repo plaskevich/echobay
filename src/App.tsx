@@ -5,6 +5,7 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
 import { ListingsView } from '@/components/listings/ListingsView';
@@ -43,16 +44,19 @@ export function App() {
           <Route element={<RootLayout />}>
             <Route index element={<ListingsView />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/messages" element={<MessagesPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/profile/edit" element={<ProfileEditForm />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/items/new" element={<EditItemPage mode="create" />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
-            <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
-            <Route path="/checkout/:id" element={<CheckoutPage />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/favorites" element={<FavoritesPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile/edit" element={<ProfileEditForm />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/items/new" element={<EditItemPage mode="create" />} />
+              <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
+              <Route path="/checkout/:id" element={<CheckoutPage />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

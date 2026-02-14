@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@/api/auth';
 import { useAuthStore } from '@/store/auth-store';
@@ -15,7 +15,10 @@ export function useAuthForm() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { logIn, signUp, isLoading } = useAuthStore();
+
+  const from = (location.state as { from?: Location })?.from?.pathname || '/';
 
   const resetForm = () => {
     setEmail('');
@@ -71,7 +74,7 @@ export function useAuthForm() {
       if (error) {
         setError(error.message);
       } else {
-        navigate('/');
+        navigate(from, { replace: true });
       }
     }
   };

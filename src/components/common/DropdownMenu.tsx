@@ -119,14 +119,21 @@ export function DropdownMenuLink({ closeOnSelect = true, onClick, ...props }: Dr
 
 export type DropdownMenuButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   closeOnSelect?: boolean;
+  variant?: 'default' | 'danger';
 };
 
-export function DropdownMenuButton({ closeOnSelect = true, onClick, ...props }: DropdownMenuButtonProps) {
+export function DropdownMenuButton({
+  closeOnSelect = true,
+  variant = 'default',
+  onClick,
+  ...props
+}: DropdownMenuButtonProps) {
   const { close } = useDropdownContext();
 
   return (
     <StyledDropdownButton
       {...props}
+      $variant={variant}
       type={props.type ?? 'button'}
       role="menuitem"
       onClick={(event: ReactMouseEvent<HTMLButtonElement>) => {
@@ -178,7 +185,6 @@ const dropdownItemStyles = css`
   gap: 0.5rem;
 
   &:hover {
-    background: ${(props) => props.theme.primary.light};
     color: ${(props) => props.theme.primary.main};
   }
 `;
@@ -187,9 +193,19 @@ const StyledDropdownLink = styled(Link)`
   ${dropdownItemStyles}
 `;
 
-const StyledDropdownButton = styled.button`
+const StyledDropdownButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== '$variant',
+})<{ $variant: 'default' | 'danger' }>`
   ${dropdownItemStyles}
   background: none;
   border: none;
   text-align: left;
+
+  ${(p) =>
+    p.$variant === 'danger' &&
+    css`
+      &:hover {
+        color: ${(props) => props.theme.state.error};
+      }
+    `}
 `;
