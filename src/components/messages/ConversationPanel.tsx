@@ -93,7 +93,7 @@ const Panel = styled.div<{ $hidden?: boolean }>`
 
   @media (max-width: 768px) {
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 `;
 

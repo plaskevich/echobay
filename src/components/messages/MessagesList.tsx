@@ -37,6 +37,7 @@ const MessagesArea = styled.div`
   gap: 0.75rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
+    overflow-y: visible;
   }
 `;
 

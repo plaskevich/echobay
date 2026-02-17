@@ -5,16 +5,11 @@ import { TopBar } from '@/components/navigation/TopBar';
 
 const AppWrapper = styled.div`
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text};
-
-  @media (max-width: 768px) {
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
-  }
 `;
 
 const MainContent = styled.main`
@@ -29,10 +24,7 @@ const MainContent = styled.main`
 
   @media (max-width: 768px) {
     padding: 0;
-    min-height: 0;
-    overflow-y: auto;
-    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
-    -webkit-overflow-scrolling: touch;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 `;
 

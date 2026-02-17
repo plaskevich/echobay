@@ -214,7 +214,7 @@ const Container = styled.div`
   min-height: 0;
 
   @media (max-width: 768px) {
-    overflow: hidden;
+    min-height: 0;
   }
 `;
 
@@ -238,6 +238,7 @@ const Layout = styled.div`
     min-height: 0;
     flex: 1;
     width: 100%;
+    overflow: visible;
   }
 `;
 
