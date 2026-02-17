@@ -9,6 +9,12 @@ const AppWrapper = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text};
+
+  @media (max-width: 768px) {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
 `;
 
 const MainContent = styled.main`
@@ -23,6 +29,8 @@ const MainContent = styled.main`
 
   @media (max-width: 768px) {
     padding: 0;
+    min-height: 0;
+    overflow-y: auto;
   }
 `;
 

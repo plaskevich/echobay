@@ -212,6 +212,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
 `;
 
 const Header = styled.div`
