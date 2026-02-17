@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
 import placeholder from '@/assets/cd.png';
+import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 interface OrderCardProps {
   order: Order;
@@ -10,14 +11,6 @@ interface OrderCardProps {
 export default function OrderCard({ order }: OrderCardProps) {
   const listing = Array.isArray(order.listings) ? order.listings[0] : order.listings;
   const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : placeholder;
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
 
   return (
     <Card>
@@ -37,7 +30,7 @@ export default function OrderCard({ order }: OrderCardProps) {
             </DetailRow>
             <DetailRow>
               <DetailLabel>Date:</DetailLabel>
-              <DetailValue>{formatDate(order.created_at)}</DetailValue>
+              <DetailValue>{formatRelativeDate(order.created_at)}</DetailValue>
             </DetailRow>
             <DetailRow>
               <DetailLabel>Status:</DetailLabel>

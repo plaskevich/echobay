@@ -1,24 +1,9 @@
-import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns';
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
 import placeholder from '@/assets/cd.png';
 import { ChatListItem } from '@/components/messages/ChatListItem';
-
-function formatRelativeShort(date: Date): string {
-  const now = new Date();
-  const secs = differenceInSeconds(now, date);
-  if (secs < 60) return 'Just now';
-  const mins = differenceInMinutes(now, date);
-  if (mins < 60) return `${mins}m ago`;
-  const hours = differenceInHours(now, date);
-  if (hours < 24) return `${hours}h ago`;
-  const days = differenceInDays(now, date);
-  if (days === 1) return '1d ago';
-  if (days < 7) return `${days}d ago`;
-  if (days < 30) return `${Math.floor(days / 7)}w ago`;
-  return date.toLocaleDateString();
-}
+import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 interface ChatListSidebarProps {
   chats: ChatWithDetails[];
@@ -64,7 +49,7 @@ export function ChatListSidebar({
                 key={chat.id}
                 username={otherUser.username}
                 avatarUrl={otherUser.avatar_url}
-                timestamp={formatRelativeShort(new Date(chat.updated_at))}
+                timestamp={formatRelativeDate(chat.updated_at, { short: true })}
                 itemImage={itemImage}
                 artist={chat.listings?.artist}
                 title={chat.listings?.title || 'Unknown item'}

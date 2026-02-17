@@ -114,6 +114,7 @@ const ImageSection = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  min-width: 0;
 `;
 
 const MainImageWrapper = styled.div`
@@ -189,17 +190,20 @@ const ImageCounter = styled.div`
 
 const ThumbnailGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 0.75rem;
-  max-width: 700px;
+  width: 100%;
+  min-width: 0;
+  max-width: 600px;
 
   @media (max-width: 480px) {
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     gap: 0.5rem;
   }
 `;
 
 const ThumbnailWrapper = styled.div<{ $active: boolean }>`
+  box-sizing: border-box;
   position: relative;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.borderRadius.md};

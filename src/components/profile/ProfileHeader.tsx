@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
+import { formatRelativeDate } from '@/lib/formatRelativeDate';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -39,7 +40,7 @@ export function ProfileHeader() {
         <Username>{profile?.username || user.email}</Username>
         <ProfileMeta>
           <PiCalendarDuotone size={16} />
-          Member since {new Date(user.created_at).toLocaleDateString()}
+          Member since {formatRelativeDate(user.created_at)}
         </ProfileMeta>
         {profile?.location && (
           <ProfileMeta>

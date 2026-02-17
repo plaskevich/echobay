@@ -36,8 +36,9 @@ export interface ListingFilters {
   maxPrice?: number;
 }
 
-export async function fetchListing(id: string) {
-  return await supabase
+export async function fetchListing(id: string, signal?: AbortSignal) {
+  void signal;
+  const query = supabase
     .from('listings')
     .select(
       `
@@ -49,9 +50,12 @@ export async function fetchListing(id: string) {
     )
     .eq('id', id)
     .single();
+
+  return await query;
 }
 
-export async function fetchAllListings(filters?: ListingFilters) {
+export async function fetchAllListings(filters?: ListingFilters, signal?: AbortSignal) {
+  void signal;
   const hasGenreFilter = filters?.genres && filters.genres.length > 0;
 
   const selectQuery = hasGenreFilter
@@ -105,8 +109,9 @@ export async function fetchAllListings(filters?: ListingFilters) {
   return await query.limit(100);
 }
 
-export async function fetchUserListings(userId: string) {
-  return await supabase
+export async function fetchUserListings(userId: string, signal?: AbortSignal) {
+  void signal;
+  const query = supabase
     .from('listings')
     .select(
       `
@@ -118,6 +123,8 @@ export async function fetchUserListings(userId: string) {
     )
     .eq('owner_id', userId)
     .order('created_at', { ascending: false });
+
+  return await query;
 }
 
 export async function createListing(listingData: ListingData) {
