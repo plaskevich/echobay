@@ -76,7 +76,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   };
 
   return (
-    <Link to={`/items/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <CardLink to={`/items/${listing.id}`}>
       <Card>
         <ImageContainer>
           <ListingImage src={imageUrl} alt={listing.title} />
@@ -102,9 +102,16 @@ export function ListingCard({ listing }: ListingCardProps) {
           </FavoriteButton>
         )}
       </Card>
-    </Link>
+    </CardLink>
   );
 }
+
+const CardLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  min-width: 0;
+`;
 
 const Card = styled.div`
   position: relative;
@@ -116,6 +123,9 @@ const Card = styled.div`
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
   gap: 0.1rem;
   &:hover {
     box-shadow: 0 4px 6px -1px ${(props) => props.theme.shadow.medium};
@@ -187,7 +197,8 @@ const Price = styled.p`
   font-size: 1rem;
   font-weight: bold;
   color: ${(props) => props.theme.price};
-  margin: 0.5rem 0 0 0;
+  margin: auto 0 0 0;
+  padding-top: 0.5rem;
 `;
 
 const StatusBanner = styled.div<{ status: ListingStatus }>`
