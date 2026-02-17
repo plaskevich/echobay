@@ -31,6 +31,8 @@ const MainContent = styled.main`
     padding: 0;
     min-height: 0;
     overflow-y: auto;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
   }
 `;
 
