@@ -2,6 +2,7 @@ import { PiHeartDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
+import { PageTitle } from '@/components/common/PageTitle';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -49,7 +50,7 @@ export function FavoritesPage() {
   return (
     <Container>
       <Header>
-        <Title>My Favorites</Title>
+        <StyledPageTitle>My Favorites</StyledPageTitle>
         <Subtitle>
           {listings.length} {listings.length === 1 ? 'item' : 'items'}
         </Subtitle>
@@ -88,15 +89,8 @@ const Header = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.primary};
-  margin: 0 0 0.5rem 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
-  }
+const StyledPageTitle = styled(PageTitle)`
+  margin-bottom: 0.5rem;
 `;
 
 const Subtitle = styled.p`

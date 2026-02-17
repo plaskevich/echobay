@@ -155,12 +155,12 @@ const NavContent = styled.div`
 
 const LogoLink = styled(Link)`
   flex-shrink: 0;
-
-  svg text {
+  padding-top: 0.2rem;
+  svg path {
     transition: fill 0.2s;
   }
 
-  &:hover svg text {
+  &:hover svg path {
     fill: ${(props) => props.theme.text.accent};
   }
 

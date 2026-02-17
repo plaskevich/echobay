@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
+import { PageTitle } from '@/components/common/PageTitle';
 import { DiscogsSearch } from '@/components/item/discogs-search';
 import { FormActions } from '@/components/item/edit/FormActions';
 import { FormFields } from '@/components/item/edit/FormFields';
@@ -246,8 +247,8 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   }
 
   return (
-    <>
-      <Title>{mode === 'create' ? 'Sell Your Item' : 'Edit Listing'}</Title>
+    <Container>
+      <StyledPageTitle>{mode === 'create' ? 'Sell Your Item' : 'Edit Listing'}</StyledPageTitle>
 
       <DiscogsSearch
         searchQuery={searchQuery}
@@ -299,18 +300,20 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
         confirmText="Leave Page"
         cancelText="Stay"
       />
-    </>
+    </Container>
   );
 }
 
-export const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.primary};
+const Container = styled.div`
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
+  }
+`;
+
+const StyledPageTitle = styled(PageTitle)`
   margin-bottom: 2rem;
 
   @media (max-width: 640px) {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 `;

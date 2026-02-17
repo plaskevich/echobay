@@ -4,6 +4,13 @@ import { persist } from 'zustand/middleware';
 import type { Theme, ThemeColors } from '@/lib/theme';
 import { darkTheme, lightTheme } from '@/lib/theme';
 
+const updateMetaThemeColor = (color: string) => {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    meta.setAttribute('content', color);
+  }
+};
+
 interface ThemeState {
   theme: Theme;
   themeColors: ThemeColors;
@@ -27,6 +34,7 @@ export const useThemeStore = create<ThemeState>()(
         const newTheme = get().theme === 'light' ? 'dark' : 'light';
         const newThemeColors = newTheme === 'light' ? lightTheme : darkTheme;
         document.documentElement.setAttribute('data-theme', newTheme);
+        updateMetaThemeColor(newThemeColors.background.primary);
 
         set({
           theme: newTheme,
@@ -36,6 +44,7 @@ export const useThemeStore = create<ThemeState>()(
       setTheme: (newTheme: Theme) => {
         const newThemeColors = newTheme === 'light' ? lightTheme : darkTheme;
         document.documentElement.setAttribute('data-theme', newTheme);
+        updateMetaThemeColor(newThemeColors.background.primary);
 
         set({
           theme: newTheme,
@@ -52,6 +61,7 @@ export const useThemeStore = create<ThemeState>()(
         if (state) {
           state.themeColors = state.theme === 'light' ? lightTheme : darkTheme;
           document.documentElement.setAttribute('data-theme', state.theme);
+          updateMetaThemeColor(state.themeColors.background.primary);
         }
       },
     }

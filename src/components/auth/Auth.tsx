@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { AuthForm } from '@/components/auth/AuthForm';
 import { AuthToggle } from '@/components/auth/AuthToggle';
+import { PageTitle } from '@/components/common/PageTitle';
 import { useAuthForm } from '@/hooks/useAuthForm';
 
 export function Auth() {
@@ -23,7 +24,7 @@ export function Auth() {
   return (
     <AuthContainer>
       <AuthCard>
-        <Title>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</Title>
+        <AuthTitle>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</AuthTitle>
         <Subtitle>{mode === 'login' ? 'Log in to your EchoBay account' : 'Join EchoBay today'}</Subtitle>
 
         <AuthForm
@@ -77,16 +78,9 @@ const AuthCard = styled.div`
   }
 `;
 
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
+const AuthTitle = styled(PageTitle)`
   margin-bottom: 0.5rem;
-  color: ${({ theme }) => theme.text.primary};
   text-align: center;
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const Subtitle = styled.p`

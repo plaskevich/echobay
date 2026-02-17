@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { PageTitle } from '@/components/common/PageTitle';
+
 interface FormHeaderProps {
   title: string;
   subtitle: string;
@@ -8,7 +10,7 @@ interface FormHeaderProps {
 export function FormHeader({ title, subtitle }: FormHeaderProps) {
   return (
     <Header>
-      <Title>{title}</Title>
+      <PageTitle>{title}</PageTitle>
       <Subtitle>{subtitle}</Subtitle>
     </Header>
   );
@@ -16,13 +18,6 @@ export function FormHeader({ title, subtitle }: FormHeaderProps) {
 
 const Header = styled.div`
   margin-bottom: 2rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  color: ${(props) => props.theme.text.primary};
-  margin: 0 0 0.5rem 0;
 `;
 
 const Subtitle = styled.p`

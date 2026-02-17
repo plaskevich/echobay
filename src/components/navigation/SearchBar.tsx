@@ -71,7 +71,6 @@ export function SearchBar() {
 
 const SearchContainer = styled.div`
   flex: 1;
-  max-width: 42rem;
 
   @media (max-width: 768px) {
     max-width: 100%;

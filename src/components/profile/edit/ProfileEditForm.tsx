@@ -30,7 +30,7 @@ export function ProfileEditForm() {
   }
 
   return (
-    <>
+    <Container>
       <FormHeader title="Edit Profile" subtitle="Update your profile information" />
 
       <Form onSubmit={handleSubmit}>
@@ -61,9 +61,15 @@ export function ProfileEditForm() {
           </Button>
         </ButtonGroup>
       </Form>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
+  }
+`;
 
 const LoadingMessage = styled.div`
   text-align: center;
@@ -78,10 +84,10 @@ const ButtonGroup = styled.div`
   margin-top: 2rem;
 
   @media (max-width: 640px) {
-    flex-direction: column;
+    flex-direction: row-reverse;
 
     button {
-      width: 100%;
+      width: 50%;
     }
   }
 `;

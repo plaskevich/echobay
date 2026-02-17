@@ -9,6 +9,7 @@ import { PaymentForm } from '@/components/checkout/PaymentForm';
 import type { ShippingAddress } from '@/components/checkout/ShippingForm';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { Button } from '@/components/common/Button';
+import { PageTitle } from '@/components/common/PageTitle';
 import { stripePromise } from '@/lib/stripe';
 import { useListing } from '@/queries/useListings';
 
@@ -61,7 +62,7 @@ export function CheckoutPage() {
   return (
     <Container>
       <Header>
-        <Title>Checkout</Title>
+        <PageTitle>Checkout</PageTitle>
       </Header>
 
       <ProgressBar>
@@ -131,13 +132,6 @@ const Container = styled.div`
 
 const Header = styled.div`
   margin-bottom: 2rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 0.5rem;
 `;
 
 const ProgressBar = styled.div`

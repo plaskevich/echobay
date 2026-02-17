@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
+import { PageTitle } from '@/components/common/PageTitle';
 import { ChatListSidebar } from '@/components/messages/ChatListSidebar';
 import { ConversationPanel } from '@/components/messages/ConversationPanel';
 import { useListing } from '@/queries/useListings';
@@ -167,7 +168,7 @@ export default function MessagesPage() {
   return (
     <Container>
       <Header>
-        <Title>Messages</Title>
+        <PageTitle>Messages</PageTitle>
       </Header>
 
       <Layout>
@@ -220,17 +221,6 @@ const Header = styled.div`
     padding: 1rem 0.75rem 1rem 0.75rem;
     margin: 0;
     border-bottom: 1px solid ${(props) => props.theme.border.primary};
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.text.primary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
   }
 `;
 

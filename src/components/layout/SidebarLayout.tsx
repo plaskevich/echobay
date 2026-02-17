@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { PageTitle } from '@/components/common/PageTitle';
+
 export const SidebarLayout = styled.div`
   width: 100%;
   margin: 4rem auto;
@@ -26,14 +28,10 @@ export const Sidebar = styled.div`
   }
 `;
 
-export const SidebarTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.text.primary};
+export const SidebarTitle = styled(PageTitle)`
   margin: 0 0 1.5rem 1rem;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
     margin: 0 0 1rem 0;
   }
 `;

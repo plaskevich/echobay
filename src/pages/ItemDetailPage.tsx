@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import placeholder from '@/assets/cd.png';
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
+import { PageTitle } from '@/components/common/PageTitle';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
@@ -74,7 +75,7 @@ export function ItemDetailPage() {
         <DetailsSection>
           <TitleSection>
             <Artist>{listing.artist}</Artist>
-            <Title>{listing.title}</Title>
+            <PageTitle>{listing.title}</PageTitle>
           </TitleSection>
           <Price>{listing.price.toFixed(2)}€</Price>
 
@@ -133,23 +134,41 @@ const Container = styled.div`
 `;
 
 const BackButton = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.primary.main};
-  font-size: 1rem;
+  background: ${({ theme }) => theme.background.secondary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  color: ${({ theme }) => theme.text.secondary};
+  font-size: 0.875rem;
+  font-weight: 500;
   margin-bottom: 1.5rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  svg {
+    font-size: 1rem;
+    transition: transform 0.15s ease;
+  }
 
   &:hover {
-    text-decoration: underline;
+    background: ${({ theme }) => theme.background.secondaryHover};
+    color: ${({ theme }) => theme.text.primary};
+    border-color: ${({ theme }) => theme.border.hover};
+
+    svg {
+      transform: translateX(-2px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 
   @media (max-width: 640px) {
     margin-bottom: 1rem;
-    font-size: 0.9375rem;
   }
 `;
 
@@ -190,17 +209,6 @@ const Artist = styled.p`
 
   @media (max-width: 640px) {
     font-size: 1.125rem;
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.text.primary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
   }
 `;
 
