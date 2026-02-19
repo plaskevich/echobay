@@ -59,13 +59,13 @@ serve(async (req) => {
       });
     }
 
-    const discogsResponse = await fetch(discogsUrl, {
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'application/json',
-      },
-    });
+    const fetchDiscogs = async (url: string) => {
+      return await fetch(url, {
+        headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+      });
+    };
 
+    const discogsResponse = await fetchDiscogs(discogsUrl);
     const data = await discogsResponse.json();
 
     if (!discogsResponse.ok) {
@@ -76,6 +76,19 @@ serve(async (req) => {
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: discogsResponse.status }
       );
+    }
+
+    if (action === 'release' && data.main_release) {
+      try {
+        const releaseUrl = `${DISCOGS_API_BASE}/releases/${data.main_release}?${authParams}`;
+        const releaseResponse = await fetchDiscogs(releaseUrl);
+        if (releaseResponse.ok) {
+          const releaseData = await releaseResponse.json();
+          data.labels = releaseData.labels;
+        }
+      } catch {
+        // labels are optional, don't fail the whole request
+      }
     }
 
     return new Response(JSON.stringify(data), {

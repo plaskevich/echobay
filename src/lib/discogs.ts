@@ -18,6 +18,7 @@ export interface DiscogsRelease {
   title: string;
   artists?: Array<{ name: string }>;
   year?: number;
+  labels?: Array<{ name: string; catno?: string }>;
   genres?: string[];
   styles?: string[];
   images?: Array<{ uri: string; type: string }>;

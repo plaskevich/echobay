@@ -8,10 +8,12 @@ import { useCreateListing, useUpdateListing } from '@/queries/useListings';
 export interface ListingFormData {
   title: string;
   artist: string;
+  year: string;
   format: 'vinyl' | 'cd' | 'tape' | '';
   label: string;
   condition: string;
   price: string;
+  shipping_price: string;
   description: string;
 }
 
@@ -45,10 +47,12 @@ export function useListingSubmit({
   const initialFormData: ListingFormData = {
     title: initialData?.title || '',
     artist: initialData?.artist || '',
+    year: initialData?.year || '',
     format: initialData?.format || '',
     label: initialData?.label || '',
     condition: initialData?.condition || '',
     price: initialData?.price || '',
+    shipping_price: initialData?.shipping_price || '',
     description: initialData?.description || '',
   };
 
@@ -68,8 +72,8 @@ export function useListingSubmit({
     e.preventDefault();
     setError(null);
 
-    if (!formData.title || !formData.artist || !formData.format || !formData.price) {
-      setError('Please fill in all required fields (Title, Artist, Format, Price)');
+    if (!formData.title || !formData.artist || !formData.format || !formData.price || !formData.shipping_price) {
+      setError('Please fill in all required fields (Title, Artist, Format, Price, Shipping Price)');
       return;
     }
 
@@ -87,10 +91,12 @@ export function useListingSubmit({
         owner_id: userId,
         title: formData.title,
         artist: formData.artist,
+        year: formData.year ? parseInt(formData.year, 10) : null,
         format: formData.format,
         label: formData.label || null,
         condition: formData.condition || null,
         price: parseFloat(formData.price),
+        shipping_price: formData.shipping_price ? parseFloat(formData.shipping_price) : 0,
         description: formData.description || null,
         images: allImages,
       };

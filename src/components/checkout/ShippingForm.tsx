@@ -171,7 +171,7 @@ export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
           type="tel"
           value={formData.phone}
           onChange={(e) => handleChange('phone', e.target.value)}
-          placeholder="+1 (555) 123-4567"
+          placeholder="+49 151 12345678"
         />
         {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
       </FormField>

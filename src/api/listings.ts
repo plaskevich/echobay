@@ -6,10 +6,12 @@ export interface ListingData {
   owner_id: string;
   title: string;
   artist: string;
+  year?: number | null;
   format: string;
   label?: string | null;
   condition?: string | null;
   price: number;
+  shipping_price: number;
   description?: string | null;
   images: string[];
   status?: ListingStatus;

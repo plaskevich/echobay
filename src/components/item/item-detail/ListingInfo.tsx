@@ -14,9 +14,10 @@ interface ListingInfoProps {
   condition?: string;
   genres?: Genre[];
   label?: string;
+  year?: number | null;
 }
 
-export function ListingInfo({ format, condition, genres, label }: ListingInfoProps) {
+export function ListingInfo({ format, condition, genres, label, year }: ListingInfoProps) {
   const getFormatLabel = (value: string) => {
     const option = FORMAT_OPTIONS.find((opt) => opt.value === value);
     return option?.label || capitalize(value);
@@ -44,6 +45,12 @@ export function ListingInfo({ format, condition, genres, label }: ListingInfoPro
               <GenreTag key={genre.id}>{genre.name}</GenreTag>
             ))}
           </GenreList>
+        </InfoItem>
+      )}
+      {year && (
+        <InfoItem>
+          <InfoLabel>Year</InfoLabel>
+          <InfoValue>{year}</InfoValue>
         </InfoItem>
       )}
       {label && (

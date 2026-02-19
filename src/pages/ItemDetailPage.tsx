@@ -77,9 +77,22 @@ export function ItemDetailPage() {
             <Artist>{listing.artist}</Artist>
             <PageTitle>{listing.title}</PageTitle>
           </TitleSection>
-          <Price>{listing.price.toFixed(2)}€</Price>
+          <PriceSection>
+            <Price>{listing.price.toFixed(2)}€</Price>
+            {listing.shipping_price != null && listing.shipping_price > 0 ? (
+              <ShippingPrice>+ {listing.shipping_price.toFixed(2)}€ shipping</ShippingPrice>
+            ) : (
+              <ShippingPrice>Free shipping</ShippingPrice>
+            )}
+          </PriceSection>
 
-          <ListingInfo format={listing.format} condition={listing.condition} genres={genres} label={listing.label} />
+          <ListingInfo
+            format={listing.format}
+            condition={listing.condition}
+            genres={genres}
+            label={listing.label}
+            year={listing.year}
+          />
 
           {listing.description && (
             <DescriptionSection>
@@ -212,6 +225,12 @@ const Artist = styled.p`
   }
 `;
 
+const PriceSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+`;
+
 const Price = styled.p`
   font-size: 1.875rem;
   font-weight: 700;
@@ -221,6 +240,12 @@ const Price = styled.p`
   @media (max-width: 640px) {
     font-size: 1.5rem;
   }
+`;
+
+const ShippingPrice = styled.p`
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.text.secondary};
+  margin: 0;
 `;
 
 const DescriptionSection = styled.div`

@@ -13,8 +13,10 @@ export interface Listing {
   id: string;
   title: string;
   artist: string;
+  year?: number | null;
   description: string;
   price: number;
+  shipping_price?: number;
   format?: string;
   images?: string[];
   created_at: string;

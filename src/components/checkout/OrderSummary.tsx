@@ -14,6 +14,7 @@ interface OrderSummaryProps {
     title: string;
     artist: string;
     price: number;
+    shipping_price?: number;
     images?: string[];
   };
   shippingAddress: ShippingAddress;
@@ -31,11 +32,12 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
     setError(null);
 
     try {
+      const totalAmount = listing.price + (listing.shipping_price || 0);
       const result = await confirmPayment({
         listingId: listing.id,
         shippingAddress,
         paymentIntentId,
-        amount: listing.price,
+        amount: totalAmount,
       });
 
       if (!result.success) {
@@ -90,9 +92,22 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
         </PaymentCard>
       </Section>
 
+      <PriceBreakdown>
+        <PriceRow>
+          <PriceLabel>Item price</PriceLabel>
+          <PriceValue>{listing.price.toFixed(2)}€</PriceValue>
+        </PriceRow>
+        <PriceRow>
+          <PriceLabel>Shipping</PriceLabel>
+          <PriceValue>
+            {listing.shipping_price && listing.shipping_price > 0 ? `${listing.shipping_price.toFixed(2)}€` : 'Free'}
+          </PriceValue>
+        </PriceRow>
+      </PriceBreakdown>
+
       <TotalSection>
         <TotalLabel>Total</TotalLabel>
-        <TotalAmount>{listing.price.toFixed(2)}€</TotalAmount>
+        <TotalAmount>{(listing.price + (listing.shipping_price || 0)).toFixed(2)}€</TotalAmount>
       </TotalSection>
 
       {error && <ErrorText>{error}</ErrorText>}
@@ -216,6 +231,33 @@ const PaymentText = styled.div`
 const PaymentSubtext = styled.div`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.text.secondary};
+`;
+
+const PriceBreakdown = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: ${({ theme }) => theme.background.secondary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+`;
+
+const PriceRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PriceLabel = styled.span`
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.text.secondary};
+`;
+
+const PriceValue = styled.span`
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text.primary};
 `;
 
 const TotalSection = styled.div`

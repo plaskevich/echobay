@@ -103,10 +103,12 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     setFormData({
       title: existingListing.title || '',
       artist: existingListing.artist || '',
+      year: existingListing.year?.toString() || '',
       format: existingListing.format || '',
       label: existingListing.label || '',
       condition: existingListing.condition || '',
       price: existingListing.price?.toString() || '',
+      shipping_price: existingListing.shipping_price?.toString() || '',
       description: existingListing.description || '',
     });
 
@@ -194,6 +196,8 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
       ...prev,
       title: release.title || prev.title,
       artist: extractArtistName(release.artists) || prev.artist,
+      year: release.year ? String(release.year) : prev.year,
+      label: release.labels?.[0]?.name || prev.label,
     }));
 
     const discogsMainGenres = release.genres || [];

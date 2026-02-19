@@ -96,7 +96,7 @@ export function CheckoutPage() {
         {currentStep === 'payment' && (
           <Elements stripe={stripePromise}>
             <PaymentForm
-              amount={listing.price}
+              amount={listing.price + (listing.shipping_price || 0)}
               listingId={listing.id}
               onBack={handlePaymentBack}
               onNext={handlePaymentNext}
