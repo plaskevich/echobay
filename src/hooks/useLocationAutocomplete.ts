@@ -1,6 +1,8 @@
 import { City, Country, State } from 'country-state-city';
 import { useMemo, useState } from 'react';
 
+const COUNTRIES_WITH_STATES = new Set(['US', 'CA', 'AU', 'BR', 'IN', 'MX', 'CN', 'MY', 'NG', 'AE']);
+
 export function useLocationAutocomplete() {
   const [query, setQuery] = useState('');
 
@@ -9,12 +11,13 @@ export function useLocationAutocomplete() {
     return cities.map((city) => {
       const country = Country.getCountryByCode(city.countryCode);
       const state = city.stateCode ? State.getStateByCodeAndCountry(city.stateCode, city.countryCode) : null;
+      const includeState = state?.name && COUNTRIES_WITH_STATES.has(city.countryCode);
 
       return {
         name: city.name,
         country: country?.name || city.countryCode,
-        state: state?.name,
-        displayName: state?.name
+        state: includeState ? state.name : undefined,
+        displayName: includeState
           ? `${city.name}, ${state.name}, ${country?.name || city.countryCode}`
           : `${city.name}, ${country?.name || city.countryCode}`,
       };

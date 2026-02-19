@@ -19,7 +19,7 @@ export function SearchInputBar({
   onSearch,
   onClear,
 }: SearchInputBarProps) {
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       onSearch();
@@ -32,7 +32,7 @@ export function SearchInputBar({
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         placeholder="Search for artist, album, or record..."
         disabled={isSearching || isDisabled}
       />

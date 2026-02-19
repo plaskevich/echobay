@@ -114,6 +114,10 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  svg {
+    flex-shrink: 0;
+  }
 `;
 
 const Username = styled.h2`
@@ -141,7 +145,6 @@ const ProfileAbout = styled.p`
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   margin-top: 0.25rem;
-  max-width: 300px;
   display: flex;
   align-items: center;
   gap: 0.5rem;

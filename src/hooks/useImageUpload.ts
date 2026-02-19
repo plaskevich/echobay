@@ -189,7 +189,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     for (const image of images) {
       const fileExt = image.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `listings/${userId}/${fileName}`;
+      const filePath = `${userId}/listings/${fileName}`;
 
       const { error: uploadError } = await uploadImage(filePath, image);
 

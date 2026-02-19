@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { Auth } from '@/components/auth/Auth';
+import { ForgotPassword } from '@/components/auth/ForgotPassword';
+import { ResetPassword } from '@/components/auth/ResetPassword';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
@@ -44,6 +46,8 @@ export function App() {
           <Route element={<RootLayout />}>
             <Route index element={<HomePage />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
 
             <Route element={<ProtectedRoute />}>
@@ -61,7 +65,7 @@ export function App() {
         </Routes>
       </BrowserRouter>
       <Toaster
-        position="top-left"
+        position="top-right"
         toastOptions={{
           duration: 3000,
           style: {

@@ -80,16 +80,21 @@ export function useProfileEdit() {
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `${user.id}/avatar-${fileName}`;
 
-        const { error: uploadError } = await uploadImage(filePath, avatarFile, {
-          cacheControl: '3600',
-          upsert: true,
-        });
+        const { error: uploadError } = await uploadImage(
+          filePath,
+          avatarFile,
+          {
+            cacheControl: '3600',
+            upsert: true,
+          },
+          'listings'
+        );
 
         if (uploadError) throw uploadError;
 
         const {
           data: { publicUrl },
-        } = getPublicUrl(filePath);
+        } = getPublicUrl(filePath, 'listings');
 
         avatarUrl = publicUrl;
       }

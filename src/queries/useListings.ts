@@ -94,7 +94,7 @@ export function useCreateListing() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: listingKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: listingKeys.all });
     },
   });
 }

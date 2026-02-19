@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import type { Subscription, User } from '@supabase/supabase-js';
 
 import { getSession, logInWithEmail, onAuthStateChange, signOut, signUpWithEmail } from '@/api/auth';
-import { upsertProfile } from '@/api/profile';
+import { insertProfileIfNotExists } from '@/api/profile';
 
 let authSubscription: Subscription | null = null;
 
@@ -11,8 +11,10 @@ interface AuthState {
   user: User | null;
   isLoading: boolean;
   isInitialized: boolean;
+  isRecoveryMode: boolean;
   setUser: (user: User | null) => void;
   setLoading: (isLoading: boolean) => void;
+  clearRecoveryMode: () => void;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   logIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -23,10 +25,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isLoading: false,
   isInitialized: false,
+  isRecoveryMode: false,
 
   setUser: (user) => set({ user }),
 
   setLoading: (isLoading) => set({ isLoading }),
+
+  clearRecoveryMode: () => set({ isRecoveryMode: false }),
 
   signUp: async (email: string, password: string) => {
     set({ isLoading: true });
@@ -99,8 +104,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         authSubscription.unsubscribe();
       }
 
-      const { data } = onAuthStateChange(async (_event, session) => {
+      const { data } = onAuthStateChange(async (event, session) => {
         set({ user: session?.user ?? null });
+        if (event === 'PASSWORD_RECOVERY') {
+          set({ isRecoveryMode: true });
+        }
         if (session?.user) {
           await createProfile(session.user);
         }
@@ -128,7 +136,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
 async function createProfile(user: User) {
   try {
-    const { error } = await upsertProfile({
+    const { error } = await insertProfileIfNotExists({
       id: user.id,
       username: user.email?.split('@')[0] || 'user',
       avatar_url: user.user_metadata?.avatar_url || '',

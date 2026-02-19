@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { AuthForm } from '@/components/auth/AuthForm';
@@ -6,6 +9,15 @@ import { PageTitle } from '@/components/common/PageTitle';
 import { useAuthForm } from '@/hooks/useAuthForm';
 
 export function Auth() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if ((location.state as { passwordReset?: boolean })?.passwordReset) {
+      toast.success('Password updated successfully. You can now log in.');
+      window.history.replaceState({}, '');
+    }
+  }, [location.state]);
+
   const {
     mode,
     email,

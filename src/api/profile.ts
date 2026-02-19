@@ -30,3 +30,10 @@ export async function upsertProfile(profileData: ProfileData) {
     onConflict: 'id',
   });
 }
+
+export async function insertProfileIfNotExists(profileData: ProfileData) {
+  return await supabase.from('profiles').upsert(profileData, {
+    onConflict: 'id',
+    ignoreDuplicates: true,
+  });
+}

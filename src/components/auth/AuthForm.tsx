@@ -1,4 +1,5 @@
 import { FcGoogle } from 'react-icons/fc';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
@@ -64,6 +65,8 @@ export function AuthForm({
         disabled={isLoading}
         autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
       />
+
+      {mode === 'login' && <ForgotPasswordLink to="/auth/forgot-password">Forgot password?</ForgotPasswordLink>}
 
       {mode === 'signup' && (
         <Input
@@ -143,4 +146,17 @@ const DividerLine = styled.div`
 const DividerText = styled.span`
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
+`;
+
+const ForgotPasswordLink = styled(Link)`
+  align-self: center;
+  margin-top: -0.75rem;
+  font-size: 0.8125rem;
+  color: ${({ theme }) => theme.primary.main};
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
