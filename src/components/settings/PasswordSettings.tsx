@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { updatePassword } from '@/api/auth';
 import { Button } from '@/components/common/Button';
@@ -30,17 +31,22 @@ export default function PasswordSettings() {
     setIsSaving(true);
     setMessage(null);
 
-    const { error } = await updatePassword(newPassword);
+    try {
+      const { error } = await updatePassword(newPassword);
 
-    if (error) {
-      setMessage({ type: 'error', text: error.message });
-    } else {
-      setMessage({ type: 'success', text: 'Password updated successfully.' });
-      setNewPassword('');
-      setConfirmPassword('');
+      if (error) {
+        setMessage({ type: 'error', text: error.message });
+      } else {
+        toast.success('Password updated successfully.');
+        setMessage(null);
+        setNewPassword('');
+        setConfirmPassword('');
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+    } finally {
+      setIsSaving(false);
     }
-
-    setIsSaving(false);
   };
 
   return (

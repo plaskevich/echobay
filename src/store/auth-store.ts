@@ -84,7 +84,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   initialize: async () => {
-    // Prevent multiple initializations
     if (get().isInitialized) {
       return () => {};
     }
@@ -99,18 +98,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ user: session.user });
       }
 
-      // Clean up existing subscription if any
       if (authSubscription) {
         authSubscription.unsubscribe();
       }
 
-      const { data } = onAuthStateChange(async (event, session) => {
+      const { data } = onAuthStateChange((event, session) => {
         set({ user: session?.user ?? null });
         if (event === 'PASSWORD_RECOVERY') {
           set({ isRecoveryMode: true });
         }
         if (session?.user) {
-          await createProfile(session.user);
+          createProfile(session.user);
         }
       });
       authSubscription = data.subscription;
@@ -118,13 +116,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isInitialized: true });
     } catch (error) {
       console.error('Error initializing auth:', error);
-      // Still mark as initialized to prevent queries from being stuck
       set({ isInitialized: true });
     } finally {
       set({ isLoading: false });
     }
 
-    // Return cleanup function
     return () => {
       if (authSubscription) {
         authSubscription.unsubscribe();
