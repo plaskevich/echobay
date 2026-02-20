@@ -36,6 +36,8 @@ export interface ListingFilters {
   genres?: string[];
   minPrice?: number;
   maxPrice?: number;
+  excludeOwnerId?: string;
+  recommendForUserId?: string;
 }
 
 export async function fetchListing(id: string, signal?: AbortSignal) {
@@ -108,7 +110,26 @@ export async function fetchAllListings(filters?: ListingFilters, signal?: AbortS
     query = query.in('listing_genres.genre_id', filters.genres!);
   }
 
-  return await query.limit(100);
+  if (filters?.excludeOwnerId) {
+    query = query.neq('owner_id', filters.excludeOwnerId);
+  }
+
+  const { data, error } = await query.limit(100);
+  if (error || !data) return { data, error };
+
+  if (filters?.recommendForUserId) {
+    const { data: recs } = await supabase.rpc('get_recommendations', {
+      target_user_id: filters.recommendForUserId,
+      num_recommendations: 100,
+    });
+
+    if (recs && recs.length > 0) {
+      const scoreMap = new Map((recs as { listing_id: string; score: number }[]).map((r) => [r.listing_id, r.score]));
+      data.sort((a, b) => (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1));
+    }
+  }
+
+  return { data, error: null };
 }
 
 export async function fetchUserListings(userId: string, signal?: AbortSignal) {

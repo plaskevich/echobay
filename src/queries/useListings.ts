@@ -22,6 +22,8 @@ function normalizeFilters(filters?: ListingFilters): ListingFilters {
   if (filters.genres?.length) normalized.genres = [...filters.genres].sort();
   if (filters.minPrice !== undefined) normalized.minPrice = filters.minPrice;
   if (filters.maxPrice !== undefined) normalized.maxPrice = filters.maxPrice;
+  if (filters.excludeOwnerId) normalized.excludeOwnerId = filters.excludeOwnerId;
+  if (filters.recommendForUserId) normalized.recommendForUserId = filters.recommendForUserId;
   return normalized;
 }
 

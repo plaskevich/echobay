@@ -8,23 +8,29 @@ import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { useListings } from '@/queries/useListings';
+import { useAuthStore } from '@/store/auth-store';
 
 export function ListingsView() {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
   const [filters, setFilters] = useState<ListingFilters>({});
   const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({});
+  const user = useAuthStore((state) => state.user);
 
   const handleApply = useCallback((filtersToApply: ListingFilters) => {
     setAppliedFilters(filtersToApply);
   }, []);
 
+  const useRecommendedSort = !!user && !searchQuery.trim() && !hasActiveFilters(appliedFilters);
+
   const combinedFilters = useMemo(
     () => ({
       ...appliedFilters,
       search: searchQuery || undefined,
+      excludeOwnerId: user?.id,
+      recommendForUserId: useRecommendedSort ? user?.id : undefined,
     }),
-    [appliedFilters, searchQuery]
+    [appliedFilters, searchQuery, user?.id, useRecommendedSort]
   );
 
   const { data: listings = [], isLoading, error } = useListings(combinedFilters);
