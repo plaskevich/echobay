@@ -73,8 +73,8 @@ const ChatItem = styled.button<{ $active?: boolean }>`
 
 const ChatItemAvatar = styled.div<{ $hasImage?: boolean }>`
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
   overflow: hidden;
   background: ${({ theme, $hasImage }) => ($hasImage ? 'transparent' : theme.background.tertiary)};

@@ -46,11 +46,7 @@ export default function MessagesPage() {
     listingIdParam || undefined
   );
 
-  const effectiveChatId =
-    chatIdParam ||
-    (existingChatByListing?.id as string | undefined) ||
-    (listingIdParam && existingChatByListing ? existingChatByListing.id : undefined) ||
-    chats[0]?.id;
+  const effectiveChatId = chatIdParam || existingChatByListing?.id || (listingIdParam ? undefined : chats[0]?.id);
 
   const { data: selectedChat } = useChat(effectiveChatId || undefined);
   const { data: messages = [] } = useMessages(effectiveChatId || undefined);
@@ -105,7 +101,7 @@ export default function MessagesPage() {
         { buyerId: user.id, sellerId: listing.owner_id, listingId: listingIdParam },
         {
           onSuccess: (newChat) => {
-            setSearchParams({ chatId: newChat.id });
+            setSearchParams({ chatId: newChat.id }, { replace: true });
             sendMessageMutation.mutate(
               { chatId: newChat.id, content },
               {
@@ -185,11 +181,26 @@ export default function MessagesPage() {
   const showConversation = effectiveChatId || (listingIdParam && listing);
   const isLoading = createChatMutation.isPending || sendMessageMutation.isPending;
   const pendingListingForSidebar = listingIdParam && listing && !existingChatByListing ? listing : null;
-  const otherUsername = selectedChat
-    ? getOtherUserInfo(selectedChat).username
+  const otherUserInfo = selectedChat
+    ? getOtherUserInfo(selectedChat)
     : pendingListingForSidebar && listing?.owner_id
-      ? (profilesMap?.get(listing.owner_id)?.username ?? 'Seller')
+      ? {
+          username: profilesMap?.get(listing.owner_id)?.username ?? 'Seller',
+          avatar_url: profilesMap?.get(listing.owner_id)?.avatar_url ?? null,
+        }
       : undefined;
+
+  const otherUsername = otherUserInfo?.username;
+
+  const otherUserId = selectedChat
+    ? selectedChat.buyer_id === user.id
+      ? selectedChat.seller_id
+      : selectedChat.buyer_id
+    : pendingListingForSidebar
+      ? listing?.owner_id
+      : undefined;
+
+  const otherAvatarUrl = otherUserInfo?.avatar_url ?? null;
 
   const [mobileShowConversation, setMobileShowConversation] = useState(!!showConversation);
 
@@ -246,8 +257,10 @@ export default function MessagesPage() {
             isLoading={isLoading}
             onBack={handleBackToChats}
             otherUsername={otherUsername}
-            chatBuyerId={selectedChat?.buyer_id}
-            chatSellerId={selectedChat?.seller_id}
+            otherUserId={otherUserId}
+            otherAvatarUrl={otherAvatarUrl}
+            chatBuyerId={selectedChat?.buyer_id ?? (pendingListingForSidebar ? user.id : undefined)}
+            chatSellerId={selectedChat?.seller_id ?? (pendingListingForSidebar ? listing?.owner_id : undefined)}
             orderStatus={orderData?.status}
             onConfirmShipped={handleConfirmShipped}
             onConfirmReceived={handleConfirmReceived}
@@ -287,12 +300,16 @@ const Layout = styled.div`
   flex: 1;
   min-height: 400px;
   overflow: hidden;
+  border: 1px solid ${(props) => props.theme.border.primary};
+  border-radius: ${(props) => props.theme.borderRadius.md};
 
   @media (max-width: 768px) {
     min-height: 0;
     flex: 1;
     width: 100%;
     overflow: visible;
+    border: none;
+    border-radius: 0;
   }
 `;
 

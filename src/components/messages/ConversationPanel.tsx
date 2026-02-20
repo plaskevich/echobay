@@ -1,4 +1,5 @@
 import { PiArrowLeft } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { MessageMetadata } from '@/api/messages';
@@ -13,6 +14,7 @@ interface ListingDisplay {
   format?: string | null;
   price: number;
   images?: string[] | null;
+  status?: string | null;
 }
 
 interface Message {
@@ -35,6 +37,8 @@ interface ConversationPanelProps {
   isLoading: boolean;
   onBack?: () => void;
   otherUsername?: string;
+  otherUserId?: string;
+  otherAvatarUrl?: string | null;
   chatBuyerId?: string;
   chatSellerId?: string;
   orderStatus?: string;
@@ -55,6 +59,8 @@ export function ConversationPanel({
   isLoading,
   onBack,
   otherUsername,
+  otherUserId,
+  otherAvatarUrl,
   chatBuyerId,
   chatSellerId,
   orderStatus,
@@ -71,7 +77,11 @@ export function ConversationPanel({
               <BackButton onClick={onBack}>
                 <PiArrowLeft size={20} />
               </BackButton>
-              {otherUsername && <MobileUsername>{otherUsername}</MobileUsername>}
+              {otherUsername && otherUserId ? (
+                <MobileUsernameLink to={`/users/${otherUserId}`}>{otherUsername}</MobileUsernameLink>
+              ) : otherUsername ? (
+                <MobileUsername>{otherUsername}</MobileUsername>
+              ) : null}
               <Spacer />
             </MobileHeader>
           )}
@@ -82,6 +92,12 @@ export function ConversationPanel({
             format={displayListing.format}
             price={displayListing.price}
             images={displayListing.images}
+            listingStatus={displayListing.status}
+            isBuyer={chatBuyerId === currentUserId}
+            hasOrder={!!orderStatus}
+            otherUserId={otherUserId}
+            otherUsername={otherUsername}
+            otherAvatarUrl={otherAvatarUrl}
           />
           <MessagesList
             ref={messagesEndRef}
@@ -156,6 +172,22 @@ const MobileUsername = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+const MobileUsernameLink = styled(Link)`
+  flex: 1;
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.text.muted};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Spacer = styled.div`

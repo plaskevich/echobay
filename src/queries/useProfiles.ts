@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { type ProfileData, fetchProfile, upsertProfile } from '@/api/profile';
+import { type ProfileData, fetchProfile, fetchPublicProfile, upsertProfile } from '@/api/profile';
 
 export const profileKeys = {
   all: ['profiles'] as const,
@@ -19,6 +19,21 @@ export function useProfile(userId: string | undefined) {
         throw error;
       }
 
+      return data || null;
+    },
+    enabled: !!userId,
+  });
+}
+
+export function usePublicProfile(userId: string | undefined) {
+  return useQuery({
+    queryKey: [...profileKeys.detail(userId || ''), 'public'],
+    queryFn: async () => {
+      if (!userId) return null;
+      const { data, error } = await fetchPublicProfile(userId);
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
       return data || null;
     },
     enabled: !!userId,

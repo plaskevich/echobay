@@ -236,7 +236,10 @@ export function useCreateChat() {
       if (error) throw error;
       return data!;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (data, variables) => {
+      if (data) {
+        queryClient.setQueryData(messageKeys.chat(data.id), data);
+      }
       if (userId) {
         queryClient.invalidateQueries({ queryKey: messageKeys.chats(userId) });
       }

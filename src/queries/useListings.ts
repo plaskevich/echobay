@@ -7,6 +7,7 @@ import {
   deleteListing,
   fetchAllListings,
   fetchListing,
+  fetchPublicUserListings,
   fetchUserListings,
   updateListing,
   updateListingStatus,
@@ -83,6 +84,20 @@ export function useUserListings(userId: string | undefined) {
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+}
+
+export function usePublicUserListings(userId: string | undefined) {
+  return useQuery({
+    queryKey: [...listingKeys.userListings(userId || ''), 'public'],
+    queryFn: async ({ signal }) => {
+      if (!userId) return [];
+      const { data, error } = await fetchPublicUserListings(userId, signal);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5,
   });
 }
 

@@ -40,6 +40,21 @@ export function ChatListSidebar({
         <EmptyState>No conversations yet</EmptyState>
       ) : (
         <>
+          {pendingListing && (
+            <ChatListItem
+              key="pending"
+              username={profilesMap?.get(pendingListing.owner_id)?.username ?? 'Seller'}
+              avatarUrl={profilesMap?.get(pendingListing.owner_id)?.avatar_url ?? null}
+              timestamp="Now"
+              itemImage={
+                pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : placeholder
+              }
+              artist={pendingListing.artist}
+              title={pendingListing.title}
+              isActive={true}
+              onClick={() => {}}
+            />
+          )}
           {chats.map((chat) => {
             const otherUser = getOtherUserInfo(chat);
             const itemImage =
@@ -59,21 +74,6 @@ export function ChatListSidebar({
               />
             );
           })}
-          {pendingListing && (
-            <ChatListItem
-              key="pending"
-              username={profilesMap?.get(pendingListing.owner_id)?.username ?? 'Seller'}
-              avatarUrl={profilesMap?.get(pendingListing.owner_id)?.avatar_url ?? null}
-              timestamp="Now"
-              itemImage={
-                pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : placeholder
-              }
-              artist={pendingListing.artist}
-              title={pendingListing.title}
-              isActive={true}
-              onClick={() => {}}
-            />
-          )}
         </>
       )}
     </ChatList>

@@ -10,59 +10,68 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
-import { useProfile } from '@/queries/useProfiles';
-import { useAuthStore } from '@/store/auth-store';
 
-export function ProfileHeader() {
-  const user = useAuthStore((state) => state.user);
-  const { data: profile, isLoading } = useProfile(user?.id);
+export interface ProfileHeaderProps {
+  avatarUrl?: string | null;
+  username: string;
+  memberSince?: string | null;
+  location?: string | null;
+  about?: string | null;
+  isLoading?: boolean;
+  showEditButton?: boolean;
+}
 
-  if (!user) {
-    return null;
-  }
-
+export function ProfileHeader({
+  avatarUrl,
+  username,
+  memberSince,
+  location,
+  about,
+  isLoading,
+  showEditButton,
+}: ProfileHeaderProps) {
   return (
     <Header>
       <ProfilePictureContainer>
-        {isLoading ? (
+        {isLoading || !avatarUrl ? (
           <Placeholder>
             <PiUserCircleDuotone size={120} />
           </Placeholder>
-        ) : profile?.avatar_url ? (
-          <ProfilePicture src={profile.avatar_url} alt="Profile" />
         ) : (
-          <Placeholder>
-            <PiUserCircleDuotone size={120} />
-          </Placeholder>
+          <ProfilePicture src={avatarUrl} alt={username} />
         )}
       </ProfilePictureContainer>
       <ProfileInfo>
-        <Username>{profile?.username || user.email}</Username>
-        <ProfileMeta>
-          <PiCalendarDuotone size={16} />
-          Member since {formatRelativeDate(user.created_at)}
-        </ProfileMeta>
-        {profile?.location && (
+        <Username>{username}</Username>
+        {memberSince && (
           <ProfileMeta>
-            <PiMapPinDuotone size={16} />
-            {profile.location}
+            <PiCalendarDuotone size={16} />
+            Member since {formatRelativeDate(memberSince)}
           </ProfileMeta>
         )}
-        {profile?.about && (
+        {location && (
+          <ProfileMeta>
+            <PiMapPinDuotone size={16} />
+            {location}
+          </ProfileMeta>
+        )}
+        {about && (
           <ProfileAbout>
             <PiNotePencilDuotone size={16} />
-            {profile.about}
+            {about}
           </ProfileAbout>
         )}
       </ProfileInfo>
-      <ButtonsWrapper>
-        <Link to="/profile/edit">
-          <Button variant="outline" size="medium">
-            <PiPencilSimpleLineDuotone size={20} />
-            Edit Profile
-          </Button>
-        </Link>
-      </ButtonsWrapper>
+      {showEditButton && (
+        <ButtonsWrapper>
+          <Link to="/profile/edit">
+            <Button variant="outline" size="medium">
+              <PiPencilSimpleLineDuotone size={20} />
+              Edit Profile
+            </Button>
+          </Link>
+        </ButtonsWrapper>
+      )}
     </Header>
   );
 }
@@ -136,7 +145,8 @@ const ProfileMeta = styled.p`
   gap: 0.5rem;
 
   @media (max-width: 640px) {
-    justify-content: center;
+    display: inline-flex;
+    align-self: center;
   }
 `;
 
@@ -146,12 +156,15 @@ const ProfileAbout = styled.p`
   margin: 0;
   margin-top: 0.25rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
 
   @media (max-width: 640px) {
-    justify-content: center;
-    max-width: none;
+    text-align: left;
+
+    svg {
+      margin-top: 0.125rem;
+    }
   }
 `;
 

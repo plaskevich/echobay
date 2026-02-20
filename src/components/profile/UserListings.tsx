@@ -1,29 +1,30 @@
-import { PiPlusCircle } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button } from '@/components/common/Button';
-import { ListingCard } from '@/components/listings/ListingCard';
-import { useUserListings } from '@/queries/useListings';
-import { useAuthStore } from '@/store/auth-store';
+import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 
-export function UserListings() {
-  const user = useAuthStore((state) => state.user);
-  const { data: listings = [], isLoading, error } = useUserListings(user?.id);
-  const navigate = useNavigate();
+export interface UserListingsProps {
+  listings: Listing[];
+  title: string;
+  isLoading?: boolean;
+  error?: unknown;
+  emptyMessage: string;
+  emptyAction?: React.ReactNode;
+  headerExtra?: React.ReactNode;
+}
 
-  if (!user) {
-    return (
-      <Container>
-        <Message>Please sign in to view your listings</Message>
-      </Container>
-    );
-  }
-
+export function UserListings({
+  listings,
+  title,
+  isLoading,
+  error,
+  emptyMessage,
+  emptyAction,
+  headerExtra,
+}: UserListingsProps) {
   if (isLoading) {
     return (
       <Container>
-        <SectionTitle>My Listings</SectionTitle>
+        <SectionTitle>{title}</SectionTitle>
         <Message>Loading...</Message>
       </Container>
     );
@@ -32,7 +33,7 @@ export function UserListings() {
   if (error) {
     return (
       <Container>
-        <SectionTitle>My Listings</SectionTitle>
+        <SectionTitle>{title}</SectionTitle>
         <ErrorMessage>Error: {error instanceof Error ? error.message : 'An error occurred'}</ErrorMessage>
       </Container>
     );
@@ -41,16 +42,17 @@ export function UserListings() {
   return (
     <Container>
       <HeaderRow>
-        <SectionTitle>My Listings</SectionTitle>
+        <SectionTitle>{title}</SectionTitle>
+        <ListingCount>
+          {listings.length} {listings.length === 1 ? 'item' : 'items'}
+        </ListingCount>
       </HeaderRow>
+      {headerExtra}
 
       {listings.length === 0 ? (
         <EmptyState>
-          <EmptyMessage>You haven't created any listings yet</EmptyMessage>
-          <Button onClick={() => navigate('/items/new')} variant="primary" size="medium">
-            <PiPlusCircle size={20} />
-            Create Your First Listing
-          </Button>
+          <EmptyMessage>{emptyMessage}</EmptyMessage>
+          {emptyAction}
         </EmptyState>
       ) : (
         <Grid>
@@ -81,6 +83,11 @@ const SectionTitle = styled.h2`
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
   margin: 0;
+`;
+
+const ListingCount = styled.span`
+  font-size: 0.875rem;
+  color: ${(props) => props.theme.text.secondary};
 `;
 
 const Message = styled.p`

@@ -12,6 +12,14 @@ export async function fetchProfile(userId: string) {
   return await supabase.from('profiles').select('avatar_url, username, location, about').eq('id', userId).single();
 }
 
+export async function fetchPublicProfile(userId: string) {
+  return await supabase
+    .from('profiles')
+    .select('id, avatar_url, username, location, about, created_at')
+    .eq('id', userId)
+    .single();
+}
+
 export interface ProfileSummary {
   id: string;
   username: string | null;

@@ -150,6 +150,23 @@ export async function fetchUserListings(userId: string, signal?: AbortSignal) {
   return await query;
 }
 
+export async function fetchPublicUserListings(userId: string, signal?: AbortSignal) {
+  void signal;
+  return await supabase
+    .from('listings')
+    .select(
+      `
+      *,
+      listing_genres(
+        genres(id, name, slug)
+      )
+    `
+    )
+    .eq('owner_id', userId)
+    .eq('status', 'active')
+    .order('created_at', { ascending: false });
+}
+
 export async function createListing(listingData: ListingData) {
   return await supabase.from('listings').insert(listingData).select('id');
 }

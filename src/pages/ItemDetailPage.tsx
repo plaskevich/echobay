@@ -1,5 +1,5 @@
-import { PiCaretLeft } from 'react-icons/pi';
-import { useNavigate, useParams } from 'react-router-dom';
+import { PiCaretLeft, PiCaretRight, PiMapPinDuotone, PiUserCircleDuotone } from 'react-icons/pi';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import placeholder from '@/assets/cd.png';
@@ -12,6 +12,7 @@ import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
 import { useListing } from '@/queries/useListings';
+import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ItemDetailPage() {
@@ -32,6 +33,7 @@ export function ItemDetailPage() {
   } = useListingActions(id!);
 
   const isOwner = user?.id === listing?.owner_id;
+  const { data: sellerProfile } = useProfile(listing?.owner_id);
 
   if (isLoading) {
     return (
@@ -100,6 +102,33 @@ export function ItemDetailPage() {
               <Description>{listing.description}</Description>
             </DescriptionSection>
           )}
+
+          <SellerSection>
+            <SectionTitle>Seller</SectionTitle>
+            <SellerCard to={`/users/${listing.owner_id}`}>
+              <SellerAvatarContainer>
+                {sellerProfile?.avatar_url ? (
+                  <SellerAvatar src={sellerProfile.avatar_url} alt="" referrerPolicy="no-referrer" />
+                ) : (
+                  <SellerAvatarPlaceholder>
+                    <PiUserCircleDuotone size={40} />
+                  </SellerAvatarPlaceholder>
+                )}
+              </SellerAvatarContainer>
+              <SellerInfo>
+                <SellerName>{sellerProfile?.username || 'Seller'}</SellerName>
+                {sellerProfile?.location && (
+                  <SellerLocation>
+                    <PiMapPinDuotone size={14} />
+                    {sellerProfile.location}
+                  </SellerLocation>
+                )}
+              </SellerInfo>
+              <ViewProfileArrow>
+                <PiCaretRight size={18} />
+              </ViewProfileArrow>
+            </SellerCard>
+          </SellerSection>
 
           <ButtonGroup>
             {isOwner ? (
@@ -267,6 +296,81 @@ const Description = styled.p`
   line-height: 1.6;
   margin: 0;
   white-space: pre-wrap;
+`;
+
+const SellerSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+`;
+
+const SellerCard = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  background: ${({ theme }) => theme.background.tertiary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.border.hover};
+    background: ${({ theme }) => theme.background.secondaryHover};
+  }
+`;
+
+const SellerAvatarContainer = styled.div`
+  flex-shrink: 0;
+`;
+
+const SellerAvatar = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  object-fit: cover;
+  border: 1px solid ${({ theme }) => theme.border.primary};
+`;
+
+const SellerAvatarPlaceholder = styled.div`
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.text.tertiary};
+`;
+
+const SellerInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+  min-width: 0;
+`;
+
+const SellerName = styled.span`
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.text.primary};
+`;
+
+const SellerLocation = styled.span`
+  font-size: 0.8125rem;
+  color: ${({ theme }) => theme.text.secondary};
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+const ViewProfileArrow = styled.span`
+  flex-shrink: 0;
+  color: ${({ theme }) => theme.text.tertiary};
+  display: flex;
+  align-items: center;
 `;
 
 const ButtonGroup = styled.div`

@@ -46,6 +46,7 @@ export interface ListingSummary {
   price: number;
   images: string[] | null;
   owner_id: string;
+  status?: string | null;
 }
 
 export interface ChatWithDetails extends Chat {
@@ -76,7 +77,8 @@ export async function fetchUserChats(userId: string) {
         format,
         price,
         images,
-        owner_id
+        owner_id,
+        status
       )
     `
     )
@@ -110,7 +112,8 @@ export async function getChatByListing(buyerId: string, sellerId: string, listin
         format,
         price,
         images,
-        owner_id
+        owner_id,
+        status
       )
     `
     )
@@ -154,7 +157,8 @@ export async function createChat(buyerId: string, sellerId: string, listingId: s
         format,
         price,
         images,
-        owner_id
+        owner_id,
+        status
       )
     `
     )
@@ -189,7 +193,8 @@ export async function fetchChat(chatId: string) {
         format,
         price,
         images,
-        owner_id
+        owner_id,
+        status
       )
     `
     )

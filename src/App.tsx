@@ -20,6 +20,7 @@ import MessagesPage from '@/pages/MessagesPage';
 import OrdersPage from '@/pages/OrdersPage';
 import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
+import UserProfilePage from '@/pages/UserProfilePage';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
@@ -49,6 +50,7 @@ export function App() {
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
+            <Route path="/users/:id" element={<UserProfilePage />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/favorites" element={<FavoritesPage />} />
