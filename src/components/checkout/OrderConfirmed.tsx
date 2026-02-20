@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Button } from '../common/Button';
 
-export default function OrderConfirmed() {
+export function OrderConfirmed() {
   const navigate = useNavigate();
 
   return (
@@ -13,7 +13,9 @@ export default function OrderConfirmed() {
         <PiCheckCircle size={80} />
       </SuccessIcon>
       <SuccessTitle>Order Confirmed!</SuccessTitle>
-      <SuccessMessage>Thank you for your purchase. You will receive a confirmation email shortly</SuccessMessage>
+      <SuccessMessage>
+        Thank you for your purchase. The seller has been notified and will prepare your item for shipping.
+      </SuccessMessage>
       <Button onClick={() => navigate('/')}>Continue shopping</Button>
     </SuccessContainer>
   );

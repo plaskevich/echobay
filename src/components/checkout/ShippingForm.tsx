@@ -177,7 +177,7 @@ export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
       </FormField>
 
       <ButtonContainer>
-        <Button type="submit" variant="primary" size="large" fullWidth>
+        <Button type="submit" variant="primary">
           Continue to Payment
         </Button>
       </ButtonContainer>
@@ -218,5 +218,13 @@ const ErrorText = styled.span`
 `;
 
 const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
   margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    > button {
+      width: 100%;
+    }
+  }
 `;

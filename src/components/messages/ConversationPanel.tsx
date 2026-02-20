@@ -1,6 +1,7 @@
 import { PiArrowLeft } from 'react-icons/pi';
 import styled from 'styled-components';
 
+import type { MessageMetadata } from '@/api/messages';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
@@ -18,6 +19,8 @@ interface Message {
   id: string;
   sender_id: string;
   content: string;
+  type?: 'text' | 'system';
+  metadata?: MessageMetadata | null;
 }
 
 interface ConversationPanelProps {
@@ -32,6 +35,12 @@ interface ConversationPanelProps {
   isLoading: boolean;
   onBack?: () => void;
   otherUsername?: string;
+  chatBuyerId?: string;
+  chatSellerId?: string;
+  orderStatus?: string;
+  onConfirmShipped?: (orderId: string) => void;
+  onConfirmReceived?: (orderId: string) => void;
+  isUpdatingOrder?: boolean;
 }
 
 export function ConversationPanel({
@@ -46,6 +55,12 @@ export function ConversationPanel({
   isLoading,
   onBack,
   otherUsername,
+  chatBuyerId,
+  chatSellerId,
+  orderStatus,
+  onConfirmShipped,
+  onConfirmReceived,
+  isUpdatingOrder,
 }: ConversationPanelProps) {
   return (
     <Panel $hidden={!showConversation}>
@@ -68,7 +83,17 @@ export function ConversationPanel({
             price={displayListing.price}
             images={displayListing.images}
           />
-          <MessagesList ref={messagesEndRef} messages={messages} currentUserId={currentUserId} />
+          <MessagesList
+            ref={messagesEndRef}
+            messages={messages}
+            currentUserId={currentUserId}
+            chatBuyerId={chatBuyerId}
+            chatSellerId={chatSellerId}
+            orderStatus={orderStatus}
+            onConfirmShipped={onConfirmShipped}
+            onConfirmReceived={onConfirmReceived}
+            isUpdatingOrder={isUpdatingOrder}
+          />
           <MessageInput
             value={messageDraft}
             onChange={onMessageDraftChange}

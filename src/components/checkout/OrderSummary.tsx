@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { PiSpinner } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { confirmPayment } from '@/api/checkout';
-import OrderConfirmed from '@/components/checkout/OrderConfirmed';
+import { createChat, getChatByListing, sendOrderSystemMessages } from '@/api/messages';
+import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { Button } from '@/components/common/Button';
+import { useAuthStore } from '@/store/auth-store';
 
 import type { ShippingAddress } from './ShippingForm';
 
@@ -16,16 +17,19 @@ interface OrderSummaryProps {
     price: number;
     shipping_price?: number;
     images?: string[];
+    owner_id: string;
   };
   shippingAddress: ShippingAddress;
   paymentIntentId: string;
   onBack: () => void;
+  onConfirmed?: () => void;
 }
 
-export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack }: OrderSummaryProps) {
+export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack, onConfirmed }: OrderSummaryProps) {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   const handleConfirmOrder = async () => {
     setProcessing(true);
@@ -40,12 +44,36 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
         amount: totalAmount,
       });
 
-      if (!result.success) {
+      if (!result.success || !result.orderId) {
         throw new Error(result.error || 'Failed to confirm order');
       }
+
+      if (user) {
+        try {
+          const existingChat = await getChatByListing(user.id, listing.owner_id, listing.id);
+          let newChatId: string;
+
+          if (existingChat.data) {
+            newChatId = existingChat.data.id;
+          } else {
+            const chatResult = await createChat(user.id, listing.owner_id, listing.id, result.orderId);
+            if (chatResult.error || !chatResult.data) {
+              throw new Error('Failed to create chat');
+            }
+            newChatId = chatResult.data.id;
+          }
+
+          await sendOrderSystemMessages(newChatId, user.id, result.orderId, listing.title, shippingAddress);
+        } catch {
+          // Chat creation failed but order succeeded - still show confirmation
+        }
+      }
+
       setConfirmed(true);
+      onConfirmed?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to process payment. Please try again.');
+    } finally {
       setProcessing(false);
     }
   };
@@ -113,18 +141,11 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       {error && <ErrorText>{error}</ErrorText>}
 
       <ButtonContainer>
-        <Button type="button" variant="outline" size="large" onClick={onBack} disabled={processing}>
+        <Button type="button" variant="outline" onClick={onBack} disabled={processing}>
           Back
         </Button>
-        <Button type="button" variant="primary" size="large" onClick={handleConfirmOrder} disabled={processing}>
-          {processing ? (
-            <>
-              <PiSpinner className="spin" size={20} />
-              Processing...
-            </>
-          ) : (
-            'Confirm & Pay'
-          )}
+        <Button type="button" variant="primary" onClick={handleConfirmOrder} isLoading={processing}>
+          Confirm & Pay
         </Button>
       </ButtonContainer>
     </Container>
@@ -301,26 +322,14 @@ const ErrorText = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
 
   @media (max-width: 768px) {
-    gap: 0.5rem;
+    display: grid;
     grid-template-columns: 1fr 1fr;
-  }
-
-  .spin {
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    gap: 0.5rem;
   }
 `;

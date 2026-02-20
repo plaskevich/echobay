@@ -5,8 +5,27 @@ export interface Chat {
   buyer_id: string;
   seller_id: string;
   listing_id: string;
+  order_id?: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export type SystemEvent = 'order_placed' | 'shipping_info' | 'shipped' | 'delivered';
+
+export interface MessageMetadata {
+  event: SystemEvent;
+  order_id: string;
+  listing_title?: string;
+  shipping_address?: {
+    fullName: string;
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    phone: string;
+  };
 }
 
 export interface Message {
@@ -14,6 +33,8 @@ export interface Message {
   chat_id: string;
   sender_id: string;
   content: string;
+  type: 'text' | 'system';
+  metadata?: MessageMetadata | null;
   created_at: string;
 }
 
@@ -45,6 +66,7 @@ export async function fetchUserChats(userId: string) {
       buyer_id,
       seller_id,
       listing_id,
+      order_id,
       created_at,
       updated_at,
       listings (
@@ -78,6 +100,7 @@ export async function getChatByListing(buyerId: string, sellerId: string, listin
       buyer_id,
       seller_id,
       listing_id,
+      order_id,
       created_at,
       updated_at,
       listings (
@@ -106,13 +129,14 @@ export async function getChatByListing(buyerId: string, sellerId: string, listin
   return { data: normalized as ChatWithDetails | null, error: null };
 }
 
-export async function createChat(buyerId: string, sellerId: string, listingId: string) {
+export async function createChat(buyerId: string, sellerId: string, listingId: string, orderId?: string) {
   const { data, error } = await supabase
     .from('chats')
     .insert({
       buyer_id: buyerId,
       seller_id: sellerId,
       listing_id: listingId,
+      ...(orderId ? { order_id: orderId } : {}),
     })
     .select(
       `
@@ -120,6 +144,7 @@ export async function createChat(buyerId: string, sellerId: string, listingId: s
       buyer_id,
       seller_id,
       listing_id,
+      order_id,
       created_at,
       updated_at,
       listings (
@@ -154,6 +179,7 @@ export async function fetchChat(chatId: string) {
       buyer_id,
       seller_id,
       listing_id,
+      order_id,
       created_at,
       updated_at,
       listings (
@@ -189,6 +215,8 @@ export async function fetchMessages(chatId: string) {
       chat_id,
       sender_id,
       content,
+      type,
+      metadata,
       created_at
     `
     )
@@ -199,19 +227,60 @@ export async function fetchMessages(chatId: string) {
   return { data: data as Message[], error };
 }
 
-export async function sendMessage(chatId: string, senderId: string, content: string) {
+export async function sendMessage(
+  chatId: string,
+  senderId: string,
+  content: string,
+  options?: { type?: 'text' | 'system'; metadata?: MessageMetadata }
+) {
   const { data, error } = await supabase
     .from('messages')
     .insert({
       chat_id: chatId,
       sender_id: senderId,
       content,
+      type: options?.type ?? 'text',
+      metadata: options?.metadata ?? null,
     })
     .select()
     .single();
 
   if (error) return { data: null, error };
   return { data: data as Message, error };
+}
+
+export async function sendOrderSystemMessages(
+  chatId: string,
+  senderId: string,
+  orderId: string,
+  listingTitle: string,
+  shippingAddress: MessageMetadata['shipping_address']
+) {
+  const messages = [
+    {
+      chat_id: chatId,
+      sender_id: senderId,
+      content: `Order placed for "${listingTitle}"`,
+      type: 'system' as const,
+      metadata: { event: 'order_placed' as const, order_id: orderId, listing_title: listingTitle },
+    },
+    {
+      chat_id: chatId,
+      sender_id: senderId,
+      content: 'Shipping details provided',
+      type: 'system' as const,
+      metadata: {
+        event: 'shipping_info' as const,
+        order_id: orderId,
+        listing_title: listingTitle,
+        shipping_address: shippingAddress,
+      },
+    },
+  ];
+
+  const { data, error } = await supabase.from('messages').insert(messages).select();
+  if (error) return { data: null, error };
+  return { data: data as Message[], error: null };
 }
 
 export async function fetchUnreadChats(userId: string) {

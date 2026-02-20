@@ -1,28 +1,68 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
+import type { MessageMetadata } from '@/api/messages';
+import { SystemMessage } from '@/components/messages/system/SystemMessage';
+
 interface Message {
   id: string;
   sender_id: string;
   content: string;
+  type?: 'text' | 'system';
+  metadata?: MessageMetadata | null;
 }
 
 interface MessagesListProps {
   messages: Message[];
   currentUserId: string;
+  chatBuyerId?: string;
+  chatSellerId?: string;
+  orderStatus?: string;
+  onConfirmShipped?: (orderId: string) => void;
+  onConfirmReceived?: (orderId: string) => void;
+  isUpdatingOrder?: boolean;
 }
 
 export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(function MessagesList(
-  { messages, currentUserId },
+  {
+    messages,
+    currentUserId,
+    chatBuyerId,
+    chatSellerId,
+    orderStatus,
+    onConfirmShipped,
+    onConfirmReceived,
+    isUpdatingOrder,
+  },
   ref
 ) {
+  const isSeller = currentUserId === chatSellerId;
+  const isBuyer = currentUserId === chatBuyerId;
+
   return (
     <MessagesArea>
-      {messages.map((msg) => (
-        <MessageBubble key={msg.id} $isOwn={msg.sender_id === currentUserId}>
-          <MessageContent>{msg.content}</MessageContent>
-        </MessageBubble>
-      ))}
+      {messages.map((msg) => {
+        if (msg.type === 'system' && msg.metadata) {
+          return (
+            <SystemMessage
+              key={msg.id}
+              metadata={msg.metadata}
+              isSeller={isSeller}
+              isBuyer={isBuyer}
+              orderStatus={orderStatus}
+              onConfirmShipped={onConfirmShipped}
+              onConfirmReceived={onConfirmReceived}
+              isUpdating={isUpdatingOrder}
+            />
+          );
+        }
+
+        return (
+          <MessageBubble key={msg.id} $isOwn={msg.sender_id === currentUserId}>
+            <MessageContent>{msg.content}</MessageContent>
+          </MessageBubble>
+        );
+      })}
       <div ref={ref} />
     </MessagesArea>
   );

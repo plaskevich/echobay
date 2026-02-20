@@ -161,10 +161,14 @@ const StatusBadge = styled.span<{ status: string }>`
       case 'paid':
       case 'confirmed':
         return props.theme.state.success;
+      case 'shipped':
+        return props.theme.primary.main;
+      case 'delivered':
+        return props.theme.state.success;
       case 'failed':
         return props.theme.state.error;
       default:
-        return props.theme.background.secondary;
+        return props.theme.text.secondary;
     }
   }};
 `;

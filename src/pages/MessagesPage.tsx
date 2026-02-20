@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
+import { sendMessage } from '@/api/messages';
 import { PageTitle } from '@/components/common/PageTitle';
 import { ChatListSidebar } from '@/components/messages/ChatListSidebar';
 import { ConversationPanel } from '@/components/messages/ConversationPanel';
@@ -18,6 +19,7 @@ import {
   useUnreadChats,
   useUserChats,
 } from '@/queries/useMessages';
+import { useOrderForChat, useUpdateOrderStatus } from '@/queries/useOrders';
 import { useAuthStore } from '@/store/auth-store';
 
 export default function MessagesPage() {
@@ -34,6 +36,7 @@ export default function MessagesPage() {
   const createChatMutation = useCreateChat();
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkChatAsRead();
+  const updateOrderStatus = useUpdateOrderStatus();
 
   const sellerId = listing?.owner_id || '';
 
@@ -51,6 +54,7 @@ export default function MessagesPage() {
 
   const { data: selectedChat } = useChat(effectiveChatId || undefined);
   const { data: messages = [] } = useMessages(effectiveChatId || undefined);
+  const { data: orderData } = useOrderForChat(selectedChat?.order_id);
 
   const otherUserIds = [
     ...chats.map((c) => (c.buyer_id === user.id ? c.seller_id : c.buyer_id)),
@@ -133,6 +137,50 @@ export default function MessagesPage() {
     setSearchParams,
   ]);
 
+  const handleConfirmShipped = useCallback(
+    (orderId: string) => {
+      if (!effectiveChatId) return;
+      updateOrderStatus.mutate(
+        { orderId, status: 'shipped' },
+        {
+          onSuccess: () => {
+            sendMessage(effectiveChatId, user.id, 'Item has been shipped', {
+              type: 'system',
+              metadata: {
+                event: 'shipped',
+                order_id: orderId,
+                listing_title: selectedChat?.listings?.title,
+              },
+            });
+          },
+        }
+      );
+    },
+    [effectiveChatId, user.id, selectedChat, updateOrderStatus]
+  );
+
+  const handleConfirmReceived = useCallback(
+    (orderId: string) => {
+      if (!effectiveChatId) return;
+      updateOrderStatus.mutate(
+        { orderId, status: 'delivered' },
+        {
+          onSuccess: () => {
+            sendMessage(effectiveChatId, user.id, 'Item has been received', {
+              type: 'system',
+              metadata: {
+                event: 'delivered',
+                order_id: orderId,
+                listing_title: selectedChat?.listings?.title,
+              },
+            });
+          },
+        }
+      );
+    },
+    [effectiveChatId, user.id, selectedChat, updateOrderStatus]
+  );
+
   const displayListing = selectedChat?.listings ?? (listingIdParam && listing ? listing : null);
   const showConversation = effectiveChatId || (listingIdParam && listing);
   const isLoading = createChatMutation.isPending || sendMessageMutation.isPending;
@@ -198,6 +246,12 @@ export default function MessagesPage() {
             isLoading={isLoading}
             onBack={handleBackToChats}
             otherUsername={otherUsername}
+            chatBuyerId={selectedChat?.buyer_id}
+            chatSellerId={selectedChat?.seller_id}
+            orderStatus={orderData?.status}
+            onConfirmShipped={handleConfirmShipped}
+            onConfirmReceived={handleConfirmReceived}
+            isUpdatingOrder={updateOrderStatus.isPending}
           />
         </ConversationWrapper>
       </Layout>

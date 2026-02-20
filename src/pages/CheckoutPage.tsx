@@ -13,7 +13,7 @@ import { PageTitle } from '@/components/common/PageTitle';
 import { stripePromise } from '@/lib/stripe';
 import { useListing } from '@/queries/useListings';
 
-type CheckoutStep = 'shipping' | 'payment' | 'summary';
+type CheckoutStep = 'shipping' | 'payment' | 'summary' | 'confirmed';
 
 export function CheckoutPage() {
   const { id } = useParams<{ id: string }>();
@@ -61,32 +61,36 @@ export function CheckoutPage() {
 
   return (
     <Container>
-      <Header>
-        <PageTitle>Checkout</PageTitle>
-      </Header>
+      {currentStep !== 'confirmed' && (
+        <>
+          <Header>
+            <PageTitle>Checkout</PageTitle>
+          </Header>
 
-      <ProgressBar>
-        <ProgressStep active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-          <StepNumber active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-            {currentStep !== 'shipping' ? '✓' : '1'}
-          </StepNumber>
-          <StepLabel>Shipping</StepLabel>
-        </ProgressStep>
-        <ProgressLine completed={currentStep === 'summary' || currentStep === 'payment'} />
-        <ProgressStep active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-          <StepNumber active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-            {currentStep === 'summary' ? '✓' : '2'}
-          </StepNumber>
-          <StepLabel>Payment</StepLabel>
-        </ProgressStep>
-        <ProgressLine completed={currentStep === 'summary'} />
-        <ProgressStep active={currentStep === 'summary'} completed={false}>
-          <StepNumber active={currentStep === 'summary'} completed={false}>
-            3
-          </StepNumber>
-          <StepLabel>Summary</StepLabel>
-        </ProgressStep>
-      </ProgressBar>
+          <ProgressBar>
+            <ProgressStep active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
+              <StepNumber active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
+                {currentStep !== 'shipping' ? '✓' : '1'}
+              </StepNumber>
+              <StepLabel>Shipping</StepLabel>
+            </ProgressStep>
+            <ProgressLine completed={currentStep === 'summary' || currentStep === 'payment'} />
+            <ProgressStep active={currentStep === 'payment'} completed={currentStep === 'summary'}>
+              <StepNumber active={currentStep === 'payment'} completed={currentStep === 'summary'}>
+                {currentStep === 'summary' ? '✓' : '2'}
+              </StepNumber>
+              <StepLabel>Payment</StepLabel>
+            </ProgressStep>
+            <ProgressLine completed={currentStep === 'summary'} />
+            <ProgressStep active={currentStep === 'summary'} completed={false}>
+              <StepNumber active={currentStep === 'summary'} completed={false}>
+                3
+              </StepNumber>
+              <StepLabel>Summary</StepLabel>
+            </ProgressStep>
+          </ProgressBar>
+        </>
+      )}
 
       <Content>
         {currentStep === 'shipping' && (
@@ -104,12 +108,13 @@ export function CheckoutPage() {
           </Elements>
         )}
 
-        {currentStep === 'summary' && shippingAddress && paymentIntentId && (
+        {(currentStep === 'summary' || currentStep === 'confirmed') && shippingAddress && paymentIntentId && (
           <OrderSummary
             listing={listing}
             shippingAddress={shippingAddress}
             paymentIntentId={paymentIntentId}
             onBack={handleSummaryBack}
+            onConfirmed={() => setCurrentStep('confirmed')}
           />
         )}
       </Content>

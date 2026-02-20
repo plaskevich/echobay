@@ -152,15 +152,15 @@ const ChatItemSubtitle = styled.div`
 `;
 
 const ChatItemArtist = styled.span`
-  font-size: 0.75rem;
-  color: ${(props) => props.theme.text.muted};
+  font-size: 0.8rem;
+  color: ${(props) => props.theme.text.secondary};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const ChatItemTitleLine = styled.span`
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: ${(props) => props.theme.text.muted};
   overflow: hidden;
   text-overflow: ellipsis;

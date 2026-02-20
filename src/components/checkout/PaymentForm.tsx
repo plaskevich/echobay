@@ -103,11 +103,11 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
       </TestModeNotice>
 
       <ButtonContainer>
-        <Button type="button" variant="outline" size="large" onClick={onBack} disabled={processing}>
+        <Button type="button" variant="outline" onClick={onBack} disabled={processing}>
           Back
         </Button>
-        <Button type="submit" variant="primary" size="large" disabled={!stripe || processing}>
-          {processing ? 'Processing...' : 'Review Order'}
+        <Button type="submit" variant="primary" disabled={!stripe || processing} isLoading={processing}>
+          Review Order
         </Button>
       </ButtonContainer>
     </Form>
@@ -211,13 +211,14 @@ const NoticeText = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
 
   @media (max-width: 768px) {
-    gap: 0.5rem;
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 `;
