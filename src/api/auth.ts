@@ -47,6 +47,12 @@ export async function resetPassword(email: string) {
   });
 }
 
+export async function updateEmail(newEmail: string) {
+  return await supabase.auth.updateUser({
+    email: newEmail,
+  });
+}
+
 export async function updatePassword(newPassword: string) {
   return await supabase.auth.updateUser({
     password: newPassword,

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import type { Subscription, User } from '@supabase/supabase-js';
 
-import { getSession, logInWithEmail, onAuthStateChange, signOut, signUpWithEmail } from '@/api/auth';
+import { getCurrentUser, getSession, logInWithEmail, onAuthStateChange, signOut, signUpWithEmail } from '@/api/auth';
 import { insertProfileIfNotExists } from '@/api/profile';
 
 let authSubscription: Subscription | null = null;
@@ -95,7 +95,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } = await getSession();
 
       if (session?.user) {
-        set({ user: session.user });
+        const freshUser = await getCurrentUser();
+        set({ user: freshUser ?? session.user });
       }
 
       if (authSubscription) {
@@ -103,6 +104,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const { data } = onAuthStateChange((event, session) => {
+        if (event === 'INITIAL_SESSION') return;
         set({ user: session?.user ?? null });
         if (event === 'PASSWORD_RECOVERY') {
           set({ isRecoveryMode: true });

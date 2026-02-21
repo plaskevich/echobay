@@ -254,4 +254,11 @@ const NavUnreadDot = styled.span`
   border-radius: ${(props) => props.theme.borderRadius.full};
   background-color: ${(props) => props.theme.state.error};
   pointer-events: none;
+
+  @media (max-width: 640px) {
+    top: 0.5rem;
+    right: 0.4rem;
+    width: 0.45rem;
+    height: 0.45rem;
+  }
 `;

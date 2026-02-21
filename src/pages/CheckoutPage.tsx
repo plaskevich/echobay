@@ -12,6 +12,8 @@ import { Button } from '@/components/common/Button';
 import { PageTitle } from '@/components/common/PageTitle';
 import { stripePromise } from '@/lib/stripe';
 import { useListing } from '@/queries/useListings';
+import { useShippingAddress } from '@/queries/useShipping';
+import { useAuthStore } from '@/store/auth-store';
 
 type CheckoutStep = 'shipping' | 'payment' | 'summary' | 'confirmed';
 
@@ -19,6 +21,8 @@ export function CheckoutPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: listing, isLoading, error } = useListing(id!);
+  const user = useAuthStore((s) => s.user);
+  const { data: savedAddress } = useShippingAddress(user?.id);
 
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('shipping');
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
@@ -94,7 +98,7 @@ export function CheckoutPage() {
 
       <Content>
         {currentStep === 'shipping' && (
-          <ShippingForm onNext={handleShippingNext} initialData={shippingAddress || undefined} />
+          <ShippingForm onSubmit={handleShippingNext} initialData={shippingAddress || savedAddress || undefined} />
         )}
 
         {currentStep === 'payment' && (

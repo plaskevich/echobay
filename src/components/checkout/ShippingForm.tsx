@@ -17,11 +17,20 @@ export interface ShippingAddress {
 }
 
 interface ShippingFormProps {
-  onNext: (address: ShippingAddress) => void;
+  onSubmit: (address: ShippingAddress) => void;
   initialData?: ShippingAddress;
+  submitLabel?: string;
+  isLoading?: boolean;
+  title?: string;
 }
 
-export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
+export function ShippingForm({
+  onSubmit,
+  initialData,
+  submitLabel = 'Continue to Payment',
+  isLoading,
+  title = 'Shipping Address',
+}: ShippingFormProps) {
   const [formData, setFormData] = useState<ShippingAddress>(
     initialData || {
       fullName: '',
@@ -57,7 +66,7 @@ export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onNext(formData);
+      onSubmit(formData);
     }
   };
 
@@ -70,7 +79,7 @@ export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormTitle>Shipping Address</FormTitle>
+      {title && <FormTitle>{title}</FormTitle>}
       <FormField>
         <Label>Full Name *</Label>
         <Input
@@ -177,8 +186,8 @@ export function ShippingForm({ onNext, initialData }: ShippingFormProps) {
       </FormField>
 
       <ButtonContainer>
-        <Button type="submit" variant="primary">
-          Continue to Payment
+        <Button type="submit" variant="primary" isLoading={isLoading}>
+          {submitLabel}
         </Button>
       </ButtonContainer>
     </Form>
