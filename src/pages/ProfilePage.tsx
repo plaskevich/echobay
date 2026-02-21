@@ -91,22 +91,24 @@ const FilterTabs = styled.div`
 `;
 
 const FilterTab = styled.button<{ $active: boolean }>`
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
+  white-space: nowrap;
 
   @media (max-width: 640px) {
     flex: 1;
   }
-  border-radius: ${(props) => props.theme.borderRadius.sm};
+  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid ${(props) => (props.$active ? props.theme.primary.main : props.theme.border.primary)};
-  background: ${(props) => (props.$active ? props.theme.primary.main : 'transparent')};
-  color: ${(props) => (props.$active ? props.theme.text.primary : props.theme.text.secondary)};
+  background-color: ${(props) => (props.$active ? props.theme.primary.light : props.theme.background.primary)};
+  color: ${(props) => (props.$active ? props.theme.primary.main : props.theme.text.primary)};
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: ${(props) => (props.$active ? props.theme.primary.main : props.theme.border.hover)};
-    background: ${(props) => (props.$active ? props.theme.primary.main : props.theme.background.secondaryHover)};
+    border-color: ${(props) => props.theme.primary.main};
+    background-color: ${(props) => props.theme.primary.light};
+    color: ${(props) => props.theme.primary.main};
   }
 `;

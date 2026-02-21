@@ -187,7 +187,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const FiltersRow = styled.div`
@@ -227,9 +227,10 @@ const FilterPill = styled.div`
   align-items: center;
   gap: 0.375rem;
   padding: 0.375rem 0.5rem 0.375rem 0.75rem;
-  background-color: ${({ theme }) => theme.background.tertiary};
+  background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.text.primary};
   border-radius: ${({ theme }) => theme.borderRadius.full};
+  border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: 0.8125rem;
   font-weight: 500;
 

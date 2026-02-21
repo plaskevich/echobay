@@ -59,17 +59,41 @@ export function ListingsView() {
 
   return (
     <>
-      <SearchWrapper>
-        <SearchBar />
-      </SearchWrapper>
-      <FilterBar filters={filters} appliedFilters={appliedFilters} onFiltersChange={setFilters} onApply={handleApply} />
+      <StickyFilters>
+        <SearchWrapper>
+          <SearchBar />
+        </SearchWrapper>
+        <FilterBar
+          filters={filters}
+          appliedFilters={appliedFilters}
+          onFiltersChange={setFilters}
+          onApply={handleApply}
+        />
+      </StickyFilters>
       {content}
     </>
   );
 }
 
+const StickyFilters = styled.div`
+  position: sticky;
+  top: 3rem;
+  z-index: 40;
+  background-color: ${(props) => props.theme.background.primary};
+  padding: 1rem 0;
+
+  @media (max-width: 768px) {
+    margin: 0 -0.75rem;
+    padding: 1rem 0.75rem 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    top: 4rem;
+  }
+`;
+
 const SearchWrapper = styled.div`
-  padding: 0.25rem 0 1rem 0;
+  padding: 0.25rem 0 0.75rem 0;
 
   @media (min-width: 768px) {
     display: none;
@@ -92,6 +116,7 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
+  padding-top: 0.1rem;
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
