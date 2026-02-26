@@ -43,19 +43,19 @@ export function UserListings({
     <Container>
       <HeaderRow>
         <SectionTitle>{title}</SectionTitle>
-        <ListingCount>
+        <ListingCount data-testid="listing-count">
           {listings.length} {listings.length === 1 ? 'item' : 'items'}
         </ListingCount>
       </HeaderRow>
       {headerExtra}
 
       {listings.length === 0 ? (
-        <EmptyState>
+        <EmptyState data-testid="listings-empty">
           <EmptyMessage>{emptyMessage}</EmptyMessage>
           {emptyAction}
         </EmptyState>
       ) : (
-        <Grid>
+        <Grid data-testid="listings-grid">
           {listings.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}

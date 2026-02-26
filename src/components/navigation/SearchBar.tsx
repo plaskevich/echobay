@@ -55,12 +55,13 @@ export function SearchBar() {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          data-testid="search-input"
         />
         <SearchIconWrapper>
           <PiMagnifyingGlass />
         </SearchIconWrapper>
         {inputValue && (
-          <ClearButton onClick={handleClear} aria-label="Clear search">
+          <ClearButton onClick={handleClear} aria-label="Clear search" data-testid="clear-search-button">
             <PiX />
           </ClearButton>
         )}

@@ -20,11 +20,17 @@ export function BuyerActions({ listingId }: BuyerActionsProps) {
 
   return (
     <>
-      <Button variant="primary" size="medium" fullWidth onClick={handleBuyNow}>
+      <Button variant="primary" size="medium" fullWidth onClick={handleBuyNow} data-testid="buy-now-button">
         <PiShoppingCart size={20} />
         Buy now
       </Button>
-      <Button variant="outline" size="medium" fullWidth onClick={handleContactSeller}>
+      <Button
+        variant="outline"
+        size="medium"
+        fullWidth
+        onClick={handleContactSeller}
+        data-testid="contact-seller-button"
+      >
         <PiChatCenteredText size={20} />
         Contact seller
       </Button>

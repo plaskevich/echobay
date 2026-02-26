@@ -14,7 +14,7 @@ interface SearchResultsListProps {
 
 export function SearchResultsList({ results, onSelectRelease, onClose, isSearching }: SearchResultsListProps) {
   return (
-    <SearchResults>
+    <SearchResults data-testid="discogs-results">
       <ResultsHeader>
         <ResultsTitle>Select a release to auto-fill the form:</ResultsTitle>
         <CloseResultsButton type="button" onClick={onClose}>

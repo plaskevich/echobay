@@ -30,7 +30,7 @@ export function ProfileEditForm() {
   }
 
   return (
-    <Container>
+    <Container data-testid="profile-edit-form">
       <FormHeader title="Edit Profile" subtitle="Update your profile information" />
 
       <Form onSubmit={handleSubmit}>
@@ -53,10 +53,16 @@ export function ProfileEditForm() {
         />
 
         <ButtonGroup>
-          <Button type="submit" variant="primary" disabled={submitting}>
+          <Button type="submit" variant="primary" disabled={submitting} data-testid="save-profile-button">
             {submitting ? 'Saving...' : 'Save Changes'}
           </Button>
-          <Button type="button" variant="secondary" onClick={handleCancel} disabled={submitting}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleCancel}
+            disabled={submitting}
+            data-testid="cancel-edit-button"
+          >
             Cancel
           </Button>
         </ButtonGroup>

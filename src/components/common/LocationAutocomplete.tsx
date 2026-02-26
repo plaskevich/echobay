@@ -106,6 +106,7 @@ export function LocationAutocomplete({
                 key={`${suggestion.displayName}-${index}`}
                 onClick={() => handleSuggestionClick(suggestion.displayName)}
                 $isSelected={index === selectedIndex}
+                data-testid={`location-suggestion-${index}`}
               >
                 <LocationName>{suggestion.name}</LocationName>
                 <LocationCountry>

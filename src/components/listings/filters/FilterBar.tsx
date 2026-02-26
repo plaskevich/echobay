@@ -160,7 +160,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
         />
 
         {isActive && (
-          <ClearAllButton onClick={handleClearAll}>
+          <ClearAllButton onClick={handleClearAll} data-testid="clear-filters-button">
             <PiX />
             Clear filters
           </ClearAllButton>

@@ -28,19 +28,19 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
       {format && (
         <InfoItem>
           <InfoLabel>Format</InfoLabel>
-          <InfoValue>{getFormatLabel(format)}</InfoValue>
+          <InfoValue data-testid="listing-format">{getFormatLabel(format)}</InfoValue>
         </InfoItem>
       )}
       {condition && (
         <InfoItem>
           <InfoLabel>Condition</InfoLabel>
-          <InfoValue>{capitalize(condition)}</InfoValue>
+          <InfoValue data-testid="listing-condition">{capitalize(condition)}</InfoValue>
         </InfoItem>
       )}
       {genres && genres.length > 0 && (
         <InfoItem>
           <InfoLabel>Genre{genres.length > 1 ? 's' : ''}</InfoLabel>
-          <GenreList>
+          <GenreList data-testid="listing-genres">
             {genres.map((genre) => (
               <GenreTag key={genre.id}>{genre.name}</GenreTag>
             ))}
@@ -50,13 +50,13 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
       {year && (
         <InfoItem>
           <InfoLabel>Year</InfoLabel>
-          <InfoValue>{year}</InfoValue>
+          <InfoValue data-testid="listing-year">{year}</InfoValue>
         </InfoItem>
       )}
       {label && (
         <InfoItem>
           <InfoLabel>Label</InfoLabel>
-          <InfoValue>{capitalize(label)}</InfoValue>
+          <InfoValue data-testid="listing-label">{capitalize(label)}</InfoValue>
         </InfoItem>
       )}
     </InfoGrid>

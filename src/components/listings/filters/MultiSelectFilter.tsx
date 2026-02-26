@@ -92,7 +92,7 @@ export function MultiSelectFilter({
   };
 
   return (
-    <FilterDropdownContainer>
+    <FilterDropdownContainer data-testid={`filter-dropdown-${label.toLowerCase()}`}>
       <FilterButton $active={hasSelection} onClick={handleToggle}>
         {label}
         <CaretIcon />
@@ -116,6 +116,7 @@ export function MultiSelectFilter({
                   placeholder={`Search ${label.toLowerCase()}...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  data-testid="filter-search-input"
                 />
               </SearchInputWrapper>
             )}
@@ -136,7 +137,9 @@ export function MultiSelectFilter({
               )}
             </CheckboxList>
             <ApplyButtonWrapper>
-              <DropdownApplyButton onClick={onApply}>Show results</DropdownApplyButton>
+              <DropdownApplyButton onClick={onApply} data-testid="filter-apply-button">
+                Show results
+              </DropdownApplyButton>
             </ApplyButtonWrapper>
           </DropdownMenu>
         </>

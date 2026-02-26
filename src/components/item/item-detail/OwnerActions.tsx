@@ -28,7 +28,7 @@ export function OwnerActions({
 }: OwnerActionsProps) {
   if (status === 'sold') {
     return (
-      <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete}>
+      <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete} data-testid="delete-listing-button">
         <PiTrashDuotone size={20} />
         Delete Listing
       </Button>
@@ -39,11 +39,11 @@ export function OwnerActions({
     <>
       {status === 'active' && (
         <>
-          <Button variant="primary" size="medium" fullWidth onClick={onMarkAsSold}>
+          <Button variant="primary" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
             <PiCheckCircleDuotone size={20} />
             Mark as Sold
           </Button>
-          <Button variant="outline" size="medium" fullWidth onClick={onHide}>
+          <Button variant="outline" size="medium" fullWidth onClick={onHide} data-testid="hide-listing-button">
             <PiEyeSlashDuotone size={20} />
             Hide Listing
           </Button>
@@ -51,21 +51,21 @@ export function OwnerActions({
       )}
       {status === 'hidden' && onSetActive && (
         <>
-          <Button variant="primary" size="medium" fullWidth onClick={onSetActive}>
+          <Button variant="primary" size="medium" fullWidth onClick={onSetActive} data-testid="set-active-button">
             <PiEyeDuotone size={20} />
             Set as Active
           </Button>
-          <Button variant="outline" size="medium" fullWidth onClick={onMarkAsSold}>
+          <Button variant="outline" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
             <PiCheckCircleDuotone size={20} />
             Mark as Sold
           </Button>
         </>
       )}
-      <Button variant="outline" size="medium" fullWidth onClick={onEdit}>
+      <Button variant="outline" size="medium" fullWidth onClick={onEdit} data-testid="edit-listing-button">
         <PiPencilSimpleLineDuotone size={20} />
         Edit Listing
       </Button>
-      <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete}>
+      <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete} data-testid="delete-listing-button">
         <PiTrashDuotone size={20} />
         Delete Listing
       </Button>

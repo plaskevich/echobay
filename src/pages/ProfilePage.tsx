@@ -60,9 +60,14 @@ export default function ProfilePage() {
         }
         headerExtra={
           listings.length > 0 && (
-            <FilterTabs>
+            <FilterTabs data-testid="status-filters">
               {STATUS_FILTERS.map((f) => (
-                <FilterTab key={f.value} $active={statusFilter === f.value} onClick={() => setStatusFilter(f.value)}>
+                <FilterTab
+                  key={f.value}
+                  $active={statusFilter === f.value}
+                  onClick={() => setStatusFilter(f.value)}
+                  data-testid={`status-filter-${f.value}`}
+                >
                   {f.label}
                 </FilterTab>
               ))}

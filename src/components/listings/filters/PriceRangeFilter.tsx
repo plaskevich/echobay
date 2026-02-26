@@ -48,7 +48,7 @@ export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen
   };
 
   return (
-    <FilterDropdownContainer>
+    <FilterDropdownContainer data-testid="filter-dropdown-price">
       <FilterButton $active={hasValue} onClick={onToggle}>
         {getLabel()}
         <CaretIcon />
@@ -91,7 +91,7 @@ export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen
             </PriceInputs>
             {hasInvalidRange && <ValidationError>Min price must be less than max</ValidationError>}
             <ApplyButtonWrapper>
-              <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange}>
+              <DropdownApplyButton onClick={onApply} disabled={hasInvalidRange} data-testid="filter-apply-button">
                 Show results
               </DropdownApplyButton>
             </ApplyButtonWrapper>

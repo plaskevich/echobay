@@ -41,6 +41,7 @@ export function FormFields({
               type="text"
               value={formData.title}
               disabled={isSubmitting}
+              data-testid="listing-title-input"
             />
           </FormGroup>
 
@@ -55,6 +56,7 @@ export function FormFields({
               type="text"
               value={formData.artist}
               disabled={isSubmitting}
+              data-testid="listing-artist-input"
             />
           </FormGroup>
 
@@ -72,6 +74,7 @@ export function FormFields({
               max={new Date().getFullYear()}
               value={formData.year}
               disabled={isSubmitting}
+              data-testid="listing-year-input"
             />
           </FormGroup>
 
@@ -87,6 +90,7 @@ export function FormFields({
               type="text"
               value={formData.label}
               disabled={isSubmitting}
+              data-testid="listing-label-input"
             />
           </FormGroup>
         </TwoColumnGrid>
@@ -104,6 +108,7 @@ export function FormFields({
               required
               value={formData.format}
               disabled={isSubmitting}
+              data-testid="listing-format-select"
             >
               {FORMAT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -121,6 +126,7 @@ export function FormFields({
               onChange={onChange}
               value={formData.condition}
               disabled={isSubmitting}
+              data-testid="listing-condition-select"
             >
               {CONDITION_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -161,6 +167,7 @@ export function FormFields({
               type="number"
               value={formData.price}
               disabled={isSubmitting}
+              data-testid="listing-price-input"
             />
           </FormGroup>
 
@@ -177,6 +184,7 @@ export function FormFields({
               type="number"
               value={formData.shipping_price}
               disabled={isSubmitting}
+              data-testid="listing-shipping-input"
             />
           </FormGroup>
         </TwoColumnGrid>
@@ -192,6 +200,7 @@ export function FormFields({
             placeholder="Add any additional details about the item..."
             value={formData.description}
             disabled={isSubmitting}
+            data-testid="listing-description-input"
           />
         </FormGroup>
       </Section>

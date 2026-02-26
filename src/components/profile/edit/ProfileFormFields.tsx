@@ -31,6 +31,7 @@ export function ProfileFormFields({
           onChange={(e) => onUsernameChange(e.target.value)}
           placeholder="Enter your username"
           disabled={disabled}
+          data-testid="username-input"
         />
       </FormGroup>
 
@@ -54,6 +55,7 @@ export function ProfileFormFields({
           placeholder="Tell us about yourself..."
           disabled={disabled}
           rows={6}
+          data-testid="about-input"
         />
       </FormGroup>
     </>

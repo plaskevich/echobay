@@ -59,7 +59,11 @@ export function ImageGallery({ images, title, listingId, isOwner, status }: Imag
       <ImageSection>
         <MainImageWrapper onClick={() => setIsLightboxOpen(true)}>
           <MainImage src={images[selectedImage]} alt={title} />
-          {showStatusBanner && <StatusBanner $status={status!}>{getStatusLabel(status)}</StatusBanner>}
+          {showStatusBanner && (
+            <StatusBanner $status={status!} data-testid="status-banner">
+              {getStatusLabel(status)}
+            </StatusBanner>
+          )}
           <ZoomHint>Click to view fullscreen</ZoomHint>
           {user && !isOwner && (
             <FavoriteButton onClick={handleFavoriteClick} disabled={isLoading}>

@@ -10,7 +10,7 @@ interface SearchResultItemProps {
 
 export function SearchResultItem({ result, onSelect, isDisabled }: SearchResultItemProps) {
   return (
-    <ResultItem onClick={() => onSelect(result.id)} disabled={isDisabled}>
+    <ResultItem onClick={() => onSelect(result.id)} disabled={isDisabled} data-testid={`discogs-result-${result.id}`}>
       {result.thumb && <ResultImage src={result.thumb} alt={result.title} loading="lazy" />}
       <ResultInfo>
         <ResultTitle>{result.title}</ResultTitle>

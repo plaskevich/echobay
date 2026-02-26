@@ -31,7 +31,7 @@ export function ProfileHeader({
   showEditButton,
 }: ProfileHeaderProps) {
   return (
-    <Header>
+    <Header data-testid="profile-header">
       <ProfilePictureContainer>
         {isLoading || !avatarUrl ? (
           <Placeholder>
@@ -42,21 +42,21 @@ export function ProfileHeader({
         )}
       </ProfilePictureContainer>
       <ProfileInfo>
-        <Username>{username}</Username>
+        <Username data-testid="profile-username">{username}</Username>
         {memberSince && (
-          <ProfileMeta>
+          <ProfileMeta data-testid="profile-member-since">
             <PiCalendarDuotone size={16} />
             Member since {formatRelativeDate(memberSince)}
           </ProfileMeta>
         )}
         {location && (
-          <ProfileMeta>
+          <ProfileMeta data-testid="profile-location">
             <PiMapPinDuotone size={16} />
             {location}
           </ProfileMeta>
         )}
         {about && (
-          <ProfileAbout>
+          <ProfileAbout data-testid="profile-about">
             <PiNotePencilDuotone size={16} />
             {about}
           </ProfileAbout>
@@ -65,7 +65,7 @@ export function ProfileHeader({
       {showEditButton && (
         <ButtonsWrapper>
           <Link to="/profile/edit">
-            <Button variant="outline" size="medium">
+            <Button variant="outline" size="medium" data-testid="edit-profile-button">
               <PiPencilSimpleLineDuotone size={20} />
               Edit Profile
             </Button>

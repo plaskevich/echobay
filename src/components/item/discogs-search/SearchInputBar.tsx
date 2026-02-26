@@ -35,13 +35,19 @@ export function SearchInputBar({
         onKeyDown={handleKeyDown}
         placeholder="Search for artist, album, or record..."
         disabled={isSearching || isDisabled}
+        data-testid="discogs-search-input"
       />
       {searchQuery && (
         <ClearButton type="button" onClick={onClear} disabled={isSearching} aria-label="Clear search">
           <PiX />
         </ClearButton>
       )}
-      <SearchButton type="button" onClick={onSearch} disabled={isSearching || !searchQuery.trim() || isDisabled}>
+      <SearchButton
+        type="button"
+        onClick={onSearch}
+        disabled={isSearching || !searchQuery.trim() || isDisabled}
+        data-testid="discogs-search-button"
+      >
         <PiMagnifyingGlass size={18} />
       </SearchButton>
     </SearchInputGroup>

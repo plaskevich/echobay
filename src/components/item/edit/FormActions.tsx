@@ -15,10 +15,22 @@ export function FormActions({ error, isSubmitting, onCancel, mode }: FormActions
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
       <ButtonGroup>
-        <Button onClick={onCancel} type="button" variant="outline" disabled={isSubmitting}>
+        <Button
+          onClick={onCancel}
+          type="button"
+          variant="outline"
+          disabled={isSubmitting}
+          data-testid="listing-cancel-button"
+        >
           Cancel
         </Button>
-        <Button isLoading={isSubmitting} type="submit" variant="primary" disabled={isSubmitting}>
+        <Button
+          isLoading={isSubmitting}
+          type="submit"
+          variant="primary"
+          disabled={isSubmitting}
+          data-testid="listing-submit-button"
+        >
           {isSubmitting
             ? mode === 'create'
               ? 'Creating Listing...'

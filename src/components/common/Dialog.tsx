@@ -37,10 +37,10 @@ export function Dialog({
           <DialogMessage>{message}</DialogMessage>
         </DialogBody>
         <DialogFooter>
-          <Button onClick={onClose} type="button" variant="secondary">
+          <Button onClick={onClose} type="button" variant="secondary" data-testid="dialog-cancel">
             {cancelText}
           </Button>
-          <Button onClick={onConfirm} type="button" variant={confirmButtonVariant}>
+          <Button onClick={onConfirm} type="button" variant={confirmButtonVariant} data-testid="dialog-confirm">
             {confirmText}
           </Button>
         </DialogFooter>

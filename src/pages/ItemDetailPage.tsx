@@ -76,15 +76,17 @@ export function ItemDetailPage() {
 
         <DetailsSection>
           <TitleSection>
-            <Artist>{listing.artist}</Artist>
-            <PageTitle>{listing.title}</PageTitle>
+            <Artist data-testid="artist">{listing.artist}</Artist>
+            <PageTitle data-testid="title">{listing.title}</PageTitle>
           </TitleSection>
           <PriceSection>
-            <Price>{listing.price.toFixed(2)}€</Price>
+            <Price data-testid="listing-price">{listing.price.toFixed(2)}€</Price>
             {listing.shipping_price != null && listing.shipping_price > 0 ? (
-              <ShippingPrice>+ {listing.shipping_price.toFixed(2)}€ shipping</ShippingPrice>
+              <ShippingPrice data-testid="listing-shipping">
+                + {listing.shipping_price.toFixed(2)}€ shipping
+              </ShippingPrice>
             ) : (
-              <ShippingPrice>Free shipping</ShippingPrice>
+              <ShippingPrice data-testid="listing-shipping">Free shipping</ShippingPrice>
             )}
           </PriceSection>
 
@@ -99,13 +101,13 @@ export function ItemDetailPage() {
           {listing.description && (
             <DescriptionSection>
               <SectionTitle>Description</SectionTitle>
-              <Description>{listing.description}</Description>
+              <Description data-testid="listing-description">{listing.description}</Description>
             </DescriptionSection>
           )}
 
           <SellerSection>
             <SectionTitle>Seller</SectionTitle>
-            <SellerCard to={`/users/${listing.owner_id}`}>
+            <SellerCard to={`/users/${listing.owner_id}`} data-testid="seller-card">
               <SellerAvatarContainer>
                 {sellerProfile?.avatar_url ? (
                   <SellerAvatar src={sellerProfile.avatar_url} alt="" referrerPolicy="no-referrer" />
@@ -116,9 +118,9 @@ export function ItemDetailPage() {
                 )}
               </SellerAvatarContainer>
               <SellerInfo>
-                <SellerName>{sellerProfile?.username || 'Seller'}</SellerName>
+                <SellerName data-testid="seller-name">{sellerProfile?.username || 'Seller'}</SellerName>
                 {sellerProfile?.location && (
-                  <SellerLocation>
+                  <SellerLocation data-testid="seller-location">
                     <PiMapPinDuotone size={14} />
                     {sellerProfile.location}
                   </SellerLocation>
