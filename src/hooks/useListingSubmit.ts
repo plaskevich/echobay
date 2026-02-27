@@ -1,4 +1,5 @@
-import { type FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,6 @@ interface UseListingSubmitProps {
   uploadImages: () => Promise<string[]>;
   resetImages: () => void;
   listingId?: string;
-  initialData?: Partial<ListingFormData>;
   existingImages?: string[];
   initialMainGenreIds?: string[];
   initialSubgenreIds?: string[];
@@ -33,7 +33,6 @@ export function useListingSubmit({
   uploadImages,
   resetImages,
   listingId,
-  initialData,
   existingImages = [],
   initialMainGenreIds = [],
   initialSubgenreIds = [],
@@ -44,38 +43,33 @@ export function useListingSubmit({
   const [error, setError] = useState<string | null>(null);
   const isEditMode = !!listingId;
 
-  const initialFormData: ListingFormData = {
-    title: initialData?.title || '',
-    artist: initialData?.artist || '',
-    year: initialData?.year || '',
-    format: initialData?.format || '',
-    label: initialData?.label || '',
-    condition: initialData?.condition || '',
-    price: initialData?.price || '',
-    shipping_price: initialData?.shipping_price || '',
-    description: initialData?.description || '',
-  };
+  const form = useForm<ListingFormData>({
+    defaultValues: {
+      title: '',
+      artist: '',
+      year: '',
+      format: '',
+      label: '',
+      condition: '',
+      price: '',
+      shipping_price: '',
+      description: '',
+    },
+  });
 
-  const [formData, setFormData] = useState<ListingFormData>(initialFormData);
   const [selectedMainGenreIds, setSelectedMainGenreIds] = useState<string[]>(initialMainGenreIds);
   const [selectedSubgenreIds, setSelectedSubgenreIds] = useState<string[]>(initialSubgenreIds);
   const selectedGenreIds = [...selectedMainGenreIds, ...selectedSubgenreIds];
 
   const resetForm = () => {
-    setFormData(initialFormData);
+    form.reset();
     setSelectedMainGenreIds([]);
     setSelectedSubgenreIds([]);
     resetImages();
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: ListingFormData) => {
     setError(null);
-
-    if (!formData.title || !formData.artist || !formData.format || !formData.price || !formData.shipping_price) {
-      setError('Please fill in all required fields (Title, Artist, Format, Price, Shipping Price)');
-      return;
-    }
 
     if (!userId) {
       setError('You must be logged in to create a listing');
@@ -89,15 +83,15 @@ export function useListingSubmit({
 
       const listingData = {
         owner_id: userId,
-        title: formData.title,
-        artist: formData.artist,
-        year: formData.year ? parseInt(formData.year, 10) : null,
-        format: formData.format,
-        label: formData.label || null,
-        condition: formData.condition || null,
-        price: parseFloat(formData.price),
-        shipping_price: formData.shipping_price ? parseFloat(formData.shipping_price) : 0,
-        description: formData.description || null,
+        title: data.title,
+        artist: data.artist,
+        year: data.year ? parseInt(data.year, 10) : null,
+        format: data.format,
+        label: data.label || null,
+        condition: data.condition || null,
+        price: parseFloat(data.price),
+        shipping_price: data.shipping_price ? parseFloat(data.shipping_price) : 0,
+        description: data.description || null,
         images: allImages,
       };
 
@@ -135,8 +129,7 @@ export function useListingSubmit({
   };
 
   return {
-    formData,
-    setFormData,
+    form,
     selectedMainGenreIds,
     setSelectedMainGenreIds,
     selectedSubgenreIds,
@@ -144,7 +137,7 @@ export function useListingSubmit({
     selectedGenreIds,
     isSubmitting: createMutation.isPending || updateMutation.isPending,
     error,
-    handleSubmit,
+    handleSubmit: form.handleSubmit(onSubmit),
     isEditMode,
   };
 }

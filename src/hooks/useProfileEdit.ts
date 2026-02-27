@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,7 @@ import { getPublicUrl, uploadImage } from '@/api/storage';
 import { useProfile, useUpsertProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
-interface ProfileData {
+export interface ProfileFormData {
   username: string;
   location: string;
   about: string;
@@ -20,27 +21,26 @@ export function useProfileEdit() {
   const upsertProfileMutation = useUpsertProfile();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    username: '',
-    location: '',
-    about: '',
-    avatar_url: '',
+
+  const form = useForm<ProfileFormData>({
+    defaultValues: {
+      username: '',
+      location: '',
+      about: '',
+      avatar_url: '',
+    },
   });
 
   useEffect(() => {
     if (existingProfile) {
-      setProfileData({
+      form.reset({
         username: existingProfile.username || '',
         location: existingProfile.location || '',
         about: existingProfile.about || '',
         avatar_url: existingProfile.avatar_url || '',
       });
     }
-  }, [existingProfile]);
-
-  const updateField = (field: keyof ProfileData, value: string) => {
-    setProfileData((prev) => ({ ...prev, [field]: value }));
-  };
+  }, [existingProfile, form]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -69,12 +69,11 @@ export function useProfileEdit() {
     setAvatarPreview(null);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ProfileFormData) => {
     if (!user) return;
 
     try {
-      let avatarUrl = profileData.avatar_url;
+      let avatarUrl = data.avatar_url;
       if (avatarFile) {
         const fileExt = avatarFile.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
@@ -101,9 +100,9 @@ export function useProfileEdit() {
 
       await upsertProfileMutation.mutateAsync({
         id: user.id,
-        username: profileData.username,
-        location: profileData.location,
-        about: profileData.about,
+        username: data.username,
+        location: data.location,
+        about: data.about,
         avatar_url: avatarUrl,
       });
 
@@ -120,15 +119,13 @@ export function useProfileEdit() {
   };
 
   return {
-    profileData,
+    form,
     loading,
     submitting: upsertProfileMutation.isPending,
-    avatarFile,
     avatarPreview,
-    updateField,
     handleAvatarChange,
     removeAvatar,
-    handleSubmit,
+    handleSubmit: form.handleSubmit(onSubmit),
     handleCancel,
   };
 }

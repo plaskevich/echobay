@@ -1,33 +1,39 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { resetPassword } from '@/api/auth';
 import { Button } from '@/components/common/Button';
+import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 import { PageTitle } from '@/components/common/PageTitle';
 
+interface ForgotPasswordFormData {
+  email: string;
+}
+
 export function ForgotPassword() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<ForgotPasswordFormData>({
+    defaultValues: { email: '' },
+  });
+  const [serverError, setServerError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-
+  const onSubmit = async (data: ForgotPasswordFormData) => {
+    setServerError('');
     setIsLoading(true);
-    const { error } = await resetPassword(email);
+    const { error } = await resetPassword(data.email);
     setIsLoading(false);
 
     if (error) {
-      setError(error.message);
+      setServerError(error.message);
     } else {
       setIsSubmitted(true);
     }
@@ -42,8 +48,8 @@ export function ForgotPassword() {
           <SuccessContent>
             <Subtitle>Check your email</Subtitle>
             <Description>
-              We sent a password reset link to <strong>{email}</strong>. Click the link in the email to set a new
-              password.
+              We sent a password reset link to <strong>{getValues('email')}</strong>. Click the link in the email to set
+              a new password.
             </Description>
             <BackLink to="/auth">Back to Log In</BackLink>
           </SuccessContent>
@@ -53,18 +59,21 @@ export function ForgotPassword() {
               Enter the email address associated with your account and we'll send you a link to reset your password.
             </Subtitle>
 
-            <Form onSubmit={handleSubmit}>
-              <Input
-                label="Email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-                autoComplete="email"
-              />
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <FieldWrapper>
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="Enter your email"
+                  $hasError={!!errors.email}
+                  {...register('email', { required: 'Please enter your email address' })}
+                  disabled={isLoading}
+                  autoComplete="email"
+                />
+                {errors.email && <FieldError>{errors.email.message}</FieldError>}
+              </FieldWrapper>
 
-              {error && <ErrorMessage>{error}</ErrorMessage>}
+              {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
 
               <Button type="submit" fullWidth isLoading={isLoading}>
                 Send Reset Link
@@ -130,7 +139,7 @@ const Subtitle = styled.p`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.75rem;
 `;
 
 const ErrorMessage = styled.div`

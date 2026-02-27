@@ -9,17 +9,8 @@ import { FormHeader } from './FormHeader';
 import { ProfileFormFields } from './ProfileFormFields';
 
 export function ProfileEditForm() {
-  const {
-    profileData,
-    loading,
-    submitting,
-    avatarPreview,
-    updateField,
-    handleAvatarChange,
-    removeAvatar,
-    handleSubmit,
-    handleCancel,
-  } = useProfileEdit();
+  const { form, loading, submitting, avatarPreview, handleAvatarChange, removeAvatar, handleSubmit, handleCancel } =
+    useProfileEdit();
 
   if (loading) {
     return (
@@ -35,22 +26,14 @@ export function ProfileEditForm() {
 
       <Form onSubmit={handleSubmit}>
         <AvatarUpload
-          avatarUrl={profileData.avatar_url}
+          avatarUrl={form.watch('avatar_url')}
           avatarPreview={avatarPreview || undefined}
           onAvatarChange={handleAvatarChange}
           onRemoveAvatar={removeAvatar}
           disabled={submitting}
         />
 
-        <ProfileFormFields
-          username={profileData.username}
-          location={profileData.location}
-          about={profileData.about}
-          onUsernameChange={(value) => updateField('username', value)}
-          onLocationChange={(value) => updateField('location', value)}
-          onAboutChange={(value) => updateField('about', value)}
-          disabled={submitting}
-        />
+        <ProfileFormFields register={form.register} control={form.control} disabled={submitting} />
 
         <ButtonGroup>
           <Button type="submit" variant="primary" disabled={submitting} data-testid="save-profile-button">

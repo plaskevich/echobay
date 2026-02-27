@@ -21,7 +21,7 @@ export const Description = styled.p`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.75rem;
   max-width: 480px;
   margin-top: 3rem;
   width: 100%;

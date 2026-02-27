@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { updateEmail } from '@/api/auth';
@@ -8,22 +9,28 @@ import { useAuthStore } from '@/store/auth-store';
 
 import { ButtonRow, Container, Description, Form, Message, SectionTitle } from './styles';
 
+interface EmailFormData {
+  email: string;
+}
+
 export default function EmailSettings() {
   const { user } = useAuthStore();
-  const [email, setEmail] = useState('');
+  const { register, handleSubmit, watch } = useForm<EmailFormData>({
+    defaultValues: { email: '' },
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const isOAuthUser = user?.app_metadata?.provider !== 'email';
+  const email = watch('email');
   const hasChanges = email.trim() !== '' && email !== (user?.email ?? '');
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: EmailFormData) => {
     setIsSaving(true);
     setMessage(null);
 
     try {
-      const { error } = await updateEmail(email);
+      const { error } = await updateEmail(data.email);
       if (error) throw error;
       toast.success('A confirmation link has been sent to your new email address.');
       setMessage(null);
@@ -40,7 +47,7 @@ export default function EmailSettings() {
       <SectionTitle>Change Email Address</SectionTitle>
       <Description>Update the email address associated with your account</Description>
 
-      <Form onSubmit={handleSave}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Input label="Current Email" type="email" value={user?.email ?? ''} disabled />
 
         {isOAuthUser ? (
@@ -52,10 +59,8 @@ export default function EmailSettings() {
             <Input
               label="New Email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register('email', { required: 'Email is required' })}
               placeholder="Enter new email address"
-              required
             />
 
             {message && <Message $type={message.type}>{message.text}</Message>}

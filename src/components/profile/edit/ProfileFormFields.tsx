@@ -1,25 +1,16 @@
+import { type Control, Controller, type UseFormRegister } from 'react-hook-form';
+
 import { FormGroup, Input, Label, TextArea } from '@/components/common/Form';
 import { LocationAutocomplete } from '@/components/common/LocationAutocomplete';
+import { type ProfileFormData } from '@/hooks/useProfileEdit';
 
 interface ProfileFormFieldsProps {
-  username: string;
-  location: string;
-  about: string;
-  onUsernameChange: (value: string) => void;
-  onLocationChange: (value: string) => void;
-  onAboutChange: (value: string) => void;
+  register: UseFormRegister<ProfileFormData>;
+  control: Control<ProfileFormData>;
   disabled?: boolean;
 }
 
-export function ProfileFormFields({
-  username,
-  location,
-  about,
-  onUsernameChange,
-  onLocationChange,
-  onAboutChange,
-  disabled,
-}: ProfileFormFieldsProps) {
+export function ProfileFormFields({ register, control, disabled }: ProfileFormFieldsProps) {
   return (
     <>
       <FormGroup>
@@ -27,8 +18,7 @@ export function ProfileFormFields({
         <Input
           id="username"
           type="text"
-          value={username}
-          onChange={(e) => onUsernameChange(e.target.value)}
+          {...register('username')}
           placeholder="Enter your username"
           disabled={disabled}
           data-testid="username-input"
@@ -36,13 +26,19 @@ export function ProfileFormFields({
       </FormGroup>
 
       <FormGroup>
-        <LocationAutocomplete
-          id="location"
-          value={location}
-          onChange={onLocationChange}
-          placeholder="City, Country"
-          disabled={disabled}
-          label="Location"
+        <Controller
+          name="location"
+          control={control}
+          render={({ field }) => (
+            <LocationAutocomplete
+              id="location"
+              value={field.value}
+              onChange={field.onChange}
+              placeholder="City, Country"
+              disabled={disabled}
+              label="Location"
+            />
+          )}
         />
       </FormGroup>
 
@@ -50,8 +46,7 @@ export function ProfileFormFields({
         <Label htmlFor="about">About You</Label>
         <TextArea
           id="about"
-          value={about}
-          onChange={(e) => onAboutChange(e.target.value)}
+          {...register('about')}
           placeholder="Tell us about yourself..."
           disabled={disabled}
           rows={6}

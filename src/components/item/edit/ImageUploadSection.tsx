@@ -1,6 +1,6 @@
 import { type ChangeEvent } from 'react';
 
-import { FileInput, FormGroup, Label, OptionalLabel } from '@/components/common/Form';
+import { FileInput, FormGroup, Label } from '@/components/common/Form';
 import { ImagePreview, ImagePreviewContainer, PreviewImage, RemoveImageButton } from '@/components/common/ImageUpload';
 import { ErrorMessage } from '@/components/common/Message';
 
@@ -21,9 +21,7 @@ export function ImageUploadSection({
 }: ImageUploadSectionProps) {
   return (
     <FormGroup>
-      <Label htmlFor="images">
-        Images <OptionalLabel>(optional, max 8)</OptionalLabel>
-      </Label>
+      <Label htmlFor="images">Images</Label>
       <FileInput accept="image/*" id="images" multiple onChange={onImageChange} type="file" disabled={isSubmitting} />
       {imageError && <ErrorMessage>{imageError}</ErrorMessage>}
       {imagePreviews.length > 0 && (

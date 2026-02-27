@@ -2,25 +2,27 @@ import styled from 'styled-components';
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  $hasError?: boolean;
 }
 
-export function Input({ label, id, ...props }: InputFieldProps) {
+export function Input({ label, id, $hasError, ...props }: InputFieldProps) {
   if (label) {
     const inputId = id || label.toLowerCase().replace(/\s+/g, '-');
     return (
       <FormGroup>
         <Label htmlFor={inputId}>{label}</Label>
-        <StyledInput id={inputId} {...props} />
+        <StyledInput id={inputId} $hasError={$hasError} {...props} />
       </FormGroup>
     );
   }
 
-  return <StyledInput id={id} {...props} />;
+  return <StyledInput id={id} $hasError={$hasError} {...props} />;
 }
 
 export { FormGroup, Label, StyledInput as BaseInput };
 
 const FormGroup = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -32,10 +34,10 @@ const Label = styled.label`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ $hasError?: boolean }>`
   padding: 1rem;
   font-size: 1rem;
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
@@ -43,8 +45,8 @@ const StyledInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.primary.main};
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary.light};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
+    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
   }
 
   &::placeholder {

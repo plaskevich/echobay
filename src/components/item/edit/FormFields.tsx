@@ -1,15 +1,15 @@
-import { type ChangeEvent } from 'react';
+import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import styled from 'styled-components';
 
-import { FormGroup, Input, Label, OptionalLabel, Select, TextArea } from '@/components/common/Form';
+import { FieldError, FormGroup, Input, Label, Select, TextArea } from '@/components/common/Form';
 import { GenreSelector } from '@/components/common/GenreSelector';
 import { type ListingFormData } from '@/hooks/useListingSubmit';
 import { CONDITION_OPTIONS, FORMAT_OPTIONS } from '@/lib/constants/listings';
 
 interface FormFieldsProps {
-  formData: ListingFormData;
+  register: UseFormRegister<ListingFormData>;
+  errors: FieldErrors<ListingFormData>;
   isSubmitting: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   selectedMainGenreIds: string[];
   selectedSubgenreIds: string[];
   onMainGenresChange: (genreIds: string[]) => void;
@@ -17,9 +17,9 @@ interface FormFieldsProps {
 }
 
 export function FormFields({
-  formData,
+  register,
+  errors,
   isSubmitting,
-  onChange,
   selectedMainGenreIds,
   selectedSubgenreIds,
   onMainGenresChange,
@@ -31,64 +31,54 @@ export function FormFields({
         <SectionHeader>Item Details</SectionHeader>
         <TwoColumnGrid>
           <FormGroup>
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">Title*</Label>
             <Input
               id="title"
-              name="title"
-              onChange={onChange}
+              $hasError={!!errors.title}
+              {...register('title', { required: 'Title is required' })}
               placeholder="Enter album/item title"
-              required
               type="text"
-              value={formData.title}
               disabled={isSubmitting}
               data-testid="listing-title-input"
             />
+            {errors.title && <FieldError>{errors.title.message}</FieldError>}
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="artist">Artist *</Label>
+            <Label htmlFor="artist">Artist*</Label>
             <Input
               id="artist"
-              name="artist"
-              onChange={onChange}
+              $hasError={!!errors.artist}
+              {...register('artist', { required: 'Artist is required' })}
               placeholder="Enter artist name"
-              required
               type="text"
-              value={formData.artist}
               disabled={isSubmitting}
               data-testid="listing-artist-input"
             />
+            {errors.artist && <FieldError>{errors.artist.message}</FieldError>}
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="year">
-              Year <OptionalLabel>(optional)</OptionalLabel>
-            </Label>
+            <Label htmlFor="year">Year</Label>
             <Input
               id="year"
-              name="year"
-              onChange={onChange}
+              {...register('year')}
               placeholder="e.g. 1999"
               type="number"
               min="1900"
               max={new Date().getFullYear()}
-              value={formData.year}
               disabled={isSubmitting}
               data-testid="listing-year-input"
             />
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="label">
-              Label <OptionalLabel>(optional)</OptionalLabel>
-            </Label>
+            <Label htmlFor="label">Label</Label>
             <Input
               id="label"
-              name="label"
-              onChange={onChange}
+              {...register('label')}
               placeholder="Enter record label"
               type="text"
-              value={formData.label}
               disabled={isSubmitting}
               data-testid="listing-label-input"
             />
@@ -100,13 +90,11 @@ export function FormFields({
         <SectionHeader>Format & Condition</SectionHeader>
         <TwoColumnGrid>
           <FormGroup>
-            <Label htmlFor="format">Format *</Label>
+            <Label htmlFor="format">Format*</Label>
             <Select
               id="format"
-              name="format"
-              onChange={onChange}
-              required
-              value={formData.format}
+              $hasError={!!errors.format}
+              {...register('format', { required: 'Format is required' })}
               disabled={isSubmitting}
               data-testid="listing-format-select"
             >
@@ -116,15 +104,14 @@ export function FormFields({
                 </option>
               ))}
             </Select>
+            {errors.format && <FieldError>{errors.format.message}</FieldError>}
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="condition">Condition *</Label>
+            <Label htmlFor="condition">Condition*</Label>
             <Select
               id="condition"
-              name="condition"
-              onChange={onChange}
-              value={formData.condition}
+              {...register('condition')}
               disabled={isSubmitting}
               data-testid="listing-condition-select"
             >
@@ -155,37 +142,35 @@ export function FormFields({
         <SectionHeader>Pricing</SectionHeader>
         <TwoColumnGrid>
           <FormGroup>
-            <Label htmlFor="price">Price *</Label>
+            <Label htmlFor="price">Price*</Label>
             <Input
               id="price"
+              $hasError={!!errors.price}
+              {...register('price', { required: 'Price is required' })}
               min="0"
-              name="price"
-              onChange={onChange}
               placeholder="0.00"
-              required
               step="0.01"
               type="number"
-              value={formData.price}
               disabled={isSubmitting}
               data-testid="listing-price-input"
             />
+            {errors.price && <FieldError>{errors.price.message}</FieldError>}
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="shipping_price">Shipping Price *</Label>
+            <Label htmlFor="shipping_price">Shipping Price*</Label>
             <Input
               id="shipping_price"
+              $hasError={!!errors.shipping_price}
+              {...register('shipping_price', { required: 'Shipping price is required' })}
               min="0"
-              name="shipping_price"
-              onChange={onChange}
               placeholder="0.00"
-              required
               step="0.01"
               type="number"
-              value={formData.shipping_price}
               disabled={isSubmitting}
               data-testid="listing-shipping-input"
             />
+            {errors.shipping_price && <FieldError>{errors.shipping_price.message}</FieldError>}
           </FormGroup>
         </TwoColumnGrid>
       </Section>
@@ -195,10 +180,8 @@ export function FormFields({
         <FormGroup>
           <TextArea
             id="description"
-            name="description"
-            onChange={onChange}
+            {...register('description')}
             placeholder="Add any additional details about the item..."
-            value={formData.description}
             disabled={isSubmitting}
             data-testid="listing-description-input"
           />
@@ -237,7 +220,7 @@ const SectionHeader = styled.legend`
 const TwoColumnGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.75rem;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;

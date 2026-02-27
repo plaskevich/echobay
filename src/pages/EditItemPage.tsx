@@ -28,7 +28,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   const { data: existingGenres = [] } = useListingGenres(mode === 'edit' ? id : undefined);
   const { data: allGenres = [] } = useGenres();
   const { data: mainGenresList = [] } = useMainGenres();
-  const [isDirty, setIsDirty] = useState(false);
+  const [extraDirty, setExtraDirty] = useState(false);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -54,6 +54,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
 
     return { computedExistingMainGenreIds: mainIds, computedExistingSubgenreIds: subIds };
   }, [existingGenres, mainGenresList]);
+
   const {
     searchQuery,
     setSearchQuery,
@@ -77,8 +78,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   } = useImageUpload(user?.id);
 
   const {
-    formData,
-    setFormData,
+    form,
     selectedMainGenreIds,
     setSelectedMainGenreIds,
     selectedSubgenreIds,
@@ -97,10 +97,12 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     initialSubgenreIds: computedExistingSubgenreIds,
   });
 
+  const isDirty = form.formState.isDirty || extraDirty;
+
   useEffect(() => {
     if (!existingListing || mode !== 'edit') return;
 
-    setFormData({
+    form.reset({
       title: existingListing.title || '',
       artist: existingListing.artist || '',
       year: existingListing.year?.toString() || '',
@@ -115,7 +117,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     if (existingListing.images && Array.isArray(existingListing.images)) {
       setImagePreviews(existingListing.images);
     }
-  }, [existingListing, mode, setFormData, setImagePreviews]);
+  }, [existingListing, mode, form, setImagePreviews]);
 
   useEffect(() => {
     if (existingGenres.length > 0 && mode === 'edit' && mainGenresList.length > 0) {
@@ -135,15 +137,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
       setSelectedSubgenreIds(subIds);
     }
   }, [existingGenres, mode, mainGenresList, setSelectedMainGenreIds, setSelectedSubgenreIds]);
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setIsDirty(true);
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleCancel = () => {
     if (isDirty) {
@@ -167,12 +160,12 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   };
 
   const handleImageChangeWrapper = async (e: ChangeEvent<HTMLInputElement>) => {
-    setIsDirty(true);
+    setExtraDirty(true);
     await handleImageChange(e);
   };
 
   const removeImageWrapper = (index: number) => {
-    setIsDirty(true);
+    setExtraDirty(true);
     removeImage(index);
   };
 
@@ -191,14 +184,11 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   };
 
   const autoFillFormFromRelease = async (release: DiscogsRelease) => {
-    setIsDirty(true);
-    setFormData((prev) => ({
-      ...prev,
-      title: release.title || prev.title,
-      artist: extractArtistName(release.artists) || prev.artist,
-      year: release.year ? String(release.year) : prev.year,
-      label: release.labels?.[0]?.name || prev.label,
-    }));
+    const current = form.getValues();
+    form.setValue('title', release.title || current.title, { shouldDirty: true });
+    form.setValue('artist', extractArtistName(release.artists) || current.artist, { shouldDirty: true });
+    form.setValue('year', release.year ? String(release.year) : current.year, { shouldDirty: true });
+    form.setValue('label', release.labels?.[0]?.name || current.label, { shouldDirty: true });
 
     const discogsMainGenres = release.genres || [];
     const discogsStyles = release.styles || [];
@@ -206,7 +196,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     if ((discogsMainGenres.length > 0 || discogsStyles.length > 0) && allGenres.length > 0) {
       const mainGenreIdSet = new Set(mainGenresList.map((g) => g.id));
 
-      // Match main genres from Discogs genres
       const matchedMainGenreIds = allGenres
         .filter(
           (dbGenre) =>
@@ -214,9 +203,8 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
             discogsMainGenres.some((dg) => dg.toLowerCase() === dbGenre.name.toLowerCase())
         )
         .map((g) => g.id)
-        .slice(0, 3); // Max 3 main genres
+        .slice(0, 3);
 
-      // Match subgenres from Discogs styles, filtered by matched main genres
       const matchedSubgenreIds = allGenres
         .filter(
           (dbGenre) =>
@@ -226,7 +214,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
             discogsStyles.some((ds) => ds.toLowerCase() === dbGenre.name.toLowerCase())
         )
         .map((g) => g.id)
-        .slice(0, 5); // Max 5 subgenres
+        .slice(0, 5);
 
       if (matchedMainGenreIds.length > 0) {
         setSelectedMainGenreIds(matchedMainGenreIds);
@@ -277,17 +265,17 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
         />
 
         <FormFields
-          formData={formData}
+          register={form.register}
+          errors={form.formState.errors}
           isSubmitting={isSubmitting}
-          onChange={handleInputChange}
           selectedMainGenreIds={selectedMainGenreIds}
           selectedSubgenreIds={selectedSubgenreIds}
           onMainGenresChange={(ids) => {
-            setIsDirty(true);
+            setExtraDirty(true);
             setSelectedMainGenreIds(ids);
           }}
           onSubgenresChange={(ids) => {
-            setIsDirty(true);
+            setExtraDirty(true);
             setSelectedSubgenreIds(ids);
           }}
         />

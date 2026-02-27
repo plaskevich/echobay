@@ -18,20 +18,7 @@ export function Auth() {
     }
   }, [location.state]);
 
-  const {
-    mode,
-    email,
-    password,
-    confirmPassword,
-    error,
-    isLoading,
-    setEmail,
-    setPassword,
-    setConfirmPassword,
-    handleSubmit,
-    handleGoogleSignIn,
-    toggleMode,
-  } = useAuthForm();
+  const { mode, serverError, isLoading, form, onSubmit, handleGoogleSignIn, toggleMode } = useAuthForm();
 
   return (
     <AuthContainer>
@@ -41,15 +28,10 @@ export function Auth() {
 
         <AuthForm
           mode={mode}
-          email={email}
-          password={password}
-          confirmPassword={confirmPassword}
-          error={error}
+          form={form}
+          serverError={serverError}
           isLoading={isLoading}
-          onEmailChange={setEmail}
-          onPasswordChange={setPassword}
-          onConfirmPasswordChange={setConfirmPassword}
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
           onGoogleSignIn={handleGoogleSignIn}
         />
 

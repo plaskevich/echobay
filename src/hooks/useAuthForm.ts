@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -7,12 +8,15 @@ import { useAuthStore } from '@/store/auth-store';
 
 type AuthMode = 'login' | 'signup';
 
+export interface AuthFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export function useAuthForm() {
   const [mode, setMode] = useState<AuthMode>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [serverError, setServerError] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,59 +24,32 @@ export function useAuthForm() {
 
   const from = (location.state as { from?: Location })?.from?.pathname || '/';
 
-  const resetForm = () => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setError('');
-  };
+  const form = useForm<AuthFormData>({
+    defaultValues: { email: '', password: '', confirmPassword: '' },
+    shouldUnregister: true,
+  });
 
   const toggleMode = () => {
     setMode(mode === 'login' ? 'signup' : 'login');
-    resetForm();
+    form.reset();
+    setServerError('');
   };
 
-  const validateForm = (): boolean => {
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      return false;
-    }
-
-    if (mode === 'signup' && password !== confirmPassword) {
-      setError('Passwords do not match');
-      return false;
-    }
-
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return false;
-    }
-
-    return true;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    if (!validateForm()) {
-      return;
-    }
+  const onSubmit = async (data: AuthFormData) => {
+    setServerError('');
 
     if (mode === 'signup') {
-      const { error } = await signUp(email, password);
+      const { error } = await signUp(data.email, data.password);
       if (error) {
-        setError(error.message);
+        setServerError(error.message);
       } else {
         toast.success('Account created successfully! Please check your email to verify your account.');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        form.reset();
       }
     } else {
-      const { error } = await logIn(email, password);
+      const { error } = await logIn(data.email, data.password);
       if (error) {
-        setError(error.message);
+        setServerError(error.message);
       } else {
         navigate(from, { replace: true });
       }
@@ -80,24 +57,19 @@ export function useAuthForm() {
   };
 
   const handleGoogleSignIn = async () => {
-    setError('');
+    setServerError('');
     const { error } = await signInWithGoogle();
     if (error) {
-      setError(error.message);
+      setServerError(error.message);
     }
   };
 
   return {
     mode,
-    email,
-    password,
-    confirmPassword,
-    error,
+    serverError,
     isLoading,
-    setEmail,
-    setPassword,
-    setConfirmPassword,
-    handleSubmit,
+    form,
+    onSubmit: form.handleSubmit(onSubmit),
     handleGoogleSignIn,
     toggleMode,
   };

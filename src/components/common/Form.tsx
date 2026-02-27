@@ -4,10 +4,14 @@ import styled from 'styled-components';
 
 import { BaseInput, FormGroup as InputFormGroup, Label as InputLabel } from './Input';
 
-export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
+interface SelectComponentProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  $hasError?: boolean;
+}
+
+export function Select({ $hasError, ...props }: SelectComponentProps) {
   return (
     <SelectWrapper>
-      <StyledSelect {...props} />
+      <StyledSelect $hasError={$hasError} {...props} />
       <SelectIcon />
     </SelectWrapper>
   );
@@ -16,7 +20,7 @@ export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 `;
 
 export const FormGroup = InputFormGroup;
@@ -29,10 +33,10 @@ const SelectWrapper = styled.div`
   width: 100%;
 `;
 
-export const StyledSelect = styled.select`
+export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   width: 100%;
   padding: 1rem 2.5rem 1rem 1rem;
-  border: 1px solid ${(props) => props.theme.border.primary};
+  border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
@@ -42,8 +46,8 @@ export const StyledSelect = styled.select`
 
   &:focus {
     outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
+    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
   }
 
   &:disabled {
@@ -70,9 +74,9 @@ const SelectIcon = styled(PiCaretDown)`
   color: ${(props) => props.theme.text.secondary};
 `;
 
-export const TextArea = styled.textarea`
+export const TextArea = styled.textarea<{ $hasError?: boolean }>`
   padding: 0.75rem;
-  border: 1px solid ${(props) => props.theme.border.primary};
+  border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
@@ -83,8 +87,8 @@ export const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
+    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
   }
 
   &::placeholder {
@@ -149,7 +153,15 @@ export const ButtonGroup = styled.div`
   }
 `;
 
-export const OptionalLabel = styled.span`
-  color: ${(props) => props.theme.text.muted};
-  font-weight: normal;
+export const FieldWrapper = styled.div`
+  position: relative;
+`;
+
+export const FieldError = styled.span`
+  position: absolute;
+  top: calc(100% + 0.125rem);
+  left: 0;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.state.error};
 `;

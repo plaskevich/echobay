@@ -1,9 +1,9 @@
 import { Country, State } from 'country-state-city';
-import { useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
-import { Form, Input, Label, Select } from '@/components/common/Form';
+import { FieldError, Form, Input, Label, Select } from '@/components/common/Form';
 
 export interface ShippingAddress {
   fullName: string;
@@ -31,8 +31,14 @@ export function ShippingForm({
   isLoading,
   title = 'Shipping Address',
 }: ShippingFormProps) {
-  const [formData, setFormData] = useState<ShippingAddress>(
-    initialData || {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    setValue,
+  } = useForm<ShippingAddress>({
+    defaultValues: initialData || {
       fullName: '',
       addressLine1: '',
       addressLine2: '',
@@ -41,75 +47,52 @@ export function ShippingForm({
       postalCode: '',
       country: '',
       phone: '',
-    }
-  );
+    },
+  });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof ShippingAddress, string>>>({});
-
+  const country = useWatch({ control, name: 'country' });
   const countries = Country.getAllCountries();
-  const states = formData.country ? State.getStatesOfCountry(formData.country) : [];
-
-  const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof ShippingAddress, string>> = {};
-
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!formData.addressLine1.trim()) newErrors.addressLine1 = 'Address is required';
-    if (!formData.city.trim()) newErrors.city = 'City is required';
-    if (!formData.postalCode.trim()) newErrors.postalCode = 'Postal code is required';
-    if (!formData.country) newErrors.country = 'Country is required';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      onSubmit(formData);
-    }
-  };
-
-  const handleChange = (field: keyof ShippingAddress, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
+  const states = country ? State.getStatesOfCountry(country) : [];
 
   return (
-    <Form onSubmit={handleSubmit} data-testid="shipping-form">
+    <Form onSubmit={handleSubmit(onSubmit)} data-testid="shipping-form">
       {title && <FormTitle data-testid="shipping-form-title">{title}</FormTitle>}
+
       <FormField>
-        <Label>Full Name *</Label>
+        <Label>Full Name*</Label>
         <Input
           type="text"
-          value={formData.fullName}
-          onChange={(e) => handleChange('fullName', e.target.value)}
+          $hasError={!!errors.fullName}
+          {...register('fullName', {
+            validate: (v) => v.trim() !== '' || 'Full name is required',
+          })}
           placeholder="John Doe"
           data-testid="shipping-fullname-input"
         />
-        {errors.fullName && <ErrorText data-testid="shipping-error-fullname">{errors.fullName}</ErrorText>}
+        {errors.fullName && <FieldError data-testid="shipping-error-fullname">{errors.fullName.message}</FieldError>}
       </FormField>
 
       <FormField>
-        <Label>Address Line 1 *</Label>
+        <Label>Address Line 1*</Label>
         <Input
           type="text"
-          value={formData.addressLine1}
-          onChange={(e) => handleChange('addressLine1', e.target.value)}
+          $hasError={!!errors.addressLine1}
+          {...register('addressLine1', {
+            validate: (v) => v.trim() !== '' || 'Address is required',
+          })}
           placeholder="Street address, P.O. box"
           data-testid="shipping-address1-input"
         />
-        {errors.addressLine1 && <ErrorText data-testid="shipping-error-address1">{errors.addressLine1}</ErrorText>}
+        {errors.addressLine1 && (
+          <FieldError data-testid="shipping-error-address1">{errors.addressLine1.message}</FieldError>
+        )}
       </FormField>
 
       <FormField>
         <Label>Address Line 2</Label>
         <Input
           type="text"
-          value={formData.addressLine2}
-          onChange={(e) => handleChange('addressLine2', e.target.value)}
+          {...register('addressLine2')}
           placeholder="Apartment, suite, unit, building, floor, etc."
           data-testid="shipping-address2-input"
         />
@@ -117,63 +100,64 @@ export function ShippingForm({
 
       <FormRow>
         <FormField>
-          <Label>City *</Label>
+          <Label>City*</Label>
           <Input
             type="text"
-            value={formData.city}
-            onChange={(e) => handleChange('city', e.target.value)}
+            $hasError={!!errors.city}
+            {...register('city', {
+              validate: (v) => v.trim() !== '' || 'City is required',
+            })}
             placeholder="City"
             data-testid="shipping-city-input"
           />
-          {errors.city && <ErrorText data-testid="shipping-error-city">{errors.city}</ErrorText>}
+          {errors.city && <FieldError data-testid="shipping-error-city">{errors.city.message}</FieldError>}
         </FormField>
 
         <FormField>
-          <Label>Postal Code *</Label>
+          <Label>Postal Code*</Label>
           <Input
             type="text"
-            value={formData.postalCode}
-            onChange={(e) => handleChange('postalCode', e.target.value)}
+            $hasError={!!errors.postalCode}
+            {...register('postalCode', {
+              validate: (v) => v.trim() !== '' || 'Postal code is required',
+            })}
             placeholder="12345"
             data-testid="shipping-postalcode-input"
           />
-          {errors.postalCode && <ErrorText data-testid="shipping-error-postalcode">{errors.postalCode}</ErrorText>}
+          {errors.postalCode && (
+            <FieldError data-testid="shipping-error-postalcode">{errors.postalCode.message}</FieldError>
+          )}
         </FormField>
       </FormRow>
 
       <FormRow>
         <FormField>
-          <Label>Country *</Label>
+          <Label>Country*</Label>
           <Select
-            value={formData.country}
-            onChange={(e) => {
-              handleChange('country', e.target.value);
-              handleChange('state', '');
-            }}
+            $hasError={!!errors.country}
+            {...register('country', {
+              required: 'Country is required',
+              onChange: () => setValue('state', ''),
+            })}
             data-testid="shipping-country-select"
           >
             <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country.isoCode} value={country.isoCode}>
-                {country.name}
+            {countries.map((c) => (
+              <option key={c.isoCode} value={c.isoCode}>
+                {c.name}
               </option>
             ))}
           </Select>
-          {errors.country && <ErrorText data-testid="shipping-error-country">{errors.country}</ErrorText>}
+          {errors.country && <FieldError data-testid="shipping-error-country">{errors.country.message}</FieldError>}
         </FormField>
 
         <FormField>
           <Label>State / Province</Label>
-          <Select
-            value={formData.state}
-            onChange={(e) => handleChange('state', e.target.value)}
-            disabled={!formData.country || states.length === 0}
-            data-testid="shipping-state-select"
-          >
+          <Select {...register('state')} disabled={!country || states.length === 0} data-testid="shipping-state-select">
             <option value="">Select State</option>
-            {states.map((state) => (
-              <option key={state.isoCode} value={state.isoCode}>
-                {state.name}
+            {states.map((s) => (
+              <option key={s.isoCode} value={s.isoCode}>
+                {s.name}
               </option>
             ))}
           </Select>
@@ -181,15 +165,17 @@ export function ShippingForm({
       </FormRow>
 
       <FormField>
-        <Label>Phone Number *</Label>
+        <Label>Phone Number*</Label>
         <Input
           type="tel"
-          value={formData.phone}
-          onChange={(e) => handleChange('phone', e.target.value)}
+          $hasError={!!errors.phone}
+          {...register('phone', {
+            validate: (v) => v.trim() !== '' || 'Phone number is required',
+          })}
           placeholder="+49 151 12345678"
           data-testid="shipping-phone-input"
         />
-        {errors.phone && <ErrorText data-testid="shipping-error-phone">{errors.phone}</ErrorText>}
+        {errors.phone && <FieldError data-testid="shipping-error-phone">{errors.phone.message}</FieldError>}
       </FormField>
 
       <ButtonContainer>
@@ -213,6 +199,7 @@ const FormTitle = styled.h2`
 `;
 
 const FormField = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -226,11 +213,6 @@ const FormRow = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
-`;
-
-const ErrorText = styled.span`
-  font-size: 0.75rem;
-  color: ${({ theme }) => theme.state.error};
 `;
 
 const ButtonContainer = styled.div`
