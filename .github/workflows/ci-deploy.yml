@@ -1,0 +1,73 @@
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  ci-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Create Supabase function env
+        run: |
+          echo "DISCOGS_KEY=${{ secrets.DISCOGS_KEY }}" >> supabase/functions/.env
+          echo "DISCOGS_SECRET=${{ secrets.DISCOGS_SECRET }}" >> supabase/functions/.env
+
+      - name: Start Supabase
+        run: supabase start
+
+      - name: Run E2E tests
+        run: pnpm test:e2e
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Deploy to Vercel
+        run: |
+          pnpm exec vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          pnpm exec vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          pnpm exec vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

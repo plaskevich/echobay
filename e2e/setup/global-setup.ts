@@ -7,33 +7,25 @@ import { createTestUser, supabaseAdmin } from '../helpers/supabase';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env.test') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env.test'), quiet: true });
 
 const TEST_USER_EMAIL = 'test@echobay.local';
 const TEST_USER_PASSWORD = 'TestPassword123!';
 
 export default async function globalSetup() {
-  console.log('\n🔄 Resetting local Supabase database...');
-
+  console.log('\n🔄 Resetting Supabase database...');
   try {
-    execSync('supabase db reset --yes 2>&1', {
+    execSync('supabase db reset 2>&1', {
       cwd: path.resolve(__dirname, '../..'),
-      stdio: 'pipe',
-      encoding: 'utf-8',
+      stdio: 'inherit',
     });
     console.log('✅ Database reset complete.');
   } catch (error: unknown) {
-    const output = (error as { stdout?: string }).stdout ?? '';
-    if (output.includes('Seeding data') && output.includes('502')) {
-      console.log('✅ Database reset complete (storage container still restarting — OK).');
-    } else {
-      console.error('❌ Failed to reset database. Is Supabase running? (`supabase start`)');
-      console.error(output);
-      throw error;
-    }
+    console.error('❌ Failed to reset database. Is Supabase running? (`supabase start`)');
+    throw error;
   }
-
   await new Promise((resolve) => setTimeout(resolve, 3000));
+
   console.log('👤 Creating test user and seeding data...');
   const { user } = await createTestUser(TEST_USER_EMAIL, TEST_USER_PASSWORD);
 
