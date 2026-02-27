@@ -36,6 +36,7 @@ export interface ListingFilters {
   genres?: string[];
   minPrice?: number;
   maxPrice?: number;
+  sortBy?: 'recommended' | 'newest' | 'oldest' | 'cheapest' | 'most_expensive';
   excludeOwnerId?: string;
   recommendForUserId?: string;
 }
@@ -64,11 +65,24 @@ function buildListingsQuery(filters?: ListingFilters) {
     ? `*, listing_genres!inner(genre_id, genres(id, name, slug))`
     : `*, listing_genres(genres(id, name, slug))`;
 
-  let query = supabase
-    .from('listings')
-    .select(selectQuery)
-    .eq('status', 'active')
-    .order('created_at', { ascending: false });
+  let query = supabase.from('listings').select(selectQuery).eq('status', 'active');
+
+  switch (filters?.sortBy) {
+    case 'oldest':
+      query = query.order('created_at', { ascending: true });
+      break;
+    case 'cheapest':
+      query = query.order('price', { ascending: true }).order('created_at', { ascending: false });
+      break;
+    case 'most_expensive':
+      query = query.order('price', { ascending: false }).order('created_at', { ascending: false });
+      break;
+    case 'recommended':
+    case 'newest':
+    default:
+      query = query.order('created_at', { ascending: false });
+      break;
+  }
 
   if (filters?.search?.trim()) {
     const normalizedSearch = filters.search.trim().replace(/[\s-]+/g, '%');
@@ -111,7 +125,7 @@ export async function fetchAllListings(filters?: ListingFilters) {
   const { data, error } = await query.limit(100);
   if (error || !data) return { data, error };
 
-  if (filters?.recommendForUserId) {
+  if (filters?.sortBy === 'recommended' && filters?.recommendForUserId) {
     await applyRecommendationSort(data, filters.recommendForUserId);
   }
 

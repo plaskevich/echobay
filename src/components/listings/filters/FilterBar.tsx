@@ -9,6 +9,7 @@ import { useGenres } from '@/queries/useGenres';
 
 import { MultiSelectFilter } from './MultiSelectFilter';
 import { PriceRangeFilter } from './PriceRangeFilter';
+import { SortFilter } from './SortFilter';
 
 interface FilterBarProps {
   filters: ListingFilters;
@@ -36,6 +37,8 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
 
   const closeDropdown = () => setOpenDropdown(null);
   useClickOutside(containerRef, closeDropdown);
+  const selectedSort = filters.sortBy || 'recommended';
+  const appliedSort = appliedFilters.sortBy || 'recommended';
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -102,7 +105,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
   };
 
   const handleClearAll = () => {
-    const cleared = { search: filters.search };
+    const cleared = { search: filters.search, sortBy: 'recommended' as const };
     onFiltersChange(cleared);
     onApply(cleared);
   };
@@ -110,6 +113,15 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
   return (
     <Container ref={containerRef}>
       <FiltersRow>
+        <SortFilter
+          value={selectedSort}
+          appliedValue={appliedSort}
+          onChange={(value) => onFiltersChange({ ...filters, sortBy: value })}
+          onApply={handleApply}
+          isOpen={openDropdown === 'sort'}
+          onToggle={() => toggleDropdown('sort')}
+        />
+
         <MultiSelectFilter
           label="Format"
           options={formatOptions}
@@ -153,7 +165,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
           onToggle={() => toggleDropdown('price')}
         />
 
-        {isActive && (
+        {(isActive || appliedSort !== 'recommended') && (
           <ClearAllButton onClick={handleClearAll} data-testid="clear-filters-button">
             <PiX />
             Clear filters

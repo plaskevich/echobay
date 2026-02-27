@@ -280,3 +280,66 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
     }
   }
 `;
+
+export const RadioItem = styled.div<{ $checked?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.secondary)};
+  font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.background.tertiary};
+    color: ${({ theme }) => theme.primary.main};
+  }
+
+  span {
+    flex: 1;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 0;
+    border-bottom: 1px solid ${({ theme }) => theme.border.primary};
+  }
+`;
+
+export const Radio = styled.div<{ $checked?: boolean }>`
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  background-color: ${({ theme }) => theme.background.primary};
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    background-color: ${({ theme }) => theme.primary.main};
+    opacity: ${({ $checked }) => ($checked ? 1 : 0)};
+    transition: opacity 0.15s ease;
+  }
+
+  @media (max-width: 640px) {
+    width: 1.25rem;
+    height: 1.25rem;
+
+    &::after {
+      width: 0.625rem;
+      height: 0.625rem;
+    }
+  }
+`;

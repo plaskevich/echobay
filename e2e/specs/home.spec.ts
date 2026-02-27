@@ -218,6 +218,17 @@ test.describe('Home Page', () => {
       await expect(listingHeading(page, 'Random Access Memories')).not.toBeVisible();
     });
 
+    test('sorts listings by cheapest price', async ({ page }) => {
+      await page.goto('/');
+      await expect(listingHeading(page, 'Nevermind')).toBeVisible();
+
+      await page.getByTestId('filter-dropdown-sort').click();
+      await page.getByText('Price: low to high', { exact: true }).click();
+      await page.getByTestId('filter-apply-button').click();
+
+      await expect(page.locator('[data-testid="listing-card"] h3').first()).toHaveText('Rumours');
+    });
+
     test('combines search with filters', async ({ page }) => {
       await page.goto('/');
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();

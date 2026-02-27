@@ -13,24 +13,25 @@ import { useAuthStore } from '@/store/auth-store';
 export function ListingsView() {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
-  const [filters, setFilters] = useState<ListingFilters>({});
-  const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({});
+  const [filters, setFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
+  const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
   const user = useAuthStore((state) => state.user);
 
   const handleApply = useCallback((filtersToApply: ListingFilters) => {
     setAppliedFilters(filtersToApply);
   }, []);
 
-  const useRecommendedSort = !!user && !searchQuery.trim() && !hasActiveFilters(appliedFilters);
+  const selectedSort = appliedFilters.sortBy || 'recommended';
 
   const combinedFilters = useMemo(
     () => ({
       ...appliedFilters,
+      sortBy: selectedSort,
       search: searchQuery || undefined,
       excludeOwnerId: user?.id,
-      recommendForUserId: useRecommendedSort ? user?.id : undefined,
+      recommendForUserId: selectedSort === 'recommended' ? user?.id : undefined,
     }),
-    [appliedFilters, searchQuery, user?.id, useRecommendedSort]
+    [appliedFilters, searchQuery, selectedSort, user?.id]
   );
 
   const { data: listings = [], isLoading, error } = useListings(combinedFilters);
