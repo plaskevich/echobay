@@ -36,7 +36,7 @@ export interface ListingFilters {
   genres?: string[];
   minPrice?: number;
   maxPrice?: number;
-  sortBy?: 'recommended' | 'newest' | 'oldest' | 'cheapest' | 'most_expensive';
+  sortBy?: 'recommended' | 'newest' | 'cheapest' | 'most_expensive';
   excludeOwnerId?: string;
   recommendForUserId?: string;
 }
@@ -68,9 +68,6 @@ function buildListingsQuery(filters?: ListingFilters) {
   let query = supabase.from('listings').select(selectQuery).eq('status', 'active');
 
   switch (filters?.sortBy) {
-    case 'oldest':
-      query = query.order('created_at', { ascending: true });
-      break;
     case 'cheapest':
       query = query.order('price', { ascending: true }).order('created_at', { ascending: false });
       break;
