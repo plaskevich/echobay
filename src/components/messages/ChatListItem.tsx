@@ -25,7 +25,7 @@ export function ChatListItem({
   onClick,
 }: ChatListItemProps) {
   return (
-    <ChatItem $active={isActive} onClick={onClick} type="button">
+    <ChatItem $active={isActive} onClick={onClick} type="button" data-testid="chat-list-item">
       <ChatItemAvatar $hasImage={!!avatarUrl}>
         {avatarUrl ? (
           <img src={avatarUrl} alt="" referrerPolicy="no-referrer" />
@@ -35,7 +35,9 @@ export function ChatListItem({
       </ChatItemAvatar>
       <ChatItemContent>
         <ChatItemHeader>
-          <ChatItemTitle $unread={hasUnread}>{username}</ChatItemTitle>
+          <ChatItemTitle $unread={hasUnread} data-testid="chat-item-username">
+            {username}
+          </ChatItemTitle>
           <HeaderRight>
             <ChatItemTimestamp $unread={hasUnread}>{timestamp}</ChatItemTimestamp>
           </HeaderRight>
@@ -43,10 +45,10 @@ export function ChatListItem({
         <ChatItemRow>
           <ChatItemThumbnail src={itemImage} alt={title} />
           <ChatItemSubtitle>
-            {artist && <ChatItemArtist>{artist}</ChatItemArtist>}
-            <ChatItemTitleLine>{title}</ChatItemTitleLine>
+            {artist && <ChatItemArtist data-testid="chat-item-artist">{artist}</ChatItemArtist>}
+            <ChatItemTitleLine data-testid="chat-item-title">{title}</ChatItemTitleLine>
           </ChatItemSubtitle>
-          {hasUnread && <UnreadDot />}
+          {hasUnread && <UnreadDot data-testid="chat-item-unread" />}
         </ChatItemRow>
       </ChatItemContent>
     </ChatItem>

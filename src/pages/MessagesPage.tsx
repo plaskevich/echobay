@@ -225,7 +225,7 @@ export default function MessagesPage() {
   const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth <= 768, []);
 
   return (
-    <Container>
+    <Container data-testid="messages-page">
       <Header>
         <PageTitle>Messages</PageTitle>
       </Header>

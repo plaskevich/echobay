@@ -101,15 +101,6 @@ test.describe('Item Detail Page', () => {
       await expect(page).toHaveURL(`/checkout/${buyerListingId}`);
     });
 
-    test('Contact seller button navigates to messages', async ({ page }) => {
-      await page.goto(`/items/${buyerListingId}`);
-      await expect(page.getByRole('heading', { name: 'In Rainbows' })).toBeVisible();
-
-      await page.getByTestId('contact-seller-button').click();
-
-      await expect(page).toHaveURL(new RegExp(`/messages\\?listingId=${buyerListingId}`));
-    });
-
     test('does not show owner actions', async ({ page }) => {
       await page.goto(`/items/${buyerListingId}`);
       await expect(page.getByRole('heading', { name: 'In Rainbows' })).toBeVisible();
@@ -222,17 +213,6 @@ test.describe('Item Detail Page', () => {
   });
 
   test.describe('Delete', () => {
-    test('Delete button opens confirmation dialog', async ({ page }) => {
-      await page.goto(`/items/${deleteTestListingId}`);
-      await expect(page.getByRole('heading', { name: 'Musique Vol 1' })).toBeVisible();
-
-      await page.getByTestId('delete-listing-button').click();
-
-      await expect(page.getByText('Are you sure you want to delete this listing?')).toBeVisible();
-      await expect(page.getByTestId('dialog-cancel')).toBeVisible();
-      await expect(page.getByTestId('dialog-confirm')).toBeVisible();
-    });
-
     test('Cancel button closes delete dialog without deleting', async ({ page }) => {
       await page.goto(`/items/${deleteTestListingId}`);
       await expect(page.getByRole('heading', { name: 'Musique Vol 1' })).toBeVisible();

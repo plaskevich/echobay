@@ -143,7 +143,7 @@ const StyledButton = styled.button.withConfig({
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   transition: all 0.2s ease;
   font-family: inherit;
   white-space: nowrap;

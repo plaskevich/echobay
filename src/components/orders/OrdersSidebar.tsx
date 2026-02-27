@@ -19,7 +19,12 @@ export default function OrdersSidebar({ filter, setFilter }: OrdersSidebarProps)
       <SidebarTitle>Orders</SidebarTitle>
       <SidebarNav>
         {filters.map(({ key, label, icon }) => (
-          <SidebarItem key={key} $active={filter === key} onClick={() => setFilter(key)}>
+          <SidebarItem
+            key={key}
+            data-testid={`orders-filter-${key}`}
+            $active={filter === key}
+            onClick={() => setFilter(key)}
+          >
             {icon}
             {label}
           </SidebarItem>

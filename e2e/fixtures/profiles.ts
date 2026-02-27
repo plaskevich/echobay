@@ -18,3 +18,18 @@ export const PUBLIC_USER_PROFILE = {
   location: 'Berlin',
   about: 'I sell records',
 } as const;
+
+export const CHECKOUT_SELLER_PROFILE = {
+  username: 'checkoutseller',
+  location: 'London',
+} as const;
+
+export const MESSAGES_SELLER_PROFILE = {
+  username: 'msgseller',
+  location: 'Paris',
+} as const;
+
+export const ACCOUNT_SELLER_PROFILE = {
+  username: 'accountseller',
+  location: 'Vienna',
+} as const;

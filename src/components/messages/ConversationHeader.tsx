@@ -39,25 +39,27 @@ export function ConversationHeader({
   const showBuyButton = isBuyer && listingStatus === 'active' && !hasOrder;
 
   return (
-    <Header>
+    <Header data-testid="conversation-header">
       {otherUserId && (
         <TopRow>
-          <UserLink to={`/users/${otherUserId}`}>{otherUsername || 'User'}</UserLink>
+          <UserLink to={`/users/${otherUserId}`} data-testid="conversation-header-username">
+            {otherUsername || 'User'}
+          </UserLink>
         </TopRow>
       )}
       <BottomRow>
         <ItemLink to={`/items/${listingId}`}>
           <ItemImage src={imageUrl} alt={title} />
           <ItemDetails>
-            <ItemArtist>{artist}</ItemArtist>
-            <ItemTitle>{title}</ItemTitle>
-            <ItemMeta>
+            <ItemArtist data-testid="conversation-header-artist">{artist}</ItemArtist>
+            <ItemTitle data-testid="conversation-header-title">{title}</ItemTitle>
+            <ItemMeta data-testid="conversation-header-meta">
               {formatLabel} · {Number(price).toFixed(2)}€
             </ItemMeta>
           </ItemDetails>
         </ItemLink>
         {showBuyButton && (
-          <BuyButton onClick={() => navigate(`/checkout/${listingId}`)}>
+          <BuyButton onClick={() => navigate(`/checkout/${listingId}`)} data-testid="conversation-buy-button">
             <PiShoppingCart size={16} />
             Buy now
           </BuyButton>

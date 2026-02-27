@@ -83,24 +83,24 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
   }
 
   return (
-    <Container>
-      <FormTitle>Order Summary</FormTitle>
+    <Container data-testid="order-summary">
+      <FormTitle data-testid="summary-title">Order Summary</FormTitle>
 
       <Section>
         <SectionTitle>Item Details</SectionTitle>
         <ItemCard>
           {listing.images && listing.images[0] && <ItemImage src={listing.images[0]} alt={listing.title} />}
           <ItemInfo>
-            <ItemArtist>{listing.artist}</ItemArtist>
-            <ItemTitle>{listing.title}</ItemTitle>
-            <ItemPrice>{listing.price.toFixed(2)}€</ItemPrice>
+            <ItemArtist data-testid="summary-item-artist">{listing.artist}</ItemArtist>
+            <ItemTitle data-testid="summary-item-title">{listing.title}</ItemTitle>
+            <ItemPrice data-testid="summary-item-price">{listing.price.toFixed(2)}€</ItemPrice>
           </ItemInfo>
         </ItemCard>
       </Section>
 
       <Section>
         <SectionTitle>Shipping Address</SectionTitle>
-        <AddressCard>
+        <AddressCard data-testid="summary-shipping-address">
           <AddressLine>{shippingAddress.fullName}</AddressLine>
           <AddressLine>{shippingAddress.addressLine1}</AddressLine>
           {shippingAddress.addressLine2 && <AddressLine>{shippingAddress.addressLine2}</AddressLine>}
@@ -114,20 +114,20 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
 
       <Section>
         <SectionTitle>Payment Method</SectionTitle>
-        <PaymentCard>
+        <PaymentCard data-testid="summary-payment-method">
           <PaymentText>Credit Card</PaymentText>
           <PaymentSubtext>Payment will be processed securely via Stripe</PaymentSubtext>
         </PaymentCard>
       </Section>
 
-      <PriceBreakdown>
+      <PriceBreakdown data-testid="summary-price-breakdown">
         <PriceRow>
           <PriceLabel>Item price</PriceLabel>
-          <PriceValue>{listing.price.toFixed(2)}€</PriceValue>
+          <PriceValue data-testid="summary-price-item">{listing.price.toFixed(2)}€</PriceValue>
         </PriceRow>
         <PriceRow>
           <PriceLabel>Shipping</PriceLabel>
-          <PriceValue>
+          <PriceValue data-testid="summary-price-shipping">
             {listing.shipping_price && listing.shipping_price > 0 ? `${listing.shipping_price.toFixed(2)}€` : 'Free'}
           </PriceValue>
         </PriceRow>
@@ -135,16 +135,30 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
 
       <TotalSection>
         <TotalLabel>Total</TotalLabel>
-        <TotalAmount>{(listing.price + (listing.shipping_price || 0)).toFixed(2)}€</TotalAmount>
+        <TotalAmount data-testid="summary-total">
+          {(listing.price + (listing.shipping_price || 0)).toFixed(2)}€
+        </TotalAmount>
       </TotalSection>
 
-      {error && <ErrorText>{error}</ErrorText>}
+      {error && <ErrorText data-testid="summary-error">{error}</ErrorText>}
 
       <ButtonContainer>
-        <Button type="button" variant="outline" onClick={onBack} disabled={processing}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          disabled={processing}
+          data-testid="summary-back-button"
+        >
           Back
         </Button>
-        <Button type="button" variant="primary" onClick={handleConfirmOrder} isLoading={processing}>
+        <Button
+          type="button"
+          variant="primary"
+          onClick={handleConfirmOrder}
+          isLoading={processing}
+          data-testid="summary-confirm-button"
+        >
           Confirm & Pay
         </Button>
       </ButtonContainer>

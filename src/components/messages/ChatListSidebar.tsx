@@ -33,11 +33,11 @@ export function ChatListSidebar({
   getOtherUserInfo,
 }: ChatListSidebarProps) {
   return (
-    <ChatList>
+    <ChatList data-testid="chat-list">
       {isLoading ? (
-        <LoadingText>Loading chats...</LoadingText>
+        <LoadingText data-testid="chat-list-loading">Loading chats...</LoadingText>
       ) : chats.length === 0 && !pendingListing ? (
-        <EmptyState>No conversations yet</EmptyState>
+        <EmptyState data-testid="chat-list-empty">No conversations yet</EmptyState>
       ) : (
         <>
           {pendingListing && (

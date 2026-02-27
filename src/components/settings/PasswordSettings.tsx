@@ -50,7 +50,7 @@ export default function PasswordSettings() {
   };
 
   return (
-    <Container>
+    <Container data-testid="password-settings">
       <SectionTitle>Change Password</SectionTitle>
       <Description>Choose a strong password to keep your account secure</Description>
 

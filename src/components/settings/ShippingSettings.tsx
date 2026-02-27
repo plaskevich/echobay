@@ -29,7 +29,7 @@ export default function ShippingSettings() {
   if (isLoadingAddress) return null;
 
   return (
-    <Container>
+    <Container data-testid="shipping-settings">
       <SectionTitle>Shipping Address</SectionTitle>
       <Description>Save a default shipping address for faster checkout</Description>
 

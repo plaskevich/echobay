@@ -13,14 +13,14 @@ export default function OrderCard({ order }: OrderCardProps) {
   const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : placeholder;
 
   return (
-    <Card>
+    <Card data-testid="order-card">
       <CardLink to={`/items/${order.listing_id}`}>
         <ImageContainer>
           <OrderImage src={imageUrl} alt={listing?.title || 'Order item'} />
         </ImageContainer>
         <CardContent>
           <OrderHeader>
-            <OrderTitle>{listing?.title || 'Unknown Item'}</OrderTitle>
+            <OrderTitle data-testid="order-title">{listing?.title || 'Unknown Item'}</OrderTitle>
             <OrderArtist>{listing?.artist || 'Unknown Artist'}</OrderArtist>
           </OrderHeader>
           <OrderDetails>
@@ -34,7 +34,9 @@ export default function OrderCard({ order }: OrderCardProps) {
             </DetailRow>
             <DetailRow>
               <DetailLabel>Status:</DetailLabel>
-              <StatusBadge status={order.status}>{order.status}</StatusBadge>
+              <StatusBadge data-testid="order-status" status={order.status}>
+                {order.status}
+              </StatusBadge>
             </DetailRow>
           </OrderDetails>
         </CardContent>

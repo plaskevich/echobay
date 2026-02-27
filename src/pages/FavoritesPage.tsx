@@ -51,19 +51,19 @@ export function FavoritesPage() {
     <Container>
       <Header>
         <StyledPageTitle>My Favorites</StyledPageTitle>
-        <Subtitle>
+        <Subtitle data-testid="favorites-count">
           {listings.length} {listings.length === 1 ? 'item' : 'items'}
         </Subtitle>
       </Header>
 
       {listings.length === 0 ? (
-        <EmptyState>
+        <EmptyState data-testid="favorites-empty">
           <PiHeartDuotone size={60} color={themeColors.text.secondary} />
           <EmptyTitle>No favorites yet</EmptyTitle>
           <EmptyText>Start exploring and add items to your favorites by clicking the heart icon</EmptyText>
         </EmptyState>
       ) : (
-        <Grid>
+        <Grid data-testid="favorites-grid">
           {listings.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}

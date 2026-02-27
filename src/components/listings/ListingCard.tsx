@@ -79,7 +79,7 @@ export function ListingCard({ listing }: ListingCardProps) {
 
   return (
     <CardLink to={`/items/${listing.id}`}>
-      <Card>
+      <Card data-testid="listing-card">
         <ImageContainer>
           <ListingImage src={imageUrl} alt={listing.title} />
           {showStatusBanner && <StatusBanner status={listing.status!}>{getStatusLabel(listing.status)}</StatusBanner>}

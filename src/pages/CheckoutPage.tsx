@@ -71,26 +71,26 @@ export function CheckoutPage() {
             <PageTitle>Checkout</PageTitle>
           </Header>
 
-          <ProgressBar>
+          <ProgressBar data-testid="checkout-progress-bar">
             <ProgressStep active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
               <StepNumber active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
                 {currentStep !== 'shipping' ? '✓' : '1'}
               </StepNumber>
-              <StepLabel>Shipping</StepLabel>
+              <StepLabel data-testid="checkout-step-shipping">Shipping</StepLabel>
             </ProgressStep>
             <ProgressLine completed={currentStep === 'summary' || currentStep === 'payment'} />
             <ProgressStep active={currentStep === 'payment'} completed={currentStep === 'summary'}>
               <StepNumber active={currentStep === 'payment'} completed={currentStep === 'summary'}>
                 {currentStep === 'summary' ? '✓' : '2'}
               </StepNumber>
-              <StepLabel>Payment</StepLabel>
+              <StepLabel data-testid="checkout-step-payment">Payment</StepLabel>
             </ProgressStep>
             <ProgressLine completed={currentStep === 'summary'} />
             <ProgressStep active={currentStep === 'summary'} completed={false}>
               <StepNumber active={currentStep === 'summary'} completed={false}>
                 3
               </StepNumber>
-              <StepLabel>Summary</StepLabel>
+              <StepLabel data-testid="checkout-step-summary">Summary</StepLabel>
             </ProgressStep>
           </ProgressBar>
         </>

@@ -161,3 +161,87 @@ export const PUBLIC_SELLER_LISTING = {
   status: 'active',
   images: [],
 } as const;
+
+export const CHECKOUT_LISTING = {
+  title: 'The Dark Side of the Moon',
+  artist: 'Pink Floyd',
+  format: 'vinyl',
+  price: 45.0,
+  shipping_price: 5.0,
+  condition: 'Near Mint (NM)',
+  description: 'Legendary progressive rock album.',
+  status: 'active',
+  images: [],
+} as const;
+
+export const FREE_SHIPPING_LISTING = {
+  title: 'Wish You Were Here',
+  artist: 'Pink Floyd',
+  format: 'cd',
+  price: 20.0,
+  shipping_price: 0,
+  condition: 'Very Good Plus (VG+)',
+  description: 'Beautiful Pink Floyd album.',
+  status: 'active',
+  images: [],
+} as const;
+
+export const MESSAGES_LISTING = {
+  title: 'Vespertine',
+  artist: 'Björk',
+  format: 'vinyl',
+  price: 38.0,
+  shipping_price: 4.0,
+  condition: 'Near Mint (NM)',
+  description: 'Stunning electronic album.',
+  status: 'active',
+  images: [],
+} as const;
+
+export const MESSAGES_LISTING_2 = {
+  title: 'Homogenic',
+  artist: 'Björk',
+  format: 'cd',
+  price: 22.0,
+  shipping_price: 3.0,
+  condition: 'Very Good Plus (VG+)',
+  description: 'Iconic electronic masterpiece.',
+  status: 'active',
+  images: [],
+} as const;
+
+export const ACCOUNT_BOUGHT_LISTING = {
+  title: 'OK Computer',
+  artist: 'Radiohead',
+  format: 'vinyl',
+  price: 32.0,
+  shipping_price: 4.0,
+  condition: 'Near Mint (NM)',
+  description: 'Landmark alternative rock album.',
+  status: 'active',
+  images: [],
+} as const;
+
+export const ACCOUNT_SOLD_LISTING = {
+  title: 'Kid A',
+  artist: 'Radiohead',
+  format: 'cd',
+  price: 18.0,
+  shipping_price: 2.5,
+  condition: 'Very Good Plus (VG+)',
+  description: 'Experimental electronic rock masterpiece.',
+  status: 'sold',
+  images: [],
+} as const;
+
+export const ACCOUNT_FAVORITE_LISTING = {
+  title: 'Loveless',
+  artist: 'My Bloody Valentine',
+  format: 'vinyl',
+  price: 55.0,
+  shipping_price: 5.0,
+  condition: 'Mint (M)',
+  description: 'Definitive shoegaze album.',
+  status: 'active',
+  images: [],
+} as const;

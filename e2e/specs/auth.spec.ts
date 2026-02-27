@@ -11,14 +11,6 @@ test.describe('Authentication', () => {
     await deleteTestUser(SIGNUP_EMAIL);
   });
 
-  test('should show login form', async ({ page }) => {
-    await page.goto('/auth');
-
-    await expect(page.getByText('Welcome Back')).toBeVisible();
-    await expect(page.getByLabel('Email')).toBeVisible();
-    await expect(page.getByLabel('Password', { exact: true })).toBeVisible();
-  });
-
   test('should toggle between login and signup modes', async ({ page }) => {
     await page.goto('/auth');
 

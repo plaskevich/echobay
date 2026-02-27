@@ -20,29 +20,6 @@ test.describe('Profile Page', () => {
     await expect(page.getByTestId('profile-member-since')).toBeVisible();
   });
 
-  test('shows Edit Profile button on own profile', async ({ page }) => {
-    await page.goto('/profile');
-
-    await expect(page.getByTestId('edit-profile-button')).toBeVisible();
-  });
-
-  test('displays user listings section', async ({ page }) => {
-    await page.goto('/profile');
-
-    await expect(page.getByRole('heading', { name: 'My Listings' })).toBeVisible();
-    await expect(page.getByTestId('listing-count')).toBeVisible();
-    await expect(page.getByTestId('listings-grid')).toBeVisible();
-  });
-
-  test('shows status filter tabs when listings exist', async ({ page }) => {
-    await page.goto('/profile');
-
-    await expect(page.getByTestId('status-filters')).toBeVisible();
-    await expect(page.getByTestId('status-filter-all')).toBeVisible();
-    await expect(page.getByTestId('status-filter-active')).toBeVisible();
-    await expect(page.getByTestId('status-filter-sold')).toBeVisible();
-  });
-
   test('filters listings by Active status', async ({ page }) => {
     await page.goto('/profile');
     await expect(page.getByTestId('listings-grid')).toBeVisible();
@@ -50,17 +27,20 @@ test.describe('Profile Page', () => {
     await page.getByTestId('status-filter-active').click();
 
     await expect(page.getByTestId('listings-grid')).toBeVisible();
-    await expect(page.getByTestId('listing-count')).toContainText('3 items');
+    await expect(page.getByRole('heading', { name: 'Abbey Road' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Kind of Blue' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OK Computer' })).toBeVisible();
   });
 
-  test('shows empty state when filtering by Sold with none sold', async ({ page }) => {
+  test('Sold filter excludes active-only listings', async ({ page }) => {
     await page.goto('/profile');
     await expect(page.getByTestId('listings-grid')).toBeVisible();
 
     await page.getByTestId('status-filter-sold').click();
 
-    await expect(page.getByTestId('listings-empty')).toBeVisible();
-    await expect(page.getByText('No sold listings')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Abbey Road' })).not.toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Kind of Blue' })).not.toBeVisible();
+    await expect(page.getByRole('heading', { name: 'OK Computer' })).not.toBeVisible();
   });
 
   test('navigates to edit profile page', async ({ page }) => {

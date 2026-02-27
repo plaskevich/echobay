@@ -70,7 +70,11 @@ export function SellerShippingDetails({
         )}
       </AddressBlock>
       {canShip && onConfirmShipped && (
-        <ActionButton onClick={() => onConfirmShipped(orderId)} disabled={isUpdating}>
+        <ActionButton
+          onClick={() => onConfirmShipped(orderId)}
+          disabled={isUpdating}
+          data-testid="confirm-shipped-button"
+        >
           <PiTruck size={18} />
           {isUpdating ? 'Updating...' : 'Mark as Shipped'}
         </ActionButton>

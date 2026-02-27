@@ -23,12 +23,14 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
             }
           }}
           disabled={disabled}
+          data-testid="message-input"
         />
         <MessageSendButton
           type="button"
           onClick={onSend}
           disabled={!value.trim() || disabled}
           aria-label="Send message"
+          data-testid="message-send-button"
         >
           <PiPaperPlaneRightDuotone size={20} />
         </MessageSendButton>

@@ -69,12 +69,12 @@ export function ConversationPanel({
   isUpdatingOrder,
 }: ConversationPanelProps) {
   return (
-    <Panel $hidden={!showConversation}>
+    <Panel $hidden={!showConversation} data-testid="conversation-panel">
       {showConversation && displayListing ? (
         <>
           {onBack && (
             <MobileHeader>
-              <BackButton onClick={onBack}>
+              <BackButton onClick={onBack} data-testid="conversation-back-button">
                 <PiArrowLeft size={20} />
               </BackButton>
               {otherUsername && otherUserId ? (
@@ -118,7 +118,7 @@ export function ConversationPanel({
           />
         </>
       ) : (
-        <EmptyConversation>
+        <EmptyConversation data-testid="conversation-empty">
           <EmptyConversationText>Select a conversation or contact a seller from a listing</EmptyConversationText>
         </EmptyConversation>
       )}

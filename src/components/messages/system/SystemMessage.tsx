@@ -25,7 +25,7 @@ export function SystemMessage({
   isUpdating,
 }: SystemMessageProps) {
   return (
-    <Card>
+    <Card data-testid="system-message">
       <SystemIcon event={metadata.event} />
       <SystemContent
         metadata={metadata}
@@ -83,13 +83,15 @@ function SystemContent({
         <TextBlock>
           {isSeller ? (
             <>
-              <Title>Item Sold!</Title>
-              <Text>"{listing_title}" has been purchased. Please prepare it for shipping.</Text>
+              <Title data-testid="system-message-title">Item Sold!</Title>
+              <Text data-testid="system-message-text">
+                "{listing_title}" has been purchased. Please prepare it for shipping.
+              </Text>
             </>
           ) : (
             <>
-              <Title>Order Placed</Title>
-              <Text>
+              <Title data-testid="system-message-title">Order Placed</Title>
+              <Text data-testid="system-message-text">
                 Your order for "{listing_title}" has been confirmed. The seller is preparing your item for shipping.
               </Text>
             </>
@@ -101,7 +103,7 @@ function SystemContent({
       if (isSeller && shipping_address) {
         return (
           <TextBlock>
-            <Title>Shipping Details</Title>
+            <Title data-testid="system-message-title">Shipping Details</Title>
             <SellerShippingDetails
               shippingAddress={shipping_address}
               orderId={order_id}
@@ -114,8 +116,8 @@ function SystemContent({
       }
       return (
         <TextBlock>
-          <Title>Shipping Details</Title>
-          <Text>Shipping details have been sent to the seller.</Text>
+          <Title data-testid="system-message-title">Shipping Details</Title>
+          <Text data-testid="system-message-text">Shipping details have been sent to the seller.</Text>
         </TextBlock>
       );
 
@@ -124,10 +126,16 @@ function SystemContent({
         <TextBlock>
           {isBuyer ? (
             <>
-              <Title>Item Shipped!</Title>
-              <Text>The seller has shipped your item. Let them know when you receive it.</Text>
+              <Title data-testid="system-message-title">Item Shipped!</Title>
+              <Text data-testid="system-message-text">
+                The seller has shipped your item. Let them know when you receive it.
+              </Text>
               {orderStatus === 'shipped' && onConfirmReceived && (
-                <ActionButton onClick={() => onConfirmReceived(order_id)} disabled={isUpdating}>
+                <ActionButton
+                  onClick={() => onConfirmReceived(order_id)}
+                  disabled={isUpdating}
+                  data-testid="confirm-received-button"
+                >
                   <PiCheckCircle size={18} />
                   {isUpdating ? 'Updating...' : 'Confirm Received'}
                 </ActionButton>
@@ -136,8 +144,10 @@ function SystemContent({
             </>
           ) : (
             <>
-              <Title>Item Shipped</Title>
-              <Text>You confirmed that the item has been shipped. Waiting for buyer to confirm receipt.</Text>
+              <Title data-testid="system-message-title">Item Shipped</Title>
+              <Text data-testid="system-message-text">
+                You confirmed that the item has been shipped. Waiting for buyer to confirm receipt.
+              </Text>
             </>
           )}
         </TextBlock>
@@ -146,8 +156,8 @@ function SystemContent({
     case 'delivered':
       return (
         <TextBlock>
-          <Title>Item Received</Title>
-          <Text>
+          <Title data-testid="system-message-title">Item Received</Title>
+          <Text data-testid="system-message-text">
             {isSeller
               ? 'The buyer has confirmed receiving the item. Transaction complete!'
               : 'You confirmed receiving the item. Transaction complete!'}

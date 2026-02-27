@@ -14,11 +14,11 @@ export default function OrdersContent({ isLoading, orders, filter }: OrdersConte
   return (
     <OrdersSection>
       {isLoading ? (
-        <LoadingText>Loading orders...</LoadingText>
+        <LoadingText data-testid="orders-loading">Loading orders...</LoadingText>
       ) : orders.length === 0 ? (
-        <EmptyText>No {filter} orders found</EmptyText>
+        <EmptyText data-testid="orders-empty">No {filter} orders found</EmptyText>
       ) : (
-        <OrdersList>
+        <OrdersList data-testid="orders-list">
           {orders.map((order) => (
             <OrderCard key={order.id} order={order} />
           ))}

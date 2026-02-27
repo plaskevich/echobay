@@ -9,19 +9,19 @@ export default function ThemeSettings() {
   const { theme, setTheme } = useThemeStore();
 
   return (
-    <Container>
+    <Container data-testid="theme-settings">
       <SectionTitle>Theme</SectionTitle>
       <Description>Select the theme for your account</Description>
 
       <ThemeOptions>
-        <ThemeCard $active={theme === 'light'} onClick={() => setTheme('light')}>
+        <ThemeCard data-testid="theme-card-light" $active={theme === 'light'} onClick={() => setTheme('light')}>
           <IconWrapper $active={theme === 'light'}>
             <PiSun size={28} />
           </IconWrapper>
           <ThemeLabel>Light</ThemeLabel>
         </ThemeCard>
 
-        <ThemeCard $active={theme === 'dark'} onClick={() => setTheme('dark')}>
+        <ThemeCard data-testid="theme-card-dark" $active={theme === 'dark'} onClick={() => setTheme('dark')}>
           <IconWrapper $active={theme === 'dark'}>
             <PiMoon size={28} />
           </IconWrapper>

@@ -77,12 +77,12 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormTitle>Payment Details</FormTitle>
+    <Form onSubmit={handleSubmit} data-testid="payment-form">
+      <FormTitle data-testid="payment-form-title">Payment Details</FormTitle>
 
       <OrderAmount>
         <AmountLabel>Total Amount</AmountLabel>
-        <AmountValue>{amount.toFixed(2)}€</AmountValue>
+        <AmountValue data-testid="payment-total-amount">{amount.toFixed(2)}€</AmountValue>
       </OrderAmount>
 
       <PaymentSection>
@@ -90,7 +90,7 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
         <CardElementWrapper>
           <CardElement options={cardElementOptions} />
         </CardElementWrapper>
-        {error && <ErrorText>{error}</ErrorText>}
+        {error && <ErrorText data-testid="payment-error">{error}</ErrorText>}
       </PaymentSection>
 
       <TestModeNotice>
@@ -103,10 +103,22 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
       </TestModeNotice>
 
       <ButtonContainer>
-        <Button type="button" variant="outline" onClick={onBack} disabled={processing}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onBack}
+          disabled={processing}
+          data-testid="payment-back-button"
+        >
           Back
         </Button>
-        <Button type="submit" variant="primary" disabled={!stripe || processing} isLoading={processing}>
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={!stripe || processing}
+          isLoading={processing}
+          data-testid="payment-submit-button"
+        >
           Review Order
         </Button>
       </ButtonContainer>

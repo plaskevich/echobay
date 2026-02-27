@@ -36,7 +36,7 @@ export default function EmailSettings() {
   };
 
   return (
-    <Container>
+    <Container data-testid="email-settings">
       <SectionTitle>Change Email Address</SectionTitle>
       <Description>Update the email address associated with your account</Description>
 

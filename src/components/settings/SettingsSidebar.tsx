@@ -22,7 +22,12 @@ export default function SettingsSidebar({ activeSection, setActiveSection }: Set
       <SidebarTitle>Settings</SidebarTitle>
       <SidebarNav>
         {sections.map(({ key, label, icon }) => (
-          <SidebarItem key={key} $active={activeSection === key} onClick={() => setActiveSection(key)}>
+          <SidebarItem
+            key={key}
+            data-testid={`settings-section-${key}`}
+            $active={activeSection === key}
+            onClick={() => setActiveSection(key)}
+          >
             {icon}
             {label}
           </SidebarItem>

@@ -78,8 +78,8 @@ export function ShippingForm({
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {title && <FormTitle>{title}</FormTitle>}
+    <Form onSubmit={handleSubmit} data-testid="shipping-form">
+      {title && <FormTitle data-testid="shipping-form-title">{title}</FormTitle>}
       <FormField>
         <Label>Full Name *</Label>
         <Input
@@ -87,8 +87,9 @@ export function ShippingForm({
           value={formData.fullName}
           onChange={(e) => handleChange('fullName', e.target.value)}
           placeholder="John Doe"
+          data-testid="shipping-fullname-input"
         />
-        {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}
+        {errors.fullName && <ErrorText data-testid="shipping-error-fullname">{errors.fullName}</ErrorText>}
       </FormField>
 
       <FormField>
@@ -98,8 +99,9 @@ export function ShippingForm({
           value={formData.addressLine1}
           onChange={(e) => handleChange('addressLine1', e.target.value)}
           placeholder="Street address, P.O. box"
+          data-testid="shipping-address1-input"
         />
-        {errors.addressLine1 && <ErrorText>{errors.addressLine1}</ErrorText>}
+        {errors.addressLine1 && <ErrorText data-testid="shipping-error-address1">{errors.addressLine1}</ErrorText>}
       </FormField>
 
       <FormField>
@@ -109,6 +111,7 @@ export function ShippingForm({
           value={formData.addressLine2}
           onChange={(e) => handleChange('addressLine2', e.target.value)}
           placeholder="Apartment, suite, unit, building, floor, etc."
+          data-testid="shipping-address2-input"
         />
       </FormField>
 
@@ -120,8 +123,9 @@ export function ShippingForm({
             value={formData.city}
             onChange={(e) => handleChange('city', e.target.value)}
             placeholder="City"
+            data-testid="shipping-city-input"
           />
-          {errors.city && <ErrorText>{errors.city}</ErrorText>}
+          {errors.city && <ErrorText data-testid="shipping-error-city">{errors.city}</ErrorText>}
         </FormField>
 
         <FormField>
@@ -131,8 +135,9 @@ export function ShippingForm({
             value={formData.postalCode}
             onChange={(e) => handleChange('postalCode', e.target.value)}
             placeholder="12345"
+            data-testid="shipping-postalcode-input"
           />
-          {errors.postalCode && <ErrorText>{errors.postalCode}</ErrorText>}
+          {errors.postalCode && <ErrorText data-testid="shipping-error-postalcode">{errors.postalCode}</ErrorText>}
         </FormField>
       </FormRow>
 
@@ -145,7 +150,7 @@ export function ShippingForm({
               handleChange('country', e.target.value);
               handleChange('state', '');
             }}
-            // error={!!errors.country}
+            data-testid="shipping-country-select"
           >
             <option value="">Select Country</option>
             {countries.map((country) => (
@@ -154,7 +159,7 @@ export function ShippingForm({
               </option>
             ))}
           </Select>
-          {errors.country && <ErrorText>{errors.country}</ErrorText>}
+          {errors.country && <ErrorText data-testid="shipping-error-country">{errors.country}</ErrorText>}
         </FormField>
 
         <FormField>
@@ -163,6 +168,7 @@ export function ShippingForm({
             value={formData.state}
             onChange={(e) => handleChange('state', e.target.value)}
             disabled={!formData.country || states.length === 0}
+            data-testid="shipping-state-select"
           >
             <option value="">Select State</option>
             {states.map((state) => (
@@ -181,12 +187,13 @@ export function ShippingForm({
           value={formData.phone}
           onChange={(e) => handleChange('phone', e.target.value)}
           placeholder="+49 151 12345678"
+          data-testid="shipping-phone-input"
         />
-        {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
+        {errors.phone && <ErrorText data-testid="shipping-error-phone">{errors.phone}</ErrorText>}
       </FormField>
 
       <ButtonContainer>
-        <Button type="submit" variant="primary" isLoading={isLoading}>
+        <Button type="submit" variant="primary" isLoading={isLoading} data-testid="shipping-submit-button">
           {submitLabel}
         </Button>
       </ButtonContainer>

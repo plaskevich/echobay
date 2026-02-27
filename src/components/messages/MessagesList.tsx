@@ -40,7 +40,7 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(functi
   const isBuyer = currentUserId === chatBuyerId;
 
   return (
-    <MessagesArea>
+    <MessagesArea data-testid="messages-list">
       {messages.map((msg) => {
         if (msg.type === 'system' && msg.metadata) {
           return (
@@ -57,9 +57,14 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(functi
           );
         }
 
+        const isOwn = msg.sender_id === currentUserId;
         return (
-          <MessageBubble key={msg.id} $isOwn={msg.sender_id === currentUserId}>
-            <MessageContent>{msg.content}</MessageContent>
+          <MessageBubble
+            key={msg.id}
+            $isOwn={isOwn}
+            data-testid={isOwn ? 'message-bubble-own' : 'message-bubble-other'}
+          >
+            <MessageContent data-testid="message-content">{msg.content}</MessageContent>
           </MessageBubble>
         );
       })}

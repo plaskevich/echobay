@@ -8,15 +8,17 @@ export function OrderConfirmed() {
   const navigate = useNavigate();
 
   return (
-    <SuccessContainer>
+    <SuccessContainer data-testid="order-confirmed">
       <SuccessIcon>
         <PiCheckCircle size={80} />
       </SuccessIcon>
-      <SuccessTitle>Order Confirmed!</SuccessTitle>
-      <SuccessMessage>
+      <SuccessTitle data-testid="order-confirmed-title">Order Confirmed!</SuccessTitle>
+      <SuccessMessage data-testid="order-confirmed-message">
         Thank you for your purchase. The seller has been notified and will prepare your item for shipping.
       </SuccessMessage>
-      <Button onClick={() => navigate('/')}>Continue shopping</Button>
+      <Button onClick={() => navigate('/')} data-testid="order-confirmed-continue">
+        Continue shopping
+      </Button>
     </SuccessContainer>
   );
 }

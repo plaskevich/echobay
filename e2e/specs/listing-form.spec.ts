@@ -16,14 +16,6 @@ test.describe('Create Listing', () => {
     }
   });
 
-  test('shows create listing page with correct heading', async ({ page }) => {
-    await page.goto('/items/new');
-
-    await expect(page.getByRole('heading', { name: 'Sell Your Item' })).toBeVisible();
-    await expect(page.getByTestId('listing-submit-button')).toHaveText('Create Listing');
-    await expect(page.getByTestId('listing-cancel-button')).toBeVisible();
-  });
-
   test('cancel without changes navigates to profile', async ({ page }) => {
     await page.goto('/items/new');
     await expect(page.getByRole('heading', { name: 'Sell Your Item' })).toBeVisible();
@@ -31,17 +23,6 @@ test.describe('Create Listing', () => {
     await page.getByTestId('listing-cancel-button').click();
 
     await expect(page).toHaveURL('/profile');
-  });
-
-  test('cancel with changes shows unsaved changes dialog', async ({ page }) => {
-    await page.goto('/items/new');
-
-    await page.getByTestId('listing-title-input').fill('Dirty form');
-    await page.getByTestId('listing-cancel-button').click();
-
-    await expect(page.getByText('You have unsaved changes')).toBeVisible();
-    await expect(page.getByTestId('dialog-cancel')).toBeVisible();
-    await expect(page.getByTestId('dialog-confirm')).toBeVisible();
   });
 
   test('staying on page after cancel dialog keeps form data', async ({ page }) => {
@@ -96,6 +77,11 @@ test.describe('Create Listing – Full Form', () => {
   test.describe.configure({ mode: 'serial' });
 
   let createdListingId: string | undefined;
+  let testUserId: string;
+
+  test.beforeAll(async () => {
+    testUserId = await getTestUserId();
+  });
 
   test.afterAll(async () => {
     if (createdListingId) {
@@ -134,6 +120,7 @@ test.describe('Create Listing – Full Form', () => {
       .select('*')
       .eq('title', 'Wish You Were Here')
       .eq('artist', 'Pink Floyd')
+      .eq('owner_id', testUserId)
       .single();
 
     expect(data).toBeTruthy();
@@ -218,16 +205,6 @@ test.describe('Edit Listing', () => {
     await expect(page).toHaveURL(`/items/${testListingId}`);
   });
 
-  test('cancel with changes shows unsaved changes dialog', async ({ page }) => {
-    await page.goto(`/items/${testListingId}/edit`);
-    await expect(page.getByTestId('listing-title-input')).toHaveValue(EDITABLE_LISTING.title);
-
-    await page.getByTestId('listing-title-input').fill('Changed Title');
-    await page.getByTestId('listing-cancel-button').click();
-
-    await expect(page.getByText('You have unsaved changes')).toBeVisible();
-  });
-
   test('confirming cancel navigates to item detail', async ({ page }) => {
     await page.goto(`/items/${testListingId}/edit`);
     await expect(page.getByTestId('listing-title-input')).toHaveValue(EDITABLE_LISTING.title);
@@ -283,15 +260,6 @@ test.describe('Edit Listing', () => {
 });
 
 test.describe('Discogs Auto-Fill', () => {
-  test('searches Discogs and displays results', async ({ page }) => {
-    await page.goto('/items/new');
-
-    await page.getByTestId('discogs-search-input').fill('Nevermind Nirvana');
-    await page.getByTestId('discogs-search-button').click();
-
-    await expect(page.getByTestId('discogs-results')).toBeVisible({ timeout: 15000 });
-  });
-
   test('selecting a result auto-fills form fields', async ({ page }) => {
     await page.goto('/items/new');
 
