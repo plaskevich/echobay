@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { FormGroup, Input, Label } from '@/components/common/Form';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import { useLocationAutocomplete } from '@/hooks/useLocationAutocomplete';
 
 interface LocationAutocompleteProps {
@@ -32,18 +33,14 @@ export function LocationAutocomplete({
     }
   }, [value, showSuggestions, setQuery]);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);
-        setSelectedIndex(-1);
-        setQuery(value);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [setQuery, value]);
+  useClickOutside(
+    wrapperRef,
+    useCallback(() => {
+      setShowSuggestions(false);
+      setSelectedIndex(-1);
+      setQuery(value);
+    }, [setQuery, value])
+  );
 
   const handleInputChange = (newValue: string) => {
     setQuery(newValue);

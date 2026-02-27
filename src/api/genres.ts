@@ -52,8 +52,20 @@ export async function fetchGenresByNames(names: string[]) {
   return { data: matchedGenres, error: null };
 }
 
-export async function fetchListingGenres(listingId: string) {
-  return await supabase.from('listing_genres').select('genre_id, genres(*)').eq('listing_id', listingId);
+interface ListingGenreRow {
+  genre_id: string;
+  genres: Genre | null;
+}
+
+export async function fetchListingGenres(
+  listingId: string
+): Promise<{ data: ListingGenreRow[] | null; error: Error | null }> {
+  const { data, error } = await supabase
+    .from('listing_genres')
+    .select('genre_id, genres(*)')
+    .eq('listing_id', listingId);
+
+  return { data: data as ListingGenreRow[] | null, error };
 }
 
 export async function setListingGenres(listingId: string, genreIds: string[]) {

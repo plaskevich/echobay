@@ -2,15 +2,16 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
-import placeholder from '@/assets/cd.png';
+import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
+import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
   order: Order;
 }
 export default function OrderCard({ order }: OrderCardProps) {
   const listing = Array.isArray(order.listings) ? order.listings[0] : order.listings;
-  const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : placeholder;
+  const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : PLACEHOLDER_IMAGE;
 
   return (
     <Card data-testid="order-card">
@@ -26,7 +27,7 @@ export default function OrderCard({ order }: OrderCardProps) {
           <OrderDetails>
             <DetailRow>
               <DetailLabel>Amount:</DetailLabel>
-              <DetailValue>{order.amount.toFixed(2)}€</DetailValue>
+              <DetailValue>{formatPrice(order.amount)}</DetailValue>
             </DetailRow>
             <DetailRow>
               <DetailLabel>Date:</DetailLabel>

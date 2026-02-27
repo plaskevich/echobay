@@ -1,16 +1,8 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-import type { MessageMetadata } from '@/api/messages';
+import type { Message } from '@/api/messages';
 import { SystemMessage } from '@/components/messages/system/SystemMessage';
-
-interface Message {
-  id: string;
-  sender_id: string;
-  content: string;
-  type?: 'text' | 'system';
-  metadata?: MessageMetadata | null;
-}
 
 interface MessagesListProps {
   messages: Message[];

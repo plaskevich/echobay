@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
+import { EmptyState, LoadingState } from '@/components/common/StateDisplay';
 import OrderCard from '@/components/orders/OrderCard';
 import type { OrderFilter } from '@/pages/OrdersPage';
 
@@ -14,9 +15,9 @@ export default function OrdersContent({ isLoading, orders, filter }: OrdersConte
   return (
     <OrdersSection>
       {isLoading ? (
-        <LoadingText data-testid="orders-loading">Loading orders...</LoadingText>
+        <LoadingState message="Loading orders..." data-testid="orders-loading" />
       ) : orders.length === 0 ? (
-        <EmptyText data-testid="orders-empty">No {filter} orders found</EmptyText>
+        <EmptyState message={`No ${filter} orders found`} data-testid="orders-empty" />
       ) : (
         <OrdersList data-testid="orders-list">
           {orders.map((order) => (
@@ -30,16 +31,6 @@ export default function OrdersContent({ isLoading, orders, filter }: OrdersConte
 
 const OrdersSection = styled.div`
   flex: 1;
-`;
-
-const LoadingText = styled.p`
-  color: ${(props) => props.theme.text.secondary};
-`;
-
-const EmptyText = styled.p`
-  color: ${(props) => props.theme.text.secondary};
-  text-align: center;
-  padding: 2rem;
 `;
 
 const OrdersList = styled.div`

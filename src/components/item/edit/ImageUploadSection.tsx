@@ -27,7 +27,7 @@ export function ImageUploadSection({
       {imagePreviews.length > 0 && (
         <ImagePreviewContainer>
           {imagePreviews.map((preview, index) => (
-            <ImagePreview key={index}>
+            <ImagePreview key={preview}>
               <PreviewImage alt={`Preview ${index + 1}`} src={preview} />
               <RemoveImageButton
                 onClick={() => onRemoveImage(index)}

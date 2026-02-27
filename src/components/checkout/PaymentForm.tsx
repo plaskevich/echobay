@@ -6,6 +6,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { createPaymentIntent } from '@/api/checkout';
 import { Button } from '@/components/common/Button';
 import { Form } from '@/components/common/Form';
+import { formatPrice } from '@/lib/utils';
 
 interface PaymentFormProps {
   amount: number;
@@ -82,7 +83,7 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
 
       <OrderAmount>
         <AmountLabel>Total Amount</AmountLabel>
-        <AmountValue data-testid="payment-total-amount">{amount.toFixed(2)}€</AmountValue>
+        <AmountValue data-testid="payment-total-amount">{formatPrice(amount)}</AmountValue>
       </OrderAmount>
 
       <PaymentSection>

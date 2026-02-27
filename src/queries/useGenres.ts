@@ -64,7 +64,7 @@ export function useListingGenres(listingId: string | undefined) {
       if (!listingId) return [];
       const { data, error } = await fetchListingGenres(listingId);
       if (error) throw error;
-      return data?.map((item) => item.genres as unknown as Genre).filter(Boolean) || [];
+      return data?.map((item) => item.genres).filter((g): g is Genre => g !== null) || [];
     },
     enabled: !!listingId,
     staleTime: 1000 * 60 * 5, // 5 minutes

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { FORMAT_OPTIONS } from '@/lib/constants/listings';
-import { capitalize } from '@/lib/utils';
+import { capitalize, getFormatLabel } from '@/lib/utils';
 
 interface Genre {
   id: string;
@@ -18,11 +17,6 @@ interface ListingInfoProps {
 }
 
 export function ListingInfo({ format, condition, genres, label, year }: ListingInfoProps) {
-  const getFormatLabel = (value: string) => {
-    const option = FORMAT_OPTIONS.find((opt) => opt.value === value);
-    return option?.label || capitalize(value);
-  };
-
   return (
     <InfoGrid>
       {format && (

@@ -2,7 +2,6 @@ import { PiCaretLeft, PiCaretRight, PiMapPinDuotone, PiUserCircleDuotone } from 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import placeholder from '@/assets/cd.png';
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
 import { PageTitle } from '@/components/common/PageTitle';
@@ -11,6 +10,8 @@ import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
+import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { formatPrice } from '@/lib/utils';
 import { useListing } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
@@ -52,7 +53,7 @@ export function ItemDetailPage() {
     );
   }
 
-  const images = listing.images && listing.images.length > 0 ? listing.images : [placeholder];
+  const images = listing.images && listing.images.length > 0 ? listing.images : [PLACEHOLDER_IMAGE];
 
   const genres =
     listing.listing_genres
@@ -80,10 +81,10 @@ export function ItemDetailPage() {
             <PageTitle data-testid="title">{listing.title}</PageTitle>
           </TitleSection>
           <PriceSection>
-            <Price data-testid="listing-price">{listing.price.toFixed(2)}€</Price>
+            <Price data-testid="listing-price">{formatPrice(listing.price)}</Price>
             {listing.shipping_price != null && listing.shipping_price > 0 ? (
               <ShippingPrice data-testid="listing-shipping">
-                + {listing.shipping_price.toFixed(2)}€ shipping
+                + {formatPrice(listing.shipping_price)} shipping
               </ShippingPrice>
             ) : (
               <ShippingPrice data-testid="listing-shipping">Free shipping</ShippingPrice>

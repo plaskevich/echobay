@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useAuthStore } from '@/store/auth-store';
 
@@ -8,7 +9,11 @@ export function ProtectedRoute() {
   const location = useLocation();
 
   if (!isInitialized) {
-    return null;
+    return (
+      <LoadingContainer>
+        <LoadingText>Loading...</LoadingText>
+      </LoadingContainer>
+    );
   }
 
   if (!user) {
@@ -17,3 +22,15 @@ export function ProtectedRoute() {
 
   return <Outlet />;
 }
+
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+`;
+
+const LoadingText = styled.p`
+  color: ${({ theme }) => theme.text.secondary};
+  font-size: 1rem;
+`;

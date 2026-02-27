@@ -68,6 +68,40 @@ export function useListingSubmit({
     resetImages();
   };
 
+  function buildListingData(data: ListingFormData, images: string[]) {
+    const parsedPrice = parseFloat(data.price);
+    const parsedShipping = data.shipping_price ? parseFloat(data.shipping_price) : 0;
+    const parsedYear = data.year ? parseInt(data.year, 10) : null;
+
+    if (Number.isNaN(parsedPrice) || parsedPrice < 0) throw new Error('Invalid price');
+    if (Number.isNaN(parsedShipping) || parsedShipping < 0) throw new Error('Invalid shipping price');
+    if (parsedYear !== null && Number.isNaN(parsedYear)) throw new Error('Invalid year');
+
+    return {
+      owner_id: userId!,
+      title: data.title,
+      artist: data.artist,
+      year: parsedYear,
+      format: data.format,
+      label: data.label || null,
+      condition: data.condition || null,
+      price: parsedPrice,
+      shipping_price: parsedShipping,
+      description: data.description || null,
+      images,
+    };
+  }
+
+  async function saveListing(listingData: ReturnType<typeof buildListingData>) {
+    if (isEditMode) {
+      await updateMutation.mutateAsync({ id: listingId, data: listingData });
+      return listingId;
+    }
+    const result = await createMutation.mutateAsync(listingData);
+    const created = Array.isArray(result) ? result[0] : result;
+    return created?.id ?? '';
+  }
+
   const onSubmit = async (data: ListingFormData) => {
     setError(null);
 
@@ -78,47 +112,17 @@ export function useListingSubmit({
 
     try {
       const imageUrls = await uploadImages();
-
       const allImages = imageUrls.length > 0 ? imageUrls : existingImages;
+      const listingData = buildListingData(data, allImages);
+      const savedListingId = await saveListing(listingData);
 
-      const listingData = {
-        owner_id: userId,
-        title: data.title,
-        artist: data.artist,
-        year: data.year ? parseInt(data.year, 10) : null,
-        format: data.format,
-        label: data.label || null,
-        condition: data.condition || null,
-        price: parseFloat(data.price),
-        shipping_price: data.shipping_price ? parseFloat(data.shipping_price) : 0,
-        description: data.description || null,
-        images: allImages,
-      };
-
-      let savedListingId: string;
-
-      if (isEditMode) {
-        await updateMutation.mutateAsync({ id: listingId, data: listingData });
-        savedListingId = listingId;
-      } else {
-        const result = await createMutation.mutateAsync(listingData);
-        savedListingId = (result as { id: string }[])?.[0]?.id || listingId || '';
-      }
-
-      if (savedListingId && selectedGenreIds.length > 0) {
+      if (savedListingId) {
         await setListingGenres(savedListingId, selectedGenreIds);
-      } else if (savedListingId && isEditMode) {
-        await setListingGenres(savedListingId, []);
       }
 
       toast.success(`Listing ${isEditMode ? 'updated' : 'created'} successfully!`);
       resetForm();
-
-      if (isEditMode) {
-        navigate(`/items/${listingId}`);
-      } else {
-        navigate('/profile');
-      }
+      navigate(isEditMode ? `/items/${listingId}` : '/profile');
     } catch (err) {
       setError(
         err instanceof Error

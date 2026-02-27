@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
-import { CONDITION_OPTIONS, FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { CONDITION_OPTIONS, CURRENCY_SYMBOL, FORMAT_OPTIONS } from '@/lib/constants/listings';
 import { useGenres } from '@/queries/useGenres';
 
 import { MultiSelectFilter } from './MultiSelectFilter';
@@ -33,15 +34,8 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
 
   const genreOptions = genres.map((g) => ({ value: g.id, label: g.name }));
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const closeDropdown = () => setOpenDropdown(null);
+  useClickOutside(containerRef, closeDropdown);
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -94,7 +88,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
     appliedFilters.minPrice !== undefined || appliedFilters.maxPrice !== undefined
       ? {
           id: 'price-range',
-          label: `${appliedFilters.minPrice ?? 0}€ - ${appliedFilters.maxPrice ?? '∞'}€`,
+          label: `${appliedFilters.minPrice ?? 0}${CURRENCY_SYMBOL} - ${appliedFilters.maxPrice ?? '∞'}${CURRENCY_SYMBOL}`,
           onRemove: removePriceRange,
         }
       : null;

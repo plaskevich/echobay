@@ -1,3 +1,7 @@
+import placeholderImg from '@/assets/cd.png';
+
+export const PLACEHOLDER_IMAGE = placeholderImg;
+
 export const FORMATS = ['vinyl', 'cd', 'tape'] as const;
 export type Format = (typeof FORMATS)[number];
 
@@ -24,3 +28,8 @@ export const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 export const MAX_IMAGES_PER_LISTING = 8;
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 export const MAX_IMAGE_DIMENSION = 1920;
+
+export const MAX_MAIN_GENRES = 3;
+export const MAX_SUBGENRES = 5;
+
+export const CURRENCY_SYMBOL = '\u20AC'; // €

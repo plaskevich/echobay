@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   type DiscogsRelease,
@@ -32,6 +32,12 @@ export function useDiscogsSearch(): UseDiscogsSearchReturn {
   const abortControllerRef = useRef<AbortController | null>(null);
   const searchQueryRef = useRef(searchQuery);
   searchQueryRef.current = searchQuery;
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const performSearch = useCallback(async () => {
     const query = searchQueryRef.current;

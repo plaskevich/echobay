@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-import { confirmPayment } from '@/api/checkout';
-import { createChat, getChatByListing, sendOrderSystemMessages } from '@/api/messages';
 import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { Button } from '@/components/common/Button';
-import { useAuthStore } from '@/store/auth-store';
+import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
+import { formatPrice } from '@/lib/utils';
 
 import type { ShippingAddress } from './ShippingForm';
 
@@ -26,57 +24,16 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack, onConfirmed }: OrderSummaryProps) {
-  const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const user = useAuthStore((state) => state.user);
-
-  const handleConfirmOrder = async () => {
-    setProcessing(true);
-    setError(null);
-
-    try {
-      const totalAmount = listing.price + (listing.shipping_price || 0);
-      const result = await confirmPayment({
-        listingId: listing.id,
-        shippingAddress,
-        paymentIntentId,
-        amount: totalAmount,
-      });
-
-      if (!result.success || !result.orderId) {
-        throw new Error(result.error || 'Failed to confirm order');
-      }
-
-      if (user) {
-        try {
-          const existingChat = await getChatByListing(user.id, listing.owner_id, listing.id);
-          let newChatId: string;
-
-          if (existingChat.data) {
-            newChatId = existingChat.data.id;
-          } else {
-            const chatResult = await createChat(user.id, listing.owner_id, listing.id, result.orderId);
-            if (chatResult.error || !chatResult.data) {
-              throw new Error('Failed to create chat');
-            }
-            newChatId = chatResult.data.id;
-          }
-
-          await sendOrderSystemMessages(newChatId, user.id, result.orderId, listing.title, shippingAddress);
-        } catch {
-          // Chat creation failed but order succeeded - still show confirmation
-        }
-      }
-
-      setConfirmed(true);
-      onConfirmed?.();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to process payment. Please try again.');
-    } finally {
-      setProcessing(false);
-    }
-  };
+  const { processing, error, confirmed, handleConfirmOrder } = useOrderConfirmation({
+    listingId: listing.id,
+    listingTitle: listing.title,
+    listingOwnerId: listing.owner_id,
+    listingPrice: listing.price,
+    listingShippingPrice: listing.shipping_price,
+    shippingAddress,
+    paymentIntentId,
+    onConfirmed,
+  });
 
   if (confirmed) {
     return <OrderConfirmed />;
@@ -93,7 +50,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
           <ItemInfo>
             <ItemArtist data-testid="summary-item-artist">{listing.artist}</ItemArtist>
             <ItemTitle data-testid="summary-item-title">{listing.title}</ItemTitle>
-            <ItemPrice data-testid="summary-item-price">{listing.price.toFixed(2)}€</ItemPrice>
+            <ItemPrice data-testid="summary-item-price">{formatPrice(listing.price)}</ItemPrice>
           </ItemInfo>
         </ItemCard>
       </Section>
@@ -123,12 +80,12 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       <PriceBreakdown data-testid="summary-price-breakdown">
         <PriceRow>
           <PriceLabel>Item price</PriceLabel>
-          <PriceValue data-testid="summary-price-item">{listing.price.toFixed(2)}€</PriceValue>
+          <PriceValue data-testid="summary-price-item">{formatPrice(listing.price)}</PriceValue>
         </PriceRow>
         <PriceRow>
           <PriceLabel>Shipping</PriceLabel>
           <PriceValue data-testid="summary-price-shipping">
-            {listing.shipping_price && listing.shipping_price > 0 ? `${listing.shipping_price.toFixed(2)}€` : 'Free'}
+            {listing.shipping_price && listing.shipping_price > 0 ? formatPrice(listing.shipping_price) : 'Free'}
           </PriceValue>
         </PriceRow>
       </PriceBreakdown>
@@ -136,7 +93,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       <TotalSection>
         <TotalLabel>Total</TotalLabel>
         <TotalAmount data-testid="summary-total">
-          {(listing.price + (listing.shipping_price || 0)).toFixed(2)}€
+          {formatPrice(listing.price + (listing.shipping_price || 0))}
         </TotalAmount>
       </TotalSection>
 

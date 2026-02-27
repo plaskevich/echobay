@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
-import placeholder from '@/assets/cd.png';
+import { EmptyState, LoadingState } from '@/components/common/StateDisplay';
 import { ChatListItem } from '@/components/messages/ChatListItem';
+import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 interface ChatListSidebarProps {
@@ -35,9 +36,9 @@ export function ChatListSidebar({
   return (
     <ChatList data-testid="chat-list">
       {isLoading ? (
-        <LoadingText data-testid="chat-list-loading">Loading chats...</LoadingText>
+        <LoadingState message="Loading chats..." data-testid="chat-list-loading" />
       ) : chats.length === 0 && !pendingListing ? (
-        <EmptyState data-testid="chat-list-empty">No conversations yet</EmptyState>
+        <EmptyState message="No conversations yet" data-testid="chat-list-empty" />
       ) : (
         <>
           {pendingListing && (
@@ -47,7 +48,7 @@ export function ChatListSidebar({
               avatarUrl={profilesMap?.get(pendingListing.owner_id)?.avatar_url ?? null}
               timestamp="Now"
               itemImage={
-                pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : placeholder
+                pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : PLACEHOLDER_IMAGE
               }
               artist={pendingListing.artist}
               title={pendingListing.title}
@@ -58,7 +59,7 @@ export function ChatListSidebar({
           {chats.map((chat) => {
             const otherUser = getOtherUserInfo(chat);
             const itemImage =
-              chat.listings?.images && chat.listings.images.length > 0 ? chat.listings.images[0] : placeholder;
+              chat.listings?.images && chat.listings.images.length > 0 ? chat.listings.images[0] : PLACEHOLDER_IMAGE;
             return (
               <ChatListItem
                 key={chat.id}
@@ -95,16 +96,4 @@ const ChatList = styled.div`
     max-height: none;
     flex: 1;
   }
-`;
-
-const LoadingText = styled.p`
-  padding: 1.5rem;
-  color: ${(props) => props.theme.text.secondary};
-  font-size: 0.95rem;
-`;
-
-const EmptyState = styled.p`
-  padding: 2rem;
-  color: ${(props) => props.theme.text.secondary};
-  text-align: center;
 `;

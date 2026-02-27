@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
 import { PiCaretLeft } from 'react-icons/pi';
 import styled from 'styled-components';
+
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
 
 import {
   ApplyButtonWrapper,
@@ -29,18 +31,11 @@ export function PriceRangeFilter({ minPrice, maxPrice, onChange, onApply, isOpen
   const hasValue = minPrice !== undefined || maxPrice !== undefined;
   const hasInvalidRange = minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice;
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  useBodyScrollLock(isOpen);
 
   const getLabel = () => {
     if (!hasValue) return 'Price Range';
-    return `${minPrice ?? 0}€ - ${maxPrice ?? '∞'}€`;
+    return `${minPrice ?? 0}${CURRENCY_SYMBOL} - ${maxPrice ?? '∞'}${CURRENCY_SYMBOL}`;
   };
 
   const handleClear = () => {

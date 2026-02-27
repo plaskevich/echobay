@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { PiCaretDown, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
+
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export interface MultiSelectOption {
   value: string;
@@ -68,16 +70,10 @@ export function MultiSelect({
     [searchTerm, selectedValues, filteredOptions, handleRemove, handleSelect]
   );
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useClickOutside(
+    containerRef,
+    useCallback(() => setIsOpen(false), [])
+  );
 
   return (
     <Container ref={containerRef}>

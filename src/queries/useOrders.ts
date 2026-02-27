@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+  type Order,
   type OrderStatus,
   fetchBoughtOrders,
   fetchOrderForChat,
@@ -20,10 +21,12 @@ export function useBoughtOrders(userId: string | undefined) {
     queryKey: orderKeys.bought(userId || ''),
     queryFn: async () => {
       if (!userId) return [];
-      return await fetchBoughtOrders(userId);
+      const { data, error } = await fetchBoughtOrders(userId);
+      if (error) throw error;
+      return (data as Order[]) || [];
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }
 
@@ -32,10 +35,12 @@ export function useSoldOrders(userId: string | undefined) {
     queryKey: orderKeys.sold(userId || ''),
     queryFn: async () => {
       if (!userId) return [];
-      return await fetchSoldOrders(userId);
+      const { data, error } = await fetchSoldOrders(userId);
+      if (error) throw error;
+      return (data as Order[]) || [];
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }
 
@@ -44,7 +49,9 @@ export function useOrderForChat(orderId: string | undefined | null) {
     queryKey: orderKeys.detail(orderId || ''),
     queryFn: async () => {
       if (!orderId) return null;
-      return await fetchOrderForChat(orderId);
+      const { data, error } = await fetchOrderForChat(orderId);
+      if (error) throw error;
+      return data as Order;
     },
     enabled: !!orderId,
     staleTime: 1000 * 30,
@@ -56,7 +63,9 @@ export function useUpdateOrderStatus() {
 
   return useMutation({
     mutationFn: async ({ orderId, status }: { orderId: string; status: OrderStatus }) => {
-      return await updateOrderStatus(orderId, status);
+      const { data, error } = await updateOrderStatus(orderId, status);
+      if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderKeys.all });

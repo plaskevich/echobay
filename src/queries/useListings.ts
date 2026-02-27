@@ -43,8 +43,8 @@ export function useListings(filters?: ListingFilters) {
 
   return useQuery({
     queryKey: listingKeys.list(normalizedFilters),
-    queryFn: async ({ signal }) => {
-      const { data, error } = await fetchAllListings(normalizedFilters, signal);
+    queryFn: async () => {
+      const { data, error } = await fetchAllListings(normalizedFilters);
       if (error) throw error;
       return data || [];
     },
@@ -63,8 +63,8 @@ export function useListing(id: string) {
 
   return useQuery({
     queryKey: listingKeys.detail(id),
-    queryFn: async ({ signal }) => {
-      const { data, error } = await fetchListing(id, signal);
+    queryFn: async () => {
+      const { data, error } = await fetchListing(id);
       if (error) throw error;
       return data;
     },
@@ -76,9 +76,9 @@ export function useListing(id: string) {
 export function useUserListings(userId: string | undefined) {
   return useQuery({
     queryKey: listingKeys.userListings(userId || ''),
-    queryFn: async ({ signal }) => {
+    queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await fetchUserListings(userId, signal);
+      const { data, error } = await fetchUserListings(userId);
       if (error) throw error;
       return data || [];
     },
@@ -90,9 +90,9 @@ export function useUserListings(userId: string | undefined) {
 export function usePublicUserListings(userId: string | undefined) {
   return useQuery({
     queryKey: [...listingKeys.userListings(userId || ''), 'public'],
-    queryFn: async ({ signal }) => {
+    queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await fetchPublicUserListings(userId, signal);
+      const { data, error } = await fetchPublicUserListings(userId);
       if (error) throw error;
       return data || [];
     },

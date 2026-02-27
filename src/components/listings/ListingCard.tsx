@@ -2,8 +2,8 @@ import { PiCassetteTapeDuotone, PiDiscDuotone, PiHeart, PiHeartFill, PiVinylReco
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import placeholder from '@/assets/cd.png';
-import { FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -29,7 +29,7 @@ interface ListingCardProps {
 }
 
 export function ListingCard({ listing }: ListingCardProps) {
-  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : placeholder;
+  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : PLACEHOLDER_IMAGE;
   const { user } = useAuthStore();
   const isOwner = user?.id === listing.owner_id;
   const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
@@ -41,12 +41,6 @@ export function ListingCard({ listing }: ListingCardProps) {
     e.stopPropagation();
     if (!user) navigate('/auth');
     else await toggleFavorite(user.id, listing.id, isFavorited);
-  };
-
-  const getFormatLabel = (value?: string) => {
-    if (!value) return null;
-    const option = FORMAT_OPTIONS.find((opt) => opt.value === value);
-    return option?.label || value;
   };
 
   const getFormatIcon = (value?: string) => {
@@ -65,18 +59,6 @@ export function ListingCard({ listing }: ListingCardProps) {
   const showStatusBanner = listing.status !== 'active';
   const showFavoriteButton = !isOwner;
 
-  const getStatusLabel = (status?: ListingStatus) => {
-    if (!status) return '';
-    switch (status) {
-      case 'sold':
-        return 'Sold';
-      case 'hidden':
-        return 'Hidden';
-      default:
-        return status;
-    }
-  };
-
   return (
     <CardLink to={`/items/${listing.id}`}>
       <Card data-testid="listing-card">
@@ -92,7 +74,7 @@ export function ListingCard({ listing }: ListingCardProps) {
             {getFormatLabel(listing.format)}
           </Format>
         )}
-        <Price>{listing.price.toFixed(2)}€</Price>
+        <Price>{formatPrice(listing.price)}</Price>
         {showFavoriteButton && (
           <FavoriteButton
             onClick={handleFavoriteClick}

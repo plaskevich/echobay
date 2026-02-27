@@ -38,7 +38,10 @@ async function callDiscogsProxy(body: Record<string, unknown>, signal?: AbortSig
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const token = session?.access_token || import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const token = session?.access_token;
+  if (!token) {
+    throw new Error('Authentication required. Please sign in to search Discogs.');
+  }
 
   const response = await fetch(`${SUPABASE_FUNCTIONS_URL}/discogs-proxy`, {
     method: 'POST',

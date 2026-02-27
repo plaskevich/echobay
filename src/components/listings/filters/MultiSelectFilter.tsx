@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PiCaretLeft } from 'react-icons/pi';
 
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+
 import {
   ApplyButtonWrapper,
   CaretIcon,
@@ -58,14 +60,7 @@ export function MultiSelectFilter({
     }
   }, [isOpen, searchable]);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  useBodyScrollLock(isOpen);
 
   const handleToggle = () => {
     if (!isOpen) {

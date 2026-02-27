@@ -2,31 +2,13 @@ import { PiArrowLeft } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { MessageMetadata } from '@/api/messages';
+import type { ListingSummary, Message } from '@/api/messages';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
 
-interface ListingDisplay {
-  id: string;
-  title: string;
-  artist: string;
-  format?: string | null;
-  price: number;
-  images?: string[] | null;
-  status?: string | null;
-}
-
-interface Message {
-  id: string;
-  sender_id: string;
-  content: string;
-  type?: 'text' | 'system';
-  metadata?: MessageMetadata | null;
-}
-
 interface ConversationPanelProps {
-  displayListing: ListingDisplay | null;
+  displayListing: ListingSummary | null;
   messages: Message[];
   currentUserId: string;
   messageDraft: string;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FieldError, FormGroup, Input, Label, Select, TextArea } from '@/components/common/Form';
 import { GenreSelector } from '@/components/common/GenreSelector';
 import { type ListingFormData } from '@/hooks/useListingSubmit';
-import { CONDITION_OPTIONS, FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { CONDITION_OPTIONS, FORMAT_OPTIONS, MAX_MAIN_GENRES, MAX_SUBGENRES } from '@/lib/constants/listings';
 
 interface FormFieldsProps {
   register: UseFormRegister<ListingFormData>;
@@ -133,8 +133,8 @@ export function FormFields({
           onMainGenresChange={onMainGenresChange}
           onSubgenresChange={onSubgenresChange}
           disabled={isSubmitting}
-          maxMainGenres={3}
-          maxSubgenres={5}
+          maxMainGenres={MAX_MAIN_GENRES}
+          maxSubgenres={MAX_SUBGENRES}
         />
       </Section>
 

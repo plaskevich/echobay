@@ -3,7 +3,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
-import { FieldError, Form, Input, Label, Select } from '@/components/common/Form';
+import { ButtonGroup, FieldError, Form, FormGroup, Input, Label, Select } from '@/components/common/Form';
 
 export interface ShippingAddress {
   fullName: string;
@@ -58,7 +58,7 @@ export function ShippingForm({
     <Form onSubmit={handleSubmit(onSubmit)} data-testid="shipping-form">
       {title && <FormTitle data-testid="shipping-form-title">{title}</FormTitle>}
 
-      <FormField>
+      <FormGroup>
         <Label>Full Name*</Label>
         <Input
           type="text"
@@ -70,9 +70,9 @@ export function ShippingForm({
           data-testid="shipping-fullname-input"
         />
         {errors.fullName && <FieldError data-testid="shipping-error-fullname">{errors.fullName.message}</FieldError>}
-      </FormField>
+      </FormGroup>
 
-      <FormField>
+      <FormGroup>
         <Label>Address Line 1*</Label>
         <Input
           type="text"
@@ -86,9 +86,9 @@ export function ShippingForm({
         {errors.addressLine1 && (
           <FieldError data-testid="shipping-error-address1">{errors.addressLine1.message}</FieldError>
         )}
-      </FormField>
+      </FormGroup>
 
-      <FormField>
+      <FormGroup>
         <Label>Address Line 2</Label>
         <Input
           type="text"
@@ -96,10 +96,10 @@ export function ShippingForm({
           placeholder="Apartment, suite, unit, building, floor, etc."
           data-testid="shipping-address2-input"
         />
-      </FormField>
+      </FormGroup>
 
       <FormRow>
-        <FormField>
+        <FormGroup>
           <Label>City*</Label>
           <Input
             type="text"
@@ -111,9 +111,9 @@ export function ShippingForm({
             data-testid="shipping-city-input"
           />
           {errors.city && <FieldError data-testid="shipping-error-city">{errors.city.message}</FieldError>}
-        </FormField>
+        </FormGroup>
 
-        <FormField>
+        <FormGroup>
           <Label>Postal Code*</Label>
           <Input
             type="text"
@@ -127,11 +127,11 @@ export function ShippingForm({
           {errors.postalCode && (
             <FieldError data-testid="shipping-error-postalcode">{errors.postalCode.message}</FieldError>
           )}
-        </FormField>
+        </FormGroup>
       </FormRow>
 
       <FormRow>
-        <FormField>
+        <FormGroup>
           <Label>Country*</Label>
           <Select
             $hasError={!!errors.country}
@@ -149,9 +149,9 @@ export function ShippingForm({
             ))}
           </Select>
           {errors.country && <FieldError data-testid="shipping-error-country">{errors.country.message}</FieldError>}
-        </FormField>
+        </FormGroup>
 
-        <FormField>
+        <FormGroup>
           <Label>State / Province</Label>
           <Select {...register('state')} disabled={!country || states.length === 0} data-testid="shipping-state-select">
             <option value="">Select State</option>
@@ -161,10 +161,10 @@ export function ShippingForm({
               </option>
             ))}
           </Select>
-        </FormField>
+        </FormGroup>
       </FormRow>
 
-      <FormField>
+      <FormGroup>
         <Label>Phone Number*</Label>
         <Input
           type="tel"
@@ -176,13 +176,13 @@ export function ShippingForm({
           data-testid="shipping-phone-input"
         />
         {errors.phone && <FieldError data-testid="shipping-error-phone">{errors.phone.message}</FieldError>}
-      </FormField>
+      </FormGroup>
 
-      <ButtonContainer>
+      <ButtonGroup>
         <Button type="submit" variant="primary" isLoading={isLoading} data-testid="shipping-submit-button">
           {submitLabel}
         </Button>
-      </ButtonContainer>
+      </ButtonGroup>
     </Form>
   );
 }
@@ -198,13 +198,6 @@ const FormTitle = styled.h2`
   }
 `;
 
-const FormField = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
 const FormRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -212,17 +205,5 @@ const FormRow = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
-
-  @media (max-width: 768px) {
-    > button {
-      width: 100%;
-    }
   }
 `;

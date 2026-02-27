@@ -1,15 +1,5 @@
 import { supabase } from '@/lib/supabase';
 
-export async function getOrder(orderId: string) {
-  const { data, error } = await supabase.from('orders').select('*').eq('id', orderId).single();
-
-  if (error) {
-    throw new Error(`Failed to fetch order: ${error.message}`);
-  }
-
-  return data;
-}
-
 export type OrderStatus = 'confirmed' | 'paid' | 'shipped' | 'delivered' | 'failed';
 
 export interface Order {
@@ -39,105 +29,61 @@ export interface Order {
   };
 }
 
+const ORDER_SELECT = `
+  *,
+  listings (
+    id,
+    title,
+    artist,
+    images,
+    owner_id
+  )
+`;
+
+export async function getOrder(orderId: string) {
+  return await supabase.from('orders').select('*').eq('id', orderId).single();
+}
+
 export async function fetchBoughtOrders(userId: string) {
-  const { data, error } = await supabase
+  return await supabase
     .from('orders')
-    .select(
-      `
-        *,
-        listings (
-          id,
-          title,
-          artist,
-          images,
-          owner_id
-        )
-      `
-    )
+    .select(ORDER_SELECT)
     .eq('buyer_id', userId)
     .order('created_at', { ascending: false });
-
-  if (error) {
-    throw new Error(`Failed to fetch bought orders: ${error.message}`);
-  }
-
-  return data as Order[];
 }
 
 export async function fetchSoldOrders(userId: string) {
   const { data: listings, error: listingsError } = await supabase.from('listings').select('id').eq('owner_id', userId);
 
-  if (listingsError) {
-    throw new Error(`Failed to fetch user listings: ${listingsError.message}`);
-  }
-
-  if (!listings || listings.length === 0) {
-    return [];
-  }
+  if (listingsError) return { data: null, error: listingsError };
+  if (!listings || listings.length === 0) return { data: [] as Order[], error: null };
 
   const listingIds = listings.map((l) => l.id);
 
-  const { data, error } = await supabase
+  return await supabase
     .from('orders')
-    .select(
-      `
-        *,
-        listings (
-          id,
-          title,
-          artist,
-          images,
-          owner_id
-        )
-      `
-    )
+    .select(ORDER_SELECT)
     .in('listing_id', listingIds)
     .order('created_at', { ascending: false });
-
-  if (error) {
-    throw new Error(`Failed to fetch sold orders: ${error.message}`);
-  }
-
-  return data as Order[];
 }
 
 export async function updateOrderStatus(orderId: string, status: OrderStatus) {
   const { data, error } = await supabase.from('orders').update({ status }).eq('id', orderId).select();
 
-  if (error) {
-    throw new Error(`Failed to update order status: ${error.message}`);
-  }
+  if (error) return { data: null, error };
 
   if (!data || data.length === 0) {
-    throw new Error(
-      'Unable to update order status. This is likely a permissions issue — ensure the seller is allowed to update orders in your RLS policy.'
-    );
+    return {
+      data: null,
+      error: new Error(
+        'Unable to update order status. This is likely a permissions issue, ensure the seller is allowed to update orders in your RLS policy.'
+      ),
+    };
   }
 
-  return data[0] as Order;
+  return { data: data[0] as Order, error: null };
 }
 
 export async function fetchOrderForChat(orderId: string) {
-  const { data, error } = await supabase
-    .from('orders')
-    .select(
-      `
-        *,
-        listings (
-          id,
-          title,
-          artist,
-          images,
-          owner_id
-        )
-      `
-    )
-    .eq('id', orderId)
-    .single();
-
-  if (error) {
-    throw new Error(`Failed to fetch order: ${error.message}`);
-  }
-
-  return data as Order;
+  return await supabase.from('orders').select(ORDER_SELECT).eq('id', orderId).single();
 }

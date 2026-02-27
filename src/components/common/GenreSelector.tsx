@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { FormGroup, Label } from '@/components/common/Form';
 import { MultiSelect, type MultiSelectOption } from '@/components/common/MultiSelect';
+import { MAX_MAIN_GENRES, MAX_SUBGENRES } from '@/lib/constants/listings';
 import { useMainGenres, useSubgenres } from '@/queries/useGenres';
 
 interface GenreSelectorProps {
@@ -21,8 +22,8 @@ export function GenreSelector({
   onMainGenresChange,
   onSubgenresChange,
   disabled = false,
-  maxMainGenres = 3,
-  maxSubgenres = 5,
+  maxMainGenres = MAX_MAIN_GENRES,
+  maxSubgenres = MAX_SUBGENRES,
 }: GenreSelectorProps) {
   const { data: mainGenres = [] } = useMainGenres();
   const { data: allSubgenres = [] } = useSubgenres();

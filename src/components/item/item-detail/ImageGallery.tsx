@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
-import type { ListingStatus } from '@/components/listings/ListingCard';
+import type { ListingStatus } from '@/api/listings';
+import { getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -14,18 +15,6 @@ interface ImageGalleryProps {
   listingId: string;
   isOwner: boolean;
   status?: ListingStatus;
-}
-
-function getStatusLabel(status?: ListingStatus) {
-  if (!status) return '';
-  switch (status) {
-    case 'sold':
-      return 'Sold';
-    case 'hidden':
-      return 'Hidden';
-    default:
-      return status;
-  }
 }
 
 export function ImageGallery({ images, title, listingId, isOwner, status }: ImageGalleryProps) {

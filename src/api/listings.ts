@@ -40,8 +40,7 @@ export interface ListingFilters {
   recommendForUserId?: string;
 }
 
-export async function fetchListing(id: string, signal?: AbortSignal) {
-  void signal;
+export async function fetchListing(id: string) {
   const query = supabase
     .from('listings')
     .select(
@@ -58,24 +57,12 @@ export async function fetchListing(id: string, signal?: AbortSignal) {
   return await query;
 }
 
-export async function fetchAllListings(filters?: ListingFilters, signal?: AbortSignal) {
-  void signal;
+function buildListingsQuery(filters?: ListingFilters) {
   const hasGenreFilter = filters?.genres && filters.genres.length > 0;
 
   const selectQuery = hasGenreFilter
-    ? `
-      *,
-      listing_genres!inner(
-        genre_id,
-        genres(id, name, slug)
-      )
-    `
-    : `
-      *,
-      listing_genres(
-        genres(id, name, slug)
-      )
-    `;
+    ? `*, listing_genres!inner(genre_id, genres(id, name, slug))`
+    : `*, listing_genres(genres(id, name, slug))`;
 
   let query = supabase
     .from('listings')
@@ -98,42 +85,39 @@ export async function fetchAllListings(filters?: ListingFilters, signal?: AbortS
     query = query.in('condition', filters.conditions);
   }
 
-  if (filters?.minPrice !== undefined) {
-    query = query.gte('price', filters.minPrice);
-  }
+  if (filters?.minPrice !== undefined) query = query.gte('price', filters.minPrice);
+  if (filters?.maxPrice !== undefined) query = query.lte('price', filters.maxPrice);
+  if (hasGenreFilter && filters.genres) query = query.in('listing_genres.genre_id', filters.genres);
+  if (filters?.excludeOwnerId) query = query.neq('owner_id', filters.excludeOwnerId);
 
-  if (filters?.maxPrice !== undefined) {
-    query = query.lte('price', filters.maxPrice);
-  }
+  return query;
+}
 
-  if (hasGenreFilter) {
-    query = query.in('listing_genres.genre_id', filters.genres!);
-  }
+async function applyRecommendationSort(data: Array<{ id: string }>, userId: string) {
+  const { data: recs } = await supabase.rpc('get_recommendations', {
+    target_user_id: userId,
+    num_recommendations: 100,
+  });
 
-  if (filters?.excludeOwnerId) {
-    query = query.neq('owner_id', filters.excludeOwnerId);
+  if (recs && Array.isArray(recs) && recs.length > 0) {
+    const scoreMap = new Map(recs.map((r: { listing_id: string; score: number }) => [r.listing_id, r.score]));
+    data.sort((a, b) => (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1));
   }
+}
 
+export async function fetchAllListings(filters?: ListingFilters) {
+  const query = buildListingsQuery(filters);
   const { data, error } = await query.limit(100);
   if (error || !data) return { data, error };
 
   if (filters?.recommendForUserId) {
-    const { data: recs } = await supabase.rpc('get_recommendations', {
-      target_user_id: filters.recommendForUserId,
-      num_recommendations: 100,
-    });
-
-    if (recs && recs.length > 0) {
-      const scoreMap = new Map((recs as { listing_id: string; score: number }[]).map((r) => [r.listing_id, r.score]));
-      data.sort((a, b) => (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1));
-    }
+    await applyRecommendationSort(data, filters.recommendForUserId);
   }
 
   return { data, error: null };
 }
 
-export async function fetchUserListings(userId: string, signal?: AbortSignal) {
-  void signal;
+export async function fetchUserListings(userId: string) {
   const query = supabase
     .from('listings')
     .select(
@@ -150,8 +134,7 @@ export async function fetchUserListings(userId: string, signal?: AbortSignal) {
   return await query;
 }
 
-export async function fetchPublicUserListings(userId: string, signal?: AbortSignal) {
-  void signal;
+export async function fetchPublicUserListings(userId: string) {
   return await supabase
     .from('listings')
     .select(

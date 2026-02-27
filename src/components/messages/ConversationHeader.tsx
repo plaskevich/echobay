@@ -2,8 +2,8 @@ import { PiShoppingCart } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import placeholder from '@/assets/cd.png';
-import { FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { formatPrice, getFormatLabel } from '@/lib/utils';
 
 interface ConversationHeaderProps {
   listingId: string;
@@ -34,8 +34,8 @@ export function ConversationHeader({
   otherUsername,
 }: ConversationHeaderProps) {
   const navigate = useNavigate();
-  const imageUrl = images && images.length > 0 ? images[0] : placeholder;
-  const formatLabel = format ? FORMAT_OPTIONS.find((opt) => opt.value === format)?.label || format : null;
+  const imageUrl = images && images.length > 0 ? images[0] : PLACEHOLDER_IMAGE;
+  const formatLabel = getFormatLabel(format);
   const showBuyButton = isBuyer && listingStatus === 'active' && !hasOrder;
 
   return (
@@ -54,7 +54,7 @@ export function ConversationHeader({
             <ItemArtist data-testid="conversation-header-artist">{artist}</ItemArtist>
             <ItemTitle data-testid="conversation-header-title">{title}</ItemTitle>
             <ItemMeta data-testid="conversation-header-meta">
-              {formatLabel} · {Number(price).toFixed(2)}€
+              {formatLabel} · {formatPrice(Number(price))}
             </ItemMeta>
           </ItemDetails>
         </ItemLink>

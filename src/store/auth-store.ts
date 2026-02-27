@@ -85,7 +85,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   initialize: async () => {
     if (get().isInitialized) {
-      return () => {};
+      return () => {
+        if (authSubscription) {
+          authSubscription.unsubscribe();
+          authSubscription = null;
+        }
+      };
     }
 
     set({ isLoading: true });
@@ -101,6 +106,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (authSubscription) {
         authSubscription.unsubscribe();
+        authSubscription = null;
       }
 
       const { data } = onAuthStateChange((event, session) => {
