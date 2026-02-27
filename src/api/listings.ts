@@ -71,7 +71,8 @@ function buildListingsQuery(filters?: ListingFilters) {
     .order('created_at', { ascending: false });
 
   if (filters?.search?.trim()) {
-    const searchTerm = `%${filters.search.trim()}%`;
+    const normalizedSearch = filters.search.trim().replace(/[\s-]+/g, '%');
+    const searchTerm = `%${normalizedSearch}%`;
     query = query.or(
       `title.ilike.${searchTerm},artist.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
     );

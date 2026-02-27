@@ -8,10 +8,33 @@ export function SearchBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchQuery = searchParams.get('q') || '';
-  const [inputValue, setInputValue] = useState(searchQuery);
+  const isHomePage = location.pathname === '/';
+
+  return (
+    <SearchContainer>
+      <SearchInputField
+        key={`${location.pathname}:${searchQuery}`}
+        isHomePage={isHomePage}
+        searchQuery={searchQuery}
+        setSearchParams={setSearchParams}
+        navigate={navigate}
+      />
+    </SearchContainer>
+  );
+}
+
+type SearchInputFieldProps = {
+  isHomePage: boolean;
+  searchQuery: string;
+  setSearchParams: ReturnType<typeof useSearchParams>[1];
+  navigate: ReturnType<typeof useNavigate>;
+};
+
+function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }: SearchInputFieldProps) {
+  const [inputValue, setInputValue] = useState(isHomePage ? searchQuery : '');
 
   const handleSearchChange = (value: string) => {
-    if (location.pathname !== '/') {
+    if (!isHomePage) {
       return;
     }
     if (value.trim()) {
@@ -22,22 +45,24 @@ export function SearchBar() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const target = e.target as HTMLInputElement;
-      const query = target.value.trim();
-
-      if (location.pathname !== '/') {
-        navigate(query ? `/?q=${encodeURIComponent(query)}` : '/');
-      } else {
-        handleSearchChange(query);
-      }
+    if (e.key !== 'Enter') {
+      return;
     }
+
+    const query = inputValue.trim();
+
+    if (!isHomePage) {
+      navigate(query ? `/?q=${encodeURIComponent(query)}` : '/');
+      return;
+    }
+
+    handleSearchChange(query);
   };
 
   const handleClear = () => {
     setInputValue('');
     setSearchParams({});
-    if (location.pathname !== '/') {
+    if (!isHomePage) {
       navigate('/');
     }
   };
@@ -47,26 +72,24 @@ export function SearchBar() {
   };
 
   return (
-    <SearchContainer>
-      <SearchWrapper>
-        <SearchInput
-          type="text"
-          placeholder="Search for items..."
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          data-testid="search-input"
-        />
-        <SearchIconWrapper>
-          <PiMagnifyingGlass />
-        </SearchIconWrapper>
-        {inputValue && (
-          <ClearButton onClick={handleClear} aria-label="Clear search" data-testid="clear-search-button">
-            <PiX />
-          </ClearButton>
-        )}
-      </SearchWrapper>
-    </SearchContainer>
+    <SearchWrapper>
+      <SearchInput
+        type="text"
+        placeholder="Search for items..."
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        data-testid="search-input"
+      />
+      <SearchIconWrapper>
+        <PiMagnifyingGlass />
+      </SearchIconWrapper>
+      {inputValue && (
+        <ClearButton onClick={handleClear} aria-label="Clear search" data-testid="clear-search-button">
+          <PiX />
+        </ClearButton>
+      )}
+    </SearchWrapper>
   );
 }
 
