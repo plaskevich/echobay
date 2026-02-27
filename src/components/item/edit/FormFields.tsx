@@ -149,7 +149,7 @@ export function FormFields({
               {...register('price', { required: 'Price is required' })}
               min="0"
               placeholder="0.00"
-              step="1"
+              step="0.01"
               type="number"
               disabled={isSubmitting}
               data-testid="listing-price-input"
