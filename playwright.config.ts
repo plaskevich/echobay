@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({ path: path.resolve(__dirname, '.env.test') });
+dotenv.config({ path: path.resolve(__dirname, '.env.test'), quiet: true });
 
 export default defineConfig({
   testDir: './e2e',
