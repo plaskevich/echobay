@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
-import { ListingCard } from '@/components/listings/ListingCard';
+import { type PageSize, Pagination } from '@/components/common/Pagination';
+import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
@@ -11,15 +12,50 @@ import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ListingsView() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
   const [filters, setFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
   const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
   const user = useAuthStore((state) => state.user);
 
-  const handleApply = useCallback((filtersToApply: ListingFilters) => {
-    setAppliedFilters(filtersToApply);
-  }, []);
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPageSize = (Number(searchParams.get('pageSize')) || 25) as PageSize;
+
+  const handleApply = useCallback(
+    (filtersToApply: ListingFilters) => {
+      setAppliedFilters(filtersToApply);
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('page', '1');
+        return next;
+      });
+    },
+    [setSearchParams]
+  );
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('page', String(page));
+        return next;
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    [setSearchParams]
+  );
+
+  const handlePageSizeChange = useCallback(
+    (size: PageSize) => {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('pageSize', String(size));
+        next.set('page', '1');
+        return next;
+      });
+    },
+    [setSearchParams]
+  );
 
   const selectedSort = appliedFilters.sortBy || 'recommended';
 
@@ -30,11 +66,16 @@ export function ListingsView() {
       search: searchQuery || undefined,
       excludeOwnerId: user?.id,
       recommendForUserId: selectedSort === 'recommended' ? user?.id : undefined,
+      page: currentPage,
+      pageSize: currentPageSize,
     }),
-    [appliedFilters, searchQuery, selectedSort, user?.id]
+    [appliedFilters, searchQuery, selectedSort, user?.id, currentPage, currentPageSize]
   );
 
-  const { data: listings = [], isLoading, error } = useListings(combinedFilters);
+  const { data, isLoading, error } = useListings(combinedFilters);
+  const listings = data?.items ?? [];
+  const total = data?.total ?? 0;
+  const totalPages = data?.totalPages ?? 0;
 
   let content: React.ReactNode;
 
@@ -50,11 +91,21 @@ export function ListingsView() {
     );
   } else {
     content = (
-      <Grid>
-        {listings.map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
-        ))}
-      </Grid>
+      <>
+        <Grid>
+          {listings.map((listing) => (
+            <ListingCard key={listing.id} listing={listing as Listing} />
+          ))}
+        </Grid>
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          total={total}
+          pageSize={currentPageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </>
     );
   }
 

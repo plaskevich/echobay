@@ -3,6 +3,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import {
   type ListingData,
   type ListingFilters,
+  type PaginatedListings,
   createListing,
   deleteListing,
   fetchAllListings,
@@ -26,6 +27,8 @@ function normalizeFilters(filters?: ListingFilters): ListingFilters {
   if (filters.sortBy) normalized.sortBy = filters.sortBy;
   if (filters.excludeOwnerId) normalized.excludeOwnerId = filters.excludeOwnerId;
   if (filters.recommendForUserId) normalized.recommendForUserId = filters.recommendForUserId;
+  if (filters.page !== undefined) normalized.page = filters.page;
+  if (filters.pageSize !== undefined) normalized.pageSize = filters.pageSize;
   return normalized;
 }
 
@@ -42,12 +45,12 @@ export function useListings(filters?: ListingFilters) {
   const isInitialized = useAuthStore((state) => state.isInitialized);
   const normalizedFilters = normalizeFilters(filters);
 
-  return useQuery({
+  return useQuery<PaginatedListings>({
     queryKey: listingKeys.list(normalizedFilters),
     queryFn: async () => {
       const { data, error } = await fetchAllListings(normalizedFilters);
       if (error) throw error;
-      return data || [];
+      return data || { items: [], total: 0, page: 1, pageSize: 25, totalPages: 0 };
     },
     enabled: isInitialized,
     placeholderData: keepPreviousData,

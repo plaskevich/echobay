@@ -39,6 +39,16 @@ export interface ListingFilters {
   sortBy?: 'recommended' | 'newest' | 'cheapest' | 'most_expensive';
   excludeOwnerId?: string;
   recommendForUserId?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface PaginatedListings {
+  items: ListingWithGenres[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 export async function fetchListing(id: string) {
@@ -58,14 +68,17 @@ export async function fetchListing(id: string) {
   return await query;
 }
 
-function buildListingsQuery(filters?: ListingFilters) {
+function buildListingsQuery(filters?: ListingFilters, { count = false }: { count?: boolean } = {}) {
   const hasGenreFilter = filters?.genres && filters.genres.length > 0;
 
   const selectQuery = hasGenreFilter
     ? `*, listing_genres!inner(genre_id, genres(id, name, slug))`
     : `*, listing_genres(genres(id, name, slug))`;
 
-  let query = supabase.from('listings').select(selectQuery).eq('status', 'active');
+  let query = supabase
+    .from('listings')
+    .select(selectQuery, count ? { count: 'exact' } : {})
+    .eq('status', 'active');
 
   switch (filters?.sortBy) {
     case 'cheapest':
@@ -117,16 +130,33 @@ async function applyRecommendationSort(data: Array<{ id: string }>, userId: stri
   }
 }
 
-export async function fetchAllListings(filters?: ListingFilters) {
-  const query = buildListingsQuery(filters);
-  const { data, error } = await query.limit(100);
-  if (error || !data) return { data, error };
+export async function fetchAllListings(
+  filters?: ListingFilters
+): Promise<{ data: PaginatedListings | null; error: unknown }> {
+  const page = filters?.page ?? 1;
+  const pageSize = filters?.pageSize ?? 25;
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const query = buildListingsQuery(filters, { count: true });
+  const { data, error, count } = await query.range(from, to);
+  if (error || !data) return { data: null, error };
 
   if (filters?.sortBy === 'recommended' && filters?.recommendForUserId) {
     await applyRecommendationSort(data, filters.recommendForUserId);
   }
 
-  return { data, error: null };
+  const total = count ?? 0;
+  return {
+    data: {
+      items: data as ListingWithGenres[],
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    },
+    error: null,
+  };
 }
 
 export async function fetchUserListings(userId: string) {
