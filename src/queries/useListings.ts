@@ -131,6 +131,11 @@ export function useUpdateListing() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: listingKeys.detail(variables.id) });
       queryClient.invalidateQueries({ queryKey: listingKeys.lists() });
+      const ownerId = variables.data.owner_id;
+      if (ownerId) {
+        queryClient.invalidateQueries({ queryKey: listingKeys.userListings(ownerId) });
+        queryClient.invalidateQueries({ queryKey: [...listingKeys.userListings(ownerId), 'public'] });
+      }
     },
   });
 }

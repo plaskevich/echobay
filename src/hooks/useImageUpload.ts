@@ -14,6 +14,7 @@ interface UseImageUploadReturn {
   handleImageChange: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
   addImageFromUrl: (url: string, filename?: string) => Promise<void>;
   removeImage: (index: number) => void;
+  reorderImages: (fromIndex: number, toIndex: number) => void;
   uploadImages: () => Promise<string[]>;
   resetImages: () => void;
   error: string | null;
@@ -181,6 +182,24 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     setError(null);
   };
 
+  const reorderImages = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return;
+    setImages((prev) => {
+      if (prev.length === 0 || fromIndex >= prev.length || toIndex >= prev.length) return prev;
+      const next = [...prev];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+    setImagePreviews((prev) => {
+      if (fromIndex >= prev.length || toIndex >= prev.length) return prev;
+      const next = [...prev];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+  };
+
   const uploadImages = async (): Promise<string[]> => {
     if (images.length === 0) return [];
 
@@ -219,6 +238,7 @@ export function useImageUpload(userId: string | undefined): UseImageUploadReturn
     handleImageChange,
     addImageFromUrl,
     removeImage,
+    reorderImages,
     uploadImages,
     resetImages,
     error,

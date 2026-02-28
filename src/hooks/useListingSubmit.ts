@@ -111,8 +111,17 @@ export function useListingSubmit({
     }
 
     try {
-      const imageUrls = await uploadImages();
-      const allImages = imageUrls.length > 0 ? imageUrls : existingImages;
+      const uploadedUrls = await uploadImages();
+      let uploadIndex = 0;
+      const allImages = existingImages
+        .map((preview) => {
+          if (preview.startsWith('data:')) {
+            return uploadedUrls[uploadIndex++];
+          }
+          return preview;
+        })
+        .filter((url): url is string => !!url);
+
       const listingData = buildListingData(data, allImages);
       const savedListingId = await saveListing(listingData);
 

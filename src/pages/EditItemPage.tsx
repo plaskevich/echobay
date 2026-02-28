@@ -71,6 +71,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     handleImageChange,
     addImageFromUrl,
     removeImage,
+    reorderImages,
     uploadImages,
     resetImages,
     error: imageError,
@@ -92,7 +93,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     uploadImages,
     resetImages,
     listingId: id,
-    existingImages: computedExistingImages,
+    existingImages: imagePreviews.length > 0 ? imagePreviews : computedExistingImages,
     initialMainGenreIds: computedExistingMainGenreIds,
     initialSubgenreIds: computedExistingSubgenreIds,
   });
@@ -167,6 +168,11 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   const removeImageWrapper = (index: number) => {
     setExtraDirty(true);
     removeImage(index);
+  };
+
+  const reorderImagesWrapper = (fromIndex: number, toIndex: number) => {
+    setExtraDirty(true);
+    reorderImages(fromIndex, toIndex);
   };
 
   const handleSearchSubmit = async () => {
@@ -262,6 +268,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
           isSubmitting={isSubmitting}
           onImageChange={handleImageChangeWrapper}
           onRemoveImage={removeImageWrapper}
+          onReorderImages={reorderImagesWrapper}
         />
 
         <FormFields

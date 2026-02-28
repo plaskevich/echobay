@@ -8,7 +8,7 @@ import { AuthToggle } from '@/components/auth/AuthToggle';
 import { PageTitle } from '@/components/common/PageTitle';
 import { useAuthForm } from '@/hooks/useAuthForm';
 
-export function Auth() {
+export function AuthPage() {
   const location = useLocation();
 
   useEffect(() => {
