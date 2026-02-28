@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { Fragment, forwardRef } from 'react';
 import styled from 'styled-components';
 
 import type { Message } from '@/api/messages';
@@ -33,38 +33,90 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(functi
 
   return (
     <MessagesArea data-testid="messages-list">
-      {messages.map((msg) => {
-        if (msg.type === 'system' && msg.metadata) {
-          return (
-            <SystemMessage
-              key={msg.id}
-              metadata={msg.metadata}
-              isSeller={isSeller}
-              isBuyer={isBuyer}
-              orderStatus={orderStatus}
-              sellerId={chatSellerId}
-              onConfirmShipped={onConfirmShipped}
-              onConfirmReceived={onConfirmReceived}
-              isUpdating={isUpdatingOrder}
-            />
-          );
-        }
+      {messages.map((msg, idx) => {
+        const msgDate = new Date(msg.created_at);
+        const prev = messages[idx - 1];
+        const next = messages[idx + 1];
+        const prevDate = prev ? new Date(prev.created_at) : null;
+        const nextDate = next ? new Date(next.created_at) : null;
 
+        const isNewDay = !prevDate || !isSameDay(prevDate, msgDate);
+        const isSystem = msg.type === 'system' && msg.metadata;
         const isOwn = msg.sender_id === currentUserId;
+        const isLastInGroup = isSystem || isLastGroupMessage(msg, next, msgDate, nextDate);
+        const timeLabel = formatTime(msgDate);
+        const fullLabel = formatFullDateTime(msgDate);
+
         return (
-          <MessageBubble
-            key={msg.id}
-            $isOwn={isOwn}
-            data-testid={isOwn ? 'message-bubble-own' : 'message-bubble-other'}
-          >
-            <MessageContent data-testid="message-content">{msg.content}</MessageContent>
-          </MessageBubble>
+          <Fragment key={msg.id}>
+            {isNewDay && <DateDivider>{formatDateLabel(msgDate)}</DateDivider>}
+
+            {isSystem ? (
+              <SystemMessage
+                metadata={msg.metadata!}
+                isSeller={isSeller}
+                isBuyer={isBuyer}
+                orderStatus={orderStatus}
+                sellerId={chatSellerId}
+                onConfirmShipped={onConfirmShipped}
+                onConfirmReceived={onConfirmReceived}
+                isUpdating={isUpdatingOrder}
+              />
+            ) : (
+              <MessageRow $isOwn={isOwn}>
+                <MessageWrapper>
+                  <MessageBubble
+                    $isOwn={isOwn}
+                    data-testid={isOwn ? 'message-bubble-own' : 'message-bubble-other'}
+                    title={fullLabel}
+                  >
+                    <MessageContent data-testid="message-content">{msg.content}</MessageContent>
+                  </MessageBubble>
+                  {isLastInGroup && <Timestamp aria-label={fullLabel}>{timeLabel}</Timestamp>}
+                </MessageWrapper>
+              </MessageRow>
+            )}
+          </Fragment>
         );
       })}
       <div ref={ref} />
     </MessagesArea>
   );
 });
+
+const TEN_MINUTES_MS = 10 * 60 * 1000;
+
+const isSameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+const isWithinWindow = (a: Date, b: Date, windowMs: number) => Math.abs(a.getTime() - b.getTime()) < windowMs;
+
+function isLastGroupMessage(current: Message, next: Message | undefined, currentDate: Date, nextDate: Date | null) {
+  if (!next || !nextDate) return true;
+  if (current.type !== 'text' || next.type !== 'text') return true;
+  if (current.sender_id !== next.sender_id) return true;
+  if (!isSameDay(currentDate, nextDate)) return true;
+  return !isWithinWindow(currentDate, nextDate, TEN_MINUTES_MS);
+}
+
+function formatDateLabel(date: Date) {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  if (isSameDay(date, today)) return 'Today';
+  if (isSameDay(date, yesterday)) return 'Yesterday';
+
+  return new Intl.DateTimeFormat('en-GB', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+}
+
+function formatTime(date: Date) {
+  return new Intl.DateTimeFormat('en-GB', { hour: 'numeric', minute: '2-digit' }).format(date);
+}
+
+function formatFullDateTime(date: Date) {
+  return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+}
 
 const MessagesArea = styled.div`
   flex: 1;
@@ -79,18 +131,53 @@ const MessagesArea = styled.div`
   }
 `;
 
+const DateDivider = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  color: ${({ theme }) => theme.text.muted};
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+  padding: 0.15rem 0.5rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background: ${({ theme }) => theme.background.tertiary};
+`;
+
+const MessageRow = styled.div<{ $isOwn: boolean }>`
+  width: 100%;
+  display: flex;
+  justify-content: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
+`;
+
+const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 75%;
+  width: fit-content;
+`;
+
 const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
-  max-width: 75%;
-  padding: 0.5rem 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
+  padding: 0.35rem 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.border.primary)};
   background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.tertiary)};
   color: ${({ theme, $isOwn }) => ($isOwn ? 'white' : theme.text.primary)};
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
 const MessageContent = styled.div`
   font-size: 0.95rem;
   white-space: pre-wrap;
   word-break: break-word;
+`;
+
+const Timestamp = styled.span`
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.muted};
+  align-self: flex-end;
 `;

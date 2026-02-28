@@ -33,7 +33,7 @@ export function formatRelativeDate(dateInput: string | Date, options?: FormatRel
 
   const formatter = new Intl.RelativeTimeFormat('en', {
     numeric: 'auto',
-    style: options?.short ? 'short' : 'long',
+    style: options?.short ? 'narrow' : 'long',
   });
 
   for (const { unit, ms } of RELATIVE_UNITS) {

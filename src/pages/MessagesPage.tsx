@@ -46,7 +46,10 @@ export default function MessagesPage() {
     listingIdParam || undefined
   );
 
-  const effectiveChatId = chatIdParam || existingChatByListing?.id || (listingIdParam ? undefined : chats[0]?.id);
+  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth <= 768, []);
+
+  const effectiveChatId =
+    chatIdParam || existingChatByListing?.id || (listingIdParam || isMobile ? undefined : chats[0]?.id);
 
   const { data: selectedChat } = useChat(effectiveChatId || undefined);
   const { data: messages = [] } = useMessages(effectiveChatId || undefined);
@@ -222,8 +225,6 @@ export default function MessagesPage() {
     setMobileShowConversation(false);
   }, []);
 
-  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth <= 768, []);
-
   return (
     <Container data-testid="messages-page">
       <Header>
@@ -246,25 +247,31 @@ export default function MessagesPage() {
 
         <ConversationWrapper $mobileHidden={!mobileShowConversation}>
           <ConversationPanel
-            displayListing={displayListing}
-            messages={messages}
-            currentUserId={user.id}
-            messageDraft={messageDraft}
-            onMessageDraftChange={setMessageDraft}
-            onSendMessage={handleSendMessage}
+            listing={displayListing}
+            participants={{
+              currentUserId: user.id,
+              otherUsername,
+              otherUserId,
+              otherAvatarUrl,
+              chatBuyerId: selectedChat?.buyer_id ?? (pendingListingForSidebar ? user.id : undefined),
+              chatSellerId: selectedChat?.seller_id ?? (pendingListingForSidebar ? listing?.owner_id : undefined),
+            }}
+            conversationState={{
+              messages,
+              messageDraft,
+              showConversation: !!showConversation,
+              isLoading,
+              orderStatus: orderData?.status,
+              isUpdatingOrder: updateOrderStatus.isPending,
+            }}
+            actions={{
+              onMessageDraftChange: setMessageDraft,
+              onSendMessage: handleSendMessage,
+              onBack: handleBackToChats,
+              onConfirmShipped: handleConfirmShipped,
+              onConfirmReceived: handleConfirmReceived,
+            }}
             messagesEndRef={messagesEndRef}
-            showConversation={!!showConversation}
-            isLoading={isLoading}
-            onBack={handleBackToChats}
-            otherUsername={otherUsername}
-            otherUserId={otherUserId}
-            otherAvatarUrl={otherAvatarUrl}
-            chatBuyerId={selectedChat?.buyer_id ?? (pendingListingForSidebar ? user.id : undefined)}
-            chatSellerId={selectedChat?.seller_id ?? (pendingListingForSidebar ? listing?.owner_id : undefined)}
-            orderStatus={orderData?.status}
-            onConfirmShipped={handleConfirmShipped}
-            onConfirmReceived={handleConfirmReceived}
-            isUpdatingOrder={updateOrderStatus.isPending}
           />
         </ConversationWrapper>
       </Layout>

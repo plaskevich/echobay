@@ -7,52 +7,56 @@ import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
 
-interface ConversationPanelProps {
-  displayListing: ListingSummary | null;
-  messages: Message[];
+interface ConversationParticipants {
   currentUserId: string;
-  messageDraft: string;
-  onMessageDraftChange: (value: string) => void;
-  onSendMessage: () => void;
-  messagesEndRef: React.RefObject<HTMLDivElement | null>;
-  showConversation: boolean;
-  isLoading: boolean;
-  onBack?: () => void;
   otherUsername?: string;
   otherUserId?: string;
   otherAvatarUrl?: string | null;
   chatBuyerId?: string;
   chatSellerId?: string;
+}
+
+interface ConversationState {
+  messages: Message[];
+  messageDraft: string;
+  showConversation: boolean;
+  isLoading: boolean;
   orderStatus?: string;
-  onConfirmShipped?: (orderId: string) => void;
-  onConfirmReceived?: (orderId: string) => void;
   isUpdatingOrder?: boolean;
 }
 
+interface ConversationActions {
+  onMessageDraftChange: (value: string) => void;
+  onSendMessage: () => void;
+  onBack?: () => void;
+  onConfirmShipped?: (orderId: string) => void;
+  onConfirmReceived?: (orderId: string) => void;
+}
+
+interface ConversationPanelProps {
+  listing: ListingSummary | null;
+  participants: ConversationParticipants;
+  conversationState: ConversationState;
+  actions: ConversationActions;
+  messagesEndRef: React.RefObject<HTMLDivElement | null>;
+}
+
 export function ConversationPanel({
-  displayListing,
-  messages,
-  currentUserId,
-  messageDraft,
-  onMessageDraftChange,
-  onSendMessage,
+  listing,
+  participants,
+  conversationState,
+  actions,
   messagesEndRef,
-  showConversation,
-  isLoading,
-  onBack,
-  otherUsername,
-  otherUserId,
-  otherAvatarUrl,
-  chatBuyerId,
-  chatSellerId,
-  orderStatus,
-  onConfirmShipped,
-  onConfirmReceived,
-  isUpdatingOrder,
 }: ConversationPanelProps) {
+  const { currentUserId, otherUsername, otherUserId, otherAvatarUrl, chatBuyerId, chatSellerId } = participants;
+
+  const { messages, messageDraft, showConversation, isLoading, orderStatus, isUpdatingOrder } = conversationState;
+
+  const { onMessageDraftChange, onSendMessage, onBack, onConfirmShipped, onConfirmReceived } = actions;
+
   return (
     <Panel $hidden={!showConversation} data-testid="conversation-panel">
-      {showConversation && displayListing ? (
+      {showConversation && listing ? (
         <>
           {onBack && (
             <MobileHeader>
@@ -68,13 +72,13 @@ export function ConversationPanel({
             </MobileHeader>
           )}
           <ConversationHeader
-            listingId={displayListing.id}
-            title={displayListing.title}
-            artist={displayListing.artist}
-            format={displayListing.format}
-            price={displayListing.price}
-            images={displayListing.images}
-            listingStatus={displayListing.status}
+            listingId={listing.id}
+            title={listing.title}
+            artist={listing.artist}
+            format={listing.format}
+            price={listing.price}
+            images={listing.images}
+            listingStatus={listing.status}
             isBuyer={chatBuyerId === currentUserId}
             hasOrder={!!orderStatus}
             otherUserId={otherUserId}

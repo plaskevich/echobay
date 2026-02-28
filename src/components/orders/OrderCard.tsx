@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
 import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
-import { formatRelativeDate } from '@/lib/formatRelativeDate';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -15,7 +14,7 @@ export default function OrderCard({ order }: OrderCardProps) {
 
   return (
     <Card data-testid="order-card">
-      <CardLink to={`/items/${order.listing_id}`}>
+      <CardLink to={`/messages?listingId=${encodeURIComponent(order.listing_id)}`}>
         <ImageContainer>
           <OrderImage src={imageUrl} alt={listing?.title || 'Order item'} />
         </ImageContainer>
@@ -31,7 +30,13 @@ export default function OrderCard({ order }: OrderCardProps) {
             </DetailRow>
             <DetailRow>
               <DetailLabel>Date:</DetailLabel>
-              <DetailValue>{formatRelativeDate(order.created_at)}</DetailValue>
+              <DetailValue>
+                {new Date(order.created_at).toLocaleDateString('en', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </DetailValue>
             </DetailRow>
             <DetailRow>
               <DetailLabel>Status:</DetailLabel>

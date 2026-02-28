@@ -164,13 +164,13 @@ test.describe('Account Pages', () => {
       await expect(page.getByTestId('order-status')).toHaveText('shipped');
     });
 
-    test('order card links to listing detail', async ({ page }) => {
+    test('order card links to listing message', async ({ page }) => {
       await page.goto('/orders');
 
       await expect(page.getByTestId('order-card').first()).toBeVisible({ timeout: 10000 });
       await page.getByTestId('order-card').click();
 
-      await expect(page).toHaveURL(/\/items\/.+/);
+      await expect(page).toHaveURL(/\/messages\?listingId=.+/);
     });
   });
 

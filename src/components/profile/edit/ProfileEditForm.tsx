@@ -74,9 +74,13 @@ const ButtonGroup = styled.div`
 
   @media (max-width: 640px) {
     flex-direction: row-reverse;
+    width: 100%;
+    align-items: stretch;
 
     button {
-      width: 50%;
+      flex: 1 1 0;
+      min-width: 0;
+      width: auto;
     }
   }
 `;

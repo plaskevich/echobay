@@ -147,8 +147,15 @@ export const ButtonGroup = styled.div`
   justify-content: flex-end;
 
   @media (max-width: 640px) {
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+
     button {
-      width: 50%;
+      flex: 1 1 0;
+      min-width: 0;
+      width: auto;
     }
   }
 `;
