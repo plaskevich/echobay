@@ -42,6 +42,7 @@ export const MessagesList = forwardRef<HTMLDivElement, MessagesListProps>(functi
               isSeller={isSeller}
               isBuyer={isBuyer}
               orderStatus={orderStatus}
+              sellerId={chatSellerId}
               onConfirmShipped={onConfirmShipped}
               onConfirmReceived={onConfirmReceived}
               isUpdating={isUpdatingOrder}

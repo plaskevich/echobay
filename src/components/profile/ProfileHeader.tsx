@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
+import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 export interface ProfileHeaderProps {
@@ -17,6 +18,8 @@ export interface ProfileHeaderProps {
   memberSince?: string | null;
   location?: string | null;
   about?: string | null;
+  ratingAverage?: number;
+  ratingCount?: number;
   isLoading?: boolean;
   showEditButton?: boolean;
 }
@@ -27,6 +30,8 @@ export function ProfileHeader({
   memberSince,
   location,
   about,
+  ratingAverage,
+  ratingCount,
   isLoading,
   showEditButton,
 }: ProfileHeaderProps) {
@@ -61,6 +66,7 @@ export function ProfileHeader({
             {about}
           </ProfileAbout>
         )}
+        <SellerRatingDisplay average={ratingAverage ?? 0} count={ratingCount ?? 0} />
       </ProfileInfo>
       {showEditButton && (
         <ButtonsWrapper>

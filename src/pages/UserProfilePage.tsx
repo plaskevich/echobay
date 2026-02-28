@@ -5,6 +5,7 @@ import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { usePublicUserListings } from '@/queries/useListings';
 import { usePublicProfile } from '@/queries/useProfiles';
+import { useSellerRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
 export default function UserProfilePage() {
@@ -14,6 +15,7 @@ export default function UserProfilePage() {
 
   const { data: profile, isLoading: profileLoading } = usePublicProfile(id);
   const { data: listings = [], isLoading: listingsLoading, error: listingsError } = usePublicUserListings(id);
+  const { data: sellerRating } = useSellerRating(id);
 
   if (profileLoading) {
     return (
@@ -41,6 +43,8 @@ export default function UserProfilePage() {
         memberSince={profile.created_at}
         location={profile.location}
         about={profile.about}
+        ratingAverage={sellerRating?.average}
+        ratingCount={sellerRating?.count}
         showEditButton={isOwnProfile}
       />
       <UserListings

@@ -33,3 +33,8 @@ export const ACCOUNT_SELLER_PROFILE = {
   username: 'accountseller',
   location: 'Vienna',
 } as const;
+
+export const RATING_SELLER_PROFILE = {
+  username: 'ratingseller',
+  location: 'Tokyo',
+} as const;

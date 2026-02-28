@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
 import { PageTitle } from '@/components/common/PageTitle';
+import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
@@ -14,6 +15,7 @@ import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
 import { formatPrice } from '@/lib/utils';
 import { useListing } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
+import { useSellerRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ItemDetailPage() {
@@ -35,6 +37,7 @@ export function ItemDetailPage() {
 
   const isOwner = user?.id === listing?.owner_id;
   const { data: sellerProfile } = useProfile(listing?.owner_id);
+  const { data: sellerRating } = useSellerRating(listing?.owner_id);
 
   if (isLoading) {
     return (
@@ -126,6 +129,7 @@ export function ItemDetailPage() {
                     {sellerProfile.location}
                   </SellerLocation>
                 )}
+                <SellerRatingDisplay average={sellerRating?.average ?? 0} count={sellerRating?.count ?? 0} />
               </SellerInfo>
               <ViewProfileArrow>
                 <PiCaretRight size={18} />

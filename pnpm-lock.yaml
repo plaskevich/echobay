@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@smastrom/react-rating':
+        specifier: ^1.5.0
+        version: 1.5.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@stripe/react-stripe-js':
         specifier: ^5.4.1
         version: 5.4.1(@stripe/stripe-js@8.6.4)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1165,6 +1168,12 @@ packages:
 
   '@sinclair/typebox@0.25.24':
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
+
+  '@smastrom/react-rating@1.5.0':
+    resolution: {integrity: sha512-7vg3NRgO0tpvEunq8BEWA8qckNSd7x3dVGqaNEfLs3Ow4ibU2EEXJtnd7Yl44xOujWIzXM5Bk2VZm2DVm065Qw==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   '@stripe/react-stripe-js@5.4.1':
     resolution: {integrity: sha512-ipeYcAHa4EPmjwfv0lFE+YDVkOQ0TMKkFWamW+BqmnSkEln/hO8rmxGPPWcd9WjqABx6Ro8Xg4pAS7evCcR9cw==}
@@ -3804,6 +3813,11 @@ snapshots:
     optional: true
 
   '@sinclair/typebox@0.25.24': {}
+
+  '@smastrom/react-rating@1.5.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   '@stripe/react-stripe-js@5.4.1(@stripe/stripe-js@8.6.4)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:

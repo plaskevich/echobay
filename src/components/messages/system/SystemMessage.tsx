@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import type { MessageMetadata, SystemEvent } from '@/api/messages';
 
+import { SellerRatingWidget } from './SellerRatingWidget';
 import { SellerShippingDetails } from './SellerShippingDetails';
 
 export interface SystemMessageProps {
@@ -10,6 +11,7 @@ export interface SystemMessageProps {
   isSeller: boolean;
   isBuyer: boolean;
   orderStatus?: string;
+  sellerId?: string;
   onConfirmShipped?: (orderId: string) => void;
   onConfirmReceived?: (orderId: string) => void;
   isUpdating?: boolean;
@@ -20,6 +22,7 @@ export function SystemMessage({
   isSeller,
   isBuyer,
   orderStatus,
+  sellerId,
   onConfirmShipped,
   onConfirmReceived,
   isUpdating,
@@ -32,6 +35,7 @@ export function SystemMessage({
         isSeller={isSeller}
         isBuyer={isBuyer}
         orderStatus={orderStatus}
+        sellerId={sellerId}
         onConfirmShipped={onConfirmShipped}
         onConfirmReceived={onConfirmReceived}
         isUpdating={isUpdating}
@@ -71,6 +75,7 @@ function SystemContent({
   isSeller,
   isBuyer,
   orderStatus,
+  sellerId,
   onConfirmShipped,
   onConfirmReceived,
   isUpdating,
@@ -162,6 +167,7 @@ function SystemContent({
               ? 'The buyer has confirmed receiving the item. Transaction complete!'
               : 'You confirmed receiving the item. Transaction complete!'}
           </Text>
+          {isBuyer && sellerId && <SellerRatingWidget orderId={order_id} sellerId={sellerId} />}
         </TextBlock>
       );
 

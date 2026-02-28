@@ -245,3 +245,15 @@ export const ACCOUNT_FAVORITE_LISTING = {
   status: 'active',
   images: [],
 } as const;
+
+export const RATING_LISTING = {
+  title: 'The Velvet Underground & Nico',
+  artist: 'The Velvet Underground',
+  format: 'vinyl',
+  price: 50.0,
+  shipping_price: 4.0,
+  condition: 'Near Mint (NM)',
+  description: 'Iconic debut album.',
+  status: 'active',
+  images: [],
+} as const;

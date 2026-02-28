@@ -25,6 +25,7 @@
     ]
   },
   "dependencies": {
+    "@smastrom/react-rating": "^1.5.0",
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.6.4",
     "@supabase/supabase-js": "^2.83.0",

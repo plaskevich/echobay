@@ -9,6 +9,7 @@ import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { useUserListings } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
+import { useSellerRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
 type StatusFilter = 'all' | ListingStatus;
@@ -23,6 +24,7 @@ export default function ProfilePage() {
   const user = useAuthStore((state) => state.user);
   const { data: profile, isLoading: profileLoading } = useProfile(user?.id);
   const { data: listings = [], isLoading: listingsLoading, error: listingsError } = useUserListings(user?.id);
+  const { data: sellerRating } = useSellerRating(user?.id);
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
@@ -41,6 +43,8 @@ export default function ProfilePage() {
         memberSince={user.created_at}
         location={profile?.location}
         about={profile?.about}
+        ratingAverage={sellerRating?.average}
+        ratingCount={sellerRating?.count}
         isLoading={profileLoading}
         showEditButton
       />
