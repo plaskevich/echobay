@@ -2,21 +2,14 @@ import { useRef, useState } from 'react';
 import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
-import type { ListingFilters } from '@/api/listings';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { CONDITION_OPTIONS, CURRENCY_SYMBOL, FORMAT_OPTIONS } from '@/lib/constants/listings';
 import { useGenres } from '@/queries/useGenres';
+import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import { MultiSelectFilter } from './MultiSelectFilter';
 import { PriceRangeFilter } from './PriceRangeFilter';
 import { SortFilter } from './SortFilter';
-
-interface FilterBarProps {
-  filters: ListingFilters;
-  appliedFilters: ListingFilters;
-  onFiltersChange: (filters: ListingFilters) => void;
-  onApply: (filters: ListingFilters) => void;
-}
 
 const formatOptions = FORMAT_OPTIONS.filter((opt) => opt.value !== '').map((opt) => ({
   value: opt.value,
@@ -28,10 +21,15 @@ const conditionOptions = CONDITION_OPTIONS.filter((opt) => opt.value !== '').map
   label: opt.label,
 }));
 
-export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }: FilterBarProps) {
+export function FilterBar({ onApply }: { onApply?: () => void }) {
   const { data: genres = [] } = useGenres();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const filters = useListingFiltersStore((state) => state.filters);
+  const appliedFilters = useListingFiltersStore((state) => state.appliedFilters);
+  const setFilters = useListingFiltersStore((state) => state.setFilters);
+  const setAppliedFilters = useListingFiltersStore((state) => state.setAppliedFilters);
+  const resetFilters = useListingFiltersStore((state) => state.resetFilters);
 
   const genreOptions = genres.map((g) => ({ value: g.id, label: g.name }));
 
@@ -51,8 +49,9 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
     const updatedApplied = currentApplied?.filter((v) => v !== value);
     const newDraft = { ...filters, [type]: updatedDraft?.length ? updatedDraft : undefined };
     const newApplied = { ...appliedFilters, [type]: updatedApplied?.length ? updatedApplied : undefined };
-    onFiltersChange(newDraft);
-    onApply(newApplied);
+    setFilters(newDraft);
+    setAppliedFilters(newApplied);
+    onApply?.();
   };
 
   const removePriceRange = () => {
@@ -62,8 +61,9 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
     const newApplied = { ...appliedFilters };
     delete newApplied.minPrice;
     delete newApplied.maxPrice;
-    onFiltersChange(newDraft);
-    onApply(newApplied);
+    setFilters(newDraft);
+    setAppliedFilters(newApplied);
+    onApply?.();
   };
 
   const formatPills =
@@ -100,14 +100,15 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
   const isActive = activePills.length > 0;
 
   const handleApply = () => {
-    onApply(filters);
+    setAppliedFilters({ ...filters });
     setOpenDropdown(null);
+    onApply?.();
   };
 
   const handleClearAll = () => {
-    const cleared = { search: filters.search, sortBy: 'recommended' as const };
-    onFiltersChange(cleared);
-    onApply(cleared);
+    resetFilters();
+    setOpenDropdown(null);
+    onApply?.();
   };
 
   return (
@@ -116,7 +117,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
         <SortFilter
           value={selectedSort}
           appliedValue={appliedSort}
-          onChange={(value) => onFiltersChange({ ...filters, sortBy: value })}
+          onChange={(value) => setFilters({ ...filters, sortBy: value })}
           onApply={handleApply}
           isOpen={openDropdown === 'sort'}
           onToggle={() => toggleDropdown('sort')}
@@ -127,7 +128,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
           options={formatOptions}
           selectedValues={filters.formats || []}
           appliedValues={appliedFilters.formats || []}
-          onChange={(values) => onFiltersChange({ ...filters, formats: values.length > 0 ? values : undefined })}
+          onChange={(values) => setFilters({ ...filters, formats: values.length > 0 ? values : undefined })}
           onApply={handleApply}
           isOpen={openDropdown === 'format'}
           onToggle={() => toggleDropdown('format')}
@@ -138,7 +139,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
           options={conditionOptions}
           selectedValues={filters.conditions || []}
           appliedValues={appliedFilters.conditions || []}
-          onChange={(values) => onFiltersChange({ ...filters, conditions: values.length > 0 ? values : undefined })}
+          onChange={(values) => setFilters({ ...filters, conditions: values.length > 0 ? values : undefined })}
           onApply={handleApply}
           isOpen={openDropdown === 'condition'}
           onToggle={() => toggleDropdown('condition')}
@@ -149,7 +150,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
           options={genreOptions}
           selectedValues={filters.genres || []}
           appliedValues={appliedFilters.genres || []}
-          onChange={(values) => onFiltersChange({ ...filters, genres: values.length > 0 ? values : undefined })}
+          onChange={(values) => setFilters({ ...filters, genres: values.length > 0 ? values : undefined })}
           onApply={handleApply}
           isOpen={openDropdown === 'genres'}
           onToggle={() => toggleDropdown('genres')}
@@ -159,7 +160,7 @@ export function FilterBar({ filters, appliedFilters, onFiltersChange, onApply }:
         <PriceRangeFilter
           minPrice={filters.minPrice}
           maxPrice={filters.maxPrice}
-          onChange={(min, max) => onFiltersChange({ ...filters, minPrice: min, maxPrice: max })}
+          onChange={(min, max) => setFilters({ ...filters, minPrice: min, maxPrice: max })}
           onApply={handleApply}
           isOpen={openDropdown === 'price'}
           onToggle={() => toggleDropdown('price')}
