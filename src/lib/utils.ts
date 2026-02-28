@@ -5,7 +5,7 @@ import { CURRENCY_SYMBOL, FORMAT_OPTIONS } from './constants/listings';
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export function formatPrice(amount: number): string {
-  return `${amount.toFixed(2)}${CURRENCY_SYMBOL}`;
+  return `${CURRENCY_SYMBOL}${amount.toFixed(2)}`;
 }
 
 export function getFormatLabel(value?: string | null): string | null {

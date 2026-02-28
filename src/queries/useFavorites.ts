@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { addFavorite, checkIfFavorited, fetchUserFavorites, removeFavorite } from '@/api/favorites';
+import { type Favorite, addFavorite, fetchUserFavorites, removeFavorite } from '@/api/favorites';
 
 export const favoriteKeys = {
   all: ['favorites'] as const,
@@ -9,31 +9,43 @@ export const favoriteKeys = {
   isFavorited: (userId: string, listingId: string) => [...favoriteKeys.all, 'check', userId, listingId] as const,
 };
 
+const FAVORITES_STALE_TIME = 1000 * 60 * 5; // 5 minutes
+
+async function loadUserFavorites(userId: string) {
+  const { data, error } = await fetchUserFavorites(userId);
+  if (error) throw error;
+  return (data || []) as Favorite[];
+}
+
 export function useUserFavorites(userId: string | undefined) {
   return useQuery({
     queryKey: favoriteKeys.userFavorites(userId || ''),
     queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await fetchUserFavorites(userId);
-      if (error) throw error;
-      return data || [];
+      return loadUserFavorites(userId);
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: FAVORITES_STALE_TIME,
   });
 }
 
 export function useIsFavorited(userId: string | undefined, listingId: string) {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: favoriteKeys.isFavorited(userId || '', listingId),
     queryFn: async () => {
       if (!userId) return false;
-      const { data, error } = await checkIfFavorited(userId, listingId);
-      if (error) throw error;
-      return !!data;
+      const favorites = await queryClient.ensureQueryData<Favorite[]>({
+        queryKey: favoriteKeys.userFavorites(userId),
+        queryFn: () => loadUserFavorites(userId),
+        staleTime: FAVORITES_STALE_TIME,
+      });
+
+      return favorites.some((favorite) => favorite.listing_id === listingId);
     },
     enabled: !!userId && !!listingId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: FAVORITES_STALE_TIME,
   });
 }
 
