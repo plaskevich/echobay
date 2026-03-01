@@ -57,7 +57,7 @@ test.describe('Home Page', () => {
 
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();
       await expect(page.getByText('Nirvana').first()).toBeVisible();
-      await expect(page.getByText('25.00€')).toBeVisible();
+      await expect(page.getByText('€25.00')).toBeVisible();
     });
 
     test('navigates to listing detail when card is clicked', async ({ page }) => {
@@ -207,8 +207,8 @@ test.describe('Home Page', () => {
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();
 
       await page.getByTestId('filter-dropdown-price').click();
-      await page.getByPlaceholder('0').fill('10');
-      await page.getByPlaceholder('Any').fill('30');
+      await page.getByTestId('price-min-input').fill('10');
+      await page.getByTestId('price-max-input').fill('30');
       await page.getByTestId('filter-apply-button').click();
 
       await expect(listingHeading(page, 'Blue Train')).toBeVisible();
@@ -222,7 +222,7 @@ test.describe('Home Page', () => {
       await page.goto('/');
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();
 
-      await page.getByTestId('filter-dropdown-sort').click();
+      await page.getByTestId('sort-filter').click();
       await page.getByText('Price: low to high', { exact: true }).click();
       await page.getByTestId('filter-apply-button').click();
 

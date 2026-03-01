@@ -1,170 +1,198 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
+import type { ListingFilters } from '@/api/listings';
+import DesktopFilter from '@/components/listings/filters/DesktopFilter';
+import { MobileFilterPanel } from '@/components/listings/filters/MobileFilterPanel';
+import { RangeFilter } from '@/components/listings/filters/RangeFilter';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { CONDITION_OPTIONS, CURRENCY_SYMBOL, FORMAT_OPTIONS } from '@/lib/constants/listings';
+import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
 import { useGenres } from '@/queries/useGenres';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import { MultiSelectFilter } from './MultiSelectFilter';
-import { PriceRangeFilter } from './PriceRangeFilter';
 import { SortFilter } from './SortFilter';
+import {
+  DEFAULT_SORT,
+  type FilterCategory,
+  conditionOptions,
+  formatOptions,
+  formatRangeLabel,
+  toGenreOptions,
+  toOptionLabelMap,
+} from './utils';
 
-const formatOptions = FORMAT_OPTIONS.filter((opt) => opt.value !== '').map((opt) => ({
-  value: opt.value,
-  label: opt.label,
-}));
-
-const conditionOptions = CONDITION_OPTIONS.filter((opt) => opt.value !== '').map((opt) => ({
-  value: opt.value,
-  label: opt.label,
-}));
-
-export function FilterBar({ onApply }: { onApply?: () => void }) {
+export function FilterBar() {
   const { data: genres = [] } = useGenres();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<FilterCategory | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const filters = useListingFiltersStore((state) => state.filters);
-  const appliedFilters = useListingFiltersStore((state) => state.appliedFilters);
-  const setFilters = useListingFiltersStore((state) => state.setFilters);
-  const setAppliedFilters = useListingFiltersStore((state) => state.setAppliedFilters);
-  const resetFilters = useListingFiltersStore((state) => state.resetFilters);
 
-  const genreOptions = genres.map((g) => ({ value: g.id, label: g.name }));
+  const { filters, appliedFilters, setAppliedFilters, resetFilters } = useListingFiltersStore();
+
+  const genreOptions = toGenreOptions(genres);
+  const genreLabelMap = useMemo(() => toOptionLabelMap(genreOptions), [genreOptions]);
+  const formatLabelMap = useMemo(() => toOptionLabelMap(formatOptions), []);
+  const conditionLabelMap = useMemo(() => toOptionLabelMap(conditionOptions), []);
+
+  const multiSelectConfigs = [
+    {
+      key: 'formats' as const,
+      dropdown: 'format' as const,
+      label: 'Format',
+      options: formatOptions,
+      labelMap: formatLabelMap,
+    },
+    {
+      key: 'conditions' as const,
+      dropdown: 'condition' as const,
+      label: 'Condition',
+      options: conditionOptions,
+      labelMap: conditionLabelMap,
+    },
+    {
+      key: 'genres' as const,
+      dropdown: 'genres' as const,
+      label: 'Genres',
+      options: genreOptions,
+      labelMap: genreLabelMap,
+      searchable: true,
+    },
+  ];
+
+  const rangeConfigs = [
+    {
+      key: 'year' as const,
+      minKey: 'year.min' as const,
+      maxKey: 'year.max' as const,
+      label: 'Year',
+      placeholderMin: '1900',
+      placeholderMax: '2026',
+      errorMessage: 'Start year must be before end year',
+      inputMin: 0,
+    },
+    {
+      key: 'price' as const,
+      minKey: 'price.min' as const,
+      maxKey: 'price.max' as const,
+      label: 'Price',
+      placeholderMin: '0.00',
+      placeholderMax: '0.00',
+      prefixLabel: CURRENCY_SYMBOL,
+      errorMessage: 'Min price must be less than max',
+      inputMin: 0,
+    },
+  ];
 
   const closeDropdown = () => setOpenDropdown(null);
   useClickOutside(containerRef, closeDropdown);
-  const selectedSort = filters.sortBy || 'recommended';
-  const appliedSort = appliedFilters.sortBy || 'recommended';
+  const appliedSort = appliedFilters.sortBy || DEFAULT_SORT;
 
-  const toggleDropdown = (name: string) => {
+  const toggleDropdown = (name: FilterCategory) => {
     setOpenDropdown(openDropdown === name ? null : name);
   };
 
-  const removeFilter = (type: 'formats' | 'conditions' | 'genres', value: string) => {
-    const currentDraft = filters[type];
-    const currentApplied = appliedFilters[type];
-    const updatedDraft = currentDraft?.filter((v) => v !== value);
-    const updatedApplied = currentApplied?.filter((v) => v !== value);
-    const newDraft = { ...filters, [type]: updatedDraft?.length ? updatedDraft : undefined };
-    const newApplied = { ...appliedFilters, [type]: updatedApplied?.length ? updatedApplied : undefined };
-    setFilters(newDraft);
-    setAppliedFilters(newApplied);
-    onApply?.();
+  const removeMultiValue = (key: 'formats' | 'conditions' | 'genres', value: string) => {
+    const stripValue = (source: ListingFilters) => {
+      const nextValues = source[key]?.filter((v) => v !== value);
+      return { ...source, [key]: nextValues?.length ? nextValues : undefined };
+    };
+
+    setAppliedFilters(stripValue(appliedFilters));
   };
 
-  const removePriceRange = () => {
-    const newDraft = { ...filters };
-    delete newDraft.minPrice;
-    delete newDraft.maxPrice;
-    const newApplied = { ...appliedFilters };
-    delete newApplied.minPrice;
-    delete newApplied.maxPrice;
-    setFilters(newDraft);
-    setAppliedFilters(newApplied);
-    onApply?.();
+  const removeRange = (key: keyof ListingFilters) => {
+    const stripRange = (source: ListingFilters) => {
+      const next = { ...source } as ListingFilters;
+      delete (next[key] as { min?: number; max?: number }).min;
+      delete (next[key] as { min?: number; max?: number }).max;
+      return next;
+    };
+
+    setAppliedFilters(stripRange(appliedFilters));
   };
 
-  const formatPills =
-    appliedFilters.formats?.map((value) => ({
-      id: `format-${value}`,
-      label: formatOptions.find((o) => o.value === value)?.label || value,
-      onRemove: () => removeFilter('formats', value),
-    })) || [];
+  const multiSelectPills = multiSelectConfigs.flatMap((config) => {
+    const values = appliedFilters[config.key] || [];
+    return values.map((value) => ({
+      id: `${config.key}-${value}`,
+      label: config.labelMap[value] || value,
+      onRemove: () => removeMultiValue(config.key, value),
+    }));
+  });
 
-  const conditionPills =
-    appliedFilters.conditions?.map((value) => ({
-      id: `condition-${value}`,
-      label: conditionOptions.find((o) => o.value === value)?.label || value,
-      onRemove: () => removeFilter('conditions', value),
-    })) || [];
+  const rangePills = rangeConfigs
+    .map((range) => {
+      const rangeValue = appliedFilters[range.key];
+      const label = formatRangeLabel(range.key, rangeValue);
+      if (label === 'All') return null;
 
-  const genrePills =
-    appliedFilters.genres?.map((value) => ({
-      id: `genre-${value}`,
-      label: genreOptions.find((o) => o.value === value)?.label || value,
-      onRemove: () => removeFilter('genres', value),
-    })) || [];
+      return {
+        id: `${range.key}-range`,
+        label,
+        onRemove: () => removeRange(range.key as keyof ListingFilters),
+      };
+    })
+    .filter(Boolean) as { id: string; label: string; onRemove: () => void }[];
 
-  const pricePill =
-    appliedFilters.minPrice !== undefined || appliedFilters.maxPrice !== undefined
-      ? {
-          id: 'price-range',
-          label: `${appliedFilters.minPrice ?? 0}${CURRENCY_SYMBOL} - ${appliedFilters.maxPrice ?? '∞'}${CURRENCY_SYMBOL}`,
-          onRemove: removePriceRange,
-        }
-      : null;
-
-  const activePills = [...formatPills, ...conditionPills, ...genrePills, ...(pricePill ? [pricePill] : [])];
+  const activePills = [...multiSelectPills, ...rangePills];
   const isActive = activePills.length > 0;
 
   const handleApply = () => {
     setAppliedFilters({ ...filters });
     setOpenDropdown(null);
-    onApply?.();
   };
 
   const handleClearAll = () => {
     resetFilters();
-    setOpenDropdown(null);
-    onApply?.();
   };
 
   return (
     <Container ref={containerRef}>
-      <FiltersRow>
-        <SortFilter
-          value={selectedSort}
-          appliedValue={appliedSort}
-          onChange={(value) => setFilters({ ...filters, sortBy: value })}
-          onApply={handleApply}
-          isOpen={openDropdown === 'sort'}
+      <MobileFilterPanel onApply={handleApply} />
+      <DesktopFiltersRow>
+        <DesktopFilter
+          label="Sort by"
+          hasSelection={appliedSort !== 'recommended'}
           onToggle={() => toggleDropdown('sort')}
-        />
-
-        <MultiSelectFilter
-          label="Format"
-          options={formatOptions}
-          selectedValues={filters.formats || []}
-          appliedValues={appliedFilters.formats || []}
-          onChange={(values) => setFilters({ ...filters, formats: values.length > 0 ? values : undefined })}
+          isOpen={openDropdown === 'sort'}
           onApply={handleApply}
-          isOpen={openDropdown === 'format'}
-          onToggle={() => toggleDropdown('format')}
-        />
+          testId="sort-filter"
+        >
+          <SortFilter />
+        </DesktopFilter>
 
-        <MultiSelectFilter
-          label="Condition"
-          options={conditionOptions}
-          selectedValues={filters.conditions || []}
-          appliedValues={appliedFilters.conditions || []}
-          onChange={(values) => setFilters({ ...filters, conditions: values.length > 0 ? values : undefined })}
-          onApply={handleApply}
-          isOpen={openDropdown === 'condition'}
-          onToggle={() => toggleDropdown('condition')}
-        />
-
-        <MultiSelectFilter
-          label="Genres"
-          options={genreOptions}
-          selectedValues={filters.genres || []}
-          appliedValues={appliedFilters.genres || []}
-          onChange={(values) => setFilters({ ...filters, genres: values.length > 0 ? values : undefined })}
-          onApply={handleApply}
-          isOpen={openDropdown === 'genres'}
-          onToggle={() => toggleDropdown('genres')}
-          searchable
-        />
-
-        <PriceRangeFilter
-          minPrice={filters.minPrice}
-          maxPrice={filters.maxPrice}
-          onChange={(min, max) => setFilters({ ...filters, minPrice: min, maxPrice: max })}
-          onApply={handleApply}
-          isOpen={openDropdown === 'price'}
-          onToggle={() => toggleDropdown('price')}
-        />
+        {multiSelectConfigs.map((config) => (
+          <DesktopFilter
+            key={config.key}
+            label={config.label}
+            hasSelection={(appliedFilters[config.key]?.length ?? 0) > 0}
+            onToggle={() => toggleDropdown(config.dropdown)}
+            isOpen={openDropdown === config.dropdown}
+            onApply={handleApply}
+          >
+            <MultiSelectFilter options={config.options} filterKey={config.key} searchable={config.searchable} />
+          </DesktopFilter>
+        ))}
+        {rangeConfigs.map((range) => (
+          <DesktopFilter
+            key={range.key}
+            label={range.label}
+            hasSelection={appliedFilters[range.key]?.min !== undefined && appliedFilters[range.key]?.max !== undefined}
+            onToggle={() => toggleDropdown(range.key)}
+            isOpen={openDropdown === range.key}
+            onApply={handleApply}
+          >
+            <RangeFilter
+              filterKey={range.key as keyof ListingFilters}
+              placeholderMin={range.placeholderMin}
+              placeholderMax={range.placeholderMax}
+              prefixLabel={range.prefixLabel}
+              inputMin={range.inputMin}
+              errorMessage={range.errorMessage}
+            />
+          </DesktopFilter>
+        ))}
 
         {(isActive || appliedSort !== 'recommended') && (
           <ClearAllButton onClick={handleClearAll} data-testid="clear-filters-button">
@@ -172,7 +200,7 @@ export function FilterBar({ onApply }: { onApply?: () => void }) {
             Clear filters
           </ClearAllButton>
         )}
-      </FiltersRow>
+      </DesktopFiltersRow>
 
       {isActive && (
         <ActiveFiltersRow>
@@ -197,11 +225,15 @@ const Container = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const FiltersRow = styled.div`
+const DesktopFiltersRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 const ClearAllButton = styled.button`
@@ -227,6 +259,9 @@ const ActiveFiltersRow = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 const FilterPill = styled.div`

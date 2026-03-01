@@ -17,9 +17,6 @@ interface PaginationProps {
 export function Pagination({ page, totalPages, total, pageSize, onPageChange, onPageSizeChange }: PaginationProps) {
   if (total === 0) return null;
 
-  const from = (page - 1) * pageSize + 1;
-  const to = Math.min(page * pageSize, total);
-
   const getPageNumbers = (): (number | 'ellipsis')[] => {
     const pages: (number | 'ellipsis')[] = [];
     const maxVisible = 5;
@@ -44,10 +41,6 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
 
   return (
     <Container>
-      <Info>
-        {from}–{to} of {total}
-      </Info>
-
       <PageControls>
         <NavButton disabled={page <= 1} onClick={() => onPageChange(page - 1)} aria-label="Previous page">
           <PiCaretLeft size={18} />
@@ -96,16 +89,10 @@ const Container = styled.div`
   }
 `;
 
-const Info = styled.span`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.text.secondary};
-  white-space: nowrap;
-`;
-
 const PageControls = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
 `;
 
 const NavButton = styled.button`
@@ -114,15 +101,14 @@ const NavButton = styled.button`
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border: none;
   background: transparent;
   color: ${({ theme }) => theme.text.primary};
   cursor: pointer;
   transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.background.secondary};
+    color: ${({ theme }) => theme.text.accent};
   }
 
   &:disabled {
@@ -171,7 +157,7 @@ const SizeLabel = styled.span`
 `;
 
 const SizeSelect = styled.select`
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};

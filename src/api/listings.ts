@@ -34,8 +34,14 @@ export interface ListingFilters {
   formats?: string[];
   conditions?: string[];
   genres?: string[];
-  minPrice?: number;
-  maxPrice?: number;
+  price?: {
+    min?: number;
+    max?: number;
+  };
+  year?: {
+    min?: number;
+    max?: number;
+  };
   sortBy?: 'recommended' | 'newest' | 'cheapest' | 'most_expensive';
   excludeOwnerId?: string;
   recommendForUserId?: string;
@@ -110,8 +116,10 @@ function buildListingsQuery(filters?: ListingFilters, { count = false }: { count
     query = query.in('condition', filters.conditions);
   }
 
-  if (filters?.minPrice !== undefined) query = query.gte('price', filters.minPrice);
-  if (filters?.maxPrice !== undefined) query = query.lte('price', filters.maxPrice);
+  if (filters?.price?.min !== undefined) query = query.gte('price', filters.price.min);
+  if (filters?.price?.max !== undefined) query = query.lte('price', filters.price.max);
+  if (filters?.year?.min !== undefined) query = query.gte('year', filters.year.min);
+  if (filters?.year?.max !== undefined) query = query.lte('year', filters.year.max);
   if (hasGenreFilter && filters.genres) query = query.in('listing_genres.genre_id', filters.genres);
   if (filters?.excludeOwnerId) query = query.neq('owner_id', filters.excludeOwnerId);
 

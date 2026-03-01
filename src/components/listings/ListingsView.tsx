@@ -1,8 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { ListingFilters } from '@/api/listings';
 import { type PageSize, Pagination } from '@/components/common/Pagination';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
@@ -10,28 +9,33 @@ import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
+import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 export function ListingsView() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
-  const [filters, setFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
-  const [appliedFilters, setAppliedFilters] = useState<ListingFilters>({ sortBy: 'recommended' });
   const user = useAuthStore((state) => state.user);
+  const { appliedFilters } = useListingFiltersStore();
 
   const currentPage = Number(searchParams.get('page')) || 1;
   const currentPageSize = (Number(searchParams.get('pageSize')) || 25) as PageSize;
 
-  const handleApply = useCallback(
-    (filtersToApply: ListingFilters) => {
-      setAppliedFilters(filtersToApply);
-      setSearchParams((prev) => {
-        const next = new URLSearchParams(prev);
-        next.set('page', '1');
-        return next;
-      });
-    },
-    [setSearchParams]
-  );
+  const resetToFirstPage = useCallback(() => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('page', '1');
+      return next;
+    });
+  }, [setSearchParams]);
+
+  const hasAppliedOnceRef = useRef(false);
+  useEffect(() => {
+    if (!hasAppliedOnceRef.current) {
+      hasAppliedOnceRef.current = true;
+      return;
+    }
+    resetToFirstPage();
+  }, [appliedFilters, resetToFirstPage]);
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -76,6 +80,8 @@ export function ListingsView() {
   const listings = data?.items ?? [];
   const total = data?.total ?? 0;
   const totalPages = data?.totalPages ?? 0;
+  const startIndex = total > 0 ? Math.min((currentPage - 1) * currentPageSize + 1, total) : 0;
+  const endIndex = Math.min(currentPage * currentPageSize, total);
 
   let content: React.ReactNode;
 
@@ -115,13 +121,13 @@ export function ListingsView() {
         <SearchWrapper>
           <SearchBar />
         </SearchWrapper>
-        <FilterBar
-          filters={filters}
-          appliedFilters={appliedFilters}
-          onFiltersChange={setFilters}
-          onApply={handleApply}
-        />
+        <FilterBar />
       </StickyFilters>
+      {total > 0 && (
+        <ItemsSummary>
+          {startIndex}-{endIndex} of {total} items
+        </ItemsSummary>
+      )}
       {content}
     </>
   );
@@ -150,6 +156,14 @@ const SearchWrapper = styled.div`
   @media (min-width: 768px) {
     display: none;
   }
+`;
+
+const ItemsSummary = styled.p`
+  margin: 0;
+  font-size: 0.875rem;
+  color: ${(props) => props.theme.text.secondary};
+  padding-left: 0.5rem;
+  padding-bottom: 0.5rem;
 `;
 
 const LoadingText = styled.p`

@@ -147,8 +147,8 @@ test.describe('Create Listing – Full Form', () => {
 
     await expect(page.getByRole('heading', { name: 'Wish You Were Here' })).toBeVisible();
     await expect(page.getByTestId('artist')).toHaveText('Pink Floyd');
-    await expect(page.getByTestId('listing-price')).toHaveText('42.00€');
-    await expect(page.getByTestId('listing-shipping')).toHaveText('+ 5.00€ shipping');
+    await expect(page.getByTestId('listing-price')).toHaveText('€42.00');
+    await expect(page.getByTestId('listing-shipping')).toHaveText('+ €5.00 shipping');
     await expect(page.getByTestId('listing-format')).toHaveText('Vinyl');
     await expect(page.getByTestId('listing-condition')).toHaveText('Near Mint (NM)');
     await expect(page.getByTestId('listing-year')).toHaveText('1975');
@@ -249,8 +249,8 @@ test.describe('Edit Listing', () => {
 
     await expect(page.getByRole('heading', { name: 'Updated Album' })).toBeVisible();
     await expect(page.getByTestId('artist')).toHaveText('Updated Artist');
-    await expect(page.getByTestId('listing-price')).toHaveText('25.50€');
-    await expect(page.getByTestId('listing-shipping')).toHaveText('+ 4.00€ shipping');
+    await expect(page.getByTestId('listing-price')).toHaveText('€25.50');
+    await expect(page.getByTestId('listing-shipping')).toHaveText('+ €4.00 shipping');
     await expect(page.getByTestId('listing-format')).toHaveText('Vinyl');
     await expect(page.getByTestId('listing-condition')).toHaveText('Near Mint (NM)');
     await expect(page.getByTestId('listing-year')).toHaveText('2010');

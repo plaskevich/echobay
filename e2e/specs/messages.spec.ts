@@ -91,7 +91,7 @@ test.describe('Messages', () => {
 
       await expect(page.getByTestId('conversation-header-artist')).toHaveText(MESSAGES_LISTING.artist);
       await expect(page.getByTestId('conversation-header-title')).toHaveText(MESSAGES_LISTING.title);
-      await expect(page.getByTestId('conversation-header-meta')).toContainText('38.00€');
+      await expect(page.getByTestId('conversation-header-meta')).toContainText('€38.00');
       await expect(page.getByTestId('conversation-header-username')).toHaveText(MESSAGES_SELLER_PROFILE.username);
     });
 

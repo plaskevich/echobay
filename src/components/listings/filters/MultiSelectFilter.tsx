@@ -1,26 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { PiCaretLeft } from 'react-icons/pi';
 
-import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import type { ListingFilters } from '@/api/listings';
+import { useListingFiltersStore } from '@/store/listing-filters-store';
 
-import {
-  ApplyButtonWrapper,
-  CaretIcon,
-  Checkbox,
-  CheckboxItem,
-  CheckboxList,
-  DropdownApplyButton,
-  DropdownMenu,
-  FilterButton,
-  FilterDropdownContainer,
-  MobileHeader,
-  MobileHeaderAction,
-  MobileHeaderBack,
-  MobileHeaderTitle,
-  MobileOverlay,
-  SearchInput,
-  SearchInputWrapper,
-} from './styles';
+import { Checkbox, CheckboxItem, CheckboxList, SearchInput, SearchInputWrapper } from './styles';
 
 interface Option {
   value: string;
@@ -28,50 +11,28 @@ interface Option {
 }
 
 interface MultiSelectFilterProps {
-  label: string;
+  filterKey: keyof ListingFilters;
   options: Option[];
-  selectedValues: string[];
-  appliedValues: string[];
-  onChange: (values: string[]) => void;
-  onApply: () => void;
-  isOpen: boolean;
-  onToggle: () => void;
   searchable?: boolean;
+  searchPlaceholder?: string;
 }
 
 export function MultiSelectFilter({
-  label,
   options,
-  selectedValues,
-  appliedValues,
-  onChange,
-  onApply,
-  isOpen,
-  onToggle,
   searchable,
+  searchPlaceholder = 'Search...',
+  filterKey,
 }: MultiSelectFilterProps) {
-  const hasSelection = appliedValues.length > 0;
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  const { filters, setFilters } = useListingFiltersStore();
+
   useEffect(() => {
-    if (isOpen && searchable) {
+    if (searchable) {
       requestAnimationFrame(() => searchInputRef.current?.focus());
     }
-  }, [isOpen, searchable]);
-
-  useBodyScrollLock(isOpen);
-
-  const handleToggle = () => {
-    if (!isOpen) {
-      setSearchQuery('');
-    }
-    onToggle();
-  };
-
-  const handleClear = () => {
-    onChange([]);
-  };
+  }, [searchable]);
 
   const filteredOptions = useMemo(() => {
     if (!searchQuery) return options;
@@ -79,66 +40,46 @@ export function MultiSelectFilter({
     return options.filter((opt) => opt.label.toLowerCase().includes(query));
   }, [options, searchQuery]);
 
-  const toggleValue = (value: string) => {
-    const newValues = selectedValues.includes(value)
-      ? selectedValues.filter((v) => v !== value)
-      : [...selectedValues, value];
-    onChange(newValues);
+  const handleToggle = (value: string) => {
+    const currentValues = Array.isArray(filters[filterKey]) ? (filters[filterKey] as string[]) : [];
+    setFilters({
+      ...filters,
+      [filterKey]: currentValues.includes(value) ? currentValues.filter((v) => v !== value) : [...currentValues, value],
+    });
   };
 
   return (
-    <FilterDropdownContainer data-testid={`filter-dropdown-${label.toLowerCase()}`}>
-      <FilterButton $active={hasSelection} onClick={handleToggle}>
-        {label}
-        <CaretIcon />
-      </FilterButton>
-      {isOpen && (
-        <>
-          <MobileOverlay onClick={onToggle} />
-          <DropdownMenu>
-            <MobileHeader>
-              <MobileHeaderBack onClick={onToggle} aria-label="Close">
-                <PiCaretLeft />
-              </MobileHeaderBack>
-              <MobileHeaderTitle>{label}</MobileHeaderTitle>
-              <MobileHeaderAction onClick={handleClear}>Clear</MobileHeaderAction>
-            </MobileHeader>
-            {searchable && (
-              <SearchInputWrapper>
-                <SearchInput
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder={`Search ${label.toLowerCase()}...`}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  data-testid="filter-search-input"
-                />
-              </SearchInputWrapper>
-            )}
-            <CheckboxList>
-              {filteredOptions.map((opt) => {
-                const isChecked = selectedValues.includes(opt.value);
-                return (
-                  <CheckboxItem key={opt.value} $checked={isChecked} onClick={() => toggleValue(opt.value)}>
-                    <span>{opt.label}</span>
-                    <Checkbox $checked={isChecked} />
-                  </CheckboxItem>
-                );
-              })}
-              {searchable && filteredOptions.length === 0 && (
-                <CheckboxItem as="div" style={{ cursor: 'default', opacity: 0.5, justifyContent: 'center' }}>
-                  <span>No results found</span>
-                </CheckboxItem>
-              )}
-            </CheckboxList>
-            <ApplyButtonWrapper>
-              <DropdownApplyButton onClick={onApply} data-testid="filter-apply-button">
-                Show results
-              </DropdownApplyButton>
-            </ApplyButtonWrapper>
-          </DropdownMenu>
-        </>
+    <>
+      {searchable && (
+        <SearchInputWrapper>
+          <SearchInput
+            ref={searchInputRef}
+            type="text"
+            placeholder={searchPlaceholder}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            data-testid="filter-search-input"
+          />
+        </SearchInputWrapper>
       )}
-    </FilterDropdownContainer>
+      <CheckboxList>
+        {filteredOptions.map((opt) => {
+          const isChecked = Array.isArray(filters[filterKey])
+            ? (filters[filterKey] as string[]).includes(opt.value)
+            : false;
+          return (
+            <CheckboxItem key={opt.value} $checked={isChecked} onClick={() => handleToggle(opt.value)}>
+              <span>{opt.label}</span>
+              <Checkbox $checked={isChecked} />
+            </CheckboxItem>
+          );
+        })}
+        {searchable && filteredOptions.length === 0 && (
+          <CheckboxItem as="div" style={{ cursor: 'default', opacity: 0.5, justifyContent: 'center' }}>
+            <span>No results found</span>
+          </CheckboxItem>
+        )}
+      </CheckboxList>
+    </>
   );
 }

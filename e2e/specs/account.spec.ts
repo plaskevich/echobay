@@ -149,7 +149,7 @@ test.describe('Account Pages', () => {
       await expect(page.getByTestId('order-card').first()).toBeVisible({ timeout: 10000 });
       await expect(page.getByTestId('order-title')).toHaveText(ACCOUNT_BOUGHT_LISTING.title);
       await expect(
-        page.getByText(`${(ACCOUNT_BOUGHT_LISTING.price + ACCOUNT_BOUGHT_LISTING.shipping_price).toFixed(2)}€`)
+        page.getByText(`€${(ACCOUNT_BOUGHT_LISTING.price + ACCOUNT_BOUGHT_LISTING.shipping_price).toFixed(2)}`)
       ).toBeVisible();
       await expect(page.getByTestId('order-status')).toHaveText('paid');
     });

@@ -1,4 +1,3 @@
-import { PiCaretDown } from 'react-icons/pi';
 import styled from 'styled-components';
 
 export const FilterDropdownContainer = styled.div`
@@ -32,8 +31,6 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
     }
   }
 `;
-
-export const CaretIcon = styled(PiCaretDown)``;
 
 export const MobileOverlay = styled.div`
   display: none;
@@ -85,7 +82,7 @@ export const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
     flex-shrink: 0;
   }
@@ -125,7 +122,7 @@ export const SearchInputWrapper = styled.div`
   top: -0.4rem;
   z-index: 1;
   margin: -0.4rem -0.4rem 0 -0.4rem;
-  padding: 0.4rem 0.4rem 0.25rem 0.4rem;
+  padding: 0.75rem 0.75rem 0.25rem 0.75rem;
   background-color: ${({ theme }) => theme.background.primary};
 
   @media (max-width: 640px) {
@@ -211,7 +208,7 @@ export const ApplyButtonWrapper = styled.div`
   bottom: -0.4rem;
   z-index: 2;
   margin: 0 -0.4rem -0.4rem -0.4rem;
-  padding: 0.25rem 0.4rem 0.4rem 0.4rem;
+  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
   background-color: ${({ theme }) => theme.background.primary};
 
   @media (max-width: 640px) {

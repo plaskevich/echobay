@@ -38,6 +38,6 @@ test.describe('Authentication', () => {
     await page.getByLabel('Password', { exact: true }).fill('TestPassword123!');
     await page.getByTestId('auth-submit-button').click();
 
-    await expect(page).toHaveURL('/', { timeout: 10000 });
+    await expect(page).toHaveURL('/?page=1', { timeout: 10000 });
   });
 });

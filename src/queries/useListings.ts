@@ -22,8 +22,18 @@ function normalizeFilters(filters?: ListingFilters): ListingFilters {
   if (filters.formats?.length) normalized.formats = [...filters.formats].sort();
   if (filters.conditions?.length) normalized.conditions = [...filters.conditions].sort();
   if (filters.genres?.length) normalized.genres = [...filters.genres].sort();
-  if (filters.minPrice !== undefined) normalized.minPrice = filters.minPrice;
-  if (filters.maxPrice !== undefined) normalized.maxPrice = filters.maxPrice;
+  if (filters.price?.min !== undefined || filters.price?.max !== undefined) {
+    normalized.price = {
+      min: filters.price?.min,
+      max: filters.price?.max,
+    };
+  }
+  if (filters.year?.min !== undefined || filters.year?.max !== undefined) {
+    normalized.year = {
+      min: filters.year?.min,
+      max: filters.year?.max,
+    };
+  }
   if (filters.sortBy) normalized.sortBy = filters.sortBy;
   if (filters.excludeOwnerId) normalized.excludeOwnerId = filters.excludeOwnerId;
   if (filters.recommendForUserId) normalized.recommendForUserId = filters.recommendForUserId;

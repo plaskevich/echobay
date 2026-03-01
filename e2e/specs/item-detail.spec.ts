@@ -73,8 +73,8 @@ test.describe('Item Detail Page', () => {
       await expect(page.getByRole('heading', { name: 'In Rainbows' })).toBeVisible();
       await expect(page.getByTestId('artist')).toHaveText('Radiohead');
 
-      await expect(page.getByTestId('listing-price')).toHaveText('35.00€');
-      await expect(page.getByTestId('listing-shipping')).toHaveText('+ 4.50€ shipping');
+      await expect(page.getByTestId('listing-price')).toHaveText('€35.00');
+      await expect(page.getByTestId('listing-shipping')).toHaveText('+ €4.50 shipping');
 
       await expect(page.getByTestId('listing-format')).toHaveText('Vinyl');
       await expect(page.getByTestId('listing-condition')).toHaveText('Near Mint (NM)');

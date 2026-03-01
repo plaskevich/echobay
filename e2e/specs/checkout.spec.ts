@@ -102,7 +102,7 @@ test.describe('Checkout', () => {
       await page.getByTestId('shipping-submit-button').click();
 
       await expect(page.getByTestId('payment-form-title')).toBeVisible();
-      await expect(page.getByTestId('payment-total-amount')).toHaveText('50.00€');
+      await expect(page.getByTestId('payment-total-amount')).toHaveText('€50.00');
     });
 
     test('back button returns to shipping with preserved data', async ({ page }) => {
@@ -135,7 +135,7 @@ test.describe('Checkout', () => {
 
       await expect(page.getByTestId('summary-item-artist')).toHaveText('Pink Floyd');
       await expect(page.getByTestId('summary-item-title')).toHaveText('The Dark Side of the Moon');
-      await expect(page.getByTestId('summary-item-price')).toHaveText('45.00€');
+      await expect(page.getByTestId('summary-item-price')).toHaveText('€45.00');
 
       await expect(page.getByTestId('summary-shipping-address')).toContainText(SHIPPING_DATA.fullName);
       await expect(page.getByTestId('summary-shipping-address')).toContainText(SHIPPING_DATA.addressLine1);
@@ -143,9 +143,9 @@ test.describe('Checkout', () => {
 
       await expect(page.getByTestId('summary-payment-method')).toContainText('Credit Card');
 
-      await expect(page.getByTestId('summary-price-item')).toHaveText('45.00€');
-      await expect(page.getByTestId('summary-price-shipping')).toHaveText('5.00€');
-      await expect(page.getByTestId('summary-total')).toHaveText('50.00€');
+      await expect(page.getByTestId('summary-price-item')).toHaveText('€45.00');
+      await expect(page.getByTestId('summary-price-shipping')).toHaveText('€5.00');
+      await expect(page.getByTestId('summary-total')).toHaveText('€50.00');
     });
 
     test('back button returns to payment step', async ({ page }) => {
@@ -171,7 +171,7 @@ test.describe('Checkout', () => {
 
       await expect(page.getByTestId('summary-title')).toBeVisible();
       await expect(page.getByTestId('summary-price-shipping')).toHaveText('Free');
-      await expect(page.getByTestId('summary-total')).toHaveText('20.00€');
+      await expect(page.getByTestId('summary-total')).toHaveText('€20.00');
     });
   });
 
@@ -204,7 +204,7 @@ test.describe('Checkout', () => {
 
       await page.getByTestId('order-confirmed-continue').click();
 
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL('/?page=1');
     });
   });
 });
