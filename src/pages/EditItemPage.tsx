@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { type ChangeEvent, type KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -240,6 +240,19 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     setShowSearchResults(false);
   };
 
+  const handleFormKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    if (target instanceof HTMLTextAreaElement) {
+      return;
+    }
+
+    event.preventDefault();
+  };
+
   if (isLoadingListing) {
     return <div>Loading listing data...</div>;
   }
@@ -261,7 +274,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
         onClear={handleClearSearch}
       />
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} onKeyDown={handleFormKeyDown}>
         <ImageUploadSection
           imagePreviews={imagePreviews}
           imageError={imageError}

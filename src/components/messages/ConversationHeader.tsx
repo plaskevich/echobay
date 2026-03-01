@@ -2,7 +2,7 @@ import { PiShoppingCart } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel } from '@/lib/utils';
 
 interface ConversationHeaderProps {
@@ -34,7 +34,7 @@ export function ConversationHeader({
   otherUsername,
 }: ConversationHeaderProps) {
   const navigate = useNavigate();
-  const imageUrl = images && images.length > 0 ? images[0] : PLACEHOLDER_IMAGE;
+  const imageUrl = images && images.length > 0 ? images[0] : null;
   const formatLabel = getFormatLabel(format);
   const showBuyButton = isBuyer && listingStatus === 'active' && !hasOrder;
 
@@ -49,7 +49,11 @@ export function ConversationHeader({
       )}
       <BottomRow>
         <ItemLink to={`/items/${listingId}`}>
-          <ItemImage src={imageUrl} alt={title} />
+          {imageUrl ? (
+            <ItemImage src={imageUrl} alt={title} />
+          ) : (
+            <ItemFormatFallback aria-label="Listing format icon">{getFormatIcon(format, 24)}</ItemFormatFallback>
+          )}
           <ItemDetails>
             <ItemArtist data-testid="conversation-header-artist">{artist}</ItemArtist>
             <ItemTitle data-testid="conversation-header-title">{title}</ItemTitle>
@@ -157,6 +161,23 @@ const ItemImage = styled.img`
   height: 48px;
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.sm};
+  flex-shrink: 0;
+
+  @media (max-width: 640px) {
+    width: 44px;
+    height: 44px;
+  }
+`;
+
+const ItemFormatFallback = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
+  background-color: ${(props) => props.theme.background.secondary};
+  color: ${(props) => props.theme.text.tertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 
   @media (max-width: 640px) {

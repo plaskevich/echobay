@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import type { ChatWithDetails } from '@/api/messages';
 import { EmptyState, LoadingState } from '@/components/common/StateDisplay';
 import { ChatListItem } from '@/components/messages/ChatListItem';
-import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 interface ChatListSidebarProps {
@@ -12,6 +11,7 @@ interface ChatListSidebarProps {
     id: string;
     title: string;
     artist?: string | null;
+    format?: string | null;
     images?: string[] | null;
     owner_id: string;
   } | null;
@@ -47,9 +47,8 @@ export function ChatListSidebar({
               username={profilesMap?.get(pendingListing.owner_id)?.username ?? 'Seller'}
               avatarUrl={profilesMap?.get(pendingListing.owner_id)?.avatar_url ?? null}
               timestamp="Now"
-              itemImage={
-                pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : PLACEHOLDER_IMAGE
-              }
+              itemImage={pendingListing.images && pendingListing.images.length > 0 ? pendingListing.images[0] : null}
+              itemFormat={pendingListing.format}
               artist={pendingListing.artist}
               title={pendingListing.title}
               isActive={true}
@@ -58,8 +57,7 @@ export function ChatListSidebar({
           )}
           {chats.map((chat) => {
             const otherUser = getOtherUserInfo(chat);
-            const itemImage =
-              chat.listings?.images && chat.listings.images.length > 0 ? chat.listings.images[0] : PLACEHOLDER_IMAGE;
+            const itemImage = chat.listings?.images && chat.listings.images.length > 0 ? chat.listings.images[0] : null;
             return (
               <ChatListItem
                 key={chat.id}
@@ -67,6 +65,7 @@ export function ChatListSidebar({
                 avatarUrl={otherUser.avatar_url}
                 timestamp={formatRelativeDate(chat.updated_at, { short: true })}
                 itemImage={itemImage}
+                itemFormat={chat.listings?.format}
                 artist={chat.listings?.artist}
                 title={chat.listings?.title || 'Unknown item'}
                 isActive={chat.id === effectiveChatId}

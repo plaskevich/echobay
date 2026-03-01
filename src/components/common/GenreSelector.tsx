@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { FormGroup, Label } from '@/components/common/Form';
+import { FormGroup, HelpText, Label } from '@/components/common/Form';
 import { MultiSelect, type MultiSelectOption } from '@/components/common/MultiSelect';
 import { MAX_MAIN_GENRES, MAX_SUBGENRES } from '@/lib/constants/listings';
 import { useMainGenres, useSubgenres } from '@/queries/useGenres';
@@ -99,10 +99,4 @@ const Container = styled.div`
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
   }
-`;
-
-const HelpText = styled.span`
-  font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.tertiary};
-  margin-top: 0.25rem;
 `;

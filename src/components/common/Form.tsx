@@ -165,10 +165,12 @@ export const FieldWrapper = styled.div`
 `;
 
 export const FieldError = styled.span`
-  position: absolute;
-  top: calc(100% + 0.125rem);
-  left: 0;
   font-size: 0.75rem;
-  line-height: 1.25;
   color: ${({ theme }) => theme.state.error};
+`;
+
+export const HelpText = styled.span`
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.tertiary};
+  margin-top: 0.25rem;
 `;

@@ -1,7 +1,3 @@
-import placeholderImg from '@/assets/cd.png';
-
-export const PLACEHOLDER_IMAGE = placeholderImg;
-
 export const FORMATS = ['vinyl', 'cd', 'tape'] as const;
 export type Format = (typeof FORMATS)[number];
 

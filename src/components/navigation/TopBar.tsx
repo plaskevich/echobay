@@ -3,7 +3,7 @@ import {
   PiChatCircleDuotone,
   PiGearBold,
   PiHeartDuotone,
-  PiPlusCircleBold,
+  PiPlusCircleDuotone,
   PiSignOutBold,
   PiUserBold,
   PiUserCircleDuotone,
@@ -80,9 +80,6 @@ export function TopBar() {
                     </IconButton>
                   )}
                 >
-                  <MobileSellLink to="/items/new">
-                    <PiPlusCircleBold /> Sell an Item
-                  </MobileSellLink>
                   <DropdownMenuLink to="/profile">
                     <PiUserBold /> Profile
                   </DropdownMenuLink>
@@ -98,13 +95,12 @@ export function TopBar() {
                     <PiSignOutBold /> Log out
                   </DropdownMenuButton>
                 </Dropdown>
-                <DesktopSellButton>
-                  <Link to="/items/new">
-                    <Button variant="primary" size="small">
-                      Sell
-                    </Button>
-                  </Link>
-                </DesktopSellButton>
+                <Link to="/items/new">
+                  <SellButton variant="primary" size="small">
+                    <PiPlusCircleDuotone size={14} />
+                    Sell
+                  </SellButton>
+                </Link>
               </>
             ) : (
               <Link to="/auth">
@@ -191,17 +187,9 @@ const RightSection = styled.div`
   }
 `;
 
-const DesktopSellButton = styled.div`
-  @media (max-width: 360px) {
-    display: none;
-  }
-`;
-
-const MobileSellLink = styled(DropdownMenuLink)`
-  display: none;
-
-  @media (max-width: 360px) {
-    display: flex;
+const SellButton = styled(Button)`
+  @media (max-width: 640px) {
+    padding: 0.75rem;
   }
 `;
 
@@ -231,12 +219,6 @@ const IconButton = styled.button`
 
   @media (max-width: 640px) {
     padding: 0.4rem;
-    font-size: 1.35rem;
-
-    img {
-      width: 1.35rem;
-      height: 1.35rem;
-    }
   }
 `;
 

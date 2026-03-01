@@ -56,8 +56,10 @@ test.describe('Create Listing', () => {
     await page.getByTestId('listing-title-input').fill('Test Vinyl Record');
     await page.getByTestId('listing-artist-input').fill('Test Artist');
     await page.getByTestId('listing-format-select').selectOption('vinyl');
+    await page.getByTestId('listing-condition-select').selectOption('Near Mint (NM)');
+    await page.getByTestId('listing-year-input').fill('1990');
+
     await page.getByTestId('listing-price-input').fill('19.99');
-    await page.getByTestId('listing-shipping-input').fill('3.50');
 
     await page.getByTestId('listing-submit-button').click();
 

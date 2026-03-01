@@ -5,19 +5,21 @@ import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
 import type { ListingStatus } from '@/api/listings';
+import { getFormatIcon } from '@/lib/getFormatIcon';
 import { getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 
 interface ImageGalleryProps {
   images: string[];
+  format?: string | null;
   title: string;
   listingId: string;
   isOwner: boolean;
   status?: ListingStatus;
 }
 
-export function ImageGallery({ images, title, listingId, isOwner, status }: ImageGalleryProps) {
+export function ImageGallery({ images, format, title, listingId, isOwner, status }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
@@ -26,6 +28,7 @@ export function ImageGallery({ images, title, listingId, isOwner, status }: Imag
 
   const slides = images.map((src) => ({ src }));
   const showStatusBanner = status && status !== 'active';
+  const hasImages = images.length > 0;
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,14 +49,20 @@ export function ImageGallery({ images, title, listingId, isOwner, status }: Imag
   return (
     <>
       <ImageSection>
-        <MainImageWrapper onClick={() => setIsLightboxOpen(true)}>
-          <MainImage src={images[selectedImage]} alt={title} />
+        <MainImageWrapper onClick={hasImages ? () => setIsLightboxOpen(true) : undefined} $clickable={hasImages}>
+          {hasImages ? (
+            <MainImage src={images[selectedImage]} alt={title} />
+          ) : (
+            <MainImageFormatFallback aria-label="Listing format icon">
+              {getFormatIcon(format, 200)}
+            </MainImageFormatFallback>
+          )}
           {showStatusBanner && (
             <StatusBanner $status={status!} data-testid="status-banner">
               {getStatusLabel(status)}
             </StatusBanner>
           )}
-          <ZoomHint>Click to view fullscreen</ZoomHint>
+          {hasImages && <ZoomHint>Click to view fullscreen</ZoomHint>}
           {user && !isOwner && (
             <FavoriteButton onClick={handleFavoriteClick} disabled={isLoading}>
               {isFavorited ? <PiHeartFill size={24} /> : <PiHeart size={24} />}
@@ -90,7 +99,7 @@ export function ImageGallery({ images, title, listingId, isOwner, status }: Imag
       </ImageSection>
 
       <Lightbox
-        open={isLightboxOpen}
+        open={hasImages && isLightboxOpen}
         close={() => setIsLightboxOpen(false)}
         slides={slides}
         index={selectedImage}
@@ -110,14 +119,14 @@ const ImageSection = styled.div`
   min-width: 0;
 `;
 
-const MainImageWrapper = styled.div`
+const MainImageWrapper = styled.div<{ $clickable: boolean }>`
   position: relative;
   width: 100%;
   max-width: 600px;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
-  cursor: zoom-in;
+  cursor: ${({ $clickable }) => ($clickable ? 'zoom-in' : 'default')};
   background: ${({ theme }) => theme.background.secondary};
 
   &:hover > div {
@@ -150,6 +159,16 @@ const MainImage = styled.img`
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+`;
+
+const MainImageFormatFallback = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.text.tertiary};
+  background: ${({ theme }) => theme.background.secondary};
 `;
 
 const ZoomHint = styled.div`

@@ -105,11 +105,6 @@ export function useListingSubmit({
   const onSubmit = async (data: ListingFormData) => {
     setError(null);
 
-    if (!userId) {
-      setError('You must be logged in to create a listing');
-      return;
-    }
-
     try {
       const uploadedUrls = await uploadImages();
       let uploadIndex = 0;

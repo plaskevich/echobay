@@ -11,7 +11,6 @@ import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
-import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
 import { formatPrice } from '@/lib/utils';
 import { useListing } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
@@ -56,8 +55,6 @@ export function ItemDetailPage() {
     );
   }
 
-  const images = listing.images && listing.images.length > 0 ? listing.images : [PLACEHOLDER_IMAGE];
-
   const genres =
     listing.listing_genres
       ?.map((lg: { genres: { id: string; name: string; slug: string } }) => lg.genres)
@@ -71,7 +68,8 @@ export function ItemDetailPage() {
 
       <Content>
         <ImageGallery
-          images={images}
+          images={listing.images ?? []}
+          format={listing.format}
           title={listing.title}
           listingId={listing.id}
           isOwner={isOwner}

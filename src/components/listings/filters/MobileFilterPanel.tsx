@@ -191,7 +191,7 @@ const MobileFilterButton = styled.button<{ $active?: boolean }>`
   @media (max-width: 640px) {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     padding: 0.5rem 0.75rem;
     border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
     border-radius: ${({ theme }) => theme.borderRadius.full};

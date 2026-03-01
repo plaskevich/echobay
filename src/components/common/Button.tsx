@@ -111,19 +111,22 @@ const getSizeStyles = (size: ButtonSize) => {
         padding: 0.5rem 1rem;
         font-size: 0.875rem;
         height: 2rem;
+        border-radius: ${({ theme }) => theme.borderRadius.sm};
+        gap: 0.3rem;
       `;
     case 'medium':
       return css`
         padding: 0.5rem 1rem;
         font-size: 1rem;
         height: 2.75rem;
+        border-radius: ${({ theme }) => theme.borderRadius.sm};
       `;
     case 'large':
       return css`
         padding: 1rem 2rem;
         font-size: 1.125rem;
         height: 3.5rem;
-
+        border-radius: ${({ theme }) => theme.borderRadius.md};
         @media (max-width: 640px) {
           padding: 0.75rem 1.5rem;
           font-size: 1rem;
@@ -143,7 +146,6 @@ const StyledButton = styled.button.withConfig({
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   transition: all 0.2s ease;
   font-family: inherit;
   white-space: nowrap;

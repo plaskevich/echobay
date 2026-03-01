@@ -222,7 +222,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 0.5rem;
 `;
 
 const DesktopFiltersRow = styled.div`

@@ -5,6 +5,82 @@ import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import { isRangeInvalid } from './utils';
 
+interface RangeFilterProps {
+  filterKey: keyof ListingFilters;
+  placeholderMin?: string;
+  placeholderMax?: string;
+  prefixLabel?: string;
+  hasError?: boolean;
+  errorMessage?: string;
+  inputMin?: number;
+}
+
+export function RangeFilter({
+  filterKey,
+  placeholderMin = 'Any',
+  placeholderMax = 'Any',
+  prefixLabel,
+  hasError,
+  errorMessage,
+  inputMin = 0,
+}: RangeFilterProps) {
+  const { filters, setFilters } = useListingFiltersStore();
+  const currentRange = filters[filterKey] as { min?: number; max?: number };
+
+  const hasInvalidRange = isRangeInvalid(currentRange?.min, currentRange?.max);
+
+  const handleChange = (min?: number, max?: number) => {
+    setFilters({ ...filters, [filterKey]: { min, max } });
+  };
+
+  return (
+    <>
+      <RangeInputs>
+        <RangeInputWrapper>
+          <RangeLabel>From</RangeLabel>
+          <RangeInputContainer>
+            {prefixLabel && <InputPrefix>{prefixLabel}</InputPrefix>}
+            <RangeInput
+              type="number"
+              placeholder={placeholderMin}
+              value={currentRange?.min ?? ''}
+              onChange={(e) => {
+                const value = e.target.value ? Number(e.target.value) : undefined;
+                handleChange(value, currentRange?.max);
+              }}
+              min={inputMin}
+              $hasError={hasError}
+              $hasPrefix={Boolean(prefixLabel)}
+              data-testid={`${filterKey}-min-input`}
+            />
+          </RangeInputContainer>
+        </RangeInputWrapper>
+        <RangeSeparator>-</RangeSeparator>
+        <RangeInputWrapper>
+          <RangeLabel>To</RangeLabel>
+          <RangeInputContainer>
+            {prefixLabel && <InputPrefix>{prefixLabel}</InputPrefix>}
+            <RangeInput
+              type="number"
+              placeholder={placeholderMax}
+              value={currentRange?.max ?? ''}
+              onChange={(e) => {
+                const value = e.target.value ? Number(e.target.value) : undefined;
+                handleChange(currentRange?.min, value);
+              }}
+              min={inputMin}
+              $hasError={hasError}
+              $hasPrefix={Boolean(prefixLabel)}
+              data-testid={`${filterKey}-max-input`}
+            />
+          </RangeInputContainer>
+        </RangeInputWrapper>
+      </RangeInputs>
+      {hasInvalidRange && errorMessage && <ValidationError>{errorMessage}</ValidationError>}
+    </>
+  );
+}
+
 const RangeInputs = styled.div`
   display: flex;
   align-items: center;
@@ -106,79 +182,3 @@ const RangeSeparator = styled.span`
   font-size: 1rem;
   margin-top: 1.25rem;
 `;
-
-interface RangeFilterProps {
-  filterKey: keyof ListingFilters;
-  placeholderMin?: string;
-  placeholderMax?: string;
-  prefixLabel?: string;
-  hasError?: boolean;
-  errorMessage?: string;
-  inputMin?: number;
-}
-
-export function RangeFilter({
-  filterKey,
-  placeholderMin = 'Any',
-  placeholderMax = 'Any',
-  prefixLabel,
-  hasError,
-  errorMessage,
-  inputMin = 0,
-}: RangeFilterProps) {
-  const { filters, setFilters } = useListingFiltersStore();
-  const currentRange = filters[filterKey] as { min?: number; max?: number };
-
-  const hasInvalidRange = isRangeInvalid(currentRange?.min, currentRange?.max);
-
-  const handleChange = (min?: number, max?: number) => {
-    setFilters({ ...filters, [filterKey]: { min, max } });
-  };
-
-  return (
-    <>
-      <RangeInputs>
-        <RangeInputWrapper>
-          <RangeLabel>From</RangeLabel>
-          <RangeInputContainer>
-            {prefixLabel && <InputPrefix>{prefixLabel}</InputPrefix>}
-            <RangeInput
-              type="number"
-              placeholder={placeholderMin}
-              value={currentRange?.min ?? ''}
-              onChange={(e) => {
-                const value = e.target.value ? Number(e.target.value) : undefined;
-                handleChange(value, currentRange?.max);
-              }}
-              min={inputMin}
-              $hasError={hasError}
-              $hasPrefix={Boolean(prefixLabel)}
-              data-testid={`${filterKey}-min-input`}
-            />
-          </RangeInputContainer>
-        </RangeInputWrapper>
-        <RangeSeparator>-</RangeSeparator>
-        <RangeInputWrapper>
-          <RangeLabel>To</RangeLabel>
-          <RangeInputContainer>
-            {prefixLabel && <InputPrefix>{prefixLabel}</InputPrefix>}
-            <RangeInput
-              type="number"
-              placeholder={placeholderMax}
-              value={currentRange?.max ?? ''}
-              onChange={(e) => {
-                const value = e.target.value ? Number(e.target.value) : undefined;
-                handleChange(currentRange?.min, value);
-              }}
-              min={inputMin}
-              $hasError={hasError}
-              $hasPrefix={Boolean(prefixLabel)}
-              data-testid={`${filterKey}-max-input`}
-            />
-          </RangeInputContainer>
-        </RangeInputWrapper>
-      </RangeInputs>
-      {hasInvalidRange && errorMessage && <ValidationError>{errorMessage}</ValidationError>}
-    </>
-  );
-}

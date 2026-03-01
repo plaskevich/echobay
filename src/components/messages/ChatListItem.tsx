@@ -1,11 +1,14 @@
 import { PiUserCircleDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
+import { getFormatIcon } from '@/lib/getFormatIcon';
+
 interface ChatListItemProps {
   username: string;
   avatarUrl: string | null;
   timestamp: string;
-  itemImage: string;
+  itemImage: string | null;
+  itemFormat?: string | null;
   artist?: string | null;
   title: string;
   isActive: boolean;
@@ -18,6 +21,7 @@ export function ChatListItem({
   avatarUrl,
   timestamp,
   itemImage,
+  itemFormat,
   artist,
   title,
   isActive,
@@ -43,7 +47,13 @@ export function ChatListItem({
           </HeaderRight>
         </ChatItemHeader>
         <ChatItemRow>
-          <ChatItemThumbnail src={itemImage} alt={title} />
+          {itemImage ? (
+            <ChatItemThumbnail src={itemImage} alt={title} />
+          ) : (
+            <ChatItemFormatFallback aria-label="Listing format icon">
+              {getFormatIcon(itemFormat, 20)}
+            </ChatItemFormatFallback>
+          )}
           <ChatItemSubtitle>
             {artist && <ChatItemArtist data-testid="chat-item-artist">{artist}</ChatItemArtist>}
             <ChatItemTitleLine data-testid="chat-item-title">{title}</ChatItemTitleLine>
@@ -175,4 +185,16 @@ const ChatItemThumbnail = styled.img`
   height: 32px;
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.sm};
+`;
+
+const ChatItemFormatFallback = styled.div`
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: ${(props) => props.theme.borderRadius.sm};
+  background-color: ${(props) => props.theme.background.secondary};
+  color: ${(props) => props.theme.text.tertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

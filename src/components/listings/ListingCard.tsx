@@ -1,8 +1,8 @@
-import { PiCassetteTapeDuotone, PiDiscDuotone, PiHeart, PiHeartFill, PiVinylRecordDuotone } from 'react-icons/pi';
+import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -29,7 +29,7 @@ interface ListingCardProps {
 }
 
 export function ListingCard({ listing }: ListingCardProps) {
-  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : PLACEHOLDER_IMAGE;
+  const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : null;
   const { user } = useAuthStore();
   const isOwner = user?.id === listing.owner_id;
   const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
@@ -43,19 +43,6 @@ export function ListingCard({ listing }: ListingCardProps) {
     else await toggleFavorite(user.id, listing.id, isFavorited);
   };
 
-  const getFormatIcon = (value?: string) => {
-    switch (value) {
-      case 'vinyl':
-        return <PiVinylRecordDuotone size={14} />;
-      case 'cd':
-        return <PiDiscDuotone size={14} />;
-      case 'tape':
-        return <PiCassetteTapeDuotone size={14} />;
-      default:
-        return null;
-    }
-  };
-
   const showStatusBanner = listing.status !== 'active';
   const showFavoriteButton = !isOwner;
 
@@ -63,7 +50,13 @@ export function ListingCard({ listing }: ListingCardProps) {
     <CardLink to={`/items/${listing.id}`}>
       <Card data-testid="listing-card">
         <ImageContainer>
-          <ListingImage src={imageUrl} alt={listing.title} />
+          {imageUrl ? (
+            <ListingImage src={imageUrl} alt={listing.title} />
+          ) : (
+            <FormatIconFallback aria-label={`${getFormatLabel(listing.format)} icon`}>
+              {getFormatIcon(listing.format, 100)}
+            </FormatIconFallback>
+          )}
           {showStatusBanner && <StatusBanner status={listing.status!}>{getStatusLabel(listing.status)}</StatusBanner>}
         </ImageContainer>
         <Artist>{listing.artist}</Artist>
@@ -136,6 +129,17 @@ const ListingImage = styled.img`
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.md};
+`;
+
+const FormatIconFallback = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  background-color: ${(props) => props.theme.background.secondary};
+  color: ${(props) => props.theme.text.tertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ListingTitle = styled.h3`

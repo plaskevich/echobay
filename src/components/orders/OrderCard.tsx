@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
-import { PLACEHOLDER_IMAGE } from '@/lib/constants/listings';
+import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -10,13 +10,19 @@ interface OrderCardProps {
 }
 export default function OrderCard({ order }: OrderCardProps) {
   const listing = Array.isArray(order.listings) ? order.listings[0] : order.listings;
-  const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : PLACEHOLDER_IMAGE;
+  const imageUrl = listing?.images && listing.images.length > 0 ? listing.images[0] : null;
 
   return (
     <Card data-testid="order-card">
       <CardLink to={`/messages?listingId=${encodeURIComponent(order.listing_id)}`}>
         <ImageContainer>
-          <OrderImage src={imageUrl} alt={listing?.title || 'Order item'} />
+          {imageUrl ? (
+            <OrderImage src={imageUrl} alt={listing?.title || 'Order item'} />
+          ) : (
+            <OrderFormatFallback aria-label="Listing format icon">
+              {getFormatIcon(listing?.format, 32)}
+            </OrderFormatFallback>
+          )}
         </ImageContainer>
         <CardContent>
           <OrderHeader>
@@ -102,6 +108,21 @@ const OrderImage = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: ${(props) => props.theme.borderRadius.md};
+
+  @media (max-width: 480px) {
+    aspect-ratio: 16 / 9;
+  }
+`;
+
+const OrderFormatFallback = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  background-color: ${(props) => props.theme.background.secondary};
+  color: ${(props) => props.theme.text.tertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (max-width: 480px) {
     aspect-ratio: 16 / 9;
