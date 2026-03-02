@@ -32,8 +32,6 @@ test.describe('Home Page', () => {
       );
       await supabaseAdmin.from('listing_genres').insert(genreRows);
     }
-
-    await supabaseAdmin.from('listings').insert(HOME_EXTRA_LISTINGS.map((l) => ({ ...l, owner_id: sellerId })));
   });
 
   test.afterAll(async () => {
@@ -296,6 +294,9 @@ test.describe('Home Page', () => {
   });
 
   test.describe('Pagination', () => {
+    test.beforeAll(async () => {
+      await supabaseAdmin.from('listings').insert(HOME_EXTRA_LISTINGS.map((l) => ({ ...l, owner_id: sellerId })));
+    });
     test('navigates to next page and back', async ({ page }) => {
       await page.goto('/?pageSize=24');
       await expect(page.getByText(/1-\d+ of \d+ items/)).toBeVisible();
