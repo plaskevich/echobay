@@ -101,11 +101,18 @@ function buildListingsQuery(filters?: ListingFilters, { count = false }: { count
   }
 
   if (filters?.search?.trim()) {
-    const normalizedSearch = filters.search.trim().replace(/[\s-]+/g, '%');
-    const searchTerm = `%${normalizedSearch}%`;
-    query = query.or(
-      `title.ilike.${searchTerm},artist.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
-    );
+    const searchTerms = filters.search
+      .trim()
+      .split(/\s+/)
+      .map((term) => term.replace(/[,%()]/g, '').trim())
+      .filter(Boolean);
+
+    for (const term of searchTerms) {
+      const searchTerm = `%${term}%`;
+      query = query.or(
+        `title.ilike.${searchTerm},artist.ilike.${searchTerm},label.ilike.${searchTerm},description.ilike.${searchTerm}`
+      );
+    }
   }
 
   if (filters?.formats && filters.formats.length > 0) {
@@ -133,8 +140,29 @@ async function applyRecommendationSort(data: Array<{ id: string }>, userId: stri
   });
 
   if (recs && Array.isArray(recs) && recs.length > 0) {
+    const originalOrder = new Map(data.map((item, index) => [item.id, index]));
     const scoreMap = new Map(recs.map((r: { listing_id: string; score: number }) => [r.listing_id, r.score]));
-    data.sort((a, b) => (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1));
+    data.sort(
+      (a, b) =>
+        (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1) ||
+        (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
+    );
+  }
+}
+
+async function applyGuestRecommendationSort(data: Array<{ id: string }>) {
+  const { data: recs } = await supabase.rpc('get_guest_recommendations', {
+    num_recommendations: 100,
+  });
+
+  if (recs && Array.isArray(recs) && recs.length > 0) {
+    const originalOrder = new Map(data.map((item, index) => [item.id, index]));
+    const scoreMap = new Map(recs.map((r: { listing_id: string; score: number }) => [r.listing_id, r.score]));
+    data.sort(
+      (a, b) =>
+        (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1) ||
+        (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
+    );
   }
 }
 
@@ -150,8 +178,12 @@ export async function fetchAllListings(
   const { data, error, count } = await query.range(from, to);
   if (error || !data) return { data: null, error };
 
-  if (filters?.sortBy === 'recommended' && filters?.recommendForUserId) {
-    await applyRecommendationSort(data, filters.recommendForUserId);
+  if (filters?.sortBy === 'recommended') {
+    if (filters?.recommendForUserId) {
+      await applyRecommendationSort(data, filters.recommendForUserId);
+    } else {
+      await applyGuestRecommendationSort(data);
+    }
   }
 
   const total = count ?? 0;

@@ -20,7 +20,7 @@ export default function OrderCard({ order }: OrderCardProps) {
             <OrderImage src={imageUrl} alt={listing?.title || 'Order item'} />
           ) : (
             <OrderFormatFallback aria-label="Listing format icon">
-              {getFormatIcon(listing?.format, 32)}
+              {getFormatIcon(listing?.format, 80)}
             </OrderFormatFallback>
           )}
         </ImageContainer>
