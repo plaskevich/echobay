@@ -1,3 +1,4 @@
+import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
 import { supabase } from '@/lib/supabase';
 
 export type ListingStatus = 'active' | 'hidden' | 'sold';
@@ -170,7 +171,7 @@ export async function fetchAllListings(
   filters?: ListingFilters
 ): Promise<{ data: PaginatedListings | null; error: unknown }> {
   const page = filters?.page ?? 1;
-  const pageSize = filters?.pageSize ?? 25;
+  const pageSize = filters?.pageSize ?? PAGE_SIZE_OPTIONS[0];
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
 

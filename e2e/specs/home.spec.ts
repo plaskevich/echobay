@@ -1,6 +1,6 @@
 import { Page, expect, test } from '@playwright/test';
 
-import { HOME_LISTINGS, HOME_LISTING_GENRES } from '../fixtures/listings';
+import { HOME_EXTRA_LISTINGS, HOME_LISTINGS, HOME_LISTING_GENRES } from '../fixtures/listings';
 import { HOME_SELLER_PROFILE } from '../fixtures/profiles';
 import { createTestUser, deleteTestUser, supabaseAdmin } from '../helpers/supabase';
 import { DEFAULT_PASSWORD } from '../helpers/users';
@@ -32,6 +32,8 @@ test.describe('Home Page', () => {
       );
       await supabaseAdmin.from('listing_genres').insert(genreRows);
     }
+
+    await supabaseAdmin.from('listings').insert(HOME_EXTRA_LISTINGS.map((l) => ({ ...l, owner_id: sellerId })));
   });
 
   test.afterAll(async () => {
@@ -272,7 +274,6 @@ test.describe('Home Page', () => {
       await expect(listingHeading(page, 'Blue Train')).toBeVisible();
 
       await page.getByLabel('Remove CD filter').click();
-
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();
       await expect(listingHeading(page, 'Blue Train')).toBeVisible();
     });
@@ -286,12 +287,30 @@ test.describe('Home Page', () => {
       await page.getByTestId('filter-apply-button').click();
 
       await expect(listingHeading(page, 'Blue Train')).not.toBeVisible();
-
       await page.getByTestId('clear-filters-button').click();
 
       await expect(listingHeading(page, 'Blue Train')).toBeVisible();
       await expect(listingHeading(page, 'Nevermind')).toBeVisible();
       await expect(listingHeading(page, 'Thriller')).toBeVisible();
+    });
+  });
+
+  test.describe('Pagination', () => {
+    test('navigates to next page and back', async ({ page }) => {
+      await page.goto('/?pageSize=24');
+      await expect(page.getByText(/1-\d+ of \d+ items/)).toBeVisible();
+      await page.getByTestId('next-page-button').click();
+      await expect(page).toHaveURL(/page=2/);
+      await page.getByTestId('previous-page-button').click();
+      await expect(page).toHaveURL(/page=1/);
+    });
+
+    test('changes page size via selector', async ({ page }) => {
+      await page.goto('/');
+      await expect(page.getByText(/\d+-\d+ of \d+ items/)).toBeVisible();
+      await page.locator('select').selectOption('60');
+      await expect(page).toHaveURL(/pageSize=60/);
+      await expect(page).toHaveURL(/page=1/);
     });
   });
 });

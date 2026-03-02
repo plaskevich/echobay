@@ -28,4 +28,6 @@ export const MAX_IMAGE_DIMENSION = 1920;
 export const MAX_MAIN_GENRES = 3;
 export const MAX_SUBGENRES = 5;
 
+export const PAGE_SIZE_OPTIONS = [24, 60, 120, 240];
+
 export const CURRENCY_SYMBOL = '\u20AC'; // €

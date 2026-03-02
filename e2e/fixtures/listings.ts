@@ -64,6 +64,19 @@ export const HOME_LISTING_GENRES = [
   ['a0000000-0000-0000-0000-000000000006'],
 ] as const;
 
+const EXTRA_FORMATS = ['vinyl', 'cd', 'tape'] as const;
+export const HOME_EXTRA_LISTINGS = Array.from({ length: 20 }, (_, i) => ({
+  title: `Extra Album ${String(i + 1).padStart(2, '0')}`,
+  artist: `Extra Artist ${String(i + 1).padStart(2, '0')}`,
+  format: EXTRA_FORMATS[i % EXTRA_FORMATS.length],
+  price: 10 + i,
+  shipping_price: 2.0,
+  condition: 'Very Good (VG)' as const,
+  description: `Extra listing ${i + 1}`,
+  status: 'active' as const,
+  images: [] as string[],
+}));
+
 export const BUYER_LISTING = {
   title: 'In Rainbows',
   artist: 'Radiohead',

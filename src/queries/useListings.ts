@@ -13,6 +13,7 @@ import {
   updateListing,
   updateListingStatus,
 } from '@/api/listings';
+import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
 import { useAuthStore } from '@/store/auth-store';
 
 function normalizeFilters(filters?: ListingFilters): ListingFilters {
@@ -60,7 +61,7 @@ export function useListings(filters?: ListingFilters) {
     queryFn: async () => {
       const { data, error } = await fetchAllListings(normalizedFilters);
       if (error) throw error;
-      return data || { items: [], total: 0, page: 1, pageSize: 25, totalPages: 0 };
+      return data || { items: [], total: 0, page: 1, pageSize: PAGE_SIZE_OPTIONS[0], totalPages: 0 };
     },
     enabled: isInitialized,
     placeholderData: keepPreviousData,

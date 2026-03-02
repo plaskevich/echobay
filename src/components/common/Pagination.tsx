@@ -1,7 +1,7 @@
 import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 import styled from 'styled-components';
 
-const PAGE_SIZE_OPTIONS = [25, 50, 100, 200] as const;
+import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
 
 export type PageSize = (typeof PAGE_SIZE_OPTIONS)[number];
 
@@ -42,7 +42,12 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
   return (
     <Container>
       <PageControls>
-        <NavButton disabled={page <= 1} onClick={() => onPageChange(page - 1)} aria-label="Previous page">
+        <NavButton
+          disabled={page <= 1}
+          onClick={() => onPageChange(page - 1)}
+          aria-label="Previous page"
+          data-testid="previous-page-button"
+        >
           <PiCaretLeft size={18} />
         </NavButton>
 
@@ -56,7 +61,12 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
           )
         )}
 
-        <NavButton disabled={page >= totalPages} onClick={() => onPageChange(page + 1)} aria-label="Next page">
+        <NavButton
+          disabled={page >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+          aria-label="Next page"
+          data-testid="next-page-button"
+        >
           <PiCaretRight size={18} />
         </NavButton>
       </PageControls>
