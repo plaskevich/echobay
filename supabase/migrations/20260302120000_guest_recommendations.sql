@@ -7,19 +7,11 @@ as $$
     select f.listing_id, count(*)::double precision as favorite_count
     from public.favorites f
     group by f.listing_id
-  ),
-  order_counts as (
-    select o.listing_id, count(*)::double precision as order_count
-    from public.orders o
-    where o.status != 'failed'
-      and o.listing_id is not null
-    group by o.listing_id
   )
   select
     l.id as listing_id,
     (
-      coalesce(fc.favorite_count, 0) * 1.0
-      + coalesce(oc.order_count, 0) * 2.0
+      coalesce(fc.favorite_count, 0)
       + case
           when l.created_at >= now() - interval '7 days' then 1.5
           when l.created_at >= now() - interval '30 days' then 0.75
@@ -28,7 +20,6 @@ as $$
     )::double precision as score
   from public.listings l
   left join favorite_counts fc on fc.listing_id = l.id
-  left join order_counts oc on oc.listing_id = l.id
   where l.status = 'active'
   order by score desc, l.created_at desc
   limit num_recommendations;

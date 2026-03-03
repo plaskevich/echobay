@@ -3,8 +3,6 @@
 [![CI & Deploy](https://github.com/plaskevich/EchoBay/actions/workflows/ci-deploy.yml/badge.svg)](https://github.com/plaskevich/EchoBay/actions/workflows/ci-deploy.yml)
 [![Deployed on Vercel](https://img.shields.io/badge/Vercel-deployed-black?logo=vercel)](https://vercel.com)
 
-A marketplace for buying and selling music media - vinyl records, CDs, and cassettes. Users can list items, browse and search listings, message sellers, check out with Stripe, and manage orders.
-
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 22+
@@ -22,7 +20,7 @@ A marketplace for buying and selling music media - vinyl records, CDs, and casse
 
 2. **Set up environment variables:**
 
-   Create a `.env.local` file in the project root:
+   Create a `.env` file in the project root:
 
    ```env
    VITE_SUPABASE_URL=<your-supabase-project-url>
@@ -36,7 +34,7 @@ A marketplace for buying and selling music media - vinyl records, CDs, and casse
    supabase start
    ```
 
-   This spins up a local Supabase instance with PostgreSQL, Auth, Storage, and Edge Functions. The CLI will print the local URLs and keys you can use for `.env.local`.
+   This spins up a local Supabase instance with PostgreSQL, Auth, Storage, and Edge Functions. The CLI will print the local URLs and keys you can use for `.env`.
 
 4. **Run the dev server:**
 

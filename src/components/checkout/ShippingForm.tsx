@@ -1,4 +1,5 @@
 import { Country, State } from 'country-state-city';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -37,6 +38,7 @@ export function ShippingForm({
     formState: { errors },
     control,
     setValue,
+    reset,
   } = useForm<ShippingAddress>({
     defaultValues: initialData || {
       fullName: '',
@@ -49,6 +51,12 @@ export function ShippingForm({
       phone: '',
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const country = useWatch({ control, name: 'country' });
   const countries = Country.getAllCountries();
