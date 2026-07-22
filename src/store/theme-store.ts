@@ -36,8 +36,18 @@ const getInitialTheme = (): Theme => {
   return getSystemTheme();
 };
 
-const applyTheme = (theme: Theme) => {
+let themeTransitionTimer: ReturnType<typeof setTimeout> | undefined;
+
+const flashThemeTransition = () => {
+  const root = document.documentElement;
+  root.classList.add('theme-transition');
+  if (themeTransitionTimer) clearTimeout(themeTransitionTimer);
+  themeTransitionTimer = setTimeout(() => root.classList.remove('theme-transition'), 350);
+};
+
+const applyTheme = (theme: Theme, animate = false) => {
   const colors = theme === 'light' ? lightTheme : darkTheme;
+  if (animate) flashThemeTransition();
   document.documentElement.setAttribute('data-theme', theme);
   updateMetaThemeColor(colors.background.primary);
   return colors;
@@ -52,11 +62,11 @@ export const useThemeStore = create<ThemeState>()(
       themeColors: initialTheme === 'light' ? lightTheme : darkTheme,
       toggleTheme: () => {
         const newTheme = get().theme === 'light' ? 'dark' : 'light';
-        const newThemeColors = applyTheme(newTheme);
+        const newThemeColors = applyTheme(newTheme, true);
         set({ theme: newTheme, themeColors: newThemeColors });
       },
       setTheme: (newTheme: Theme) => {
-        const newThemeColors = applyTheme(newTheme);
+        const newThemeColors = applyTheme(newTheme, true);
         set({ theme: newTheme, themeColors: newThemeColors });
       },
     }),

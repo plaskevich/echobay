@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter Variable', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,10 +11,6 @@
 }
 
 * {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -22,6 +18,34 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/*
+ * The color-fade for theme switching is applied only while the `theme-transition`
+ * class is present on <html> (added briefly by the theme store during a toggle).
+ * This keeps theme changes smooth without adding a 0.3s lag to every hover/focus.
+ */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    fill 0.3s ease !important;
+}
+
+/* Respect users who prefer reduced motion: disable non-essential animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html {
