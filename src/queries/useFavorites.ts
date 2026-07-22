@@ -36,7 +36,7 @@ export function useIsFavorited(userId: string | undefined, listingId: string) {
     queryKey: favoriteKeys.isFavorited(userId || '', listingId),
     queryFn: async () => {
       if (!userId) return false;
-      const favorites = await queryClient.ensureQueryData<Favorite[]>({
+      const favorites = await queryClient.fetchQuery<Favorite[]>({
         queryKey: favoriteKeys.userFavorites(userId),
         queryFn: () => loadUserFavorites(userId),
         staleTime: FAVORITES_STALE_TIME,
@@ -58,6 +58,7 @@ export function useAddFavorite() {
       if (error) throw error;
     },
     onSuccess: (_, variables) => {
+      queryClient.setQueryData<boolean>(favoriteKeys.isFavorited(variables.userId, variables.listingId), true);
       queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(variables.userId) });
       queryClient.invalidateQueries({ queryKey: favoriteKeys.isFavorited(variables.userId, variables.listingId) });
     },
@@ -73,6 +74,7 @@ export function useRemoveFavorite() {
       if (error) throw error;
     },
     onSuccess: (_, variables) => {
+      queryClient.setQueryData<boolean>(favoriteKeys.isFavorited(variables.userId, variables.listingId), false);
       queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(variables.userId) });
       queryClient.invalidateQueries({ queryKey: favoriteKeys.isFavorited(variables.userId, variables.listingId) });
     },
