@@ -46,6 +46,7 @@ export interface ListingFilters {
   sortBy?: 'recommended' | 'newest' | 'cheapest' | 'most_expensive';
   excludeOwnerId?: string;
   recommendForUserId?: string;
+  recentViewIds?: string[];
   page?: number;
   pageSize?: number;
 }
@@ -134,37 +135,49 @@ function buildListingsQuery(filters?: ListingFilters, { count = false }: { count
   return query;
 }
 
-async function applyRecommendationSort(data: Array<{ id: string }>, userId: string) {
-  const { data: recs } = await supabase.rpc('get_recommendations', {
-    target_user_id: userId,
-    num_recommendations: 100,
-  });
-
-  if (recs && Array.isArray(recs) && recs.length > 0) {
-    const originalOrder = new Map(data.map((item, index) => [item.id, index]));
-    const scoreMap = new Map(recs.map((r: { listing_id: string; score: number }) => [r.listing_id, r.score]));
-    data.sort(
-      (a, b) =>
-        (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1) ||
-        (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
-    );
-  }
+interface RankedListingRow extends ListingWithGenres {
+  score: number;
+  total_count: number;
 }
 
-async function applyGuestRecommendationSort(data: Array<{ id: string }>) {
-  const { data: recs } = await supabase.rpc('get_guest_recommendations', {
-    num_recommendations: 100,
+async function fetchRecommendedListings(
+  filters: ListingFilters,
+  page: number,
+  pageSize: number
+): Promise<{ data: PaginatedListings | null; error: unknown }> {
+  const from = (page - 1) * pageSize;
+
+  const { data, error } = await supabase.rpc('get_ranked_listings', {
+    p_user_id: filters.recommendForUserId ?? null,
+    p_recent_view_ids: filters.recentViewIds ?? [],
+    p_sort: 'recommended',
+    p_search: filters.search?.trim() || null,
+    p_formats: filters.formats?.length ? filters.formats : null,
+    p_conditions: filters.conditions?.length ? filters.conditions : null,
+    p_genre_ids: filters.genres?.length ? filters.genres : null,
+    p_price_min: filters.price?.min ?? null,
+    p_price_max: filters.price?.max ?? null,
+    p_year_min: filters.year?.min ?? null,
+    p_year_max: filters.year?.max ?? null,
+    p_exclude_owner: filters.excludeOwnerId ?? null,
+    p_limit: pageSize,
+    p_offset: from,
   });
 
-  if (recs && Array.isArray(recs) && recs.length > 0) {
-    const originalOrder = new Map(data.map((item, index) => [item.id, index]));
-    const scoreMap = new Map(recs.map((r: { listing_id: string; score: number }) => [r.listing_id, r.score]));
-    data.sort(
-      (a, b) =>
-        (scoreMap.get(b.id) ?? -1) - (scoreMap.get(a.id) ?? -1) ||
-        (originalOrder.get(a.id) ?? 0) - (originalOrder.get(b.id) ?? 0)
-    );
-  }
+  if (error || !data) return { data: null, error };
+
+  const rows = data as RankedListingRow[];
+  const total = rows.length > 0 ? Number(rows[0].total_count) : 0;
+  return {
+    data: {
+      items: rows as ListingWithGenres[],
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    },
+    error: null,
+  };
 }
 
 export async function fetchAllListings(
@@ -172,20 +185,17 @@ export async function fetchAllListings(
 ): Promise<{ data: PaginatedListings | null; error: unknown }> {
   const page = filters?.page ?? 1;
   const pageSize = filters?.pageSize ?? PAGE_SIZE_OPTIONS[0];
+
+  if (filters?.sortBy === 'recommended') {
+    return fetchRecommendedListings(filters, page, pageSize);
+  }
+
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
 
   const query = buildListingsQuery(filters, { count: true });
   const { data, error, count } = await query.range(from, to);
   if (error || !data) return { data: null, error };
-
-  if (filters?.sortBy === 'recommended') {
-    if (filters?.recommendForUserId) {
-      await applyRecommendationSort(data, filters.recommendForUserId);
-    } else {
-      await applyGuestRecommendationSort(data);
-    }
-  }
 
   const total = count ?? 0;
   return {

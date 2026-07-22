@@ -11,6 +11,7 @@ import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
+import { useLogView } from '@/hooks/useLogView';
 import { formatPrice } from '@/lib/utils';
 import { useListing } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
@@ -37,6 +38,8 @@ export function ItemDetailPage() {
   const isOwner = user?.id === listing?.owner_id;
   const { data: sellerProfile } = useProfile(listing?.owner_id);
   const { data: sellerRating } = useSellerRating(listing?.owner_id);
+
+  useLogView(listing?.id);
 
   if (isLoading) {
     return (

@@ -38,6 +38,7 @@ function normalizeFilters(filters?: ListingFilters): ListingFilters {
   if (filters.sortBy) normalized.sortBy = filters.sortBy;
   if (filters.excludeOwnerId) normalized.excludeOwnerId = filters.excludeOwnerId;
   if (filters.recommendForUserId) normalized.recommendForUserId = filters.recommendForUserId;
+  if (filters.recentViewIds?.length) normalized.recentViewIds = filters.recentViewIds;
   if (filters.page !== undefined) normalized.page = filters.page;
   if (filters.pageSize !== undefined) normalized.pageSize = filters.pageSize;
   return normalized;

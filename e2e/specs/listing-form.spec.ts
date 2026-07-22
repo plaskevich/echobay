@@ -1,8 +1,25 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { expect, test } from '@playwright/test';
 
 import { EDITABLE_LISTING } from '../fixtures/listings';
 import { supabaseAdmin } from '../helpers/supabase';
 import { getTestUserId } from '../helpers/users';
+
+function hasDiscogsCredentials(): boolean {
+  try {
+    const dir = path.dirname(fileURLToPath(import.meta.url));
+    const content = fs.readFileSync(path.resolve(dir, '../../supabase/functions/.env'), 'utf8');
+    const value = (name: string) => content.match(new RegExp(`^${name}=(.+)$`, 'm'))?.[1]?.trim();
+    return Boolean(value('DISCOGS_KEY') && value('DISCOGS_SECRET'));
+  } catch {
+    return false;
+  }
+}
+
+const discogsDescribe = hasDiscogsCredentials() ? test.describe : test.describe.skip;
 
 test.describe('Create Listing', () => {
   test.describe.configure({ mode: 'serial' });
@@ -261,7 +278,7 @@ test.describe('Edit Listing', () => {
   });
 });
 
-test.describe('Discogs Auto-Fill', () => {
+discogsDescribe('Discogs Auto-Fill', () => {
   test('selecting a result auto-fills form fields', async ({ page }) => {
     await page.goto('/items/new');
 

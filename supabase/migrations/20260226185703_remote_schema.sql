@@ -52,104 +52,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
 
-CREATE OR REPLACE FUNCTION "public"."get_recommendations"("target_user_id" "uuid", "num_recommendations" integer DEFAULT 12) RETURNS TABLE("listing_id" "uuid", "score" double precision)
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$
-BEGIN
-  RETURN QUERY
-  WITH
-  -- Build user-item interaction matrix:
-  --   own listing = 1.5, favorite = 1.0, purchase = 2.0
-  raw_interactions AS (
-    SELECT f.user_id, f.listing_id AS item_id, 1.0 AS weight
-    FROM favorites f
-    UNION ALL
-    SELECT o.buyer_id AS user_id, o.listing_id AS item_id, 2.0 AS weight
-    FROM orders o
-    WHERE o.status != 'failed'
-    UNION ALL
-    SELECT l.owner_id AS user_id, l.id AS item_id, 1.5 AS weight
-    FROM listings l
-    WHERE l.status IN ('active', 'sold')
-  ),
-  interactions AS (
-    SELECT ri.user_id, ri.item_id, MAX(ri.weight) AS weight
-    FROM raw_interactions ri
-    GROUP BY ri.user_id, ri.item_id
-  ),
-
-  -- Items the target user has interacted with
-  user_items AS (
-    SELECT i.item_id, i.weight
-    FROM interactions i
-    WHERE i.user_id = target_user_id
-  ),
-
-  -- L2 norm per item (used for cosine similarity denominator)
-  item_norms AS (
-    SELECT i.item_id, SQRT(SUM(i.weight * i.weight)) AS norm
-    FROM interactions i
-    WHERE i.item_id IN (SELECT ui.item_id FROM user_items ui)
-       OR i.item_id IN (
-         SELECT DISTINCT i2.item_id
-         FROM interactions i2
-         WHERE i2.user_id IN (
-           SELECT DISTINCT i3.user_id FROM interactions i3
-           WHERE i3.item_id IN (SELECT ui2.item_id FROM user_items ui2)
-         )
-         AND i2.item_id NOT IN (SELECT ui3.item_id FROM user_items ui3)
-       )
-    GROUP BY i.item_id
-  ),
-
-  -- Dot products between each user item and candidate items
-  -- via users who interacted with both
-  dot_products AS (
-    SELECT
-      a.item_id AS user_item_id,
-      b.item_id AS candidate_id,
-      SUM(a.weight * b.weight) AS dot_product
-    FROM interactions a
-    INNER JOIN interactions b ON a.user_id = b.user_id
-    WHERE a.item_id IN (SELECT ui.item_id FROM user_items ui)
-      AND b.item_id NOT IN (SELECT ui.item_id FROM user_items ui)
-    GROUP BY a.item_id, b.item_id
-  ),
-
-  -- Cosine similarity between each (user_item, candidate) pair
-  similarities AS (
-    SELECT
-      dp.user_item_id,
-      dp.candidate_id,
-      dp.dot_product / (n1.norm * n2.norm) AS similarity
-    FROM dot_products dp
-    INNER JOIN item_norms n1 ON n1.item_id = dp.user_item_id
-    INNER JOIN item_norms n2 ON n2.item_id = dp.candidate_id
-    WHERE n1.norm > 0 AND n2.norm > 0
-  ),
-
-  -- Weighted score: score(j) = Σ sim(i,j) * w(user,i) / Σ |sim(i,j)|
-  scored AS (
-    SELECT
-      s.candidate_id AS item_id,
-      (SUM(s.similarity * ui.weight) / NULLIF(SUM(ABS(s.similarity)), 0))::DOUBLE PRECISION AS score
-    FROM similarities s
-    INNER JOIN user_items ui ON ui.item_id = s.user_item_id
-    GROUP BY s.candidate_id
-  )
-
-  SELECT sc.item_id AS listing_id, sc.score
-  FROM scored sc
-  INNER JOIN listings l ON l.id = sc.item_id
-  WHERE l.status = 'active'
-    AND l.owner_id != target_user_id
-  ORDER BY sc.score DESC
-  LIMIT num_recommendations;
-END;
-$$;
-
-
-ALTER FUNCTION "public"."get_recommendations"("target_user_id" "uuid", "num_recommendations" integer) OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."get_unread_chats"("p_user_id" "uuid") RETURNS TABLE("chat_id" "uuid")
@@ -906,9 +808,6 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
-GRANT ALL ON FUNCTION "public"."get_recommendations"("target_user_id" "uuid", "num_recommendations" integer) TO "anon";
-GRANT ALL ON FUNCTION "public"."get_recommendations"("target_user_id" "uuid", "num_recommendations" integer) TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_recommendations"("target_user_id" "uuid", "num_recommendations" integer) TO "service_role";
 
 
 

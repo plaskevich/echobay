@@ -10,10 +10,12 @@ import { usePaginatedSearchParams } from '@/hooks/usePaginatedSearchParams';
 import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
+import { useRecentlyViewedStore } from '@/store/recently-viewed-store';
 
 export function ListingsView() {
   const user = useAuthStore((s) => s.user);
   const { appliedFilters } = useListingFiltersStore();
+  const recentlyViewedIds = useRecentlyViewedStore((s) => s.ids);
   const selectedSort = appliedFilters.sortBy || 'recommended';
 
   const { searchQuery, currentPage, currentPageSize, setPage, handlePageSizeChange } =
@@ -26,10 +28,12 @@ export function ListingsView() {
       search: searchQuery || undefined,
       excludeOwnerId: user?.id,
       recommendForUserId: selectedSort === 'recommended' ? user?.id : undefined,
+      recentViewIds:
+        !user?.id && selectedSort === 'recommended' && recentlyViewedIds.length > 0 ? recentlyViewedIds : undefined,
       page: currentPage,
       pageSize: currentPageSize,
     }),
-    [appliedFilters, selectedSort, searchQuery, user?.id, currentPage, currentPageSize]
+    [appliedFilters, selectedSort, searchQuery, user?.id, recentlyViewedIds, currentPage, currentPageSize]
   );
 
   const { data, isLoading, error } = useListings(combinedFilters);
