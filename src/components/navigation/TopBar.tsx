@@ -154,9 +154,8 @@ const LogoLink = styled(Link)`
 `;
 
 const LogoText = styled.span`
-  /* font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif; */
-  font-family: 'Medicaments Church', 'Archivo Variable', system-ui, sans-serif;
-  font-size: 2.8rem;
+  font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
+  font-size: 2.2rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
   transition: color 0.2s;
@@ -166,7 +165,7 @@ const LogoText = styled.span`
   }
 
   @media (max-width: 640px) {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
 `;
 
