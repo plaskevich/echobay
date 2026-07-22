@@ -39,7 +39,7 @@ export const MobileOverlay = styled.div`
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: ${({ theme }) => theme.overlay.dark};
     z-index: 99;
   }
 `;

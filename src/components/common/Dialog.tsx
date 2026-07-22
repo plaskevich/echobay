@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Button } from './Button';
 
@@ -49,29 +49,51 @@ export function Dialog({
   );
 }
 
+const overlayFadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const dialogPopIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: ${(props) => props.theme.overlay.dark};
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: ${(props) => props.theme.spacing.md};
+  animation: ${overlayFadeIn} ${(props) => props.theme.duration.base} ${(props) => props.theme.easing.standard};
 `;
 
 const DialogContainer = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: ${(props) => props.theme.borderRadius.lg};
-  box-shadow:
-    0 25px 50px -12px ${(props) => props.theme.shadow.large},
-    0 15px 30px -15px ${(props) => props.theme.shadow.large};
+  box-shadow: ${(props) => props.theme.elevation.xl};
   max-width: 28rem;
-  width: 90%;
+  width: 100%;
   overflow: hidden;
+  animation: ${dialogPopIn} ${(props) => props.theme.duration.base} ${(props) => props.theme.easing.emphasized};
 `;
 
 const DialogHeader = styled.div`

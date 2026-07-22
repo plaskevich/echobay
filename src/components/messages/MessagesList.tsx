@@ -1,5 +1,5 @@
 import { Fragment, forwardRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import type { Message } from '@/api/messages';
 import { SystemMessage } from '@/components/messages/system/SystemMessage';
@@ -144,10 +144,22 @@ const DateDivider = styled.div`
   background: ${({ theme }) => theme.background.tertiary};
 `;
 
+const messageIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const MessageRow = styled.div<{ $isOwn: boolean }>`
   width: 100%;
   display: flex;
   justify-content: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
+  animation: ${messageIn} ${({ theme }) => theme.duration.base} ${({ theme }) => theme.easing.standard};
 `;
 
 const MessageWrapper = styled.div`

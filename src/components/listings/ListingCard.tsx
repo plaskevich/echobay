@@ -95,9 +95,12 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: ${(props) => props.theme.borderRadius.md};
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
-  transition: all 0.2s;
+  padding: ${(props) => props.theme.spacing.lg};
+  box-shadow: ${(props) => props.theme.elevation.sm};
+  transition:
+    box-shadow ${(props) => props.theme.transition.base},
+    transform ${(props) => props.theme.transition.base},
+    border-color ${(props) => props.theme.transition.base};
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -105,12 +108,14 @@ const Card = styled.div`
   overflow: hidden;
   gap: 0.1rem;
   &:hover {
-    box-shadow: 0 4px 6px -1px ${(props) => props.theme.shadow.medium};
+    box-shadow: ${(props) => props.theme.elevation.lg};
+    border-color: ${(props) => props.theme.border.hover};
+    transform: translateY(-2px);
     cursor: pointer;
   }
 
   @media (max-width: 480px) {
-    padding: 0.75rem;
+    padding: ${(props) => props.theme.spacing.sm};
   }
 `;
 
