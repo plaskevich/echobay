@@ -31,7 +31,7 @@ const spacing: Spacing = {
   '3xl': '4rem',
 };
 
-const fontFamily = "'Inter Variable', system-ui, Avenir, Helvetica, Arial, sans-serif";
+const fontFamily = "'Archivo Variable', system-ui, Avenir, Helvetica, Arial, sans-serif";
 
 const fontSize: FontSize = {
   xs: '0.75rem',

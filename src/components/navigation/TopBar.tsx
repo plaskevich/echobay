@@ -18,12 +18,10 @@ import {
   DropdownMenuLink,
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
-import { Logo } from '@/components/common/Logo';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 export function TopBar() {
   const { user } = useAuthStore();
@@ -32,7 +30,6 @@ export function TopBar() {
   const { data: unreadChats } = useUnreadChats();
   const location = useLocation();
   const navigate = useNavigate();
-  const { themeColors } = useThemeStore();
 
   const hasUnread = unreadChats ? unreadChats.size > 0 : false;
 
@@ -46,7 +43,7 @@ export function TopBar() {
       <NavContainer>
         <NavContent>
           <LogoLink to="/" onClick={() => location.pathname === '/'}>
-            <Logo color={themeColors.text.muted} height={40} style={{ display: 'block' }} />
+            <LogoText>EchoBay</LogoText>
           </LogoLink>
           <SearchWrapper>
             <SearchBar />
@@ -151,19 +148,24 @@ const NavContent = styled.div`
 
 const LogoLink = styled(Link)`
   flex-shrink: 0;
-  padding-top: 0.2rem;
-  svg path {
-    transition: fill 0.2s;
-  }
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+`;
 
-  &:hover svg path {
-    fill: ${(props) => props.theme.text.accent};
+const LogoText = styled.span`
+  font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: ${(props) => props.theme.text.muted};
+  transition: color 0.2s;
+
+  ${LogoLink}:hover & {
+    color: ${(props) => props.theme.text.accent};
   }
 
   @media (max-width: 640px) {
-    svg {
-      height: 32px;
-    }
+    font-size: 1.6rem;
   }
 `;
 

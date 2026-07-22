@@ -1,5 +1,13 @@
+@font-face {
+  font-family: 'LEDLIGHT';
+  src: url('/fonts/ledlight.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  font-family: 'Inter Variable', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Archivo Variable', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -75,6 +83,14 @@ a:visited {
 
 button {
   cursor: pointer;
+}
+
+/* Form controls don't inherit font-family by default; make them match the app font. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 input,

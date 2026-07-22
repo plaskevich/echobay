@@ -1,4 +1,4 @@
-import '@fontsource-variable/inter';
+import '@fontsource-variable/archivo';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 

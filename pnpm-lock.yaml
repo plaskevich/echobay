@@ -8,7 +8,10 @@ importers:
 
   .:
     dependencies:
-      '@fontsource-variable/inter':
+      '@fontsource-variable/archivo':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/lexend-deca':
         specifier: ^5.3.0
         version: 5.3.0
       '@smastrom/react-rating':
@@ -769,8 +772,11 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@fontsource-variable/inter@5.3.0':
-    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
+  '@fontsource-variable/archivo@5.3.0':
+    resolution: {integrity: sha512-HogK8FJelrD1o7TlZlkIVtHgc20bO5PZRWE7mUeUTdMN055alznQV6/00J00IBeu8FQAH4s3zW9UJNvKExXf+g==}
+
+  '@fontsource-variable/lexend-deca@5.3.0':
+    resolution: {integrity: sha512-YYhW2+V1lv88P90aZtv5THf7LKY9aMufuqRmt8y+AGPmb4pAlB6+2J3CmDhbluWXOTbRrwN169ut1zCfTIDSow==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -3555,7 +3561,9 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@fontsource-variable/inter@5.3.0': {}
+  '@fontsource-variable/archivo@5.3.0': {}
+
+  '@fontsource-variable/lexend-deca@5.3.0': {}
 
   '@humanfs/core@0.19.1': {}
 
