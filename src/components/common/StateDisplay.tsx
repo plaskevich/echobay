@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface StateDisplayProps {
@@ -5,11 +6,25 @@ interface StateDisplayProps {
   'data-testid'?: string;
 }
 
+interface EmptyStateProps extends Partial<StateDisplayProps> {
+  icon?: ReactNode;
+  title?: string;
+}
+
 export function LoadingState({ message = 'Loading...', ...rest }: Partial<StateDisplayProps>) {
   return <StateText {...rest}>{message}</StateText>;
 }
 
-export function EmptyState({ message, ...rest }: StateDisplayProps) {
+export function EmptyState({ message, icon, title, ...rest }: EmptyStateProps) {
+  if (icon || title) {
+    return (
+      <EmptyStateContainer {...rest}>
+        {icon && <EmptyStateIcon>{icon}</EmptyStateIcon>}
+        {title && <EmptyStateTitle>{title}</EmptyStateTitle>}
+        {message && <EmptyStateMessage>{message}</EmptyStateMessage>}
+      </EmptyStateContainer>
+    );
+  }
   return <CenteredStateText {...rest}>{message}</CenteredStateText>;
 }
 
@@ -18,19 +33,50 @@ export function ErrorState({ message, ...rest }: StateDisplayProps) {
 }
 
 const StateText = styled.p`
-  color: ${(props) => props.theme.text.secondary};
-  padding: 1.5rem;
-  font-size: 0.95rem;
+  color: ${({ theme }) => theme.text.secondary};
+  padding: ${({ theme }) => theme.spacing.lg};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 const CenteredStateText = styled.p`
-  color: ${(props) => props.theme.text.secondary};
+  color: ${({ theme }) => theme.text.secondary};
   text-align: center;
-  padding: 2rem;
+  padding: ${({ theme }) => theme.spacing.xl};
 `;
 
 const ErrorText = styled.p`
-  color: ${(props) => props.theme.state.error};
+  color: ${({ theme }) => theme.state.error};
   text-align: center;
-  padding: 2rem;
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+const EmptyStateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing['2xl']} ${({ theme }) => theme.spacing.xl};
+  text-align: center;
+`;
+
+const EmptyStateIcon = styled.div`
+  display: flex;
+  font-size: 2.5rem;
+  color: ${({ theme }) => theme.text.tertiary};
+  margin-bottom: ${({ theme }) => theme.spacing['2xs']};
+`;
+
+const EmptyStateTitle = styled.h2`
+  margin: 0;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.text.primary};
+`;
+
+const EmptyStateMessage = styled.p`
+  margin: 0;
+  max-width: 32rem;
+  color: ${({ theme }) => theme.text.secondary};
+  line-height: ${({ theme }) => theme.lineHeight.normal};
 `;

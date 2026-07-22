@@ -1,6 +1,8 @@
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
+import { Spinner } from '@/components/common/Spinner';
+
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'danger-outline';
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -146,7 +148,12 @@ const StyledButton = styled.button.withConfig({
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition:
+    background-color ${({ theme }) => theme.transition.base},
+    border-color ${({ theme }) => theme.transition.base},
+    color ${({ theme }) => theme.transition.base},
+    transform ${({ theme }) => theme.transition.fast},
+    opacity ${({ theme }) => theme.transition.base};
   font-family: inherit;
   white-space: nowrap;
   user-select: none;
@@ -177,22 +184,6 @@ const StyledButton = styled.button.withConfig({
       cursor: wait;
       opacity: 0.7;
     `}
-`;
-
-const Spinner = styled.span`
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  border: 1px solid ${({ theme }) => theme.spinner.background};
-  border-top-color: ${({ theme }) => theme.spinner.foreground};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  animation: spin 0.6s linear infinite;
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 `;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
