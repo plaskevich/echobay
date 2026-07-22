@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Pagination } from '@/components/common/Pagination';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
+import { ListingCardSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
@@ -76,7 +77,11 @@ export function ListingsView() {
       )}
 
       {isLoading ? (
-        <StatusText>Loading listings...</StatusText>
+        <Grid aria-busy="true" data-testid="listings-loading">
+          {Array.from({ length: currentPageSize || 12 }).map((_, i) => (
+            <ListingCardSkeleton key={i} />
+          ))}
+        </Grid>
       ) : error ? (
         <StatusText $error>Error: {error instanceof Error ? error.message : 'An error occurred'}</StatusText>
       ) : listings.length === 0 ? (
@@ -133,10 +138,10 @@ const SearchWrapper = styled.div`
 
 const ItemsSummary = styled.p`
   margin: 0;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
-  padding-left: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-left: ${({ theme }) => theme.spacing.xs};
+  padding-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 const StatusText = styled.p<{ $error?: boolean }>`
@@ -146,11 +151,11 @@ const StatusText = styled.p<{ $error?: boolean }>`
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
   padding-top: 0.1rem;
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;

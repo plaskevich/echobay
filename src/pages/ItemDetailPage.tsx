@@ -8,6 +8,7 @@ import { PageTitle } from '@/components/common/PageTitle';
 import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
+import { ItemDetailSkeleton } from '@/components/item/item-detail/ItemDetailSkeleton';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { useListingActions } from '@/hooks/useListingActions';
@@ -44,7 +45,7 @@ export function ItemDetailPage() {
   if (isLoading) {
     return (
       <Container>
-        <LoadingText>Loading...</LoadingText>
+        <ItemDetailSkeleton />
       </Container>
     );
   }
@@ -386,12 +387,6 @@ const ButtonGroup = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
-`;
-
-const LoadingText = styled.p`
-  color: ${({ theme }) => theme.text.secondary};
-  text-align: center;
-  padding: 2rem;
 `;
 
 const ErrorText = styled.p`

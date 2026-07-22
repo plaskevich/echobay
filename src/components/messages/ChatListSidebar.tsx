@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
-import { EmptyState, LoadingState } from '@/components/common/StateDisplay';
+import { EmptyState } from '@/components/common/StateDisplay';
 import { ChatListItem } from '@/components/messages/ChatListItem';
+import { ChatListItemSkeleton } from '@/components/messages/ChatListItemSkeleton';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
 
 interface ChatListSidebarProps {
@@ -36,7 +37,11 @@ export function ChatListSidebar({
   return (
     <ChatList data-testid="chat-list">
       {isLoading ? (
-        <LoadingState message="Loading chats..." data-testid="chat-list-loading" />
+        <div data-testid="chat-list-loading">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <ChatListItemSkeleton key={i} />
+          ))}
+        </div>
       ) : chats.length === 0 && !pendingListing ? (
         <EmptyState message="No conversations yet" data-testid="chat-list-empty" />
       ) : (
