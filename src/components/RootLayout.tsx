@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { TopBar } from '@/components/navigation/TopBar';
@@ -9,11 +9,12 @@ const AppWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.background.primary};
-  color: ${(props) => props.theme.text};
+  color: ${(props) => props.theme.text.primary};
 `;
 
 const MainContent = styled.main`
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   max-width: 1280px;
@@ -31,6 +32,7 @@ const MainContent = styled.main`
 export function RootLayout() {
   return (
     <AppWrapper>
+      <ScrollRestoration />
       <TopBar />
       <MainContent>
         <Outlet />

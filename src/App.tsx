@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -24,6 +24,31 @@ import UserProfilePage from '@/pages/UserProfilePage';
 import { useAuthStore } from '@/store/auth-store';
 import { useThemeStore } from '@/store/theme-store';
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<RootLayout />}>
+      <Route index element={<HomePage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+      <Route path="/auth/reset-password" element={<ResetPassword />} />
+      <Route path="/items/:id" element={<ItemDetailPage />} />
+      <Route path="/users/:id" element={<UserProfilePage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/edit" element={<ProfileEditForm />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/items/new" element={<EditItemPage mode="create" />} />
+        <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
+        <Route path="/checkout/:id" element={<CheckoutPage />} />
+      </Route>
+    </Route>
+  )
+);
+
 export function App() {
   const themeColors = useThemeStore((state) => state.themeColors);
   const initialize = useAuthStore((state) => state.initialize);
@@ -42,30 +67,7 @@ export function App() {
 
   return (
     <StyledThemeProvider theme={themeColors}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<RootLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
-            <Route path="/items/:id" element={<ItemDetailPage />} />
-            <Route path="/users/:id" element={<UserProfilePage />} />
-
-            <Route element={<ProtectedRoute />}>
-              <Route path="/favorites" element={<FavoritesPage />} />
-              <Route path="/messages" element={<MessagesPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/profile/edit" element={<ProfileEditForm />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/items/new" element={<EditItemPage mode="create" />} />
-              <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
-              <Route path="/checkout/:id" element={<CheckoutPage />} />
-            </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
       <Toaster
         position="top-right"
         toastOptions={{
