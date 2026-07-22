@@ -3,6 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { AuthErrorMessage, AuthFormLayout } from '@/components/auth/authLayout';
 import { Button } from '@/components/common/Button';
 import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
@@ -28,7 +29,7 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
   const password = watch('password');
 
   return (
-    <Form onSubmit={onSubmit}>
+    <AuthFormLayout onSubmit={onSubmit}>
       <GoogleButton type="button" onClick={onGoogleSignIn} disabled={isLoading}>
         <FcGoogle size={20} />
         Continue with Google
@@ -89,43 +90,30 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
         </FieldWrapper>
       )}
 
-      {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+      {serverError && <AuthErrorMessage>{serverError}</AuthErrorMessage>}
 
       <Button type="submit" fullWidth isLoading={isLoading} data-testid="auth-submit-button">
         {mode === 'login' ? 'Log In' : 'Sign Up'}
       </Button>
-    </Form>
+    </AuthFormLayout>
   );
 }
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-`;
-
-const ErrorMessage = styled.div`
-  padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.state.error}20;
-  color: ${({ theme }) => theme.state.error};
-  border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: 0.875rem;
-`;
 
 const GoogleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  transition:
+    background-color ${({ theme }) => theme.transition.base},
+    border-color ${({ theme }) => theme.transition.base};
   width: 100%;
 
   &:hover:not(:disabled) {
@@ -142,8 +130,8 @@ const GoogleButton = styled.button`
 const Divider = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin: 0.5rem 0;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin: ${({ theme }) => theme.spacing.xs} 0;
 `;
 
 const DividerLine = styled.div`
@@ -154,15 +142,15 @@ const DividerLine = styled.div`
 
 const DividerText = styled.span`
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 const ForgotPasswordLink = styled(Link)`
   align-self: center;
-  margin-top: -0.75rem;
-  font-size: 0.8125rem;
+  margin-top: -${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.primary.main};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   text-decoration: none;
 
   &:hover {

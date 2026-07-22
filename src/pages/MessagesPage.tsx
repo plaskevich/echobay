@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import type { ChatWithDetails } from '@/api/messages';
 import { sendMessage } from '@/api/messages';
 import { PageTitle } from '@/components/common/PageTitle';
+import { fullContentHeight } from '@/components/layout/viewport';
 import { ChatListSidebar } from '@/components/messages/ChatListSidebar';
 import { ConversationPanel } from '@/components/messages/ConversationPanel';
 import { useListing } from '@/queries/useListings';
@@ -282,12 +283,13 @@ export default function MessagesPage() {
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  ${fullContentHeight}
 
   @media (max-width: 768px) {
+    height: auto;
+    flex: 1;
     min-height: 0;
   }
 `;
@@ -305,7 +307,7 @@ const Header = styled.div`
 const Layout = styled.div`
   display: flex;
   flex: 1;
-  min-height: 400px;
+  min-height: 0;
   overflow: hidden;
   border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: ${(props) => props.theme.borderRadius.md};
