@@ -55,9 +55,15 @@ const MessageInputArea = styled.div`
 const MessageInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.theme.background.tertiary};
+  background-color: ${(props) => props.theme.background.secondary};
+  border: 1px solid ${(props) => props.theme.border.primary};
   border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
+  transition: border-color 0.15s ease;
+
+  &:focus-within {
+    border-color: ${(props) => props.theme.primary.main};
+  }
 `;
 
 const MessageInputField = styled.input`

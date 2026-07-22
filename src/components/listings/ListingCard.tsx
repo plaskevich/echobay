@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { signatureSurface } from '@/lib/theme';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -94,7 +95,7 @@ const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  ${signatureSurface}
   padding: ${(props) => props.theme.spacing.lg};
   box-shadow: ${(props) => props.theme.elevation.sm};
   transition:

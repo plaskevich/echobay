@@ -69,17 +69,17 @@ const ChatItem = styled.button<{ $active?: boolean }>`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.875rem 1.25rem;
+  padding: 0.75rem 0.875rem;
   border: none;
-  border-bottom: 1px solid ${(props) => props.theme.border.primary};
-  background: ${({ theme, $active }) => ($active ? theme.background.secondary : 'transparent')};
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  background: ${({ theme, $active }) => ($active ? `${theme.primary.main}22` : 'transparent')};
   color: ${(props) => props.theme.text.primary};
   text-align: left;
-  transition: background 0.2s;
+  transition: background 0.15s ease;
   width: 100%;
 
   &:hover {
-    background: ${({ theme, $active }) => ($active ? theme.background.secondaryHover : theme.background.primaryHover)};
+    background: ${({ theme, $active }) => ($active ? `${theme.primary.main}33` : theme.background.secondaryHover)};
   }
 `;
 

@@ -172,10 +172,12 @@ const MessageWrapper = styled.div`
 
 const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
-  padding: 0.35rem 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.border.primary)};
-  background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.tertiary)};
+  padding: 0.5rem 0.9rem;
+  border-radius: ${({ theme, $isOwn }) =>
+    $isOwn
+      ? `${theme.borderRadius.lg} ${theme.borderRadius.lg} ${theme.borderRadius.xs} ${theme.borderRadius.lg}`
+      : `${theme.borderRadius.lg} ${theme.borderRadius.lg} ${theme.borderRadius.lg} ${theme.borderRadius.xs}`};
+  background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.secondary)};
   color: ${({ theme, $isOwn }) => ($isOwn ? 'white' : theme.text.primary)};
   display: flex;
   flex-direction: column;

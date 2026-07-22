@@ -74,6 +74,7 @@ export function ConversationHeader({
 }
 
 const Header = styled.div`
+  background: ${(props) => props.theme.background.secondary};
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
 `;
 

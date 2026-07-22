@@ -117,12 +117,18 @@ const ImageSection = styled.div`
   gap: 1rem;
   width: 100%;
   min-width: 0;
+
+  @media (min-width: 768px) {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
 `;
 
 const MainImageWrapper = styled.div<{ $clickable: boolean }>`
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 480px;
   aspect-ratio: 1;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
@@ -206,7 +212,7 @@ const ThumbnailGrid = styled.div`
   gap: 0.75rem;
   width: 100%;
   min-width: 0;
-  max-width: 600px;
+  max-width: 480px;
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));

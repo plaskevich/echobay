@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/common/Skeleton';
 export function ItemDetailSkeleton() {
   return (
     <Content aria-hidden="true" data-testid="item-detail-skeleton">
-      <ImageSkeleton radius="lg" />
+      <ImageSkeleton radius="md" />
       <Details>
         <Skeleton width="70%" height="2rem" />
         <Skeleton width="45%" height="1.5rem" />
@@ -25,13 +25,15 @@ const Content = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.spacing.lg};
   width: 100%;
+  align-items: start;
 
   @media (min-width: 768px) {
-    grid-template-columns: 1fr minmax(0, 300px);
+    grid-template-columns: minmax(0, 300px) 1fr;
+    gap: ${({ theme }) => theme.spacing.xl};
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1fr minmax(0, 420px);
+    grid-template-columns: minmax(0, 380px) 1fr;
     gap: ${({ theme }) => theme.spacing.xl};
   }
 `;
@@ -39,6 +41,7 @@ const Content = styled.div`
 const ImageSkeleton = styled(Skeleton)`
   width: 100%;
   height: auto;
+  max-width: 480px;
   aspect-ratio: 1 / 1;
 `;
 

@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
+import { signatureSurface } from '@/lib/theme';
 
 export interface ProfileHeaderProps {
   avatarUrl?: string | null;
@@ -48,17 +49,22 @@ export function ProfileHeader({
       </ProfilePictureContainer>
       <ProfileInfo>
         <Username data-testid="profile-username">{username}</Username>
-        {memberSince && (
-          <ProfileMeta data-testid="profile-member-since">
-            <PiCalendarDuotone size={16} />
-            Member since {formatRelativeDate(memberSince)}
-          </ProfileMeta>
-        )}
-        {location && (
-          <ProfileMeta data-testid="profile-location">
-            <PiMapPinDuotone size={16} />
-            {location}
-          </ProfileMeta>
+        <SellerRatingDisplay average={ratingAverage ?? 0} count={ratingCount ?? 0} />
+        {(memberSince || location) && (
+          <MetaRow>
+            {memberSince && (
+              <ProfileMeta data-testid="profile-member-since">
+                <PiCalendarDuotone size={15} />
+                Member since {formatRelativeDate(memberSince)}
+              </ProfileMeta>
+            )}
+            {location && (
+              <ProfileMeta data-testid="profile-location">
+                <PiMapPinDuotone size={15} />
+                {location}
+              </ProfileMeta>
+            )}
+          </MetaRow>
         )}
         {about && (
           <ProfileAbout data-testid="profile-about">
@@ -66,7 +72,6 @@ export function ProfileHeader({
             {about}
           </ProfileAbout>
         )}
-        <SellerRatingDisplay average={ratingAverage ?? 0} count={ratingCount ?? 0} />
       </ProfileInfo>
       {showEditButton && (
         <ButtonsWrapper>
@@ -85,19 +90,20 @@ export function ProfileHeader({
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 2rem;
-  background: ${(props) => props.theme.background.tertiary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  gap: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  margin-bottom: 2rem;
+  box-shadow: ${(props) => props.theme.elevation.sm};
+  ${signatureSurface}
+  margin-bottom: 1.5rem;
 
   @media (max-width: 640px) {
     flex-direction: column;
     text-align: center;
     gap: 1.25rem;
     padding: 1.5rem 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 `;
 
@@ -108,30 +114,45 @@ const ProfilePictureContainer = styled.div`
 export const ProfilePicture = styled.img.attrs({
   referrerPolicy: 'no-referrer',
 })`
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: ${(props) => props.theme.borderRadius.full};
   object-fit: cover;
-  border: 2px solid ${(props) => props.theme.border.primary};
+  border: 2px solid ${(props) => props.theme.background.secondary};
+  box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
 `;
 
 export const Placeholder = styled.div`
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: ${(props) => props.theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  background: ${(props) => props.theme.background.tertiary};
   color: ${(props) => props.theme.text.tertiary};
+  border: 2px solid ${(props) => props.theme.background.secondary};
+  box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  min-width: 0;
 
   svg {
     flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    align-items: center;
   }
 `;
 
@@ -140,20 +161,28 @@ const Username = styled.h2`
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
   margin: 0;
+  line-height: 1.1;
+`;
+
+const MetaRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin-top: 0.1rem;
+
+  @media (max-width: 640px) {
+    justify-content: center;
+  }
 `;
 
 const ProfileMeta = styled.p`
   font-size: 0.875rem;
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-
-  @media (max-width: 640px) {
-    display: inline-flex;
-    align-self: center;
-  }
+  gap: 0.4rem;
 `;
 
 const ProfileAbout = styled.p`

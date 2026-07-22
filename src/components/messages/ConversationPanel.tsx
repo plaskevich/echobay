@@ -1,4 +1,4 @@
-import { PiArrowLeft } from 'react-icons/pi';
+import { PiArrowLeft, PiChatsCircleDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -105,6 +105,7 @@ export function ConversationPanel({
         </>
       ) : (
         <EmptyConversation data-testid="conversation-empty">
+          <PiChatsCircleDuotone size={52} aria-hidden />
           <EmptyConversationText>Select a conversation or contact a seller from a listing</EmptyConversationText>
         </EmptyConversation>
       )}
@@ -184,12 +185,17 @@ const Spacer = styled.div`
 const EmptyConversation = styled.div`
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   padding: 2rem;
+  color: ${(props) => props.theme.text.tertiary};
 `;
 
 const EmptyConversationText = styled.p`
   color: ${(props) => props.theme.text.secondary};
   text-align: center;
+  margin: 0;
+  max-width: 22rem;
 `;

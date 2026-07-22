@@ -150,7 +150,7 @@ const StatusText = styled.p<{ $error?: boolean }>`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
   padding-top: 0.1rem;
 

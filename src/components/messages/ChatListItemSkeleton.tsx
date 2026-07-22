@@ -18,8 +18,7 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: 0.875rem 1.25rem;
-  border-bottom: 1px solid ${({ theme }) => theme.border.primary};
+  padding: 0.75rem 0.875rem;
 `;
 
 const Content = styled.div`

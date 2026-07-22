@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Skeleton } from '@/components/common/Skeleton';
+import { signatureSurface } from '@/lib/theme';
 
 export function ListingCardSkeleton() {
   return (
@@ -17,7 +18,7 @@ export function ListingCardSkeleton() {
 const Card = styled.div`
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  ${signatureSurface}
   padding: ${({ theme }) => theme.spacing.lg};
   display: flex;
   flex-direction: column;

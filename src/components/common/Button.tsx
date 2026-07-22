@@ -113,7 +113,7 @@ const getSizeStyles = (size: ButtonSize) => {
         padding: 0.5rem 1rem;
         font-size: 0.875rem;
         height: 2rem;
-        border-radius: ${({ theme }) => theme.borderRadius.sm};
+        border-radius: ${({ theme }) => theme.borderRadius.lg};
         gap: 0.3rem;
       `;
     case 'medium':

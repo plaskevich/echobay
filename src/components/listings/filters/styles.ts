@@ -10,7 +10,7 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
   font-size: 0.875rem;

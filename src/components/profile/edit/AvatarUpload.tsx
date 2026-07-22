@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Placeholder, ProfilePicture } from '@/components/profile/ProfileHeader';
+import { signatureSurface } from '@/lib/theme';
 
 interface AvatarUploadProps {
   avatarUrl?: string;
@@ -62,12 +63,12 @@ const AvatarSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: 1.25rem;
+  padding: 1.75rem;
   background: ${(props) => props.theme.background.secondary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid ${(props) => props.theme.border.primary};
-  margin-bottom: 2rem;
+  box-shadow: ${(props) => props.theme.elevation.sm};
+  ${signatureSurface}
 `;
 
 const AvatarPreviewContainer = styled.div`

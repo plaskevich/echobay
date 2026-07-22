@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { signatureSurface } from '@/lib/theme';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -60,7 +61,7 @@ export default function OrderCard({ order }: OrderCardProps) {
 const Card = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  ${signatureSurface}
   overflow: hidden;
   transition: all 0.2s;
   box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};

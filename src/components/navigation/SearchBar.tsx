@@ -110,7 +110,7 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 2.5rem 0.5rem 2.5rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  border-radius: ${(props) => props.theme.borderRadius.sm};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.tertiary};
   color: ${(props) => props.theme.text.primary};

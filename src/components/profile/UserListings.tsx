@@ -118,19 +118,11 @@ const EmptyMessage = styled.p`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 1.5rem;
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
-  }
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 `;

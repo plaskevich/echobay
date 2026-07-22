@@ -31,16 +31,6 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
           <InfoValue data-testid="listing-condition">{capitalize(condition)}</InfoValue>
         </InfoItem>
       )}
-      {genres && genres.length > 0 && (
-        <InfoItem>
-          <InfoLabel>Genre{genres.length > 1 ? 's' : ''}</InfoLabel>
-          <GenreList data-testid="listing-genres">
-            {genres.map((genre) => (
-              <GenreTag key={genre.id}>{genre.name}</GenreTag>
-            ))}
-          </GenreList>
-        </InfoItem>
-      )}
       {year && (
         <InfoItem>
           <InfoLabel>Year</InfoLabel>
@@ -53,6 +43,16 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
           <InfoValue data-testid="listing-label">{capitalize(label)}</InfoValue>
         </InfoItem>
       )}
+      {genres && genres.length > 0 && (
+        <FullRowInfoItem>
+          <InfoLabel>Genre{genres.length > 1 ? 's' : ''}</InfoLabel>
+          <GenreList data-testid="listing-genres">
+            {genres.map((genre) => (
+              <GenreTag key={genre.id}>{genre.name}</GenreTag>
+            ))}
+          </GenreList>
+        </FullRowInfoItem>
+      )}
     </InfoGrid>
   );
 }
@@ -63,10 +63,15 @@ const InfoGrid = styled.div`
   gap: 1rem;
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.background.tertiary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-sizing: border-box;
   width: 100%;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1.5rem;
+  }
 
   @media (max-width: 640px) {
     padding: 1rem;
@@ -78,6 +83,12 @@ const InfoItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+`;
+
+const FullRowInfoItem = styled(InfoItem)`
+  @media (min-width: 768px) {
+    grid-column: 1 / -1;
+  }
 `;
 
 const InfoLabel = styled.span`

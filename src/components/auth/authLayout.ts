@@ -21,7 +21,7 @@ export const AuthContainer = styled.div`
 export const AuthCard = styled.div`
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   max-width: 450px;

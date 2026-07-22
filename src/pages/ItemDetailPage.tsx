@@ -173,7 +173,7 @@ export function ItemDetailPage() {
 const Container = styled.div`
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
@@ -227,15 +227,16 @@ const Content = styled.div`
   display: grid;
   gap: 1.5rem;
   width: 100%;
+  align-items: start;
 
   @media (min-width: 768px) {
-    grid-template-columns: 1fr minmax(0, 300px);
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 300px) 1fr;
+    gap: 2rem;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1fr minmax(0, 420px);
-    gap: 2rem;
+    grid-template-columns: minmax(0, 380px) 1fr;
+    gap: 2.5rem;
   }
 `;
 

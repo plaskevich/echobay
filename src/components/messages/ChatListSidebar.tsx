@@ -37,11 +37,11 @@ export function ChatListSidebar({
   return (
     <ChatList data-testid="chat-list">
       {isLoading ? (
-        <div data-testid="chat-list-loading">
+        <LoadingList data-testid="chat-list-loading">
           {Array.from({ length: 6 }).map((_, i) => (
             <ChatListItemSkeleton key={i} />
           ))}
-        </div>
+        </LoadingList>
       ) : chats.length === 0 && !pendingListing ? (
         <EmptyState message="No conversations yet" data-testid="chat-list-empty" />
       ) : (
@@ -86,11 +86,14 @@ export function ChatListSidebar({
 }
 
 const ChatList = styled.div`
-  width: 280px;
-  min-width: 280px;
+  width: 288px;
+  min-width: 288px;
   border-right: 1px solid ${(props) => props.theme.border.primary};
+  background: ${(props) => props.theme.background.secondary};
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
   overflow-y: auto;
 
   @media (max-width: 768px) {
@@ -100,4 +103,10 @@ const ChatList = styled.div`
     max-height: none;
     flex: 1;
   }
+`;
+
+const LoadingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;

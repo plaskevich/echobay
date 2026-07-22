@@ -154,7 +154,8 @@ const LogoLink = styled(Link)`
 `;
 
 const LogoText = styled.span`
-  font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
+  /* font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif; */
+  font-family: 'Medicaments Church', 'Archivo Variable', system-ui, sans-serif;
   font-size: 2.8rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};

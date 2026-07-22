@@ -309,8 +309,10 @@ const Layout = styled.div`
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  background: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  border-radius: ${(props) => props.theme.borderRadius.lg};
+  box-shadow: ${(props) => props.theme.elevation.sm};
 
   @media (max-width: 768px) {
     min-height: 0;
@@ -319,6 +321,8 @@ const Layout = styled.div`
     overflow: visible;
     border: none;
     border-radius: 0;
+    box-shadow: none;
+    background: transparent;
   }
 `;
 
