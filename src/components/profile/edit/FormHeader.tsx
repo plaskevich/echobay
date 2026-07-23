@@ -17,7 +17,7 @@ export function FormHeader({ title, subtitle }: FormHeaderProps) {
 }
 
 const Header = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
 
 const Subtitle = styled.p`

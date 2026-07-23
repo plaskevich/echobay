@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
 import { SearchBar } from '@/components/navigation/SearchBar';
+import { glassSurface } from '@/lib/theme';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
@@ -114,7 +115,7 @@ export function TopBar() {
 }
 
 const Nav = styled.nav`
-  background-color: ${(props) => props.theme.background.primary};
+  ${glassSurface}
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
   position: sticky;
   top: 0;

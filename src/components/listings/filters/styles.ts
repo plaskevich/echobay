@@ -55,7 +55,7 @@ export const DropdownMenu = styled.div`
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  box-shadow: 0 6px 12px -6px ${({ theme }) => theme.shadow.medium};
+  box-shadow: ${({ theme }) => theme.elevation.lg};
   z-index: 100;
 
   @media (max-width: 640px) {
@@ -72,6 +72,9 @@ export const DropdownMenu = styled.div`
     padding: 0;
     display: flex;
     flex-direction: column;
+    background-color: ${({ theme }) => theme.background.primary};
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 `;
 

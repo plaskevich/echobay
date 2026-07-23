@@ -8,6 +8,7 @@ import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { usePaginatedSearchParams } from '@/hooks/usePaginatedSearchParams';
+import { glassSurface } from '@/lib/theme';
 import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
@@ -115,8 +116,10 @@ const StickyFilters = styled.div`
   position: sticky;
   top: 3rem;
   z-index: 40;
-  background-color: ${({ theme }) => theme.background.primary};
-  padding: 1rem 0;
+  ${glassSurface}
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 1rem calc(50vw - 50%);
 
   @media (max-width: 768px) {
     margin: 0 -0.75rem;

@@ -54,6 +54,10 @@ export const darkTheme: ThemeColors = {
     dark: 'rgba(0, 0, 0, 0.7)',
     darker: 'rgba(0, 0, 0, 0.85)',
   },
+  glass: {
+    background: 'rgba(10, 10, 10, 0.94)',
+    border: 'rgba(255, 255, 255, 0.08)',
+  },
   spinner: {
     background: 'rgba(255, 255, 255, 0.2)',
     foreground: '#ffffff',

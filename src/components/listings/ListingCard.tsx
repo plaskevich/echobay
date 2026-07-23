@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
-import { signatureSurface } from '@/lib/theme';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -95,8 +94,8 @@ const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  ${signatureSurface}
-  padding: ${(props) => props.theme.spacing.lg};
+  border-radius: ${(props) => props.theme.borderRadius.md};
+  padding: ${(props) => props.theme.spacing.md};
   box-shadow: ${(props) => props.theme.elevation.sm};
   transition:
     box-shadow ${(props) => props.theme.transition.base},
@@ -109,7 +108,7 @@ const Card = styled.div`
   overflow: hidden;
   gap: 0.1rem;
   &:hover {
-    box-shadow: ${(props) => props.theme.elevation.lg};
+    box-shadow: ${(props) => props.theme.elevation.md};
     border-color: ${(props) => props.theme.border.hover};
     transform: translateY(-2px);
     cursor: pointer;
@@ -134,7 +133,7 @@ const ListingImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.md};
+  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;
 
 const FormatIconFallback = styled.div`

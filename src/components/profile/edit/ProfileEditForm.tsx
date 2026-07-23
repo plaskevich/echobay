@@ -26,17 +26,19 @@ export function ProfileEditForm() {
       <FormHeader title="Edit Profile" subtitle="Update your profile information" />
 
       <Form onSubmit={handleSubmit}>
-        <AvatarUpload
-          avatarUrl={form.watch('avatar_url')}
-          avatarPreview={avatarPreview || undefined}
-          onAvatarChange={handleAvatarChange}
-          onRemoveAvatar={removeAvatar}
-          disabled={submitting}
-        />
+        <Panel>
+          <AvatarUpload
+            avatarUrl={form.watch('avatar_url')}
+            avatarPreview={avatarPreview || undefined}
+            onAvatarChange={handleAvatarChange}
+            onRemoveAvatar={removeAvatar}
+            disabled={submitting}
+          />
 
-        <FieldsPanel>
-          <ProfileFormFields register={form.register} control={form.control} disabled={submitting} />
-        </FieldsPanel>
+          <FieldsPanel>
+            <ProfileFormFields register={form.register} control={form.control} disabled={submitting} />
+          </FieldsPanel>
+        </Panel>
 
         <ButtonGroup>
           <Button type="submit" variant="primary" disabled={submitting} data-testid="save-profile-button">
@@ -63,11 +65,11 @@ const Container = styled.div`
   }
 `;
 
-const FieldsPanel = styled.div`
+const Panel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.75rem;
+  padding: 1.5rem 1.75rem;
   background: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: ${(props) => props.theme.elevation.sm};
@@ -76,6 +78,12 @@ const FieldsPanel = styled.div`
   @media (max-width: 640px) {
     padding: 1.5rem 1rem;
   }
+`;
+
+const FieldsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const LoadingMessage = styled.div`
@@ -88,7 +96,6 @@ const LoadingMessage = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
-  margin-top: 2rem;
 
   @media (max-width: 640px) {
     flex-direction: row-reverse;

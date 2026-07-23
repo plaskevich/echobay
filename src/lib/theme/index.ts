@@ -16,7 +16,7 @@ export type {
   Transition,
 } from './types';
 export { makeElevation, sharedTokens } from './tokens';
-export { signatureSurface } from './mixins';
+export { glassSurface, signatureSurface } from './mixins';
 export { lightTheme } from './light';
 export { darkTheme } from './dark';
 

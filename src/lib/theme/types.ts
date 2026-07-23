@@ -120,6 +120,10 @@ export interface ThemeColors {
     dark: string;
     darker: string;
   };
+  glass: {
+    background: string;
+    border: string;
+  };
   spinner: {
     background: string;
     foreground: string;

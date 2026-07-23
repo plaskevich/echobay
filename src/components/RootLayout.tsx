@@ -10,6 +10,7 @@ const AppWrapper = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
+  overflow-x: clip;
 `;
 
 const MainContent = styled.main`

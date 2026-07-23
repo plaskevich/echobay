@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Placeholder, ProfilePicture } from '@/components/profile/ProfileHeader';
-import { signatureSurface } from '@/lib/theme';
 
 interface AvatarUploadProps {
   avatarUrl?: string;
@@ -28,7 +27,7 @@ export function AvatarUpload({
   };
 
   return (
-    <AvatarSection>
+    <AvatarRow>
       <AvatarPreviewContainer>
         {avatarPreview || avatarUrl ? (
           <ProfilePicture src={avatarPreview || avatarUrl} alt="Profile" />
@@ -38,47 +37,78 @@ export function AvatarUpload({
           </Placeholder>
         )}
       </AvatarPreviewContainer>
-      <AvatarControls>
-        <HiddenFileInput
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/gif,image/webp"
-          onChange={onAvatarChange}
-          disabled={disabled}
-        />
-        <Button type="button" variant="outline" onClick={handleChoosePhoto} disabled={disabled}>
-          Choose Photo
-        </Button>
-        {avatarPreview && (
-          <Button type="button" variant="ghost" onClick={onRemoveAvatar} disabled={disabled}>
-            Remove
+      <AvatarInfo>
+        <AvatarLabel>Profile photo</AvatarLabel>
+        <AvatarHint>JPG, PNG, GIF or WebP.</AvatarHint>
+        <AvatarControls>
+          <HiddenFileInput
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            onChange={onAvatarChange}
+            disabled={disabled}
+          />
+          <Button type="button" variant="outline" size="small" onClick={handleChoosePhoto} disabled={disabled}>
+            Choose Photo
           </Button>
-        )}
-      </AvatarControls>
-    </AvatarSection>
+          {avatarPreview && (
+            <Button type="button" variant="ghost" size="small" onClick={onRemoveAvatar} disabled={disabled}>
+              Remove
+            </Button>
+          )}
+        </AvatarControls>
+      </AvatarInfo>
+    </AvatarRow>
   );
 }
 
-const AvatarSection = styled.div`
+const AvatarRow = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  padding: 1.75rem;
-  background: ${(props) => props.theme.background.secondary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  box-shadow: ${(props) => props.theme.elevation.sm};
-  ${signatureSurface}
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
 `;
 
 const AvatarPreviewContainer = styled.div`
   flex-shrink: 0;
 `;
 
+const AvatarInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+
+  @media (max-width: 480px) {
+    align-items: center;
+  }
+`;
+
+const AvatarLabel = styled.span`
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.text.primary};
+`;
+
+const AvatarHint = styled.span`
+  font-size: 0.8125rem;
+  color: ${(props) => props.theme.text.tertiary};
+`;
+
 const AvatarControls = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
+  margin-top: 0.6rem;
+
+  @media (max-width: 480px) {
+    justify-content: center;
+  }
 `;
 
 const HiddenFileInput = styled.input`
