@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useMemo, useState } from 'react';
+import { PiLockSimpleFill } from 'react-icons/pi';
+import styled, { useTheme } from 'styled-components';
 
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
@@ -18,6 +19,7 @@ interface PaymentFormProps {
 export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
+  const theme = useTheme();
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
@@ -54,7 +56,6 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
         return;
       }
 
-      // Payment successful, move to next step
       onNext(paymentIntentId, clientSecret);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
@@ -62,20 +63,26 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
     }
   };
 
-  const cardElementOptions = {
-    style: {
-      base: {
-        fontSize: '16px',
-        color: '#424770',
-        '::placeholder': {
-          color: '#aab7c4',
+  const cardElementOptions = useMemo(
+    () => ({
+      style: {
+        base: {
+          fontSize: '16px',
+          color: theme.text.primary,
+          fontFamily: theme.fontFamily,
+          iconColor: theme.text.secondary,
+          '::placeholder': {
+            color: theme.text.tertiary,
+          },
+        },
+        invalid: {
+          color: theme.state.error,
+          iconColor: theme.state.error,
         },
       },
-      invalid: {
-        color: '#9e2146',
-      },
-    },
-  };
+    }),
+    [theme]
+  );
 
   return (
     <Form onSubmit={handleSubmit} data-testid="payment-form">
@@ -92,6 +99,10 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
           <CardElement options={cardElementOptions} />
         </CardElementWrapper>
         {error && <ErrorText data-testid="payment-error">{error}</ErrorText>}
+        <SecureNote>
+          <PiLockSimpleFill aria-hidden />
+          Payments are encrypted and processed securely by Stripe.
+        </SecureNote>
       </PaymentSection>
 
       <TestModeNotice>
@@ -142,9 +153,13 @@ const OrderAmount = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  padding: 1rem 1.25rem;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.primary.light},
+    ${({ theme }) => theme.background.primary}
+  );
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
@@ -155,7 +170,7 @@ const AmountLabel = styled.span`
 
 const AmountValue = styled.span`
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: ${({ theme }) => theme.primary.main};
 
   @media (max-width: 640px) {
@@ -178,9 +193,11 @@ const Label = styled.label`
 const CardElementWrapper = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
-  transition: all 0.2s;
+  transition:
+    border-color ${({ theme }) => theme.transition.base},
+    box-shadow ${({ theme }) => theme.transition.base};
 
   &:focus-within {
     border-color: ${({ theme }) => theme.primary.main};
@@ -194,11 +211,25 @@ const ErrorText = styled.span`
   margin-top: 0.5rem;
 `;
 
+const SecureNote = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.tertiary};
+
+  svg {
+    color: ${({ theme }) => theme.state.success};
+    flex-shrink: 0;
+  }
+`;
+
 const TestModeNotice = styled.div`
   padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background-color: ${({ theme }) => theme.background.primary};
+  border: 1px dashed ${({ theme }) => theme.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   margin-top: 1rem;
 `;
 
@@ -216,7 +247,7 @@ const NoticeText = styled.div`
 
   code {
     padding: 0.125rem 0.375rem;
-    background-color: ${({ theme }) => theme.background.primary};
+    background-color: ${({ theme }) => theme.background.secondary};
     border-radius: ${({ theme }) => theme.borderRadius.sm};
     font-family: monospace;
     font-size: 0.875rem;

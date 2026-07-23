@@ -1,9 +1,12 @@
-import styled from 'styled-components';
+import { PiCreditCardFill } from 'react-icons/pi';
+import styled, { keyframes } from 'styled-components';
 
 import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { Button } from '@/components/common/Button';
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
-import { formatPrice } from '@/lib/utils';
+import { getFormatIcon } from '@/lib/getFormatIcon';
+import { signatureSurface } from '@/lib/theme';
+import { capitalize, formatPrice, getFormatLabel } from '@/lib/utils';
 
 import type { ShippingAddress } from './ShippingForm';
 
@@ -16,6 +19,10 @@ interface OrderSummaryProps {
     shipping_price?: number;
     images?: string[];
     owner_id: string;
+    label?: string | null;
+    year?: number | null;
+    format?: string;
+    condition: string;
   };
   shippingAddress: ShippingAddress;
   paymentIntentId: string;
@@ -43,17 +50,20 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
     <Container data-testid="order-summary">
       <FormTitle data-testid="summary-title">Order Summary</FormTitle>
 
-      <Section>
-        <SectionTitle>Item Details</SectionTitle>
-        <ItemCard>
-          {listing.images && listing.images[0] && <ItemImage src={listing.images[0]} alt={listing.title} />}
-          <ItemInfo>
-            <ItemArtist data-testid="summary-item-artist">{listing.artist}</ItemArtist>
-            <ItemTitle data-testid="summary-item-title">{listing.title}</ItemTitle>
-            <ItemPrice data-testid="summary-item-price">{formatPrice(listing.price)}</ItemPrice>
-          </ItemInfo>
-        </ItemCard>
-      </Section>
+      <ItemCard>
+        {listing.images && listing.images[0] && <ItemImage src={listing.images[0]} alt={listing.title} />}
+        <ItemInfo>
+          <ItemArtist data-testid="summary-item-artist">{listing.artist}</ItemArtist>
+          <ItemTitle data-testid="summary-item-title">{listing.title}</ItemTitle>
+          <ItemCondition>{capitalize(listing.condition)}</ItemCondition>
+          {listing.format && (
+            <Format>
+              {getFormatIcon(listing.format)}
+              {getFormatLabel(listing.format)}
+            </Format>
+          )}
+        </ItemInfo>
+      </ItemCard>
 
       <Section>
         <SectionTitle>Shipping Address</SectionTitle>
@@ -72,8 +82,13 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       <Section>
         <SectionTitle>Payment Method</SectionTitle>
         <PaymentCard data-testid="summary-payment-method">
-          <PaymentText>Credit Card</PaymentText>
-          <PaymentSubtext>Payment will be processed securely via Stripe</PaymentSubtext>
+          <PaymentIcon>
+            <PiCreditCardFill aria-hidden />
+          </PaymentIcon>
+          <div>
+            <PaymentText>Credit Card</PaymentText>
+            <PaymentSubtext>Processed securely via Stripe</PaymentSubtext>
+          </div>
         </PaymentCard>
       </Section>
 
@@ -88,14 +103,13 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
             {listing.shipping_price && listing.shipping_price > 0 ? formatPrice(listing.shipping_price) : 'Free'}
           </PriceValue>
         </PriceRow>
+        <TotalRow>
+          <TotalLabel>Total</TotalLabel>
+          <TotalAmount data-testid="summary-total">
+            {formatPrice(listing.price + (listing.shipping_price || 0))}
+          </TotalAmount>
+        </TotalRow>
       </PriceBreakdown>
-
-      <TotalSection>
-        <TotalLabel>Total</TotalLabel>
-        <TotalAmount data-testid="summary-total">
-          {formatPrice(listing.price + (listing.shipping_price || 0))}
-        </TotalAmount>
-      </TotalSection>
 
       {error && <ErrorText data-testid="summary-error">{error}</ErrorText>}
 
@@ -123,18 +137,38 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
   );
 }
 
+const stepIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin: 0 auto;
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  background: ${({ theme }) => theme.background.secondary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  ${signatureSurface}
+  animation: ${stepIn} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized};
+
+  @media (max-width: 640px) {
+    padding: 1.5rem 1.25rem;
+  }
 `;
 
 const FormTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 1rem;
+  margin: 0;
 
   @media (max-width: 640px) {
     font-size: 1.25rem;
@@ -144,7 +178,7 @@ const FormTitle = styled.h2`
 const Section = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  min-width: 0;
 `;
 
 const SectionTitle = styled.h3`
@@ -155,25 +189,46 @@ const SectionTitle = styled.h3`
 
 const ItemCard = styled.div`
   display: flex;
+  align-items: stretch;
   gap: 1rem;
+  flex: 1;
   padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const ItemImage = styled.img`
   width: 80px;
   height: 80px;
+  flex-shrink: 0;
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
+`;
+
+const Format = styled.p`
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.text.tertiary};
+  margin: auto 0 0;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 `;
 
 const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   flex: 1;
+  min-width: 0;
+`;
+
+const ItemCondition = styled.div`
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.muted};
+  font-weight: 500;
 `;
 
 const ItemArtist = styled.div`
@@ -182,23 +237,17 @@ const ItemArtist = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.0625rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const ItemPrice = styled.div`
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.primary.main};
-  margin-top: 0.5rem;
-`;
-
 const AddressCard = styled.div`
+  flex: 1;
   padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const AddressLine = styled.div`
@@ -208,16 +257,34 @@ const AddressLine = styled.div`
 `;
 
 const PaymentCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
   padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+`;
+
+const PaymentIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background-color: ${({ theme }) => theme.primary.light};
+  color: ${({ theme }) => theme.primary.main};
+  font-size: 1.25rem;
 `;
 
 const PaymentText = styled.div`
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
   color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.125rem;
 `;
 
 const PaymentSubtext = styled.div`
@@ -228,11 +295,16 @@ const PaymentSubtext = styled.div`
 const PriceBreakdown = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.background.secondary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  gap: 0.625rem;
+  flex: 1;
+  padding: 1.25rem;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.primary.light},
+    ${({ theme }) => theme.background.primary}
+  );
+  border: 1px solid ${({ theme }) => theme.primary.main};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const PriceRow = styled.div`
@@ -252,23 +324,17 @@ const PriceValue = styled.span`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const TotalSection = styled.div`
+const TotalRow = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  background-color: ${({ theme }) => theme.background.secondary};
-  border: 2px solid ${({ theme }) => theme.primary.main};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  margin-top: 1rem;
-
-  @media (max-width: 640px) {
-    padding: 1rem;
-  }
+  align-items: baseline;
+  padding-top: 0.75rem;
+  margin-top: auto;
+  border-top: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
 const TotalLabel = styled.span`
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
 `;

@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Elements } from '@stripe/react-stripe-js';
 
+import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
+import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { PaymentForm } from '@/components/checkout/PaymentForm';
 import type { ShippingAddress } from '@/components/checkout/ShippingForm';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { Button } from '@/components/common/Button';
 import { PageTitle } from '@/components/common/PageTitle';
+import { Spinner } from '@/components/common/Spinner';
 import { stripePromise } from '@/lib/stripe';
+import { signatureSurface } from '@/lib/theme';
 import { useListing } from '@/queries/useListings';
 import { useShippingAddress } from '@/queries/useShipping';
 import { useAuthStore } from '@/store/auth-store';
-
-type CheckoutStep = 'shipping' | 'payment' | 'summary' | 'confirmed';
+import { useCheckoutStore } from '@/store/checkout-store';
 
 export function CheckoutPage() {
   const { id } = useParams<{ id: string }>();
@@ -24,14 +27,24 @@ export function CheckoutPage() {
   const user = useAuthStore((s) => s.user);
   const { data: savedAddress } = useShippingAddress(user?.id);
 
-  const [currentStep, setCurrentStep] = useState<CheckoutStep>('shipping');
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
-  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
+  const progress = useCheckoutStore((s) => (id ? s.byListing[id] : undefined));
+  const updateProgress = useCheckoutStore((s) => s.update);
+  const clearProgress = useCheckoutStore((s) => s.clear);
+  const [confirmed, setConfirmed] = useState(false);
+
+  const [prevListingId, setPrevListingId] = useState(id);
+  if (id !== prevListingId) {
+    setPrevListingId(id);
+    setConfirmed(false);
+  }
 
   if (isLoading) {
     return (
       <Container>
-        <LoadingText>Loading...</LoadingText>
+        <LoadingText>
+          <Spinner size="1.5rem" $color="currentColor" $trackColor="transparent" />
+          Loading checkout…
+        </LoadingText>
       </Container>
     );
   }
@@ -45,86 +58,101 @@ export function CheckoutPage() {
     );
   }
 
+  const shippingAddress = progress?.shippingAddress ?? null;
+  const paymentIntentId = progress?.paymentIntentId ?? null;
+  let currentStep = progress?.step ?? 'shipping';
+  if (currentStep === 'summary' && (!shippingAddress || !paymentIntentId)) {
+    currentStep = shippingAddress ? 'payment' : 'shipping';
+  } else if (currentStep === 'payment' && !shippingAddress) {
+    currentStep = 'shipping';
+  }
+
   const handleShippingNext = (address: ShippingAddress) => {
-    setShippingAddress(address);
-    setCurrentStep('payment');
+    updateProgress(id!, { shippingAddress: address, step: 'payment' });
   };
 
   const handlePaymentNext = (paymentId: string) => {
-    setPaymentIntentId(paymentId);
-    setCurrentStep('summary');
+    updateProgress(id!, { paymentIntentId: paymentId, step: 'summary' });
   };
 
   const handlePaymentBack = () => {
-    setCurrentStep('shipping');
+    updateProgress(id!, { step: 'shipping' });
   };
 
   const handleSummaryBack = () => {
-    setCurrentStep('payment');
+    updateProgress(id!, { step: 'payment' });
+  };
+
+  const handleConfirmed = () => {
+    setConfirmed(true);
+    clearProgress(id!);
   };
 
   return (
     <Container>
-      {currentStep !== 'confirmed' && (
+      {!confirmed && (
         <>
           <Header>
             <PageTitle>Checkout</PageTitle>
           </Header>
 
-          <ProgressBar data-testid="checkout-progress-bar">
-            <ProgressStep active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-              <StepNumber active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-                {currentStep !== 'shipping' ? '✓' : '1'}
-              </StepNumber>
-              <StepLabel data-testid="checkout-step-shipping">Shipping</StepLabel>
-            </ProgressStep>
-            <ProgressLine completed={currentStep === 'summary' || currentStep === 'payment'} />
-            <ProgressStep active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-              <StepNumber active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-                {currentStep === 'summary' ? '✓' : '2'}
-              </StepNumber>
-              <StepLabel data-testid="checkout-step-payment">Payment</StepLabel>
-            </ProgressStep>
-            <ProgressLine completed={currentStep === 'summary'} />
-            <ProgressStep active={currentStep === 'summary'} completed={false}>
-              <StepNumber active={currentStep === 'summary'} completed={false}>
-                3
-              </StepNumber>
-              <StepLabel data-testid="checkout-step-summary">Summary</StepLabel>
-            </ProgressStep>
-          </ProgressBar>
+          <CheckoutProgressBar currentStep={currentStep} />
         </>
       )}
 
       <Content>
-        {currentStep === 'shipping' && (
-          <ShippingForm onSubmit={handleShippingNext} initialData={shippingAddress || savedAddress || undefined} />
-        )}
+        {confirmed ? (
+          <OrderConfirmed />
+        ) : (
+          <>
+            {currentStep === 'shipping' && (
+              <StepPanel key="shipping">
+                <ShippingForm
+                  onSubmit={handleShippingNext}
+                  initialData={shippingAddress || savedAddress || undefined}
+                />
+              </StepPanel>
+            )}
 
-        {currentStep === 'payment' && (
-          <Elements stripe={stripePromise}>
-            <PaymentForm
-              amount={listing.price + (listing.shipping_price || 0)}
-              listingId={listing.id}
-              onBack={handlePaymentBack}
-              onNext={handlePaymentNext}
-            />
-          </Elements>
-        )}
+            {currentStep === 'payment' && (
+              <StepPanel key="payment">
+                <Elements stripe={stripePromise}>
+                  <PaymentForm
+                    amount={listing.price + (listing.shipping_price || 0)}
+                    listingId={listing.id}
+                    onBack={handlePaymentBack}
+                    onNext={handlePaymentNext}
+                  />
+                </Elements>
+              </StepPanel>
+            )}
 
-        {(currentStep === 'summary' || currentStep === 'confirmed') && shippingAddress && paymentIntentId && (
-          <OrderSummary
-            listing={listing}
-            shippingAddress={shippingAddress}
-            paymentIntentId={paymentIntentId}
-            onBack={handleSummaryBack}
-            onConfirmed={() => setCurrentStep('confirmed')}
-          />
+            {currentStep === 'summary' && shippingAddress && paymentIntentId && (
+              <OrderSummary
+                listing={listing}
+                shippingAddress={shippingAddress}
+                paymentIntentId={paymentIntentId}
+                onBack={handleSummaryBack}
+                onConfirmed={handleConfirmed}
+              />
+            )}
+          </>
         )}
       </Content>
     </Container>
   );
 }
+
+const stepIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Container = styled.div`
   max-width: 800px;
@@ -140,74 +168,34 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3rem;
-  padding: 0;
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
-`;
-
-const ProgressStep = styled.div<{ active: boolean; completed: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 80px;
-  color: ${({ theme, active, completed }) => (active || completed ? theme.text.primary : theme.text.tertiary)};
+  gap: 0.375rem;
+  margin-bottom: 1.5rem;
 `;
 
-const StepNumber = styled.div<{ active: boolean; completed: boolean }>`
-  width: 40px;
-  height: 40px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 1rem;
-  background-color: ${({ theme, active, completed }) =>
-    active ? 'transparent' : completed ? theme.primary.main : theme.background.secondary};
-  color: ${({ theme, active, completed }) => (active || completed ? theme.text.primary : theme.text.muted)};
-  transition: all 0.3s;
-  border: 2px solid
-    ${({ theme, active, completed }) =>
-      active ? theme.primary.main : completed ? theme.primary.main : theme.background.secondary};
-`;
+const StepPanel = styled.div`
+  padding: 1.5rem 1.75rem;
+  background: ${({ theme }) => theme.background.secondary};
+  border: 1px solid ${({ theme }) => theme.border.primary};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  ${signatureSurface}
+  animation: ${stepIn} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized};
 
-const StepLabel = styled.div`
-  font-size: 0.875rem;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    font-size: 0.75rem;
-  }
-`;
-
-const ProgressLine = styled.div<{ completed: boolean }>`
-  flex: 1;
-  height: 2px;
-  background-color: ${({ theme, completed }) => (completed ? theme.primary.main : theme.border.primary)};
-  transition: all 0.3s;
-  max-width: 120px;
-
-  @media (max-width: 768px) {
-    max-width: 60px;
+  @media (max-width: 640px) {
+    padding: 1.5rem 1.25rem;
   }
 `;
 
 const Content = styled.div`
-  margin-top: 2rem;
+  margin-top: 0;
 `;
 
 const LoadingText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   text-align: center;
   padding: 3rem;
   font-size: 1.125rem;

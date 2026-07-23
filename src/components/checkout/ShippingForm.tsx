@@ -66,47 +66,61 @@ export function ShippingForm({
     <Form onSubmit={handleSubmit(onSubmit)} data-testid="shipping-form">
       {title && <FormTitle data-testid="shipping-form-title">{title}</FormTitle>}
 
-      <FormGroup>
-        <Label>Full Name*</Label>
-        <Input
-          type="text"
-          $hasError={!!errors.fullName}
-          {...register('fullName', {
-            validate: (v) => v.trim() !== '' || 'Full name is required',
-          })}
-          placeholder="John Doe"
-          data-testid="shipping-fullname-input"
-        />
-        {errors.fullName && <FieldError data-testid="shipping-error-fullname">{errors.fullName.message}</FieldError>}
-      </FormGroup>
+      <Fields>
+        <FormGroup>
+          <Label>Full Name*</Label>
+          <Input
+            type="text"
+            $hasError={!!errors.fullName}
+            {...register('fullName', {
+              validate: (v) => v.trim() !== '' || 'Full name is required',
+            })}
+            placeholder="John Doe"
+            data-testid="shipping-fullname-input"
+          />
+          {errors.fullName && <FieldError data-testid="shipping-error-fullname">{errors.fullName.message}</FieldError>}
+        </FormGroup>
 
-      <FormGroup>
-        <Label>Address Line 1*</Label>
-        <Input
-          type="text"
-          $hasError={!!errors.addressLine1}
-          {...register('addressLine1', {
-            validate: (v) => v.trim() !== '' || 'Address is required',
-          })}
-          placeholder="Street address, P.O. box"
-          data-testid="shipping-address1-input"
-        />
-        {errors.addressLine1 && (
-          <FieldError data-testid="shipping-error-address1">{errors.addressLine1.message}</FieldError>
-        )}
-      </FormGroup>
+        <FormGroup>
+          <Label>Phone Number*</Label>
+          <Input
+            type="tel"
+            $hasError={!!errors.phone}
+            {...register('phone', {
+              validate: (v) => v.trim() !== '' || 'Phone number is required',
+            })}
+            placeholder="+49 151 12345678"
+            data-testid="shipping-phone-input"
+          />
+          {errors.phone && <FieldError data-testid="shipping-error-phone">{errors.phone.message}</FieldError>}
+        </FormGroup>
 
-      <FormGroup>
-        <Label>Address Line 2</Label>
-        <Input
-          type="text"
-          {...register('addressLine2')}
-          placeholder="Apartment, suite, unit, building, floor, etc."
-          data-testid="shipping-address2-input"
-        />
-      </FormGroup>
+        <FullWidth>
+          <Label>Address Line 1*</Label>
+          <Input
+            type="text"
+            $hasError={!!errors.addressLine1}
+            {...register('addressLine1', {
+              validate: (v) => v.trim() !== '' || 'Address is required',
+            })}
+            placeholder="Street address, P.O. box"
+            data-testid="shipping-address1-input"
+          />
+          {errors.addressLine1 && (
+            <FieldError data-testid="shipping-error-address1">{errors.addressLine1.message}</FieldError>
+          )}
+        </FullWidth>
 
-      <FormRow>
+        <FullWidth>
+          <Label>Address Line 2</Label>
+          <Input
+            type="text"
+            {...register('addressLine2')}
+            placeholder="Apartment, suite, unit, building, floor, etc."
+            data-testid="shipping-address2-input"
+          />
+        </FullWidth>
+
         <FormGroup>
           <Label>City*</Label>
           <Input
@@ -136,9 +150,7 @@ export function ShippingForm({
             <FieldError data-testid="shipping-error-postalcode">{errors.postalCode.message}</FieldError>
           )}
         </FormGroup>
-      </FormRow>
 
-      <FormRow>
         <FormGroup>
           <Label>Country*</Label>
           <Select
@@ -170,21 +182,7 @@ export function ShippingForm({
             ))}
           </Select>
         </FormGroup>
-      </FormRow>
-
-      <FormGroup>
-        <Label>Phone Number*</Label>
-        <Input
-          type="tel"
-          $hasError={!!errors.phone}
-          {...register('phone', {
-            validate: (v) => v.trim() !== '' || 'Phone number is required',
-          })}
-          placeholder="+49 151 12345678"
-          data-testid="shipping-phone-input"
-        />
-        {errors.phone && <FieldError data-testid="shipping-error-phone">{errors.phone.message}</FieldError>}
-      </FormGroup>
+      </Fields>
 
       <ButtonGroup>
         <Button type="submit" variant="primary" isLoading={isLoading} data-testid="shipping-submit-button">
@@ -199,19 +197,25 @@ const FormTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 1rem;
+  margin: 0;
 
   @media (max-width: 640px) {
     font-size: 1.25rem;
   }
 `;
 
-const FormRow = styled.div`
+const Fields = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+  }
+`;
+
+const FullWidth = styled(FormGroup)`
+  @media (min-width: 769px) {
+    grid-column: 1 / -1;
   }
 `;

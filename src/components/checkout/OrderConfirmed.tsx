@@ -1,6 +1,6 @@
 import { PiCheckCircle } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Button } from '../common/Button';
 
@@ -23,6 +23,46 @@ export function OrderConfirmed() {
   );
 }
 
+const containerRise = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const iconPop = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const haloPulse = keyframes`
+  0% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+`;
+
 const SuccessContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,6 +73,7 @@ const SuccessContainer = styled.div`
   text-align: center;
   width: 100%;
   padding: 2rem 1rem;
+  animation: ${containerRise} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized} both;
 
   @media (max-width: 640px) {
     gap: 1rem;
@@ -41,7 +82,26 @@ const SuccessContainer = styled.div`
 `;
 
 const SuccessIcon = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${({ theme }) => theme.state.success};
+  animation: ${iconPop} 480ms ${({ theme }) => theme.easing.emphasized} 80ms both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 72px;
+    height: 72px;
+    margin: -36px 0 0 -36px;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    background-color: ${({ theme }) => theme.state.success};
+    z-index: -1;
+    animation: ${haloPulse} 900ms ${({ theme }) => theme.easing.standard} 220ms both;
+  }
 `;
 
 const SuccessTitle = styled.h2`

@@ -160,6 +160,7 @@ const LogoText = styled.span`
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
   transition: color 0.2s;
+  margin-top: 0.3rem;
 
   ${LogoLink}:hover & {
     color: ${(props) => props.theme.text.accent};

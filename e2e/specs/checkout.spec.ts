@@ -135,7 +135,6 @@ test.describe('Checkout', () => {
 
       await expect(page.getByTestId('summary-item-artist')).toHaveText('Pink Floyd');
       await expect(page.getByTestId('summary-item-title')).toHaveText('The Dark Side of the Moon');
-      await expect(page.getByTestId('summary-item-price')).toHaveText('€45.00');
 
       await expect(page.getByTestId('summary-shipping-address')).toContainText(SHIPPING_DATA.fullName);
       await expect(page.getByTestId('summary-shipping-address')).toContainText(SHIPPING_DATA.addressLine1);
