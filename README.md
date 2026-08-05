@@ -3,6 +3,22 @@
 [![CI & Deploy](https://github.com/plaskevich/EchoBay/actions/workflows/ci-deploy.yml/badge.svg)](https://github.com/plaskevich/EchoBay/actions/workflows/ci-deploy.yml)
 [![Deployed on Vercel](https://img.shields.io/badge/Vercel-deployed-black?logo=vercel)](https://vercel.com)
 
+EchoBay is a marketplace for physical music media: vinyl, CDs and tapes. Sellers put up records, buyers browse and favorite them, the two sides message each other, and there's a checkout at the end.
+
+> It's a demo, not a real shop. Payments go through Stripe in test mode, nothing ever ships, and there's no moderation or dispute handling. Some flows are only half wired up. Assume every listing and order in it is fake.
+
+## What's in it
+
+- Create, edit and browse listings, with Discogs lookup for release metadata
+- Filtering and a ranked query behind the home feed
+- Supabase Auth accounts, with profiles, favorites and order history
+- Messaging between buyers and sellers
+- Checkout on Stripe payment intents, run through Supabase Edge Functions and a webhook
+
+## Stack
+
+React 19, TypeScript and Vite on the front end, with styled-components, TanStack Query, Zustand and React Router. Supabase covers Postgres, auth, storage and edge functions. Stripe handles payments, Playwright runs the E2E tests, and Vercel hosts it.
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 22+
