@@ -17,6 +17,9 @@ importers:
       '@fontsource/chakra-petch':
         specifier: ^5.3.0
         version: 5.3.0
+      '@hackernoon/pixel-icon-library':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@smastrom/react-rating':
         specifier: ^1.5.0
         version: 1.5.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -783,6 +786,9 @@ packages:
 
   '@fontsource/chakra-petch@5.3.0':
     resolution: {integrity: sha512-QZvbM/q2R6n1pg2x+TJPftZmBNS+ADU37L4Z4L/6UJIz+JZ/SRaEf8usPFRiP7Ht28sIideMu/Bm1SnGlSrwNw==}
+
+  '@hackernoon/pixel-icon-library@1.1.0':
+    resolution: {integrity: sha512-VEdDskTYRc37quKh3LFt65nMtriJlxuov/ifOmlomAyfK2hty4IPdL6IIXNvATOaQwZYjlfyxJTCGO+JgWbgIw==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -3572,6 +3578,8 @@ snapshots:
   '@fontsource-variable/lexend-deca@5.3.0': {}
 
   '@fontsource/chakra-petch@5.3.0': {}
+
+  '@hackernoon/pixel-icon-library@1.1.0': {}
 
   '@humanfs/core@0.19.1': {}
 

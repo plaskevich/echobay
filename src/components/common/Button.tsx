@@ -47,11 +47,11 @@ const getVariantStyles = (variant: ButtonVariant) => {
     case 'outline':
       return css`
         background-color: transparent;
-        color: ${({ theme }) => theme.primary.main};
-        border: 1px solid ${({ theme }) => theme.primary.main};
+        color: ${({ theme }) => theme.text.primary};
+        border: 1px solid ${({ theme }) => theme.border.primary};
 
         &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.primary.light};
+          border-color: ${({ theme }) => theme.border.hover};
         }
 
         &:active:not(:disabled) {

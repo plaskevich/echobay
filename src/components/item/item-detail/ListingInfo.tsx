@@ -60,16 +60,13 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-  padding: 1.5rem;
-  background-color: ${({ theme }) => theme.background.tertiary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  gap: 0.5rem;
   box-sizing: border-box;
-  width: 100%;
+  width: fit-content;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem 1.5rem;
+    gap: 0.75rem;
   }
 
   @media (max-width: 640px) {
@@ -111,7 +108,7 @@ const GenreList = styled.div`
 const GenreTag = styled.span`
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  background-color: ${({ theme }) => theme.primary.light};
+  background-color: #fff;
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: 0.875rem;

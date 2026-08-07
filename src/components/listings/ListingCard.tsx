@@ -1,4 +1,3 @@
-import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -75,7 +74,7 @@ export function ListingCard({ listing }: ListingCardProps) {
             disabled={isLoading}
             aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {isFavorited ? <PiHeartFill /> : <PiHeart />}
+            <i className={isFavorited ? 'hn hn-heart-solid' : 'hn hn-heart'} />
           </FavoriteButton>
         )}
       </Card>
@@ -218,17 +217,15 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   transition: transform 0.2s;
   z-index: 10;
 
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
+  i {
+    font-size: 1.4rem;
     color: ${(props) => (props.$isFavorited ? props.theme.favorite : props.theme.text.secondary)};
     filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
     transition: all 0.2s;
   }
 
   &:hover {
-    transform: scale(1.1);
-    svg {
+    i {
       color: ${(props) => props.theme.favorite};
     }
   }

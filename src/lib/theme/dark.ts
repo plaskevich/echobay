@@ -47,6 +47,11 @@ export const darkTheme: ThemeColors = {
       text: '#E7FBF1',
     },
   },
+  // dark has no "black" surface — reuse the action blue so white text stays legible
+  black: {
+    main: '#3F79D7',
+    light: '#2D69CA',
+  },
   price: '#d4d4d4',
   favorite: '#EB567E',
   shadow: darkShadow,

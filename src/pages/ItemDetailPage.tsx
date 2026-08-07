@@ -1,10 +1,8 @@
-import { PiCaretLeft, PiCaretRight, PiMapPinDuotone, PiUserCircleDuotone } from 'react-icons/pi';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
-import { PageTitle } from '@/components/common/PageTitle';
 import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
@@ -67,7 +65,7 @@ export function ItemDetailPage() {
   return (
     <Container>
       <BackButton onClick={() => navigate(-1)}>
-        <PiCaretLeft /> Back
+        <i className="hn hn-angle-left" /> Back
       </BackButton>
 
       <Content>
@@ -83,7 +81,7 @@ export function ItemDetailPage() {
         <DetailsSection>
           <TitleSection>
             <Artist data-testid="artist">{listing.artist}</Artist>
-            <PageTitle data-testid="title">{listing.title}</PageTitle>
+            <Title data-testid="title">{listing.title}</Title>
           </TitleSection>
           <PriceSection>
             <Price data-testid="listing-price">{formatPrice(listing.price)}</Price>
@@ -119,7 +117,7 @@ export function ItemDetailPage() {
                   <SellerAvatar src={sellerProfile.avatar_url} alt="" referrerPolicy="no-referrer" />
                 ) : (
                   <SellerAvatarPlaceholder>
-                    <PiUserCircleDuotone size={40} />
+                    <i className="hn hn-user" />
                   </SellerAvatarPlaceholder>
                 )}
               </SellerAvatarContainer>
@@ -127,14 +125,14 @@ export function ItemDetailPage() {
                 <SellerName data-testid="seller-name">{sellerProfile?.username || 'Seller'}</SellerName>
                 {sellerProfile?.location && (
                   <SellerLocation data-testid="seller-location">
-                    <PiMapPinDuotone size={14} />
+                    <i className="hn hn-location-pin" />
                     {sellerProfile.location}
                   </SellerLocation>
                 )}
                 <SellerRatingDisplay average={sellerRating?.average ?? 0} count={sellerRating?.count ?? 0} />
               </SellerInfo>
               <ViewProfileArrow>
-                <PiCaretRight size={18} />
+                <i className="hn hn-angle-right" />
               </ViewProfileArrow>
             </SellerCard>
           </SellerSection>
@@ -173,7 +171,7 @@ export function ItemDetailPage() {
 const Container = styled.div`
   flex: 1;
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
@@ -185,30 +183,28 @@ const Container = styled.div`
 `;
 
 const BackButton = styled.button`
-  background: ${({ theme }) => theme.background.secondary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  background: transparent;
+  border: none;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
   font-weight: 500;
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
   margin-bottom: 1.5rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.4rem 0.75rem 0.4rem 0.5rem;
   cursor: pointer;
   transition: all 0.15s ease;
 
-  svg {
+  i {
     font-size: 1rem;
     transition: transform 0.15s ease;
   }
 
   &:hover {
-    background: ${({ theme }) => theme.background.secondaryHover};
-    color: ${({ theme }) => theme.text.primary};
-    border-color: ${({ theme }) => theme.border.hover};
+    color: ${({ theme }) => theme.primary.main};
 
-    svg {
+    i {
       transform: translateX(-2px);
     }
   }
@@ -242,7 +238,7 @@ const Content = styled.div`
 const DetailsSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
   min-width: 0;
 `;
@@ -250,11 +246,10 @@ const DetailsSection = styled.div`
 const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 `;
 
 const Artist = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: ${({ theme }) => theme.text.secondary};
   margin: 0;
 
@@ -263,18 +258,10 @@ const Artist = styled.p`
   }
 `;
 
-const PriceSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`;
-
-const Price = styled.p`
-  font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-size: 1.875rem;
+const Title = styled.p`
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1;
-  color: ${({ theme }) => theme.price};
+  color: ${({ theme }) => theme.text.primary};
   margin: 0;
 
   @media (max-width: 640px) {
@@ -282,9 +269,31 @@ const Price = styled.p`
   }
 `;
 
+const PriceSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: -0.5rem;
+`;
+
+const Price = styled.p`
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  color: ${({ theme }) => theme.primary.main};
+  margin: 0;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+  }
+`;
+
 const ShippingPrice = styled.p`
   font-size: 0.875rem;
-  color: ${({ theme }) => theme.text.secondary};
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 500;
+  color: ${({ theme }) => theme.text.muted};
   margin: 0;
 `;
 
@@ -319,17 +328,8 @@ const SellerCard = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  padding: 0.875rem 1rem;
-  background: ${({ theme }) => theme.background.tertiary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
   text-decoration: none;
   color: inherit;
-  transition: all 0.15s ease;
-
-  &:hover {
-    border-color: ${({ theme }) => theme.border.hover};
-    background: ${({ theme }) => theme.background.secondaryHover};
-  }
 `;
 
 const SellerAvatarContainer = styled.div`
@@ -349,7 +349,8 @@ const SellerAvatarPlaceholder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.text.tertiary};
+  color: ${({ theme }) => theme.text.primary};
+  font-size: 1.5rem;
 `;
 
 const SellerInfo = styled.div`
@@ -361,14 +362,14 @@ const SellerInfo = styled.div`
 `;
 
 const SellerName = styled.span`
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const SellerLocation = styled.span`
-  font-size: 0.8125rem;
-  color: ${({ theme }) => theme.text.secondary};
+  font-size: 0.725rem;
+  color: ${({ theme }) => theme.text.tertiary};
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -379,6 +380,7 @@ const ViewProfileArrow = styled.span`
   color: ${({ theme }) => theme.text.tertiary};
   display: flex;
   align-items: center;
+  font-size: 1.5rem;
 `;
 
 const ButtonGroup = styled.div`

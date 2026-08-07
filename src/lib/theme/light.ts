@@ -52,7 +52,7 @@ export const lightTheme: ThemeColors = {
     light: '#212121',
   },
   price: '#404040',
-  favorite: 'rgb(247, 82, 107)',
+  favorite: '#D62828',
   shadow: lightShadow,
   overlay: {
     dark: 'rgba(0, 0, 0, 0.4)',

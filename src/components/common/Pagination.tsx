@@ -173,8 +173,12 @@ const SizeSelect = styled.select`
   font-size: 0.875rem;
   cursor: pointer;
 
+  &:hover {
+    border-color: ${({ theme }) => theme.border.hover};
+  }
+
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.primary.main};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 `;
