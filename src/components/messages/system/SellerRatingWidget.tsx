@@ -5,6 +5,7 @@ import { Rating } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css';
 
 import { Button } from '@/components/common/Button';
+import { pixelStarStyles } from '@/components/common/pixelStar';
 import { useOrderRating, useSubmitRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -25,7 +26,7 @@ export function SellerRatingWidget({ orderId, sellerId }: SellerRatingWidgetProp
     return (
       <RatingContainer data-testid="rating-submitted">
         <RatingLabel>Your rating</RatingLabel>
-        <Rating style={{ maxWidth: 120 }} value={existingRating.rating} readOnly />
+        <Rating style={{ maxWidth: 120 }} value={existingRating.rating} readOnly itemStyles={pixelStarStyles} />
       </RatingContainer>
     );
   }
@@ -48,7 +49,7 @@ export function SellerRatingWidget({ orderId, sellerId }: SellerRatingWidgetProp
     <RatingContainer data-testid="rating-widget">
       <RatingLabel>Rate the seller</RatingLabel>
       <RatingRow>
-        <Rating style={{ maxWidth: 150 }} value={selectedRating} onChange={handleChange} />
+        <Rating style={{ maxWidth: 150 }} value={selectedRating} onChange={handleChange} itemStyles={pixelStarStyles} />
         {selectedRating > 0 && (
           <Button
             variant="primary"

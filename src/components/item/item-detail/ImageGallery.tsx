@@ -56,14 +56,10 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
                 {selectedImage + 1} / {images.length}
               </ImageCounter>
               <NavButton $position="left" onClick={prevImage} aria-label="Previous image">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+                <i className="hn hn-angle-left" aria-hidden />
               </NavButton>
               <NavButton $position="right" onClick={nextImage} aria-label="Next image">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+                <i className="hn hn-angle-right" aria-hidden />
               </NavButton>
             </>
           )}
@@ -179,7 +175,7 @@ const ImageCounter = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: ${({ theme }) => theme.overlay.darker};
+  background: ${({ theme }) => theme.black.main};
   color: white;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
@@ -206,14 +202,12 @@ const ThumbnailWrapper = styled.div<{ $active: boolean }>`
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 2px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
+  border: 2px solid ${({ theme, $active }) => ($active ? theme.border.hover : 'transparent')};
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: ${({ $active, theme }) => ($active ? `0 0 0 2px ${theme.primary.light}` : 'none')};
 
   &:hover {
-    border-color: ${({ theme }) => theme.primary.main};
-    box-shadow: ${({ theme }) => theme.shadow.medium};
+    border-color: ${({ theme }) => theme.border.primary};
   }
 `;
 
@@ -229,17 +223,15 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
   top: 50%;
   ${({ $position }) => $position}: 1rem;
   transform: translateY(-50%);
-  background: ${({ theme }) => theme.overlay.dark};
+  background: transparent;
   color: white;
   border: none;
-  width: 2.5rem;
-  height: 2.5rem;
+  font-size: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
   z-index: 2;
 
   ${MainImageWrapper}:hover & {
@@ -247,7 +239,6 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
   }
 
   &:hover {
-    background: ${({ theme }) => theme.overlay.darker};
     transform: translateY(-50%) scale(1.1);
   }
 
@@ -257,7 +248,7 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
 
   @media (max-width: 768px) {
     opacity: 1;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
