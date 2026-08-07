@@ -12,6 +12,8 @@ interface DialogProps {
   title?: string;
   message?: string;
   children?: React.ReactNode;
+  /** Accessible name when the dialog renders its own heading inside `children` instead of `title`. */
+  ariaLabel?: string;
   confirmText?: string;
   cancelText?: string;
   variant?: 'default' | 'destructive';
@@ -25,6 +27,7 @@ export function Dialog({
   title,
   message,
   children,
+  ariaLabel,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   variant = 'default',
@@ -45,7 +48,13 @@ export function Dialog({
 
   return (
     <Overlay onClick={onClose}>
-      <DialogContainer role="dialog" aria-modal="true" aria-labelledby={titleId} onClick={(e) => e.stopPropagation()}>
+      <DialogContainer
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : ariaLabel}
+        onClick={(e) => e.stopPropagation()}
+      >
         {title && (
           <DialogHeader>
             <DialogTitle id={titleId}>{title}</DialogTitle>

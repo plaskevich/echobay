@@ -2,7 +2,7 @@ import { makeElevation, sharedTokens } from './tokens';
 import type { ShadowColors, ThemeColors } from './types';
 
 const lightShadow: ShadowColors = {
-  small: 'rgba(0, 0, 0, 0.08)',
+  small: 'rgba(0, 0, 0, 1)',
   medium: 'rgba(0, 0, 0, 0.12)',
   large: 'rgba(0, 0, 0, 0.16)',
 };
@@ -11,7 +11,7 @@ export const lightTheme: ThemeColors = {
   background: {
     primary: '#F5F5F5',
     secondary: '#E7E7E7',
-    tertiary: '#EEEEEE',
+    tertiary: 'rgb(236, 236, 236)',
     primaryHover: '#F0F0F0',
     secondaryHover: '#DEDEDE',
   },
@@ -19,16 +19,16 @@ export const lightTheme: ThemeColors = {
     primary: '#0a0a0a',
     secondary: '#525252',
     tertiary: '#515151',
-    muted: '#6b7280',
-    accent: '#3E86F9',
+    muted: 'rgb(156, 156, 164)',
+    accent: '#00f',
   },
   border: {
     primary: '#B8B8B8',
     hover: '#d4d4d4',
   },
   primary: {
-    main: '#3a86ff',
-    hover: '#3272D8',
+    main: '#00f',
+    hover: 'rgb(49, 49, 250)',
     light: '#DCE9FA',
   },
   state: {
@@ -46,6 +46,10 @@ export const lightTheme: ThemeColors = {
       background: '#238166',
       text: '#E7FBF1',
     },
+  },
+  black: {
+    main: '#000000',
+    light: '#212121',
   },
   price: '#404040',
   favorite: 'rgb(247, 82, 107)',

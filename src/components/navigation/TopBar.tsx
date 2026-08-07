@@ -139,10 +139,10 @@ const NavContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 3.5rem;
+  height: 4rem;
 
   @media (min-width: 640px) {
-    height: 4rem;
+    height: 5rem;
   }
 `;
 
@@ -162,7 +162,7 @@ const LogoText = styled.span`
   margin-top: 0.3rem;
 
   ${LogoLink}:hover & {
-    color: ${(props) => props.theme.text.accent};
+    color: ${(props) => props.theme.primary.main};
   }
 
   @media (max-width: 640px) {

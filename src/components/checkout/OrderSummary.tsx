@@ -332,8 +332,10 @@ const TotalLabel = styled.span`
 `;
 
 const TotalAmount = styled.span`
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-size: 1.75rem;
   font-weight: 700;
+  line-height: 1;
   color: ${({ theme }) => theme.primary.main};
 
   @media (max-width: 640px) {

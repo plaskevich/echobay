@@ -1,5 +1,5 @@
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
@@ -34,12 +34,12 @@ export function ListingCard({ listing }: ListingCardProps) {
   const isOwner = user?.id === listing.owner_id;
   const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
   const { toggleFavorite, isLoading } = useToggleFavorite();
-  const navigate = useNavigate();
+  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
 
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) navigate('/auth');
+    if (!user) openAuthDialog();
     else await toggleFavorite(user.id, listing.id, isFavorited);
   };
 
@@ -93,9 +93,7 @@ const CardLink = styled(Link)`
 const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  padding: ${(props) => props.theme.spacing.md};
-  box-shadow: ${(props) => props.theme.elevation.sm};
+  padding: ${(props) => props.theme.spacing.xs};
   transition:
     box-shadow ${(props) => props.theme.transition.base},
     transform ${(props) => props.theme.transition.base},
@@ -107,9 +105,6 @@ const Card = styled.div`
   overflow: hidden;
   gap: 0.1rem;
   &:hover {
-    box-shadow: ${(props) => props.theme.elevation.md};
-    border-color: ${(props) => props.theme.border.hover};
-    transform: translateY(-2px);
     cursor: pointer;
   }
 
@@ -145,7 +140,7 @@ const FormatIconFallback = styled.div`
 `;
 
 const ListingTitle = styled.h3`
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
   color: ${(props) => props.theme.text.primary};
@@ -159,7 +154,7 @@ const ListingTitle = styled.h3`
 `;
 
 const Artist = styled.p`
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   overflow: hidden;
@@ -172,7 +167,7 @@ const Artist = styled.p`
 `;
 
 const Format = styled.p`
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: ${(props) => props.theme.text.tertiary};
   margin: 0;
   text-transform: uppercase;
@@ -184,11 +179,13 @@ const Format = styled.p`
 `;
 
 const Price = styled.p`
+  font-family: ${(props) => props.theme.fontFamilyAlt};
   font-size: 1rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.price};
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
   margin: auto 0 0 0;
-  padding-top: 0.5rem;
+  padding-top: 0.2rem;
 `;
 
 const StatusBanner = styled.div<{ status: ListingStatus }>`

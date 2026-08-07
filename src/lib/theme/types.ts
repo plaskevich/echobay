@@ -79,6 +79,10 @@ export interface ThemeColors {
     primary: string;
     hover: string;
   };
+  black: {
+    main: string;
+    light: string;
+  };
   primary: {
     main: string;
     hover: string;
@@ -121,6 +125,7 @@ export interface ThemeColors {
   };
   spacing: Spacing;
   fontFamily: string;
+  fontFamilyAlt: string;
   fontSize: FontSize;
   fontWeight: FontWeight;
   lineHeight: LineHeight;

@@ -1,7 +1,7 @@
 import { AuthForm } from '@/components/auth/AuthForm';
 import { AuthToggle } from '@/components/auth/AuthToggle';
 import { ForgotPasswordForm } from '@/components/auth/ForgotPassword';
-import { AuthSubtitle } from '@/components/auth/authLayout';
+import { AuthCardTitle, AuthSubtitle } from '@/components/auth/authLayout';
 import { Dialog } from '@/components/common/Dialog';
 import { useAuthForm } from '@/hooks/useAuthForm';
 import { type AuthMode, useAuthStore } from '@/store/auth-store';
@@ -24,7 +24,8 @@ function AuthDialogContent() {
   );
 
   return (
-    <Dialog isOpen onClose={closeAuthDialog}>
+    <Dialog isOpen onClose={closeAuthDialog} ariaLabel={TITLES[mode]}>
+      <AuthCardTitle>{TITLES[mode]}</AuthCardTitle>
       {mode === 'forgot' ? (
         <ForgotPasswordForm onBack={() => switchMode('login')} />
       ) : (

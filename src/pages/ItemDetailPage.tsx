@@ -270,8 +270,10 @@ const PriceSection = styled.div`
 `;
 
 const Price = styled.p`
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-size: 1.875rem;
   font-weight: 700;
+  line-height: 1;
   color: ${({ theme }) => theme.price};
   margin: 0;
 

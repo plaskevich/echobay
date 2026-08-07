@@ -17,12 +17,12 @@ const getVariantStyles = (variant: ButtonVariant) => {
   switch (variant) {
     case 'primary':
       return css`
-        background-color: ${({ theme }) => theme.primary.main};
+        background-color: ${({ theme }) => theme.black.main};
         color: white;
         border: none;
 
         &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.primary.hover};
+          background-color: ${({ theme }) => theme.black.light};
         }
 
         &:active:not(:disabled) {

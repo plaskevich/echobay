@@ -23,6 +23,7 @@ export function ImageGallery({ images, format, title, listingId, isOwner, status
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
   const { data: isFavorited = false } = useIsFavorited(user?.id, listingId);
   const { toggleFavorite, isLoading } = useToggleFavorite();
 
@@ -32,7 +33,7 @@ export function ImageGallery({ images, format, title, listingId, isOwner, status
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!user) return;
+    if (!user) return openAuthDialog();
     toggleFavorite(user.id, listingId, isFavorited);
   };
 

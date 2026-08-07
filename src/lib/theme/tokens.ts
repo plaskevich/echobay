@@ -24,6 +24,8 @@ const spacing: Spacing = {
 
 const fontFamily = "'Archivo Variable', system-ui, Avenir, Helvetica, Arial, sans-serif";
 
+const fontFamilyAlt = "'Chakra Petch', 'Archivo Variable', system-ui, sans-serif";
+
 const fontSize: FontSize = {
   xs: '0.75rem',
   sm: '0.875rem',
@@ -68,6 +70,7 @@ const transition: Transition = {
 export const sharedTokens = {
   spacing,
   fontFamily,
+  fontFamilyAlt,
   fontSize,
   fontWeight,
   lineHeight,
