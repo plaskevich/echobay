@@ -77,7 +77,7 @@ export const TextArea = styled.textarea<{ $hasError?: boolean }>`
   padding: 0.75rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   font-size: 1rem;
-  background-color: ${(props) => props.theme.background.primary};
+  background-color: transparent;
   color: ${(props) => props.theme.text.primary};
   min-height: 120px;
   resize: vertical;
@@ -85,8 +85,8 @@ export const TextArea = styled.textarea<{ $hasError?: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
+    background-color: #fff;
   }
 
   &::placeholder {

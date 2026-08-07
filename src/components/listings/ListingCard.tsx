@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
@@ -48,7 +48,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   return (
     <CardLink to={`/items/${listing.id}`}>
       <Card data-testid="listing-card">
-        <ImageContainer>
+        <ImageContainer $dimmed={showStatusBanner}>
           {imageUrl ? (
             <ListingImage src={imageUrl} alt={listing.title} />
           ) : (
@@ -56,7 +56,12 @@ export function ListingCard({ listing }: ListingCardProps) {
               {getFormatIcon(listing.format, 100)}
             </FormatIconFallback>
           )}
-          {showStatusBanner && <StatusBanner status={listing.status!}>{getStatusLabel(listing.status)}</StatusBanner>}
+          {showStatusBanner && (
+            <StatusBanner status={listing.status!}>
+              <i className={listing.status === 'sold' ? 'hn hn-badge-check-solid' : 'hn hn-eye-cross-solid'} />
+              {getStatusLabel(listing.status)}
+            </StatusBanner>
+          )}
         </ImageContainer>
         <Artist>{listing.artist}</Artist>
         <ListingTitle>{listing.title}</ListingTitle>
@@ -112,10 +117,20 @@ const Card = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ $dimmed?: boolean }>`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
+  overflow: hidden;
+
+  ${(props) =>
+    props.$dimmed &&
+    css`
+      > :first-child {
+        filter: brightness(0.8) blur(1px);
+        transform: scale(1.04);
+      }
+    `}
 
   @media (max-width: 480px) {
     margin-bottom: 0.5rem;
@@ -190,16 +205,16 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.6rem;
   background-color: ${(props) =>
-    props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
-  color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
-  font-size: 0.875rem;
+    props.status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
+  color: ${(props) => (props.status === 'sold' ? '#fff' : props.theme.text.primary)};
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  box-shadow: 0 6px 16px ${(props) => props.theme.shadow.medium};
 `;
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
@@ -217,14 +232,14 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
 
   i {
     font-size: 1.4rem;
-    color: ${(props) => (props.$isFavorited ? props.theme.favorite : props.theme.text.secondary)};
+    color: ${(props) => (props.$isFavorited ? props.theme.black.main : props.theme.text.secondary)};
     filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
     transition: all 0.2s;
   }
 
   &:hover {
     i {
-      color: ${(props) => props.theme.favorite};
+      color: ${(props) => props.theme.black.main};
     }
   }
 

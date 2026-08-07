@@ -94,16 +94,6 @@ export interface ThemeColors {
     error: string;
     info: string;
   };
-  status: {
-    hidden: {
-      background: string;
-      text: string;
-    };
-    sold: {
-      background: string;
-      text: string;
-    };
-  };
   price: string;
   favorite: string;
   shadow: {

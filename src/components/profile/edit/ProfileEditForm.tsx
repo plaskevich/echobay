@@ -45,7 +45,7 @@ export function ProfileEditForm() {
           </Button>
           <Button
             type="button"
-            variant="secondary"
+            variant="outline"
             onClick={handleCancel}
             disabled={submitting}
             data-testid="cancel-edit-button"
@@ -59,6 +59,7 @@ export function ProfileEditForm() {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
@@ -68,10 +69,6 @@ const Panel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.5rem 1.75rem;
-  background: ${(props) => props.theme.background.secondary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  box-shadow: ${(props) => props.theme.elevation.sm};
 
   @media (max-width: 640px) {
     padding: 1.5rem 1rem;

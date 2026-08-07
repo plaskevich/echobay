@@ -11,7 +11,7 @@ export const lightTheme: ThemeColors = {
   background: {
     primary: '#F5F5F5',
     secondary: '#E7E7E7',
-    tertiary: 'rgb(236, 236, 236)',
+    tertiary: '#dddddd',
     primaryHover: '#F0F0F0',
     secondaryHover: '#DEDEDE',
   },
@@ -36,16 +36,6 @@ export const lightTheme: ThemeColors = {
     warning: '#f59e0b',
     error: '#D62828',
     info: '#0588f0',
-  },
-  status: {
-    hidden: {
-      background: '#737373',
-      text: '#fafafa',
-    },
-    sold: {
-      background: '#238166',
-      text: '#E7FBF1',
-    },
   },
   black: {
     main: '#000000',

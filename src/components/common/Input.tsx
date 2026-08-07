@@ -38,14 +38,14 @@ const StyledInput = styled.input<{ $hasError?: boolean }>`
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  background-color: ${({ theme }) => theme.background.primary};
+  background-color: transparent;
   color: ${({ theme }) => theme.text.primary};
   transition: all 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
+    background-color: #fff;
   }
 
   &::placeholder {

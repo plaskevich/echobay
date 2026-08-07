@@ -1,10 +1,3 @@
-import {
-  PiCalendarDuotone,
-  PiMapPinDuotone,
-  PiNotePencilDuotone,
-  PiPencilSimpleLineDuotone,
-  PiUserCircleDuotone,
-} from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -40,7 +33,7 @@ export function ProfileHeader({
       <ProfilePictureContainer>
         {isLoading || !avatarUrl ? (
           <Placeholder>
-            <PiUserCircleDuotone size={120} />
+            <i className="hn hn-user" />
           </Placeholder>
         ) : (
           <ProfilePicture src={avatarUrl} alt={username} />
@@ -51,23 +44,23 @@ export function ProfileHeader({
         <SellerRatingDisplay average={ratingAverage ?? 0} count={ratingCount ?? 0} />
         {(memberSince || location) && (
           <MetaRow>
-            {memberSince && (
-              <ProfileMeta data-testid="profile-member-since">
-                <PiCalendarDuotone size={15} />
-                Member since {formatRelativeDate(memberSince)}
-              </ProfileMeta>
-            )}
             {location && (
               <ProfileMeta data-testid="profile-location">
-                <PiMapPinDuotone size={15} />
+                <i className="hn hn-location-pin" />
                 {location}
+              </ProfileMeta>
+            )}
+            {memberSince && (
+              <ProfileMeta data-testid="profile-member-since">
+                <i className="hn hn-calendar-alt" />
+                Member since {formatRelativeDate(memberSince)}
               </ProfileMeta>
             )}
           </MetaRow>
         )}
         {about && (
           <ProfileAbout data-testid="profile-about">
-            <PiNotePencilDuotone size={16} />
+            <i className="hn hn-notebook" />
             {about}
           </ProfileAbout>
         )}
@@ -75,8 +68,8 @@ export function ProfileHeader({
       {showEditButton && (
         <ButtonsWrapper>
           <Link to="/profile/edit">
-            <Button variant="outline" size="medium" data-testid="edit-profile-button">
-              <PiPencilSimpleLineDuotone size={20} />
+            <Button variant="outline" size="small" data-testid="edit-profile-button">
+              <i className="hn hn-pen" />
               Edit Profile
             </Button>
           </Link>
@@ -90,10 +83,6 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  padding: 1.5rem 1.75rem;
-  background: ${(props) => props.theme.background.secondary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  box-shadow: ${(props) => props.theme.elevation.sm};
   margin-bottom: 1.5rem;
 
   @media (max-width: 640px) {
@@ -115,8 +104,7 @@ export const ProfilePicture = styled.img.attrs({
   width: 5rem;
   height: 5rem;
   object-fit: cover;
-  border: 2px solid ${(props) => props.theme.background.secondary};
-  box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+  border-radius: 50%;
 `;
 
 export const Placeholder = styled.div`
@@ -130,20 +118,16 @@ export const Placeholder = styled.div`
   color: ${(props) => props.theme.text.tertiary};
   border: 2px solid ${(props) => props.theme.background.secondary};
   box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+  font-size: 5rem;
 `;
 
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.2rem;
   min-width: 0;
 
-  svg {
+  .hn {
     flex-shrink: 0;
   }
 
@@ -153,7 +137,7 @@ const ProfileInfo = styled.div`
 `;
 
 const Username = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
   margin: 0;
@@ -187,13 +171,13 @@ const ProfileAbout = styled.p`
   margin: 0;
   margin-top: 0.25rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
 
   @media (max-width: 640px) {
     text-align: left;
 
-    svg {
+    .hn {
       margin-top: 0.125rem;
     }
   }

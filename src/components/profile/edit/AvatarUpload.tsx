@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { PiUserCircleDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
@@ -33,7 +32,7 @@ export function AvatarUpload({
           <ProfilePicture src={avatarPreview || avatarUrl} alt="Profile" />
         ) : (
           <Placeholder>
-            <PiUserCircleDuotone size={120} />
+            <i className="hn hn-user" />
           </Placeholder>
         )}
       </AvatarPreviewContainer>

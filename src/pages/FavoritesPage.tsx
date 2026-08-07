@@ -50,7 +50,7 @@ export function FavoritesPage() {
   return (
     <Container>
       <Header>
-        <StyledPageTitle>My Favorites</StyledPageTitle>
+        <PageTitle>My Favorites</PageTitle>
         <Subtitle data-testid="favorites-count">
           {listings.length} {listings.length === 1 ? 'item' : 'items'}
         </Subtitle>
@@ -79,6 +79,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  padding-top: 2rem;
 
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
@@ -89,14 +90,12 @@ const Header = styled.div`
   margin-bottom: 2rem;
 `;
 
-const StyledPageTitle = styled(PageTitle)`
-  margin-bottom: 0.5rem;
-`;
-
 const Subtitle = styled.p`
-  font-size: 1rem;
-  color: ${(props) => props.theme.text.secondary};
-  margin: 0;
+  margin-top: 0.2rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.text.primary};
+  font-weight: 600;
+  font-size: 0.875rem;
 `;
 
 const Grid = styled.div`

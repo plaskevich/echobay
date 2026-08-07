@@ -6,9 +6,9 @@ export function ListingCardSkeleton() {
   return (
     <Card aria-hidden="true" data-testid="listing-card-skeleton">
       <ImageSkeleton />
-      <Skeleton width="55%" height="0.875rem" />
-      <Skeleton width="80%" height="1rem" />
-      <Skeleton width="35%" height="0.75rem" />
+      <ArtistSkeleton width="55%" />
+      <Skeleton width="80%" height="1.3125rem" />
+      <Skeleton width="35%" height="1.125rem" />
       <PriceSkeleton width="30%" height="1rem" />
     </Card>
   );
@@ -16,11 +16,12 @@ export function ListingCardSkeleton() {
 
 const Card = styled.div`
   background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xs};
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex: 1;
+  min-width: 0;
+  gap: 0.1rem;
 
   @media (max-width: 480px) {
     padding: ${({ theme }) => theme.spacing.sm};
@@ -31,7 +32,19 @@ const ImageSkeleton = styled(Skeleton)`
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: 1rem;
+
+  @media (max-width: 480px) {
+    margin-bottom: 0.5rem;
+  }
+`;
+
+const ArtistSkeleton = styled(Skeleton)`
+  height: 1.125rem;
+
+  @media (max-width: 480px) {
+    height: 1.21875rem;
+  }
 `;
 
 const PriceSkeleton = styled(Skeleton)`

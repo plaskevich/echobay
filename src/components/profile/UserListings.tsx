@@ -86,8 +86,10 @@ const SectionTitle = styled.h2`
 `;
 
 const ListingCount = styled.span`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.text.primary};
+  font-weight: 600;
   font-size: 0.875rem;
-  color: ${(props) => props.theme.text.secondary};
 `;
 
 const Message = styled.p`

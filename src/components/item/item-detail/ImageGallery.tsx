@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import styled from 'styled-components';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -7,35 +6,21 @@ import 'yet-another-react-lightbox/styles.css';
 import type { ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { getStatusLabel } from '@/lib/utils';
-import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
-import { useAuthStore } from '@/store/auth-store';
 
 interface ImageGalleryProps {
   images: string[];
   format?: string | null;
   title: string;
-  listingId: string;
-  isOwner: boolean;
   status?: ListingStatus;
 }
 
-export function ImageGallery({ images, format, title, listingId, isOwner, status }: ImageGalleryProps) {
+export function ImageGallery({ images, format, title, status }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const user = useAuthStore((state) => state.user);
-  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
-  const { data: isFavorited = false } = useIsFavorited(user?.id, listingId);
-  const { toggleFavorite, isLoading } = useToggleFavorite();
 
   const slides = images.map((src) => ({ src }));
   const showStatusBanner = status && status !== 'active';
   const hasImages = images.length > 0;
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!user) return openAuthDialog();
-    toggleFavorite(user.id, listingId, isFavorited);
-  };
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,15 +45,11 @@ export function ImageGallery({ images, format, title, listingId, isOwner, status
           )}
           {showStatusBanner && (
             <StatusBanner $status={status!} data-testid="status-banner">
+              <i className={status === 'sold' ? 'hn hn-badge-check-solid' : 'hn hn-eye-cross-solid'} />
               {getStatusLabel(status)}
             </StatusBanner>
           )}
           {hasImages && <ZoomHint>Click to view fullscreen</ZoomHint>}
-          {user && !isOwner && (
-            <FavoriteButton onClick={handleFavoriteClick} disabled={isLoading}>
-              {isFavorited ? <PiHeartFill size={24} /> : <PiHeart size={24} />}
-            </FavoriteButton>
-          )}
           {images.length > 1 && (
             <>
               <ImageCounter>
@@ -149,12 +130,15 @@ const StatusBanner = styled.div<{ $status: ListingStatus }>`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem 2rem;
+  padding: 1rem 1.25rem;
   background-color: ${(props) =>
-    props.$status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
-  color: ${(props) => (props.$status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
-  font-size: 1.4rem;
+    props.$status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
+  color: ${(props) => (props.$status === 'sold' ? '#fff' : props.theme.text.primary)};
+  font-size: 1.2rem;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   letter-spacing: 0.01em;
   z-index: 1;
 `;
@@ -275,42 +259,5 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
     opacity: 1;
     width: 40px;
     height: 40px;
-  }
-`;
-
-const FavoriteButton = styled.button`
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: ${({ theme }) => theme.background.primary};
-  color: ${({ theme }) => theme.favorite};
-  border: none;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-  z-index: 2;
-
-  &:hover {
-    background: ${({ theme }) => theme.overlay.darker};
-    transform: scale(1.1);
-    color: ${({ theme }) => theme.favorite};
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-
-  @media (max-width: 768px) {
-    width: 2.75rem;
-    height: 2.75rem;
   }
 `;

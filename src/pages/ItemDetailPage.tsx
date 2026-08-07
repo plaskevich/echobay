@@ -70,8 +70,6 @@ export function ItemDetailPage() {
           images={listing.images ?? []}
           format={listing.format}
           title={listing.title}
-          listingId={listing.id}
-          isOwner={isOwner}
           status={listing.status}
         />
 
@@ -81,6 +79,8 @@ export function ItemDetailPage() {
             title={listing.title}
             price={listing.price}
             shippingPrice={listing.shipping_price}
+            listingId={listing.id}
+            isOwner={isOwner}
           />
 
           <ListingInfo

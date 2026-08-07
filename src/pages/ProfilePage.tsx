@@ -84,6 +84,7 @@ export default function ProfilePage() {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
@@ -108,15 +109,13 @@ const FilterTab = styled.button<{ $active: boolean }>`
   @media (max-width: 640px) {
     flex: 1;
   }
-  border: 1px solid ${(props) => (props.$active ? props.theme.primary.main : props.theme.border.primary)};
-  background-color: ${(props) => (props.$active ? props.theme.primary.light : props.theme.background.primary)};
-  color: ${(props) => (props.$active ? props.theme.primary.main : props.theme.text.primary)};
+  border: 1px solid ${(props) => (props.$active ? props.theme.black.main : props.theme.border.primary)};
+  background-color: ${(props) => (props.$active ? props.theme.black.main : props.theme.background.primary)};
+  color: ${(props) => (props.$active ? '#fff' : props.theme.text.primary)};
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: ${(props) => props.theme.primary.main};
-    background-color: ${(props) => props.theme.primary.light};
-    color: ${(props) => props.theme.primary.main};
+    border-color: ${(props) => props.theme.border.hover};
   }
 `;
