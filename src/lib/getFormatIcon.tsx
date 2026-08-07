@@ -1,14 +1,10 @@
-import { PiCassetteTapeDuotone, PiDiscDuotone, PiVinylRecordDuotone } from 'react-icons/pi';
+const FORMAT_ICONS: Record<string, string> = {
+  vinyl: 'hn-disc-solid',
+  cd: 'hn-disc',
+  tape: 'hn-cassette-tape',
+};
 
 export function getFormatIcon(value?: string | null, size = 14) {
-  switch (value) {
-    case 'vinyl':
-      return <PiVinylRecordDuotone size={size} />;
-    case 'cd':
-      return <PiDiscDuotone size={size} />;
-    case 'tape':
-      return <PiCassetteTapeDuotone size={size} />;
-    default:
-      return <PiVinylRecordDuotone size={size} />;
-  }
+  const icon = FORMAT_ICONS[value ?? ''] ?? FORMAT_ICONS.vinyl;
+  return <i className={`hn ${icon}`} style={{ fontSize: size, lineHeight: 1 }} />;
 }

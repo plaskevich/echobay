@@ -70,20 +70,23 @@ const SellerAvatarContainer = styled.div`
 `;
 
 const SellerAvatar = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  display: flex;
+  align-items: center;
+  /* border-radius: 50%; */
 `;
 
 const SellerAvatarPlaceholder = styled.div`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.text.primary};
   font-size: 1.5rem;
+  background-color: ${({ theme }) => theme.background.tertiary};
 `;
 
 const SellerInfo = styled.div`

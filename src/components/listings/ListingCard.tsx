@@ -166,12 +166,10 @@ const Artist = styled.p`
 `;
 
 const Format = styled.p`
-  font-size: 0.7rem;
-  color: ${(props) => props.theme.text.tertiary};
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  text-transform: uppercase;
   font-weight: 500;
-  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -182,7 +180,7 @@ const Price = styled.p`
   font-size: 1rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
+  color: ${(props) => props.theme.text.primary};
   margin: auto 0 0 0;
   padding-top: 0.2rem;
 `;

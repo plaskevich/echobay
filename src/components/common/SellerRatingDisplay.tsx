@@ -33,8 +33,8 @@ const Container = styled.div`
 `;
 
 const NoRatings = styled.span`
-  font-size: 0.8125rem;
-  color: ${({ theme }) => theme.text.tertiary};
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.secondary};
 `;
 
 const RatingText = styled.div`
