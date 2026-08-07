@@ -130,7 +130,6 @@ const MainImageWrapper = styled.div<{ $clickable: boolean }>`
   width: 100%;
   max-width: 480px;
   aspect-ratio: 1;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
   cursor: ${({ $clickable }) => ($clickable ? 'zoom-in' : 'default')};
   background: ${({ theme }) => theme.background.secondary};
@@ -150,7 +149,6 @@ const StatusBanner = styled.div<{ $status: ListingStatus }>`
   left: 0;
   right: 0;
   padding: 1rem 2rem;
-  border-radius: 0 0 ${(props) => props.theme.borderRadius.md} ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) =>
     props.$status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
   color: ${(props) => (props.$status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
@@ -185,7 +183,6 @@ const ZoomHint = styled.div`
   background: ${({ theme }) => theme.overlay.darker};
   color: white;
   padding: 0.5rem 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.875rem;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -200,7 +197,6 @@ const ImageCounter = styled.div`
   background: ${({ theme }) => theme.overlay.darker};
   color: white;
   padding: 0.5rem 0.75rem;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.875rem;
   font-weight: 500;
   backdrop-filter: blur(8px);
@@ -224,7 +220,6 @@ const ThumbnailWrapper = styled.div<{ $active: boolean }>`
   box-sizing: border-box;
   position: relative;
   aspect-ratio: 1;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
   border: 2px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
   cursor: pointer;
@@ -254,7 +249,6 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
   border: none;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -292,7 +286,6 @@ const FavoriteButton = styled.button`
   border: none;
   width: 3rem;
   height: 3rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

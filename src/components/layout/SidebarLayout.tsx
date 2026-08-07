@@ -54,7 +54,6 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
   border: none;
   color: ${({ theme, $active }) => ($active ? theme.text.accent : theme.text.primary)};

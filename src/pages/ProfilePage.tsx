@@ -108,7 +108,6 @@ const FilterTab = styled.button<{ $active: boolean }>`
   @media (max-width: 640px) {
     flex: 1;
   }
-  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid ${(props) => (props.$active ? props.theme.primary.main : props.theme.border.primary)};
   background-color: ${(props) => (props.$active ? props.theme.primary.light : props.theme.background.primary)};
   color: ${(props) => (props.$active ? props.theme.primary.main : props.theme.text.primary)};

@@ -106,7 +106,6 @@ const EmptyState = styled.div`
   padding: 4rem 2rem;
   text-align: center;
   background: ${(props) => props.theme.background.secondary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px dashed ${(props) => props.theme.border.primary};
 `;
 

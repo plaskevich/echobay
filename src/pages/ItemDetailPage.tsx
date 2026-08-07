@@ -187,7 +187,6 @@ const Container = styled.div`
 const BackButton = styled.button`
   background: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
   font-weight: 500;
@@ -321,7 +320,6 @@ const SellerCard = styled(Link)`
   padding: 0.875rem 1rem;
   background: ${({ theme }) => theme.background.tertiary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   text-decoration: none;
   color: inherit;
   transition: all 0.15s ease;
@@ -339,7 +337,6 @@ const SellerAvatarContainer = styled.div`
 const SellerAvatar = styled.img`
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   object-fit: cover;
   border: 1px solid ${({ theme }) => theme.border.primary};
 `;
@@ -347,7 +344,6 @@ const SellerAvatar = styled.img`
 const SellerAvatarPlaceholder = styled.div`
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

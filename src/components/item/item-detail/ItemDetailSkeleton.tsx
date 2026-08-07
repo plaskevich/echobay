@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/common/Skeleton';
 export function ItemDetailSkeleton() {
   return (
     <Content aria-hidden="true" data-testid="item-detail-skeleton">
-      <ImageSkeleton radius="md" />
+      <ImageSkeleton />
       <Details>
         <Skeleton width="70%" height="2rem" />
         <Skeleton width="45%" height="1.5rem" />
@@ -15,7 +15,7 @@ export function ItemDetailSkeleton() {
         <Skeleton width="95%" height="1rem" />
         <Skeleton width="82%" height="1rem" />
         <Gap />
-        <Skeleton height="2.75rem" radius="sm" />
+        <Skeleton height="2.75rem" />
       </Details>
     </Content>
   );

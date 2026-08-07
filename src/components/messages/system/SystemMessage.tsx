@@ -180,7 +180,6 @@ const Card = styled.div`
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
 `;
@@ -189,7 +188,6 @@ const IconWrapper = styled.div<{ $color: 'success' | 'primary' }>`
   flex-shrink: 0;
   width: 36px;
   height: 36px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,7 +223,6 @@ const ActionButton = styled.button<{ disabled?: boolean }>`
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.8125rem;
@@ -245,7 +242,6 @@ const StatusTag = styled.span<{ $variant: 'shipped' | 'delivered' }>`
   align-items: center;
   align-self: flex-start;
   padding: 0.25rem 0.75rem;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
   background-color: ${({ theme, $variant }) =>

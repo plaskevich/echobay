@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/common/Skeleton';
 export function ListingCardSkeleton() {
   return (
     <Card aria-hidden="true" data-testid="listing-card-skeleton">
-      <ImageSkeleton radius="sm" />
+      <ImageSkeleton />
       <Skeleton width="55%" height="0.875rem" />
       <Skeleton width="80%" height="1rem" />
       <Skeleton width="35%" height="0.75rem" />
@@ -17,7 +17,6 @@ export function ListingCardSkeleton() {
 const Card = styled.div`
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   padding: ${({ theme }) => theme.spacing.md};
   display: flex;
   flex-direction: column;

@@ -94,7 +94,6 @@ const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   padding: ${(props) => props.theme.spacing.md};
   box-shadow: ${(props) => props.theme.elevation.sm};
   transition:
@@ -133,13 +132,11 @@ const ListingImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;
 
 const FormatIconFallback = styled.div`
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) => props.theme.background.secondary};
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
@@ -200,7 +197,6 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   left: 0;
   right: 0;
   padding: 0.5rem 1rem;
-  border-radius: 0 0 ${(props) => props.theme.borderRadius.md} ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) =>
     props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
   color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};

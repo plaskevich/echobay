@@ -100,7 +100,6 @@ export const ImagePreviewContainer = styled.div`
 export const ImagePreview = styled.div`
   position: relative;
   aspect-ratio: 1;
-  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
   border: 1px solid ${(props) => props.theme.border.primary};
   cursor: grab;
@@ -127,7 +126,6 @@ export const MainBadge = styled.span`
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.15rem 0.35rem;
-  border-radius: ${(props) => props.theme.borderRadius.xs};
   line-height: 1.2;
   pointer-events: none;
 `;
@@ -139,7 +137,6 @@ export const RemoveImageButton = styled.button`
   background-color: ${(props) => props.theme.overlay.dark};
   color: white;
   border: none;
-  border-radius: ${(props) => props.theme.borderRadius.full};
   width: 1.5rem;
   height: 1.5rem;
   display: flex;

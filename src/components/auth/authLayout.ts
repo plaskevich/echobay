@@ -21,7 +21,6 @@ export const AuthContainer = styled.div`
 export const AuthCard = styled.div`
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   max-width: 450px;
@@ -33,7 +32,6 @@ export const AuthCard = styled.div`
 
   @media (max-width: 640px) {
     padding: ${({ theme }) => theme.spacing.lg};
-    border-radius: ${({ theme }) => theme.borderRadius.md};
     box-shadow: none;
     border: none;
     background-color: transparent;
@@ -72,6 +70,5 @@ export const AuthErrorMessage = styled.div`
   background-color: ${({ theme }) => theme.state.error}20;
   color: ${({ theme }) => theme.state.error};
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

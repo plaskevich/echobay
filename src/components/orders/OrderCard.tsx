@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
 import { getFormatIcon } from '@/lib/getFormatIcon';
-import { signatureSurface } from '@/lib/theme';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -61,7 +60,6 @@ export default function OrderCard({ order }: OrderCardProps) {
 const Card = styled.div`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  ${signatureSurface}
   overflow: hidden;
   transition: all 0.2s;
   box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
@@ -108,7 +106,6 @@ const OrderImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.md};
 
   @media (max-width: 480px) {
     aspect-ratio: 16 / 9;
@@ -118,7 +115,6 @@ const OrderImage = styled.img`
 const OrderFormatFallback = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) => props.theme.background.secondary};
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
@@ -182,7 +178,6 @@ const DetailValue = styled.span`
 
 const StatusBadge = styled.span<{ status: string }>`
   display: inline-block;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;

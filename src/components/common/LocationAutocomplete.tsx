@@ -136,7 +136,6 @@ const SuggestionsList = styled.ul`
   list-style: none;
   background: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   box-shadow: ${({ theme }) => theme.elevation.lg};
   max-height: 300px;
   overflow-y: auto;

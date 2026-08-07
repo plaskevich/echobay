@@ -14,7 +14,6 @@ import { Button } from '@/components/common/Button';
 import { PageTitle } from '@/components/common/PageTitle';
 import { Spinner } from '@/components/common/Spinner';
 import { stripePromise } from '@/lib/stripe';
-import { signatureSurface } from '@/lib/theme';
 import { useListing } from '@/queries/useListings';
 import { useShippingAddress } from '@/queries/useShipping';
 import { useAuthStore } from '@/store/auth-store';
@@ -179,7 +178,6 @@ const StepPanel = styled.div`
   background: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-shadow: ${({ theme }) => theme.elevation.sm};
-  ${signatureSurface}
   animation: ${stepIn} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized};
 
   @media (max-width: 640px) {

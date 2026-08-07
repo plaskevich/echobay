@@ -21,6 +21,5 @@ export const Spinner = styled.span<SpinnerProps>`
   border: ${({ thickness }) => thickness ?? '2px'} solid
     ${({ theme, $trackColor }) => $trackColor ?? theme.spinner.background};
   border-top-color: ${({ theme, $color }) => $color ?? theme.spinner.foreground};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   animation: ${spin} 0.6s linear infinite;
 `;

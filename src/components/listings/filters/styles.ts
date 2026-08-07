@@ -10,7 +10,6 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
   background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
   font-size: 0.875rem;
@@ -54,7 +53,6 @@ export const DropdownMenu = styled.div`
   padding: 0.4rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   box-shadow: ${({ theme }) => theme.elevation.lg};
   z-index: 100;
 
@@ -66,7 +64,6 @@ export const DropdownMenu = styled.div`
     bottom: 0;
     max-height: none;
     min-width: 0;
-    border-radius: 0;
     border: none;
     box-shadow: none;
     padding: 0;
@@ -141,7 +138,6 @@ export const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.secondary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.8125rem;
@@ -161,7 +157,6 @@ export const SearchInput = styled.input`
   @media (max-width: 640px) {
     padding: 0.75rem 1rem;
     font-size: 1rem;
-    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 `;
 
@@ -186,7 +181,6 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   font-size: 0.875rem;
   color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.secondary)};
   font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   transition: all 0.15s ease;
 
   &:hover {
@@ -201,7 +195,6 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   @media (max-width: 640px) {
     padding: 1rem;
     font-size: 1rem;
-    border-radius: 0;
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   }
 `;
@@ -228,7 +221,6 @@ export const DropdownApplyButton = styled.button`
   padding: 0.625rem 0.75rem;
   border: none;
   border-top: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.8125rem;
@@ -243,7 +235,6 @@ export const DropdownApplyButton = styled.button`
     padding: 1rem;
     font-size: 1rem;
     border: none;
-    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 `;
 
@@ -251,7 +242,6 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
   border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.xs};
   background-color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.background.primary)};
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -291,7 +281,6 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
   font-size: 0.875rem;
   color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.secondary)};
   font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   transition: all 0.15s ease;
 
   &:hover {
@@ -306,7 +295,6 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
   @media (max-width: 640px) {
     padding: 1rem;
     font-size: 1rem;
-    border-radius: 0;
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   }
 `;
@@ -315,7 +303,6 @@ export const Radio = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
   border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: ${({ theme }) => theme.background.primary};
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -327,7 +314,6 @@ export const Radio = styled.div<{ $checked?: boolean }>`
     content: '';
     width: 0.5rem;
     height: 0.5rem;
-    border-radius: ${({ theme }) => theme.borderRadius.full};
     background-color: ${({ theme }) => theme.primary.main};
     opacity: ${({ $checked }) => ($checked ? 1 : 0)};
     transition: opacity 0.15s ease;

@@ -311,7 +311,6 @@ const Layout = styled.div`
   overflow: hidden;
   background: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.lg};
   box-shadow: ${(props) => props.theme.elevation.sm};
 
   @media (max-width: 768px) {
@@ -320,7 +319,6 @@ const Layout = styled.div`
     width: 100%;
     overflow: visible;
     border: none;
-    border-radius: 0;
     box-shadow: none;
     background: transparent;
   }

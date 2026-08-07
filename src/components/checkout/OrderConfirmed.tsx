@@ -97,7 +97,6 @@ const SuccessIcon = styled.div`
     width: 72px;
     height: 72px;
     margin: -36px 0 0 -36px;
-    border-radius: ${({ theme }) => theme.borderRadius.full};
     background-color: ${({ theme }) => theme.state.success};
     z-index: -1;
     animation: ${haloPulse} 900ms ${({ theme }) => theme.easing.standard} 220ms both;

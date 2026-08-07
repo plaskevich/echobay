@@ -120,7 +120,6 @@ const ItemLink = styled(Link)`
   flex: 1;
   min-width: 0;
   padding: 0.25rem;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 
   &:hover {
     background-color: ${(props) => props.theme.background.tertiary};
@@ -135,7 +134,6 @@ const BuyButton = styled.button`
   font-size: 0.8125rem;
   font-weight: 600;
   border: 1px solid ${(props) => props.theme.primary.main};
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   background: transparent;
   color: ${(props) => props.theme.primary.main};
   cursor: pointer;
@@ -161,7 +159,6 @@ const ItemImage = styled.img`
   width: 48px;
   height: 48px;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   flex-shrink: 0;
 
   @media (max-width: 640px) {
@@ -173,7 +170,6 @@ const ItemImage = styled.img`
 const ItemFormatFallback = styled.div`
   width: 48px;
   height: 48px;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   background-color: ${(props) => props.theme.background.secondary};
   color: ${(props) => props.theme.text.tertiary};
   display: flex;

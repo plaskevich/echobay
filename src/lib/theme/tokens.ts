@@ -1,5 +1,4 @@
 import type {
-  BorderRadius,
   Duration,
   Easing,
   Elevation,
@@ -10,15 +9,6 @@ import type {
   Spacing,
   Transition,
 } from './types';
-
-const borderRadius: BorderRadius = {
-  xs: '0.25rem',
-  sm: '0.5rem',
-  md: '0.875rem',
-  lg: '1.25rem',
-  xl: '1.75rem',
-  full: '9999px',
-};
 
 const spacing: Spacing = {
   '3xs': '0.125rem',
@@ -76,7 +66,6 @@ const transition: Transition = {
 };
 
 export const sharedTokens = {
-  borderRadius,
   spacing,
   fontFamily,
   fontSize,

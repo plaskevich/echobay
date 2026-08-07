@@ -133,7 +133,6 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
   padding: 0.625rem 0.75rem;
   ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 1.75rem;'}
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;
@@ -159,7 +158,6 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
     width: 100%;
     padding: 0.875rem 1rem;
     font-size: 1rem;
-    border-radius: ${({ theme }) => theme.borderRadius.md};
     ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 2rem;'}
   }
 `;

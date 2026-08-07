@@ -50,7 +50,6 @@ const ThemeCard = styled.button<{ $active: boolean }>`
   gap: 0.75rem;
   padding: 1.5rem 1rem;
   border: 2px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
   background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
   transition: all 0.2s ease;
   font-family: inherit;
@@ -67,7 +66,6 @@ const IconWrapper = styled.div<{ $active: boolean }>`
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.background.secondary)};
   color: ${({ theme, $active }) => ($active ? '#fff' : theme.text.primary)};
 `;

@@ -37,7 +37,6 @@ export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   width: 100%;
   padding: 1rem 2.5rem 1rem 1rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -77,7 +76,6 @@ const SelectIcon = styled(PiCaretDown)`
 export const TextArea = styled.textarea<{ $hasError?: boolean }>`
   padding: 0.75rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -104,7 +102,6 @@ export const TextArea = styled.textarea<{ $hasError?: boolean }>`
 export const FileInput = styled.input`
   padding: 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
@@ -119,7 +116,6 @@ export const FileInput = styled.input`
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     border: none;
-    border-radius: ${(props) => props.theme.borderRadius.md};
     background-color: ${(props) => props.theme.primary.main};
     color: white;
     cursor: pointer;

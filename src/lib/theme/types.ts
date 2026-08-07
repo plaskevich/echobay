@@ -1,14 +1,5 @@
 export type Theme = 'light' | 'dark';
 
-export interface BorderRadius {
-  xs: string;
-  sm: string;
-  md: string;
-  lg: string;
-  xl: string;
-  full: string;
-}
-
 export interface Spacing {
   '3xs': string;
   '2xs': string;
@@ -128,7 +119,6 @@ export interface ThemeColors {
     background: string;
     foreground: string;
   };
-  borderRadius: BorderRadius;
   spacing: Spacing;
   fontFamily: string;
   fontSize: FontSize;

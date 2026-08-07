@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
-import { signatureSurface } from '@/lib/theme';
 
 export interface ProfileHeaderProps {
   avatarUrl?: string | null;
@@ -95,7 +94,6 @@ const Header = styled.div`
   background: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: ${(props) => props.theme.elevation.sm};
-  ${signatureSurface}
   margin-bottom: 1.5rem;
 
   @media (max-width: 640px) {
@@ -116,7 +114,6 @@ export const ProfilePicture = styled.img.attrs({
 })`
   width: 5rem;
   height: 5rem;
-  border-radius: ${(props) => props.theme.borderRadius.full};
   object-fit: cover;
   border: 2px solid ${(props) => props.theme.background.secondary};
   box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
@@ -125,7 +122,6 @@ export const ProfilePicture = styled.img.attrs({
 export const Placeholder = styled.div`
   width: 5rem;
   height: 5rem;
-  border-radius: ${(props) => props.theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

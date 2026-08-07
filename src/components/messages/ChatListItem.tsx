@@ -71,7 +71,6 @@ const ChatItem = styled.button<{ $active?: boolean }>`
   gap: 0.75rem;
   padding: 0.75rem 0.875rem;
   border: none;
-  border-radius: ${(props) => props.theme.borderRadius.md};
   background: ${({ theme, $active }) => ($active ? `${theme.primary.main}22` : 'transparent')};
   color: ${(props) => props.theme.text.primary};
   text-align: left;
@@ -87,7 +86,6 @@ const ChatItemAvatar = styled.div<{ $hasImage?: boolean }>`
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   overflow: hidden;
   background: ${({ theme, $hasImage }) => ($hasImage ? 'transparent' : theme.background.tertiary)};
   display: flex;
@@ -144,7 +142,6 @@ const ChatItemTimestamp = styled.span<{ $unread?: boolean }>`
 const UnreadDot = styled.span`
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: ${(props) => props.theme.borderRadius.full};
   background-color: ${(props) => props.theme.primary.main};
 `;
 
@@ -184,14 +181,12 @@ const ChatItemThumbnail = styled.img`
   width: 32px;
   height: 32px;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;
 
 const ChatItemFormatFallback = styled.div`
   flex-shrink: 0;
   width: 32px;
   height: 32px;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   background-color: ${(props) => props.theme.background.secondary};
   color: ${(props) => props.theme.text.tertiary};
   display: flex;

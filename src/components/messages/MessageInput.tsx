@@ -57,7 +57,6 @@ const MessageInputWrapper = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
   transition: border-color 0.15s ease;
 

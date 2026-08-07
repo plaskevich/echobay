@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { Form } from '@/components/common/Form';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
-import { signatureSurface } from '@/lib/theme';
 
 import { AvatarUpload } from './AvatarUpload';
 import { FormHeader } from './FormHeader';
@@ -73,7 +72,6 @@ const Panel = styled.div`
   background: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: ${(props) => props.theme.elevation.sm};
-  ${signatureSurface}
 
   @media (max-width: 640px) {
     padding: 1.5rem 1rem;

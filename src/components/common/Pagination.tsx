@@ -132,7 +132,6 @@ const PageButton = styled.button<{ $active: boolean }>`
   height: 2rem;
   padding: 0 0.375rem;
   border: 1px solid ${({ $active, theme }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background: ${({ $active, theme }) => ($active ? theme.primary.main : 'transparent')};
   color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.primary)};
   font-size: 0.875rem;
@@ -169,7 +168,6 @@ const SizeLabel = styled.span`
 const SizeSelect = styled.select`
   padding: 0.3rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;

@@ -5,7 +5,6 @@ import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { Button } from '@/components/common/Button';
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
 import { getFormatIcon } from '@/lib/getFormatIcon';
-import { signatureSurface } from '@/lib/theme';
 import { capitalize, formatPrice, getFormatLabel } from '@/lib/utils';
 
 import type { ShippingAddress } from './ShippingForm';
@@ -156,7 +155,6 @@ const Container = styled.div`
   background: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   box-shadow: ${({ theme }) => theme.elevation.sm};
-  ${signatureSurface}
   animation: ${stepIn} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized};
 
   @media (max-width: 640px) {
@@ -195,7 +193,6 @@ const ItemCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const ItemImage = styled.img`
@@ -203,7 +200,6 @@ const ItemImage = styled.img`
   height: 80px;
   flex-shrink: 0;
   object-fit: cover;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const Format = styled.p`
@@ -247,7 +243,6 @@ const AddressCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const AddressLine = styled.div`
@@ -264,7 +259,6 @@ const PaymentCard = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const PaymentIcon = styled.span`
@@ -274,7 +268,6 @@ const PaymentIcon = styled.span`
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.primary.main};
   font-size: 1.25rem;
@@ -304,7 +297,6 @@ const PriceBreakdown = styled.div`
     ${({ theme }) => theme.background.primary}
   );
   border: 1px solid ${({ theme }) => theme.primary.main};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
 const PriceRow = styled.div`
@@ -353,7 +345,6 @@ const ErrorText = styled.div`
   padding: 1rem;
   background-color: ${({ theme }) => theme.state.error}22;
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   color: ${({ theme }) => theme.state.error};
   font-size: 0.875rem;
 `;

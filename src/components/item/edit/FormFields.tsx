@@ -218,7 +218,6 @@ const SectionsWrapper = styled.div`
 
 const Section = styled.fieldset`
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: 1.25rem 1.5rem 1.5rem;
   background-color: ${({ theme }) => theme.background.secondary};
 

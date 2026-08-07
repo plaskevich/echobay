@@ -62,7 +62,6 @@ const ProgressStep = styled.div<{ active: boolean; completed: boolean }>`
 const StepNumber = styled.div<{ active: boolean; completed: boolean }>`
   width: 32px;
   height: 32px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +96,6 @@ const ProgressLine = styled.div`
   flex: 1;
   height: 2px;
   max-width: 120px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: ${({ theme }) => theme.border.primary};
   overflow: hidden;
 

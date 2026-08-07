@@ -2,7 +2,6 @@ import { darkTheme } from './dark';
 import { lightTheme } from './light';
 
 export type {
-  BorderRadius,
   Duration,
   Easing,
   Elevation,
@@ -16,7 +15,7 @@ export type {
   Transition,
 } from './types';
 export { makeElevation, sharedTokens } from './tokens';
-export { glassSurface, signatureSurface } from './mixins';
+export { glassSurface } from './mixins';
 export { lightTheme } from './light';
 export { darkTheme } from './dark';
 

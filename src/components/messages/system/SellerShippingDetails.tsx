@@ -88,7 +88,6 @@ export function SellerShippingDetails({
 const AddressBlock = styled.div`
   padding: 0.625rem 0.75rem;
   background-color: ${({ theme }) => theme.background.tertiary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid ${({ theme }) => theme.border.primary};
   display: flex;
   flex-direction: column;
@@ -119,7 +118,6 @@ const ActionButton = styled.button<{ disabled?: boolean }>`
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.8125rem;
@@ -139,7 +137,6 @@ const StatusTag = styled.span<{ $variant: 'shipped' | 'delivered' }>`
   align-items: center;
   align-self: flex-start;
   padding: 0.25rem 0.75rem;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
   background-color: ${({ theme, $variant }) =>

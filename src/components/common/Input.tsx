@@ -38,7 +38,6 @@ const StyledInput = styled.input<{ $hasError?: boolean }>`
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   transition: all 0.2s ease;

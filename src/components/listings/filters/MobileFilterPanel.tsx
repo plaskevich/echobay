@@ -194,7 +194,6 @@ const MobileFilterButton = styled.button<{ $active?: boolean }>`
     gap: 0.4rem;
     padding: 0.5rem 0.75rem;
     border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-    border-radius: ${({ theme }) => theme.borderRadius.full};
     background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
     color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
     font-size: 0.875rem;
@@ -215,7 +214,6 @@ const Badge = styled.span`
   min-width: 1.25rem;
   height: 1.25rem;
   padding: 0 0.375rem;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.6875rem;
@@ -294,7 +292,6 @@ const ShowResultsButton = styled.button`
   width: 100%;
   padding: 1rem;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 1rem;

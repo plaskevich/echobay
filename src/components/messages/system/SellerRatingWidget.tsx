@@ -80,7 +80,6 @@ const RatingRow = styled.div`
 const SubmitButton = styled.button<{ disabled?: boolean }>`
   padding: 0.375rem 0.75rem;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.primary.main};
   color: white;
   font-size: 0.75rem;
