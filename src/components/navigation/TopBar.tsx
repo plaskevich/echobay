@@ -155,14 +155,15 @@ const LogoLink = styled(Link)`
 
 const LogoText = styled.span`
   font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
-  transition: color 0.2s;
+  transition: all 0.2s;
   margin-top: 0.3rem;
 
   ${LogoLink}:hover & {
     color: ${(props) => props.theme.primary.main};
+    transform: scale(1.1);
   }
 
   @media (max-width: 640px) {

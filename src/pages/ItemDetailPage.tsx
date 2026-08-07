@@ -1,20 +1,19 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
-import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ItemDetailSkeleton } from '@/components/item/item-detail/ItemDetailSkeleton';
+import { ListingDescription } from '@/components/item/item-detail/ListingDescription';
+import { ListingHeader } from '@/components/item/item-detail/ListingHeader';
 import { ListingInfo } from '@/components/item/item-detail/ListingInfo';
 import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
+import { SellerCard } from '@/components/item/item-detail/SellerCard';
 import { useListingActions } from '@/hooks/useListingActions';
 import { useLogView } from '@/hooks/useLogView';
-import { formatPrice } from '@/lib/utils';
 import { useListing } from '@/queries/useListings';
-import { useProfile } from '@/queries/useProfiles';
-import { useSellerRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ItemDetailPage() {
@@ -35,8 +34,6 @@ export function ItemDetailPage() {
   } = useListingActions(id!);
 
   const isOwner = user?.id === listing?.owner_id;
-  const { data: sellerProfile } = useProfile(listing?.owner_id);
-  const { data: sellerRating } = useSellerRating(listing?.owner_id);
 
   useLogView(listing?.id);
 
@@ -79,20 +76,12 @@ export function ItemDetailPage() {
         />
 
         <DetailsSection>
-          <TitleSection>
-            <Artist data-testid="artist">{listing.artist}</Artist>
-            <Title data-testid="title">{listing.title}</Title>
-          </TitleSection>
-          <PriceSection>
-            <Price data-testid="listing-price">{formatPrice(listing.price)}</Price>
-            {listing.shipping_price != null && listing.shipping_price > 0 ? (
-              <ShippingPrice data-testid="listing-shipping">
-                + {formatPrice(listing.shipping_price)} shipping
-              </ShippingPrice>
-            ) : (
-              <ShippingPrice data-testid="listing-shipping">Free shipping</ShippingPrice>
-            )}
-          </PriceSection>
+          <ListingHeader
+            artist={listing.artist}
+            title={listing.title}
+            price={listing.price}
+            shippingPrice={listing.shipping_price}
+          />
 
           <ListingInfo
             format={listing.format}
@@ -102,40 +91,9 @@ export function ItemDetailPage() {
             year={listing.year}
           />
 
-          {listing.description && (
-            <DescriptionSection>
-              <SectionTitle>Description</SectionTitle>
-              <Description data-testid="listing-description">{listing.description}</Description>
-            </DescriptionSection>
-          )}
+          <ListingDescription description={listing.description} />
 
-          <SellerSection>
-            <SectionTitle>Seller</SectionTitle>
-            <SellerCard to={`/users/${listing.owner_id}`} data-testid="seller-card">
-              <SellerAvatarContainer>
-                {sellerProfile?.avatar_url ? (
-                  <SellerAvatar src={sellerProfile.avatar_url} alt="" referrerPolicy="no-referrer" />
-                ) : (
-                  <SellerAvatarPlaceholder>
-                    <i className="hn hn-user" />
-                  </SellerAvatarPlaceholder>
-                )}
-              </SellerAvatarContainer>
-              <SellerInfo>
-                <SellerName data-testid="seller-name">{sellerProfile?.username || 'Seller'}</SellerName>
-                {sellerProfile?.location && (
-                  <SellerLocation data-testid="seller-location">
-                    <i className="hn hn-location-pin" />
-                    {sellerProfile.location}
-                  </SellerLocation>
-                )}
-                <SellerRatingDisplay average={sellerRating?.average ?? 0} count={sellerRating?.count ?? 0} />
-              </SellerInfo>
-              <ViewProfileArrow>
-                <i className="hn hn-angle-right" />
-              </ViewProfileArrow>
-            </SellerCard>
-          </SellerSection>
+          <SellerCard ownerId={listing.owner_id} />
 
           <ButtonGroup>
             {isOwner ? (
@@ -241,146 +199,6 @@ const DetailsSection = styled.div`
   gap: 1rem;
   width: 100%;
   min-width: 0;
-`;
-
-const TitleSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Artist = styled.p`
-  font-size: 1.25rem;
-  color: ${({ theme }) => theme.text.secondary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.125rem;
-  }
-`;
-
-const Title = styled.p`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.text.primary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
-  }
-`;
-
-const PriceSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-top: -0.5rem;
-`;
-
-const Price = styled.p`
-  font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1;
-  color: ${({ theme }) => theme.primary.main};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1rem;
-  }
-`;
-
-const ShippingPrice = styled.p`
-  font-size: 0.875rem;
-  font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 500;
-  color: ${({ theme }) => theme.text.muted};
-  margin: 0;
-`;
-
-const DescriptionSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.primary};
-  margin: 0;
-`;
-
-const Description = styled.p`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.text.secondary};
-  line-height: 1.6;
-  margin: 0;
-  white-space: pre-wrap;
-`;
-
-const SellerSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-`;
-
-const SellerCard = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const SellerAvatarContainer = styled.div`
-  flex-shrink: 0;
-`;
-
-const SellerAvatar = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
-  object-fit: cover;
-  border: 1px solid ${({ theme }) => theme.border.primary};
-`;
-
-const SellerAvatarPlaceholder = styled.div`
-  width: 2.5rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.text.primary};
-  font-size: 1.5rem;
-`;
-
-const SellerInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  flex: 1;
-  min-width: 0;
-`;
-
-const SellerName = styled.span`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.text.primary};
-`;
-
-const SellerLocation = styled.span`
-  font-size: 0.725rem;
-  color: ${({ theme }) => theme.text.tertiary};
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-`;
-
-const ViewProfileArrow = styled.span`
-  flex-shrink: 0;
-  color: ${({ theme }) => theme.text.tertiary};
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
 `;
 
 const ButtonGroup = styled.div`
