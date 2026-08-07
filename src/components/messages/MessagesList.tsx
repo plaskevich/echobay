@@ -140,7 +140,6 @@ const DateDivider = styled.div`
   font-size: 0.85rem;
   margin: 0.25rem 0;
   padding: 0.15rem 0.5rem;
-  background: ${({ theme }) => theme.background.tertiary};
 `;
 
 const messageIn = keyframes`

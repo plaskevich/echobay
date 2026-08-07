@@ -88,12 +88,9 @@ export function ChatListSidebar({
 const ChatList = styled.div`
   width: 288px;
   min-width: 288px;
-  border-right: 1px solid ${(props) => props.theme.border.primary};
-  background: ${(props) => props.theme.background.secondary};
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.5rem;
+  gap: 0.5rem;
   overflow-y: auto;
 
   @media (max-width: 768px) {

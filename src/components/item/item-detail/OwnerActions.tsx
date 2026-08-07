@@ -32,7 +32,7 @@ export function OwnerActions({
       {status === 'active' && (
         <>
           <Button variant="primary" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
-            <i className="hn hn-badge-check" />
+            <i className="hn hn-tag" />
             Mark as Sold
           </Button>
           <Button variant="outline" size="medium" fullWidth onClick={onHide} data-testid="hide-listing-button">
@@ -48,7 +48,7 @@ export function OwnerActions({
             Set as Active
           </Button>
           <Button variant="outline" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
-            <i className="hn hn-badge-check" />
+            <i className="hn hn-tag" />
             Mark as Sold
           </Button>
         </>

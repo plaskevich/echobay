@@ -45,7 +45,7 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
           )}
           {showStatusBanner && (
             <StatusBanner $status={status!} data-testid="status-banner">
-              <i className={status === 'sold' ? 'hn hn-badge-check-solid' : 'hn hn-eye-cross-solid'} />
+              <i className={status === 'sold' ? 'hn hn-tag-solid' : 'hn hn-eye-cross-solid'} />
               {getStatusLabel(status)}
             </StatusBanner>
           )}

@@ -1,4 +1,3 @@
-import { PiPaperPlaneRightDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 interface MessageInputProps {
@@ -32,7 +31,7 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
           aria-label="Send message"
           data-testid="message-send-button"
         >
-          <PiPaperPlaneRightDuotone size={20} />
+          <i className="hn hn-arrow-circle-right-solid" aria-hidden />
         </MessageSendButton>
       </MessageInputWrapper>
     </MessageInputArea>
@@ -55,13 +54,13 @@ const MessageInputArea = styled.div`
 const MessageInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
   overflow: hidden;
   transition: border-color 0.15s ease;
 
   &:focus-within {
-    border-color: ${(props) => props.theme.primary.main};
+    border-color: ${(props) => props.theme.border.hover};
+    background-color: #fff;
   }
 `;
 
@@ -91,13 +90,15 @@ const MessageSendButton = styled.button`
   padding: 0.875rem 1rem;
   border: none;
   background: transparent;
-  color: ${(props) => props.theme.primary.main};
+  color: ${(props) => props.theme.text.primary};
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.15s ease;
 
   &:hover:not(:disabled) {
-    color: ${(props) => props.theme.primary.hover};
+    color: ${(props) => props.theme.primary.main};
   }
 
   &:disabled {

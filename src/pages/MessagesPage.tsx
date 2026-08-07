@@ -281,6 +281,7 @@ export default function MessagesPage() {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -295,8 +296,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  margin-bottom: 1.5rem;
-
+  margin-bottom: 1rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem 1rem 0.75rem;
     margin: 0;
@@ -309,9 +309,8 @@ const Layout = styled.div`
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: ${(props) => props.theme.background.primary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  box-shadow: ${(props) => props.theme.elevation.sm};
+  display: flex;
+  gap: 1.5rem;
 
   @media (max-width: 768px) {
     min-height: 0;

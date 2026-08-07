@@ -1,7 +1,7 @@
-import { PiShoppingCart } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Button } from '@/components/common/Button';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel } from '@/lib/utils';
 
@@ -58,15 +58,20 @@ export function ConversationHeader({
             <ItemArtist data-testid="conversation-header-artist">{artist}</ItemArtist>
             <ItemTitle data-testid="conversation-header-title">{title}</ItemTitle>
             <ItemMeta data-testid="conversation-header-meta">
-              {formatLabel} · {formatPrice(Number(price))}
+              {formatLabel} · <Price>{formatPrice(Number(price))}</Price>
             </ItemMeta>
           </ItemDetails>
         </ItemLink>
         {showBuyButton && (
-          <BuyButton onClick={() => navigate(`/checkout/${listingId}`)} data-testid="conversation-buy-button">
-            <PiShoppingCart size={16} />
-            Buy now
-          </BuyButton>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={() => navigate(`/checkout/${listingId}`)}
+            data-testid="conversation-buy-button"
+          >
+            <i className="hn hn-shopping-cart" aria-hidden />
+            Buy
+          </Button>
         )}
       </BottomRow>
     </Header>
@@ -74,7 +79,6 @@ export function ConversationHeader({
 }
 
 const Header = styled.div`
-  background: ${(props) => props.theme.background.secondary};
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
 `;
 
@@ -120,66 +124,33 @@ const ItemLink = styled(Link)`
   flex: 1;
   min-width: 0;
   padding: 0.25rem;
-
-  &:hover {
-    background-color: ${(props) => props.theme.background.tertiary};
-  }
-`;
-
-const BuyButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.5rem 0.875rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  border: 1px solid ${(props) => props.theme.primary.main};
-  background: transparent;
-  color: ${(props) => props.theme.primary.main};
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: ${(props) => props.theme.primary.light};
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-
-  @media (max-width: 640px) {
-    padding: 0.4rem 0.625rem;
-    font-size: 0.75rem;
-  }
 `;
 
 const ItemImage = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
   object-fit: cover;
   flex-shrink: 0;
 
   @media (max-width: 640px) {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 `;
 
 const ItemFormatFallback = styled.div`
-  width: 48px;
-  height: 48px;
-  background-color: ${(props) => props.theme.background.secondary};
-  color: ${(props) => props.theme.text.tertiary};
+  width: 3rem;
+  height: 3rem;
+  background-color: #fff;
+  color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 
   @media (max-width: 640px) {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 `;
 
@@ -199,10 +170,14 @@ const ItemTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${(props) => props.theme.text.secondary};
+  color: ${(props) => props.theme.text.primary};
 `;
 
 const ItemMeta = styled.div`
   font-size: 0.8rem;
-  color: ${(props) => props.theme.text.muted};
+  color: ${(props) => props.theme.text.secondary};
+`;
+const Price = styled.span`
+  font-weight: 600;
+  font-family: ${(props) => props.theme.fontFamilyAlt};
 `;

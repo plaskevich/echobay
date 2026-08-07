@@ -1,4 +1,3 @@
-import { PiUserCircleDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
@@ -30,11 +29,11 @@ export function ChatListItem({
 }: ChatListItemProps) {
   return (
     <ChatItem $active={isActive} onClick={onClick} type="button" data-testid="chat-list-item">
-      <ChatItemAvatar $hasImage={!!avatarUrl}>
+      <ChatItemAvatar>
         {avatarUrl ? (
           <img src={avatarUrl} alt="" referrerPolicy="no-referrer" />
         ) : (
-          <PiUserCircleDuotone size={28} aria-hidden />
+          <i className="hn hn-user" aria-hidden />
         )}
       </ChatItemAvatar>
       <ChatItemContent>
@@ -55,8 +54,8 @@ export function ChatListItem({
             </ChatItemFormatFallback>
           )}
           <ChatItemSubtitle>
-            {artist && <ChatItemArtist data-testid="chat-item-artist">{artist}</ChatItemArtist>}
             <ChatItemTitleLine data-testid="chat-item-title">{title}</ChatItemTitleLine>
+            {artist && <ChatItemArtist data-testid="chat-item-artist">{artist}</ChatItemArtist>}
           </ChatItemSubtitle>
           {hasUnread && <UnreadDot data-testid="chat-item-unread" />}
         </ChatItemRow>
@@ -70,28 +69,29 @@ const ChatItem = styled.button<{ $active?: boolean }>`
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 0.875rem;
-  border: none;
-  background: ${({ theme, $active }) => ($active ? `${theme.primary.main}22` : 'transparent')};
-  color: ${(props) => props.theme.text.primary};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : theme.border.primary)};
+  background: ${({ theme, $active }) => ($active ? theme.background.secondary : 'transparent')};
   text-align: left;
-  transition: background 0.15s ease;
+  transition: border-color 0.15s ease;
   width: 100%;
 
   &:hover {
-    background: ${({ theme, $active }) => ($active ? `${theme.primary.main}33` : theme.background.secondaryHover)};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 `;
 
-const ChatItemAvatar = styled.div<{ $hasImage?: boolean }>`
+const ChatItemAvatar = styled.div`
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   overflow: hidden;
-  background: ${({ theme, $hasImage }) => ($hasImage ? 'transparent' : theme.background.tertiary)};
+  background: #fff;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
+  font-size: 1.25rem;
 
   img {
     width: 100%;
@@ -117,7 +117,7 @@ const ChatItemHeader = styled.div`
 
 const ChatItemTitle = styled.div<{ $unread?: boolean }>`
   font-weight: ${({ $unread }) => ($unread ? 700 : 600)};
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   color: ${(props) => props.theme.text.primary};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -161,7 +161,7 @@ const ChatItemSubtitle = styled.div`
 `;
 
 const ChatItemArtist = styled.span`
-  font-size: 0.8rem;
+  font-size: 0.725rem;
   color: ${(props) => props.theme.text.secondary};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -170,7 +170,7 @@ const ChatItemArtist = styled.span`
 
 const ChatItemTitleLine = styled.span`
   font-size: 0.875rem;
-  color: ${(props) => props.theme.text.muted};
+  color: ${(props) => props.theme.text.secondary};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -178,17 +178,17 @@ const ChatItemTitleLine = styled.span`
 
 const ChatItemThumbnail = styled.img`
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   object-fit: cover;
 `;
 
 const ChatItemFormatFallback = styled.div`
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  background-color: ${(props) => props.theme.background.secondary};
-  color: ${(props) => props.theme.text.tertiary};
+  width: 2rem;
+  height: 2rem;
+  background-color: #fff;
+  color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Rating } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css';
 
+import { Button } from '@/components/common/Button';
 import { useOrderRating, useSubmitRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -49,9 +50,15 @@ export function SellerRatingWidget({ orderId, sellerId }: SellerRatingWidgetProp
       <RatingRow>
         <Rating style={{ maxWidth: 150 }} value={selectedRating} onChange={handleChange} />
         {selectedRating > 0 && (
-          <SubmitButton onClick={handleSubmit} disabled={submitRating.isPending} data-testid="rating-submit-button">
-            {submitRating.isPending ? 'Submitting...' : 'Submit'}
-          </SubmitButton>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={handleSubmit}
+            isLoading={submitRating.isPending}
+            data-testid="rating-submit-button"
+          >
+            Submit
+          </Button>
         )}
       </RatingRow>
     </RatingContainer>
@@ -75,20 +82,4 @@ const RatingRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-`;
-
-const SubmitButton = styled.button<{ disabled?: boolean }>`
-  padding: 0.375rem 0.75rem;
-  border: none;
-  background-color: ${({ theme }) => theme.primary.main};
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-  transition: opacity 0.2s;
-
-  &:hover:not(:disabled) {
-    opacity: 0.9;
-  }
 `;

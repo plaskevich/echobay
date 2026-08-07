@@ -58,7 +58,7 @@ export function ListingCard({ listing }: ListingCardProps) {
           )}
           {showStatusBanner && (
             <StatusBanner status={listing.status!}>
-              <i className={listing.status === 'sold' ? 'hn hn-badge-check-solid' : 'hn hn-eye-cross-solid'} />
+              <i className={listing.status === 'sold' ? 'hn hn-tag-solid' : 'hn hn-eye-cross-solid'} />
               {getStatusLabel(listing.status)}
             </StatusBanner>
           )}
@@ -214,7 +214,7 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   letter-spacing: 0.01em;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
 `;
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
