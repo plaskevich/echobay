@@ -1,6 +1,5 @@
 import { type UseFormReturn } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { AuthErrorMessage, AuthFormLayout } from '@/components/auth/authLayout';
@@ -9,18 +8,25 @@ import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 import { type AuthFormData } from '@/hooks/useAuthForm';
 
-type AuthMode = 'login' | 'signup';
-
 interface AuthFormProps {
-  mode: AuthMode;
+  mode: 'login' | 'signup';
   form: UseFormReturn<AuthFormData>;
   serverError: string;
   isLoading: boolean;
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   onGoogleSignIn: () => void;
+  onForgotPassword: () => void;
 }
 
-export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogleSignIn }: AuthFormProps) {
+export function AuthForm({
+  mode,
+  form,
+  serverError,
+  isLoading,
+  onSubmit,
+  onGoogleSignIn,
+  onForgotPassword,
+}: AuthFormProps) {
   const {
     register,
     formState: { errors },
@@ -70,7 +76,11 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </FieldWrapper>
 
-      {mode === 'login' && <ForgotPasswordLink to="/auth/forgot-password">Forgot password?</ForgotPasswordLink>}
+      {mode === 'login' && (
+        <ForgotPasswordLink type="button" onClick={onForgotPassword}>
+          Forgot password?
+        </ForgotPasswordLink>
+      )}
 
       {mode === 'signup' && (
         <FieldWrapper>
@@ -145,9 +155,12 @@ const DividerText = styled.span`
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
-const ForgotPasswordLink = styled(Link)`
+const ForgotPasswordLink = styled.button`
   align-self: center;
   margin-top: -${({ theme }) => theme.spacing.sm};
+  background: none;
+  border: none;
+  padding: 0;
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.primary.main};
   font-weight: ${({ theme }) => theme.fontWeight.medium};

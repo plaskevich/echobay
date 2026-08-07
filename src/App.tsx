@@ -7,10 +7,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
-import { ForgotPassword } from '@/components/auth/ForgotPassword';
 import { ResetPassword } from '@/components/auth/ResetPassword';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
-import { AuthPage } from '@/pages/AuthPage';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
@@ -28,8 +26,6 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
       <Route index element={<HomePage />} />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/auth/forgot-password" element={<ForgotPassword />} />
       <Route path="/auth/reset-password" element={<ResetPassword />} />
       <Route path="/items/:id" element={<ItemDetailPage />} />
       <Route path="/users/:id" element={<UserProfilePage />} />

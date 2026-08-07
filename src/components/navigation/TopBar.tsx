@@ -27,6 +27,7 @@ import { useAuthStore } from '@/store/auth-store';
 export function TopBar() {
   const { user } = useAuthStore();
   const signOut = useAuthStore((state) => state.signOut);
+  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
   const { data: profile } = useProfile(user?.id);
   const { data: unreadChats } = useUnreadChats();
   const location = useLocation();
@@ -101,11 +102,9 @@ export function TopBar() {
                 </Link>
               </>
             ) : (
-              <Link to="/auth">
-                <Button variant="primary" size="small">
-                  Log in | Sign up
-                </Button>
-              </Link>
+              <Button variant="primary" size="small" onClick={() => openAuthDialog()} data-testid="open-auth">
+                Log in | Sign up
+              </Button>
             )}
           </RightSection>
         </NavContent>

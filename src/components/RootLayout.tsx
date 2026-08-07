@@ -1,6 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { AuthDialog } from '@/components/auth/AuthDialog';
 import { TopBar } from '@/components/navigation/TopBar';
 
 const AppWrapper = styled.div`
@@ -38,6 +39,7 @@ export function RootLayout() {
       <MainContent>
         <Outlet />
       </MainContent>
+      <AuthDialog />
     </AppWrapper>
   );
 }

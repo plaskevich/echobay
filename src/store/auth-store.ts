@@ -7,14 +7,21 @@ import { insertProfileIfNotExists } from '@/api/profile';
 
 let authSubscription: Subscription | null = null;
 
+export type AuthMode = 'login' | 'signup' | 'forgot';
+
 interface AuthState {
   user: User | null;
   isLoading: boolean;
   isInitialized: boolean;
   isRecoveryMode: boolean;
+  isAuthDialogOpen: boolean;
+  authDialogMode: AuthMode;
+  authRedirect: string | null;
   setUser: (user: User | null) => void;
   setLoading: (isLoading: boolean) => void;
   clearRecoveryMode: () => void;
+  openAuthDialog: (mode?: AuthMode, redirect?: string) => void;
+  closeAuthDialog: () => void;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   logIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -26,12 +33,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
   isInitialized: false,
   isRecoveryMode: false,
+  isAuthDialogOpen: false,
+  authDialogMode: 'login',
+  authRedirect: null,
 
   setUser: (user) => set({ user }),
 
   setLoading: (isLoading) => set({ isLoading }),
 
   clearRecoveryMode: () => set({ isRecoveryMode: false }),
+
+  openAuthDialog: (mode = 'login', redirect) =>
+    set({ isAuthDialogOpen: true, authDialogMode: mode, authRedirect: redirect ?? null }),
+
+  closeAuthDialog: () => set({ isAuthDialogOpen: false, authRedirect: null }),
 
   signUp: async (email: string, password: string) => {
     set({ isLoading: true });

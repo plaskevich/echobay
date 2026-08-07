@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { signInWithGoogle } from '@/api/auth';
-import { useAuthStore } from '@/store/auth-store';
-
-type AuthMode = 'login' | 'signup';
+import { type AuthMode, useAuthStore } from '@/store/auth-store';
 
 export interface AuthFormData {
   email: string;
@@ -14,25 +12,30 @@ export interface AuthFormData {
   confirmPassword: string;
 }
 
-export function useAuthForm() {
-  const [mode, setMode] = useState<AuthMode>('login');
+export function useAuthForm(initialMode: AuthMode = 'login') {
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [serverError, setServerError] = useState('');
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const { logIn, signUp, isLoading } = useAuthStore();
-
-  const from = (location.state as { from?: Location })?.from?.pathname || '/';
+  const { logIn, signUp, isLoading, closeAuthDialog } = useAuthStore();
 
   const form = useForm<AuthFormData>({
     defaultValues: { email: '', password: '', confirmPassword: '' },
     shouldUnregister: true,
   });
 
-  const toggleMode = () => {
-    setMode(mode === 'login' ? 'signup' : 'login');
+  const switchMode = (next: AuthMode) => {
+    setMode(next);
     form.reset();
     setServerError('');
+  };
+
+  const toggleMode = () => switchMode(mode === 'login' ? 'signup' : 'login');
+
+  const onSuccess = () => {
+    const { authRedirect } = useAuthStore.getState();
+    closeAuthDialog();
+    if (authRedirect) navigate(authRedirect, { replace: true });
   };
 
   const onSubmit = async (data: AuthFormData) => {
@@ -44,15 +47,15 @@ export function useAuthForm() {
         setServerError(error.message);
       } else {
         toast.success('Account created successfully!');
-        navigate(from, { replace: true });
         form.reset();
+        onSuccess();
       }
     } else {
       const { error } = await logIn(data.email, data.password);
       if (error) {
         setServerError(error.message);
       } else {
-        navigate(from, { replace: true });
+        onSuccess();
       }
     }
   };
@@ -73,5 +76,6 @@ export function useAuthForm() {
     onSubmit: form.handleSubmit(onSubmit),
     handleGoogleSignIn,
     toggleMode,
+    switchMode,
   };
 }
