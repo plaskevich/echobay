@@ -109,9 +109,9 @@ const SearchWrapper = styled.div`
 const SearchInput = styled.input`
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 2.5rem;
-  border: 1px solid ${(props) => props.theme.background.tertiary};
+  border: 1px solid ${(props) => props.theme.border.primary};
   font-size: 1rem;
-  background-color: ${(props) => props.theme.background.tertiary};
+  background-color: #fff;
   color: ${(props) => props.theme.text.primary};
   box-sizing: border-box;
 

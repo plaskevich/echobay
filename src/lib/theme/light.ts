@@ -23,8 +23,8 @@ export const lightTheme: ThemeColors = {
     accent: '#00f',
   },
   border: {
-    primary: '#B8B8B8',
-    hover: '#d4d4d4',
+    primary: '#c1c1c1',
+    hover: '#000',
   },
   primary: {
     main: '#00f',
@@ -55,7 +55,7 @@ export const lightTheme: ThemeColors = {
   favorite: 'rgb(247, 82, 107)',
   shadow: lightShadow,
   overlay: {
-    dark: 'rgba(0, 0, 0, 0.6)',
+    dark: 'rgba(0, 0, 0, 0.4)',
     darker: 'rgba(0, 0, 0, 0.8)',
   },
   glass: {

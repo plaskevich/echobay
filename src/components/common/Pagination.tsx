@@ -113,12 +113,12 @@ const NavButton = styled.button`
   height: 2rem;
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.text.primary};
+  color: ${({ theme }) => theme.text.secondary};
   cursor: pointer;
   transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
-    color: ${({ theme }) => theme.text.accent};
+    color: ${({ theme }) => theme.black.main};
   }
 
   &:disabled {
@@ -131,8 +131,8 @@ const PageButton = styled.button<{ $active: boolean }>`
   min-width: 2rem;
   height: 2rem;
   padding: 0 0.375rem;
-  border: 1px solid ${({ $active, theme }) => ($active ? theme.primary.main : theme.border.primary)};
-  background: ${({ $active, theme }) => ($active ? theme.primary.main : 'transparent')};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.black.main : theme.border.primary)};
+  background: ${({ $active, theme }) => ($active ? theme.black.main : 'transparent')};
   color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.primary)};
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
@@ -140,7 +140,7 @@ const PageButton = styled.button<{ $active: boolean }>`
   transition: all 0.15s;
 
   &:hover {
-    background-color: ${({ $active, theme }) => ($active ? theme.primary.hover : theme.background.secondary)};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 `;
 

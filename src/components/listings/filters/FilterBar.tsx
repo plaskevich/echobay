@@ -248,7 +248,6 @@ const ClearAllButton = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.state.error};
-    background-color: ${({ theme }) => theme.background.secondary};
   }
 `;
 
@@ -265,12 +264,12 @@ const ActiveFiltersRow = styled.div`
 const FilterPill = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem 0.5rem 0.375rem 0.75rem;
-  background-color: ${({ theme }) => theme.primary.light};
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  background-color: #fff;
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
 
   span {
@@ -290,7 +289,7 @@ const PillRemoveButton = styled.button`
   padding: 0;
   border: none;
   background-color: transparent;
-  color: ${({ theme }) => theme.text.primary};
+  color: ${({ theme }) => theme.text.secondary};
   transition: all 0.15s ease;
 
   &:hover {

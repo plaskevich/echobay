@@ -109,7 +109,7 @@ const RangeInputContainer = styled.div`
 const InputPrefix = styled.span`
   position: absolute;
   left: 0.75rem;
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
   font-size: 0.875rem;
   bottom: 0.6rem;
@@ -121,7 +121,7 @@ const InputPrefix = styled.span`
 
 const RangeLabel = styled.span`
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
   font-weight: 500;
   @media (max-width: 640px) {
     font-size: 1rem;
@@ -140,8 +140,8 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.light)};
+    background-color: #fff;
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
   }
 
   &::placeholder {

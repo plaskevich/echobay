@@ -12,7 +12,6 @@ interface DialogProps {
   title?: string;
   message?: string;
   children?: React.ReactNode;
-  /** Accessible name when the dialog renders its own heading inside `children` instead of `title`. */
   ariaLabel?: string;
   confirmText?: string;
   cancelText?: string;
@@ -103,7 +102,7 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background-color: ${(props) => props.theme.overlay.dark};
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,9 +113,7 @@ const Overlay = styled.div`
 
 const DialogContainer = styled.div`
   background-color: ${(props) => props.theme.background.primary};
-  /* border: 1px solid ${(props) => props.theme.border.primary}; */
-  box-shadow: ${(props) => props.theme.elevation.xl};
-  max-width: 28rem;
+  max-width: 30rem;
   width: 100%;
   max-height: 90dvh;
   display: flex;
@@ -127,7 +124,7 @@ const DialogContainer = styled.div`
 
 const DialogHeader = styled.div`
   padding: 1.5rem 1.5rem 1rem 1.5rem;
-  /* border-bottom: 1px solid ${(props) => props.theme.border.primary}; */
+  border-bottom: 1px solid ${(props) => props.theme.border.primary};
 `;
 
 const DialogTitle = styled.h2`
@@ -138,7 +135,7 @@ const DialogTitle = styled.h2`
 `;
 
 const DialogBody = styled.div`
-  padding: 1.5rem;
+  padding: 2rem;
   overflow-y: auto;
 `;
 

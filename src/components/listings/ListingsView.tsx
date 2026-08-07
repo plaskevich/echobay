@@ -142,9 +142,11 @@ const SearchWrapper = styled.div`
 const ItemsSummary = styled.p`
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
   padding-left: ${({ theme }) => theme.spacing.xs};
   padding-bottom: ${({ theme }) => theme.spacing.xs};
+  font-weight: 600;
+  font-size: 0.875rem;
 `;
 
 const StatusText = styled.p<{ $error?: boolean }>`
