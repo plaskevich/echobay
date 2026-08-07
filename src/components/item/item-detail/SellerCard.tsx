@@ -75,7 +75,7 @@ const SellerAvatar = styled.img`
   object-fit: cover;
   display: flex;
   align-items: center;
-  /* border-radius: 50%; */
+  border-radius: 50%;
 `;
 
 const SellerAvatarPlaceholder = styled.div`
@@ -87,6 +87,7 @@ const SellerAvatarPlaceholder = styled.div`
   color: ${({ theme }) => theme.text.primary};
   font-size: 1.5rem;
   background-color: ${({ theme }) => theme.background.tertiary};
+  border-radius: 50%;
 `;
 
 const SellerInfo = styled.div`

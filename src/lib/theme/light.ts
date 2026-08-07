@@ -34,7 +34,7 @@ export const lightTheme: ThemeColors = {
   state: {
     success: '#509109',
     warning: '#f59e0b',
-    error: '#c91e28',
+    error: '#D62828',
     info: '#0588f0',
   },
   status: {

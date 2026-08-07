@@ -1,13 +1,3 @@
-import {
-  PiBasketBold,
-  PiChatCircleDuotone,
-  PiGearBold,
-  PiHeartDuotone,
-  PiPlusCircleDuotone,
-  PiSignOutBold,
-  PiUserBold,
-  PiUserCircleDuotone,
-} from 'react-icons/pi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -54,19 +44,25 @@ export function TopBar() {
           <RightSection>
             {user ? (
               <>
-                <Link to="/favorites">
-                  <IconButton aria-label="Favorites">
-                    <PiHeartDuotone />
-                  </IconButton>
+                <Link to="/items/new">
+                  <SellButton variant="primary" size="small">
+                    Sell
+                  </SellButton>
                 </Link>
                 <Link to="/messages">
                   <IconButtonWrapper>
-                    <IconButton aria-label="Messages">
-                      <PiChatCircleDuotone />
+                    <IconButton aria-label="Messages" style={{ marginTop: '0.25rem', fontSize: '1.32rem' }}>
+                      <i className="hn hn-message" />
                     </IconButton>
                     {hasUnread && <NavUnreadDot />}
                   </IconButtonWrapper>
                 </Link>
+                <Link to="/favorites">
+                  <IconButton aria-label="Favorites">
+                    <i className="hn hn-heart" />
+                  </IconButton>
+                </Link>
+
                 <Dropdown
                   menuLabel="Profile options"
                   trigger={({ onClick, ...triggerProps }) => (
@@ -74,32 +70,26 @@ export function TopBar() {
                       {profile?.avatar_url ? (
                         <img src={profile.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
                       ) : (
-                        <PiUserCircleDuotone />
+                        <i className="hn hn-user" />
                       )}
                     </IconButton>
                   )}
                 >
                   <DropdownMenuLink to="/profile">
-                    <PiUserBold /> Profile
+                    <i className="hn hn-user" /> Profile
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/orders">
-                    <PiBasketBold />
+                    <i className="hn hn-receipt" />
                     Orders
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/settings">
-                    <PiGearBold /> Settings
+                    <i className="hn hn-cog" /> Settings
                   </DropdownMenuLink>
                   <DropdownMenuSeparator />
                   <DropdownMenuButton variant="danger" onClick={handleLogout}>
-                    <PiSignOutBold /> Log out
+                    <i className="hn hn-logout" /> Log out
                   </DropdownMenuButton>
                 </Dropdown>
-                <Link to="/items/new">
-                  <SellButton variant="primary" size="small">
-                    <PiPlusCircleDuotone size={14} />
-                    Sell
-                  </SellButton>
-                </Link>
               </>
             ) : (
               <Button variant="primary" size="small" onClick={() => openAuthDialog()} data-testid="open-auth">
@@ -158,12 +148,12 @@ const LogoText = styled.span`
   font-size: 2.4rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
-  transition: all 0.2s;
+  transition: all 0.3s;
   margin-top: 0.3rem;
 
   ${LogoLink}:hover & {
     color: ${(props) => props.theme.primary.main};
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
 
   @media (max-width: 640px) {
@@ -187,7 +177,7 @@ const RightSection = styled.div`
   gap: 0.35rem;
 
   @media (min-width: 640px) {
-    gap: 0.7rem;
+    gap: 0.75rem;
   }
 `;
 
@@ -198,25 +188,24 @@ const SellButton = styled(Button)`
 `;
 
 const IconButton = styled.button`
-  padding: 0.5rem;
   color: ${(props) => props.theme.text.secondary};
   background: none;
   border: none;
   transition: all 0.2s;
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 
   img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     object-fit: cover;
     display: block;
+    border-radius: 50%;
   }
 
   &:hover {
     color: ${(props) => props.theme.primary.main};
-    background-color: ${(props) => props.theme.primary.light};
   }
 
   @media (max-width: 640px) {

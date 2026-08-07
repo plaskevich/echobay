@@ -88,6 +88,10 @@ a:visited {
   color: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   cursor: pointer;
 }

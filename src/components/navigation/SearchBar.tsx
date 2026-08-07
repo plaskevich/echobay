@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PiMagnifyingGlass, PiX } from 'react-icons/pi';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -82,11 +81,11 @@ function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }
         data-testid="search-input"
       />
       <SearchIconWrapper>
-        <PiMagnifyingGlass />
+        <i className="hn hn-search" />
       </SearchIconWrapper>
       {inputValue && (
         <ClearButton onClick={handleClear} aria-label="Clear search" data-testid="clear-search-button">
-          <PiX />
+          <i className="hn hn-times" />
         </ClearButton>
       )}
     </SearchWrapper>
@@ -108,7 +107,7 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 2.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 2rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   font-size: 1rem;
   background-color: #fff;
@@ -130,10 +129,10 @@ const SearchIconWrapper = styled.div`
   left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: ${(props) => props.theme.text.secondary};
+  color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 0.875rem;
   pointer-events: none;
 `;
 
@@ -147,12 +146,11 @@ const ClearButton = styled.button`
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
   padding: 0.25rem;
   transition: all 0.2s;
 
   &:hover {
-    color: ${(props) => props.theme.text.primary};
-    background-color: ${(props) => props.theme.background.secondary};
+    color: ${(props) => props.theme.primary.main};
   }
 `;
