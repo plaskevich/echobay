@@ -151,23 +151,17 @@ const InputContainer = styled.div<{ $isOpen: boolean; $disabled: boolean }>`
   display: flex;
   align-items: center;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.primary.main : theme.border.primary)};
-  background-color: ${({ theme }) => theme.background.primary};
+  border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.border.hover : theme.border.primary)};
+  background-color: ${({ theme, $isOpen }) => ($isOpen ? '#fff' : theme.background.primary)};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
   opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
   transition: all 0.2s ease;
-
-  ${({ $isOpen, theme }) =>
-    $isOpen &&
-    `
-    box-shadow: 0 0 0 3px ${theme.primary.light};
-  `}
 `;
 
 const TagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: 0.1rem;
   flex: 1;
   align-items: center;
 `;
@@ -177,7 +171,6 @@ const Tag = styled.span`
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
-  background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.primary.main};
   font-size: 0.875rem;
   font-weight: 500;
@@ -240,8 +233,8 @@ const Dropdown = styled.div`
   margin-top: 0.25rem;
   max-height: 200px;
   overflow-y: auto;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  background-color: #fff;
+  border: 1px solid ${({ theme }) => theme.border.hover};
   box-shadow: ${({ theme }) => theme.elevation.lg};
   z-index: 100;
 `;

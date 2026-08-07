@@ -4,7 +4,7 @@ export const FilterDropdownContainer = styled.div`
   position: relative;
 `;
 
-export const FilterButton = styled.button<{ $active?: boolean }>`
+export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -19,9 +19,10 @@ export const FilterButton = styled.button<{ $active?: boolean }>`
     border-color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.hover)};
   }
 
-  svg {
+  i {
     font-size: 0.75rem;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
+    transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
     @media (max-width: 640px) {
       display: none;
     }

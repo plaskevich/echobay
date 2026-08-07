@@ -114,11 +114,10 @@ export const Placeholder = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: ${(props) => props.theme.background.tertiary};
-  color: ${(props) => props.theme.text.tertiary};
-  border: 2px solid ${(props) => props.theme.background.secondary};
-  box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
-  font-size: 5rem;
+  background: #fff;
+  color: ${(props) => props.theme.text.primary};
+  font-size: 3rem;
+  border-radius: 50%;
 `;
 
 const ProfileInfo = styled.div`

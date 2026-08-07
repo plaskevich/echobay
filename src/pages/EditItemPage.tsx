@@ -317,13 +317,14 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
 `;
 
 const StyledPageTitle = styled(PageTitle)`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 640px) {
     margin-bottom: 1rem;

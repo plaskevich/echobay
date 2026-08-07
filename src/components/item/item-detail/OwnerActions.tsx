@@ -58,7 +58,7 @@ export function OwnerActions({
         Edit Listing
       </Button>
       <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete} data-testid="delete-listing-button">
-        <i className="hn hn-trash" />
+        <i className="hn hn-trash-alt" />
         Delete Listing
       </Button>
     </>

@@ -49,7 +49,6 @@ export default function UserProfilePage() {
       />
       <UserListings
         listings={listings}
-        title={isOwnProfile ? 'My Listings' : `${displayName}'s Listings`}
         isLoading={listingsLoading}
         error={listingsError}
         emptyMessage="No active listings"
@@ -59,6 +58,7 @@ export default function UserProfilePage() {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;

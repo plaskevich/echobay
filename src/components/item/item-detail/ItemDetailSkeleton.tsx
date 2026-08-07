@@ -61,13 +61,14 @@ const Content = styled.div`
   align-items: start;
 
   @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 300px) 1fr;
+    grid-template-columns: minmax(0, 300px) minmax(0, 560px);
+    justify-content: start;
     gap: ${({ theme }) => theme.spacing.xl};
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 380px) 1fr;
-    gap: 2.5rem;
+    grid-template-columns: minmax(0, 460px) minmax(0, 560px);
+    gap: 3.5rem;
   }
 `;
 

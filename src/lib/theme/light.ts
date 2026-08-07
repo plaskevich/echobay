@@ -29,7 +29,7 @@ export const lightTheme: ThemeColors = {
   primary: {
     main: '#00f',
     hover: 'rgb(49, 49, 250)',
-    light: '#DCE9FA',
+    light: 'rgb(236, 236, 255)',
   },
   state: {
     success: '#509109',

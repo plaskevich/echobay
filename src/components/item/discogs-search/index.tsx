@@ -34,7 +34,7 @@ export function DiscogsSearch({
   return (
     <SearchSection>
       <SearchContainer>
-        <SearchLabel>✨ Search Discogs to Auto-Fill</SearchLabel>
+        <SearchLabel>Search Discogs to Auto-Fill</SearchLabel>
         <SearchInputBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -59,7 +59,7 @@ export function DiscogsSearch({
 }
 
 const SearchSection = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1.5rem;
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};

@@ -24,10 +24,6 @@ const getVariantStyles = (variant: ButtonVariant) => {
         &:hover:not(:disabled) {
           background-color: ${({ theme }) => theme.black.light};
         }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
       `;
     case 'secondary':
       return css`

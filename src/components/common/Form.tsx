@@ -45,8 +45,8 @@ export const StyledSelect = styled.select<{ $hasError?: boolean }>`
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
+    background-color: #fff;
   }
 
   &:disabled {
@@ -108,21 +108,20 @@ export const FileInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+    border-color: ${(props) => props.theme.border.hover};
   }
 
   &::file-selector-button {
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     border: none;
-    background-color: ${(props) => props.theme.primary.main};
+    background-color: ${(props) => props.theme.black.main};
     color: white;
     cursor: pointer;
     font-weight: 500;
 
     &:hover {
-      background-color: ${(props) => props.theme.primary.hover};
+      background-color: ${(props) => props.theme.black.light};
     }
   }
 

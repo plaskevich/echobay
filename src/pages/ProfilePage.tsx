@@ -14,6 +14,8 @@ import { useAuthStore } from '@/store/auth-store';
 
 type StatusFilter = 'all' | ListingStatus;
 
+const STATUS_ORDER: ListingStatus[] = ['active', 'hidden', 'sold'];
+
 const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
   { value: 'all', label: 'All' },
   { value: 'active', label: 'Active' },
@@ -30,7 +32,7 @@ export default function ProfilePage() {
 
   const filteredListings = useMemo(() => {
     const filtered = statusFilter === 'all' ? listings : listings.filter((l) => l.status === statusFilter);
-    return [...filtered].sort((a, b) => (a.status === 'sold' ? 1 : 0) - (b.status === 'sold' ? 1 : 0));
+    return [...filtered].sort((a, b) => STATUS_ORDER.indexOf(a.status!) - STATUS_ORDER.indexOf(b.status!));
   }, [listings, statusFilter]);
 
   if (!user) return null;
@@ -50,7 +52,6 @@ export default function ProfilePage() {
       />
       <UserListings
         listings={filteredListings}
-        title="My Listings"
         isLoading={listingsLoading}
         error={listingsError}
         emptyMessage={statusFilter === 'all' ? "You haven't created any listings yet" : `No ${statusFilter} listings`}

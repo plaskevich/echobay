@@ -41,7 +41,7 @@ export function CheckoutPage() {
     return (
       <Container>
         <LoadingText>
-          <Spinner size="1.5rem" $color="currentColor" $trackColor="transparent" />
+          <Spinner size="1.5rem" />
           Loading checkout…
         </LoadingText>
       </Container>

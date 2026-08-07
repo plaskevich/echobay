@@ -1,5 +1,3 @@
-import { PiCaretDown } from 'react-icons/pi';
-
 import {
   ApplyButtonWrapper,
   DropdownApplyButton,
@@ -28,9 +26,9 @@ export default function DesktopFilter({
 }: DesktopFilterProps) {
   return (
     <FilterDropdownContainer data-testid={testId ?? `filter-dropdown-${label.toLowerCase()}`}>
-      <FilterButton $active={hasSelection} onClick={onToggle}>
+      <FilterButton $active={hasSelection} $open={isOpen} onClick={onToggle}>
         {label}
-        <PiCaretDown />
+        <i className="hn hn-chevron-down" />
       </FilterButton>
       {isOpen && (
         <DropdownMenu>
