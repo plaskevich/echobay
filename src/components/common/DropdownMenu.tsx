@@ -146,7 +146,6 @@ export function DropdownMenuButton({
 
 export const DropdownMenuSeparator = styled.div`
   height: 1px;
-  margin: 0.35rem 0.25rem;
   background: ${(props) => props.theme.border.primary};
 `;
 
@@ -162,7 +161,6 @@ const DropdownPanel = styled.div.withConfig({
   ${(p) => (p.$align === 'left' ? 'left: 0;' : 'right: 0;')}
   min-width: ${(p) => p.$minWidth};
   max-width: calc(100vw - 1rem);
-  padding: 0.4rem;
   box-sizing: border-box;
   background: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
@@ -173,7 +171,6 @@ const DropdownPanel = styled.div.withConfig({
 const dropdownItemStyles = css`
   width: 100%;
   box-sizing: border-box;
-  padding: 0.6rem 0.75rem;
   font-size: 1rem;
   color: ${(props) => props.theme.text.secondary};
   text-decoration: none;
@@ -181,6 +178,7 @@ const dropdownItemStyles = css`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin: 1rem 0.75rem;
 
   &:hover {
     color: ${(props) => props.theme.primary.main};

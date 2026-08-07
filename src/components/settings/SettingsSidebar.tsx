@@ -1,8 +1,6 @@
-import { PiAddressBook, PiEnvelopeSimple, PiLockSimple, PiPalette } from 'react-icons/pi';
-
 import { Sidebar, SidebarItem, SidebarNav, SidebarTitle } from '@/components/layout/SidebarLayout';
 
-export type SettingsSection = 'email' | 'password' | 'shipping' | 'theme';
+export type SettingsSection = 'email' | 'password' | 'shipping';
 
 interface SettingsSidebarProps {
   activeSection: SettingsSection;
@@ -10,10 +8,9 @@ interface SettingsSidebarProps {
 }
 
 const sections: { key: SettingsSection; label: string; icon: React.ReactNode }[] = [
-  { key: 'email', label: 'Email Address', icon: <PiEnvelopeSimple size={20} /> },
-  { key: 'password', label: 'Password', icon: <PiLockSimple size={20} /> },
-  { key: 'shipping', label: 'Shipping Address', icon: <PiAddressBook size={20} /> },
-  { key: 'theme', label: 'Theme', icon: <PiPalette size={20} /> },
+  { key: 'email', label: 'Email Address', icon: <i className="hn hn-envelope" /> },
+  { key: 'password', label: 'Password', icon: <i className="hn hn-unlock" /> },
+  { key: 'shipping', label: 'Shipping Address', icon: <i className="hn hn-notebook" /> },
 ];
 
 export default function SettingsSidebar({ activeSection, setActiveSection }: SettingsSidebarProps) {

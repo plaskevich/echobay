@@ -1,5 +1,3 @@
-export type Theme = 'light' | 'dark';
-
 export interface Spacing {
   '3xs': string;
   '2xs': string;

@@ -9,6 +9,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { ResetPassword } from '@/components/auth/ResetPassword';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
+import { theme } from '@/lib/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
@@ -20,7 +21,6 @@ import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
 import UserProfilePage from '@/pages/UserProfilePage';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +46,6 @@ const router = createBrowserRouter(
 );
 
 export function App() {
-  const themeColors = useThemeStore((state) => state.themeColors);
   const initialize = useAuthStore((state) => state.initialize);
 
   useEffect(() => {
@@ -62,29 +61,29 @@ export function App() {
   }, [initialize]);
 
   return (
-    <StyledThemeProvider theme={themeColors}>
+    <StyledThemeProvider theme={theme}>
       <RouterProvider router={router} />
       <Toaster
         position="top-right"
         toastOptions={{
           duration: 3000,
           style: {
-            background: themeColors.background.secondary,
-            color: themeColors.text.primary,
-            border: `1px solid ${themeColors.border.primary}`,
+            background: theme.background.secondary,
+            color: theme.text.primary,
+            border: `1px solid ${theme.border.primary}`,
             padding: '0.75rem 1rem',
-            boxShadow: `0 0.25rem 0.75rem ${themeColors.shadow.medium}`,
+            boxShadow: `0 0.25rem 0.75rem ${theme.shadow.medium}`,
           },
           success: {
             iconTheme: {
-              primary: themeColors.state.success,
-              secondary: themeColors.background.primary,
+              primary: theme.state.success,
+              secondary: theme.background.primary,
             },
           },
           error: {
             iconTheme: {
-              primary: themeColors.state.error,
-              secondary: themeColors.background.primary,
+              primary: theme.state.error,
+              secondary: theme.background.primary,
             },
           },
         }}

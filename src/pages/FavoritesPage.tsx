@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
 import { PageTitle } from '@/components/common/PageTitle';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
+import { theme } from '@/lib/theme';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 interface FavoriteWithListing {
   id: string;
@@ -18,7 +18,6 @@ interface FavoriteWithListing {
 
 export function FavoritesPage() {
   const { user } = useAuthStore();
-  const themeColors = useThemeStore((state) => state.themeColors);
   const { data: favorites = [], isLoading, error } = useUserFavorites(user?.id);
 
   if (!user) {
@@ -58,7 +57,7 @@ export function FavoritesPage() {
 
       {listings.length === 0 ? (
         <EmptyState data-testid="favorites-empty">
-          <PiHeartDuotone size={60} color={themeColors.text.secondary} />
+          <PiHeartDuotone size={60} color={theme.text.secondary} />
           <EmptyTitle>No favorites yet</EmptyTitle>
           <EmptyText>Start exploring and add items to your favorites by clicking the heart icon</EmptyText>
         </EmptyState>

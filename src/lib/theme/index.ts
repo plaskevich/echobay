@@ -1,6 +1,3 @@
-import { darkTheme } from './dark';
-import { lightTheme } from './light';
-
 export type {
   Duration,
   Easing,
@@ -10,16 +7,9 @@ export type {
   LineHeight,
   ShadowColors,
   Spacing,
-  Theme,
   ThemeColors,
   Transition,
 } from './types';
 export { makeElevation, sharedTokens } from './tokens';
 export { glassSurface } from './mixins';
-export { lightTheme } from './light';
-export { darkTheme } from './dark';
-
-export const themes = {
-  light: lightTheme,
-  dark: darkTheme,
-};
+export { theme } from './theme';

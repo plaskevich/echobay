@@ -29,7 +29,7 @@ export const Sidebar = styled.div`
 `;
 
 export const SidebarTitle = styled(PageTitle)`
-  margin: 0 0 1.5rem 1rem;
+  margin-bottom: 1.2rem;
 
   @media (max-width: 768px) {
     margin: 0 0 1rem 0;
@@ -54,17 +54,17 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: none;
-  color: ${({ theme, $active }) => ($active ? theme.text.accent : theme.text.primary)};
+  background-color: ${({ theme, $active }) => ($active ? theme.black.main : 'transparent')};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.black.main : theme.border.primary)};
+  color: ${({ theme, $active }) => ($active ? '#fff' : theme.text.primary)};
   font-size: 1rem;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
-  transition: background-color 0.3s ease;
+  transition: all 0.3s;
   white-space: nowrap;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.background.secondary};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 
   &:active {

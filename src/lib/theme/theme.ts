@@ -1,13 +1,13 @@
 import { makeElevation, sharedTokens } from './tokens';
 import type { ShadowColors, ThemeColors } from './types';
 
-const lightShadow: ShadowColors = {
+const shadow: ShadowColors = {
   small: 'rgba(0, 0, 0, 1)',
   medium: 'rgba(0, 0, 0, 0.12)',
   large: 'rgba(0, 0, 0, 0.16)',
 };
 
-export const lightTheme: ThemeColors = {
+export const theme: ThemeColors = {
   background: {
     primary: '#F5F5F5',
     secondary: '#E7E7E7',
@@ -32,7 +32,7 @@ export const lightTheme: ThemeColors = {
     light: 'rgb(236, 236, 255)',
   },
   state: {
-    success: '#509109',
+    success: '#14be39',
     warning: '#f59e0b',
     error: '#D62828',
     info: '#0588f0',
@@ -43,7 +43,7 @@ export const lightTheme: ThemeColors = {
   },
   price: '#404040',
   favorite: '#D62828',
-  shadow: lightShadow,
+  shadow: shadow,
   overlay: {
     dark: 'rgba(0, 0, 0, 0.4)',
     darker: 'rgba(0, 0, 0, 0.8)',
@@ -57,5 +57,5 @@ export const lightTheme: ThemeColors = {
     foreground: '#ffffff',
   },
   ...sharedTokens,
-  elevation: makeElevation(lightShadow),
+  elevation: makeElevation(shadow),
 };

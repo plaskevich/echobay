@@ -1,4 +1,3 @@
-import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
@@ -48,7 +47,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
           aria-label="Previous page"
           data-testid="previous-page-button"
         >
-          <PiCaretLeft size={18} />
+          <i className="hn hn-angle-left" />
         </NavButton>
 
         {getPageNumbers().map((p, i) =>
@@ -67,7 +66,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
           aria-label="Next page"
           data-testid="next-page-button"
         >
-          <PiCaretRight size={18} />
+          <i className="hn hn-angle-right" />
         </NavButton>
       </PageControls>
 
@@ -80,6 +79,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
             </option>
           ))}
         </SizeSelect>
+        <SelectChevron className="hn hn-chevron-down" aria-hidden="true" />
       </SizeSelector>
     </Container>
   );
@@ -109,13 +109,11 @@ const NavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  font-size: 1rem;
   border: none;
   background: transparent;
   color: ${({ theme }) => theme.text.secondary};
   cursor: pointer;
-  transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
     color: ${({ theme }) => theme.black.main};
@@ -158,6 +156,15 @@ const SizeSelector = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+`;
+
+const SelectChevron = styled.i`
+  position: absolute;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.secondary};
+  pointer-events: none;
 `;
 
 const SizeLabel = styled.span`
@@ -166,7 +173,11 @@ const SizeLabel = styled.span`
 `;
 
 const SizeSelect = styled.select`
-  padding: 0.3rem;
+  appearance: none;
+  box-sizing: content-box;
+  width: 1.8rem; /* fits the widest option (240) */
+  padding: 0.3rem 1.5rem 0.3rem 0.5rem;
+  text-align: center;
   border: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};

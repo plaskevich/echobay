@@ -117,29 +117,6 @@ test.describe('Account Pages', () => {
       await expect(page.getByTestId('shipping-settings')).toBeVisible();
       await expect(page.getByRole('heading', { name: 'Shipping Address' })).toBeVisible();
     });
-
-    test('navigates to theme settings', async ({ page }) => {
-      await page.goto('/settings');
-
-      await page.getByTestId('settings-section-theme').click();
-
-      await expect(page.getByTestId('theme-settings')).toBeVisible();
-      await expect(page.getByTestId('theme-card-light')).toBeVisible();
-      await expect(page.getByTestId('theme-card-dark')).toBeVisible();
-    });
-
-    test('switches theme to dark and back', async ({ page }) => {
-      await page.goto('/settings');
-
-      await page.getByTestId('settings-section-theme').click();
-      await expect(page.getByTestId('theme-settings')).toBeVisible();
-
-      await page.getByTestId('theme-card-dark').click();
-      await expect(page.getByTestId('theme-card-dark')).toHaveCSS('border-color', /./);
-
-      await page.getByTestId('theme-card-light').click();
-      await expect(page.getByTestId('theme-card-light')).toHaveCSS('border-color', /./);
-    });
   });
 
   test.describe('Orders', () => {
