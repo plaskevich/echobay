@@ -246,7 +246,7 @@ const ClearAllButton = styled.button`
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    color: ${({ theme }) => theme.state.error};
+    color: ${({ theme }) => theme.primary.main};
   }
 `;
 
@@ -293,6 +293,6 @@ const PillRemoveButton = styled.button`
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    color: ${({ theme }) => theme.text.primary};
+    color: ${({ theme }) => theme.primary.main};
   }
 `;
