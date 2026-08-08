@@ -170,7 +170,7 @@ const MessageWrapper = styled.div`
 
 const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
-  padding: 0.5rem 0.9rem;
+  padding: 0.4rem 0.75rem;
   background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.secondary)};
   color: ${({ theme, $isOwn }) => ($isOwn ? theme.text.inverse : theme.text.primary)};
   display: flex;
@@ -188,4 +188,6 @@ const Timestamp = styled.span`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.text.muted};
   align-self: flex-end;
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 500;
 `;

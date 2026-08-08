@@ -253,7 +253,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     event.preventDefault();
   };
 
-  if (isLoadingListing) {
+  if (id && isLoadingListing) {
     return <div>Loading listing data...</div>;
   }
 
