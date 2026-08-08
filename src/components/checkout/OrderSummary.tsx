@@ -1,8 +1,9 @@
-import { PiCreditCardFill } from 'react-icons/pi';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
+import { Amount, StepCard, StepPanel, StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
+import { ButtonGroup } from '@/components/common/Form';
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { capitalize, formatPrice, getFormatLabel } from '@/lib/utils';
@@ -47,7 +48,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
 
   return (
     <Container data-testid="order-summary">
-      <FormTitle data-testid="summary-title">Order Summary</FormTitle>
+      <StepTitle data-testid="summary-title">Order Summary</StepTitle>
 
       <ItemCard>
         {listing.images && listing.images[0] && <ItemImage src={listing.images[0]} alt={listing.title} />}
@@ -81,9 +82,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
       <Section>
         <SectionTitle>Payment Method</SectionTitle>
         <PaymentCard data-testid="summary-payment-method">
-          <PaymentIcon>
-            <PiCreditCardFill aria-hidden />
-          </PaymentIcon>
+          <PaymentIcon className="hn hn-credit-card" aria-hidden />
           <div>
             <PaymentText>Credit Card</PaymentText>
             <PaymentSubtext>Processed securely via Stripe</PaymentSubtext>
@@ -112,7 +111,7 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
 
       {error && <ErrorText data-testid="summary-error">{error}</ErrorText>}
 
-      <ButtonContainer>
+      <ButtonGroup>
         <Button
           type="button"
           variant="outline"
@@ -131,80 +130,43 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
         >
           Confirm & Pay
         </Button>
-      </ButtonContainer>
+      </ButtonGroup>
     </Container>
   );
 }
 
-const stepIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+const Container = styled(StepPanel)`
   gap: 1.25rem;
-  padding: 1.5rem 1.75rem;
-  background: ${({ theme }) => theme.background.secondary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  box-shadow: ${({ theme }) => theme.elevation.sm};
-  animation: ${stepIn} ${({ theme }) => theme.duration.slow} ${({ theme }) => theme.easing.emphasized};
-
-  @media (max-width: 640px) {
-    padding: 1.5rem 1.25rem;
-  }
-`;
-
-const FormTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.primary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.25rem;
-  }
 `;
 
 const Section = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.375rem;
   min-width: 0;
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
+  margin: 0;
 `;
 
-const ItemCard = styled.div`
-  display: flex;
+const ItemCard = styled(StepCard)`
   align-items: stretch;
-  gap: 1rem;
-  flex: 1;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
 const ItemImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   flex-shrink: 0;
   object-fit: cover;
 `;
 
 const Format = styled.p`
   font-size: 0.75rem;
-  color: ${(props) => props.theme.text.tertiary};
+  color: ${(props) => props.theme.text.secondary};
   margin: auto 0 0;
   text-transform: uppercase;
   font-weight: 500;
@@ -223,7 +185,7 @@ const ItemInfo = styled.div`
 
 const ItemCondition = styled.div`
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.muted};
+  color: ${({ theme }) => theme.text.secondary};
   font-weight: 500;
 `;
 
@@ -238,11 +200,9 @@ const ItemTitle = styled.div`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const AddressCard = styled.div`
-  flex: 1;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
+const AddressCard = styled(StepCard)`
+  flex-direction: column;
+  gap: 0;
 `;
 
 const AddressLine = styled.div`
@@ -251,31 +211,21 @@ const AddressLine = styled.div`
   line-height: 1.5;
 `;
 
-const PaymentCard = styled.div`
-  display: flex;
+const PaymentCard = styled(StepCard)`
   align-items: center;
   gap: 0.75rem;
-  flex: 1;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
-const PaymentIcon = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const PaymentIcon = styled.i`
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background-color: ${({ theme }) => theme.primary.light};
-  color: ${({ theme }) => theme.primary.main};
   font-size: 1.25rem;
+  line-height: 1;
+  color: ${({ theme }) => theme.text.primary};
 `;
 
 const PaymentText = styled.div`
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.125rem;
 `;
@@ -285,18 +235,10 @@ const PaymentSubtext = styled.div`
   color: ${({ theme }) => theme.text.secondary};
 `;
 
-const PriceBreakdown = styled.div`
-  display: flex;
+const PriceBreakdown = styled(StepCard)`
   flex-direction: column;
   gap: 0.625rem;
-  flex: 1;
   padding: 1.25rem;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.primary.light},
-    ${({ theme }) => theme.background.primary}
-  );
-  border: 1px solid ${({ theme }) => theme.primary.main};
 `;
 
 const PriceRow = styled.div`
@@ -311,8 +253,9 @@ const PriceLabel = styled.span`
 `;
 
 const PriceValue = styled.span`
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -326,40 +269,22 @@ const TotalRow = styled.div`
 `;
 
 const TotalLabel = styled.span`
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const TotalAmount = styled.span`
-  font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1;
-  color: ${({ theme }) => theme.primary.main};
+const TotalAmount = styled(Amount)`
+  font-size: 1.5rem;
 
   @media (max-width: 640px) {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
   }
 `;
 
 const ErrorText = styled.div`
   padding: 1rem;
-  background-color: ${({ theme }) => theme.state.error}22;
   border: 1px solid ${({ theme }) => theme.state.error};
   color: ${({ theme }) => theme.state.error};
   font-size: 0.875rem;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-
-  @media (max-width: 768px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
 `;

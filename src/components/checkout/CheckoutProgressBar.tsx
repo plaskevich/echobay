@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import type { CheckoutStep } from '@/store/checkout-store';
@@ -6,33 +7,25 @@ interface CheckoutProgressBarProps {
   currentStep: CheckoutStep;
 }
 
+const STEPS: { step: CheckoutStep; label: string }[] = [
+  { step: 'shipping', label: 'Shipping' },
+  { step: 'payment', label: 'Payment' },
+  { step: 'summary', label: 'Summary' },
+];
+
 export function CheckoutProgressBar({ currentStep }: CheckoutProgressBarProps) {
+  const currentIndex = STEPS.findIndex((s) => s.step === currentStep);
+
   return (
     <ProgressBar data-testid="checkout-progress-bar">
-      <ProgressStep active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-        <StepNumber active={currentStep === 'shipping'} completed={currentStep !== 'shipping'}>
-          {currentStep !== 'shipping' ? '✓' : '1'}
-        </StepNumber>
-        <StepLabel data-testid="checkout-step-shipping">Shipping</StepLabel>
-      </ProgressStep>
-      <ProgressLine>
-        <ProgressLineFill $completed={currentStep === 'summary' || currentStep === 'payment'} />
-      </ProgressLine>
-      <ProgressStep active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-        <StepNumber active={currentStep === 'payment'} completed={currentStep === 'summary'}>
-          {currentStep === 'summary' ? '✓' : '2'}
-        </StepNumber>
-        <StepLabel data-testid="checkout-step-payment">Payment</StepLabel>
-      </ProgressStep>
-      <ProgressLine>
-        <ProgressLineFill $completed={currentStep === 'summary'} />
-      </ProgressLine>
-      <ProgressStep active={currentStep === 'summary'} completed={false}>
-        <StepNumber active={currentStep === 'summary'} completed={false}>
-          3
-        </StepNumber>
-        <StepLabel data-testid="checkout-step-summary">Summary</StepLabel>
-      </ProgressStep>
+      {STEPS.map(({ step, label }, i) => (
+        <Fragment key={step}>
+          {i > 0 && <Arrow className="hn hn-angle-right" aria-hidden />}
+          <Step $done={i < currentIndex} $active={i === currentIndex} data-testid={`checkout-step-${step}`}>
+            {i < currentIndex ? <i className="hn hn-check" aria-hidden /> : `${i + 1}.`} {label}
+          </Step>
+        </Fragment>
+      ))}
     </ProgressBar>
   );
 }
@@ -40,75 +33,42 @@ export function CheckoutProgressBar({ currentStep }: CheckoutProgressBarProps) {
 const ProgressBar = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
   margin-bottom: 1.75rem;
-  padding: 0;
+`;
+
+const Arrow = styled.i`
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+  color: ${({ theme }) => theme.text.secondary};
 
   @media (max-width: 768px) {
-    padding: 0;
+    font-size: 0.875rem;
   }
 `;
 
-const ProgressStep = styled.div<{ active: boolean; completed: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 80px;
-  color: ${({ theme, active, completed }) => (active || completed ? theme.text.primary : theme.text.tertiary)};
-  transition: color ${({ theme }) => theme.transition.base};
-`;
-
-const StepNumber = styled.div<{ active: boolean; completed: boolean }>`
-  width: 32px;
-  height: 32px;
+const Step = styled.div<{ $done: boolean; $active: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 600;
+  gap: 0.375rem;
+  flex: 1;
+  padding: 0.625rem 0.875rem;
   font-size: 0.875rem;
-  background-color: ${({ theme, active, completed }) =>
-    active ? 'transparent' : completed ? theme.primary.main : theme.background.secondary};
-  color: ${({ theme, active, completed }) => (completed ? '#fff' : active ? theme.primary.main : theme.text.muted)};
-  border: 2px solid
-    ${({ theme, active, completed }) => (active || completed ? theme.primary.main : theme.border.primary)};
-  transform: ${({ active }) => (active ? 'scale(1.08)' : 'scale(1)')};
-  box-shadow: ${({ theme, active }) => (active ? `0 0 0 3px ${theme.primary.light}` : '0 0 0 0 transparent')};
+  font-weight: ${({ $active }) => ($active ? 700 : 600)};
+  border: 1px solid
+    ${({ theme, $done, $active }) => ($active ? theme.black.main : $done ? theme.black.light : theme.border.primary)};
+  background-color: ${({ theme, $done, $active }) =>
+    $active ? theme.black.main : $done ? theme.black.light : 'transparent'};
+  color: ${({ theme, $done, $active }) => ($active || $done ? '#fff' : theme.text.secondary)};
+  opacity: ${({ $done }) => ($done ? 0.75 : 1)};
   transition:
     background-color ${({ theme }) => theme.transition.base},
     border-color ${({ theme }) => theme.transition.base},
-    color ${({ theme }) => theme.transition.base},
-    box-shadow ${({ theme }) => theme.transition.slow},
-    transform ${({ theme }) => theme.transition.slow};
-`;
-
-const StepLabel = styled.div`
-  font-size: 0.875rem;
-  font-weight: 500;
+    color ${({ theme }) => theme.transition.base};
 
   @media (max-width: 768px) {
+    padding: 0.5rem 0.625rem;
     font-size: 0.75rem;
   }
-`;
-
-const ProgressLine = styled.div`
-  position: relative;
-  flex: 1;
-  height: 2px;
-  max-width: 120px;
-  background-color: ${({ theme }) => theme.border.primary};
-  overflow: hidden;
-
-  @media (max-width: 768px) {
-    max-width: 60px;
-  }
-`;
-
-const ProgressLineFill = styled.div<{ $completed: boolean }>`
-  position: absolute;
-  inset: 0;
-  background-color: ${({ theme }) => theme.primary.main};
-  transform-origin: left center;
-  transform: scaleX(${({ $completed }) => ($completed ? 1 : 0)});
-  transition: transform ${({ theme }) => theme.transition.slow};
 `;

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
+import { StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup, FieldError, Form, FormGroup, Input, Label, Select } from '@/components/common/Form';
 
@@ -64,7 +65,7 @@ export function ShippingForm({
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} data-testid="shipping-form">
-      {title && <FormTitle data-testid="shipping-form-title">{title}</FormTitle>}
+      {title && <StepTitle data-testid="shipping-form-title">{title}</StepTitle>}
 
       <Fields>
         <FormGroup>
@@ -192,17 +193,6 @@ export function ShippingForm({
     </Form>
   );
 }
-
-const FormTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.primary};
-  margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1.25rem;
-  }
-`;
 
 const Fields = styled.div`
   display: grid;

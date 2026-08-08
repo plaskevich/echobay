@@ -46,7 +46,8 @@ export function usePaginatedSearchParams(filterKey: unknown) {
           next.set('page', String(page));
           return next;
         },
-        { replace }
+        // ScrollRestoration would otherwise snap to top instantly, killing the caller's smooth scroll.
+        { replace, preventScrollReset: true }
       );
     },
     [setSearchParams]
