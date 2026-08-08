@@ -39,7 +39,7 @@ export function ConversationHeader({
   const showBuyButton = isBuyer && listingStatus === 'active' && !hasOrder;
 
   return (
-    <Header data-testid="conversation-header">
+    <div data-testid="conversation-header">
       {otherUserId && (
         <TopRow>
           <UserLink to={`/users/${otherUserId}`} data-testid="conversation-header-username">
@@ -74,17 +74,12 @@ export function ConversationHeader({
           </Button>
         )}
       </BottomRow>
-    </Header>
+    </div>
   );
 }
 
-const Header = styled.div`
-  border-bottom: 1px solid ${(props) => props.theme.border.primary};
-`;
-
 const TopRow = styled.div`
-  padding: 0.75rem 1.25rem;
-  border-bottom: 1px solid ${(props) => props.theme.border.primary};
+  padding: 0.75rem;
   display: flex;
   justify-content: center;
   @media (max-width: 768px) {
@@ -108,7 +103,8 @@ const BottomRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid ${(props) => props.theme.border.primary};
 
   @media (max-width: 768px) {
     padding: 0.75rem;

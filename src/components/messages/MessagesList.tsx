@@ -121,7 +121,7 @@ function formatFullDateTime(date: Date) {
 const MessagesArea = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 1rem 1.25rem;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;

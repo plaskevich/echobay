@@ -31,7 +31,7 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
           aria-label="Send message"
           data-testid="message-send-button"
         >
-          <i className="hn hn-arrow-circle-right-solid" aria-hidden />
+          <i className="hn hn-arrow-circle-up-solid" aria-hidden />
         </MessageSendButton>
       </MessageInputWrapper>
     </MessageInputArea>
@@ -39,15 +39,14 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
 }
 
 const MessageInputArea = styled.div`
-  padding: 1rem 1.25rem;
-  border-top: 1px solid ${(props) => props.theme.border.primary};
+  padding: 1rem 0;
 
   @media (max-width: 768px) {
     position: sticky;
     bottom: 0;
     z-index: 10;
     background-color: ${(props) => props.theme.background.primary};
-    padding: 0.75rem 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+    padding: 0.75rem 0 max(0.75rem, env(safe-area-inset-bottom));
   }
 `;
 

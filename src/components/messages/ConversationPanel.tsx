@@ -117,12 +117,16 @@ const Panel = styled.div<{ $hidden?: boolean }>`
   display: ${({ $hidden }) => ($hidden ? 'none' : 'flex')};
   flex-direction: column;
   min-width: 0;
-  border: 1px solid ${(props) => props.theme.border.primary};
-
+  padding: 0 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: -1rem;
   @media (max-width: 768px) {
     min-height: 0;
     overflow: visible;
     border: none;
+    margin-top: 0;
+    padding: 0 1rem;
   }
 `;
 
@@ -133,7 +137,6 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid ${(props) => props.theme.border.primary};
   }
 `;
 

@@ -57,7 +57,7 @@ export function useListings(filters?: ListingFilters) {
   const isInitialized = useAuthStore((state) => state.isInitialized);
   const normalizedFilters = normalizeFilters(filters);
 
-  return useQuery<PaginatedListings>({
+  const query = useQuery<PaginatedListings>({
     queryKey: listingKeys.list(normalizedFilters),
     queryFn: async () => {
       const { data, error } = await fetchAllListings(normalizedFilters);
@@ -72,12 +72,14 @@ export function useListings(filters?: ListingFilters) {
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
   });
+
+  return { ...query, isLoading: query.isPending };
 }
 
 export function useListing(id: string) {
   const isInitialized = useAuthStore((state) => state.isInitialized);
 
-  return useQuery({
+  const query = useQuery({
     queryKey: listingKeys.detail(id),
     queryFn: async () => {
       const { data, error } = await fetchListing(id);
@@ -87,6 +89,8 @@ export function useListing(id: string) {
     enabled: !!id && isInitialized,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
+
+  return { ...query, isLoading: query.isPending };
 }
 
 export function useUserListings(userId: string | undefined) {

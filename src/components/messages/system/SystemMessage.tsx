@@ -182,7 +182,7 @@ const Card = styled.div`
   gap: 0.75rem;
   padding: 1rem;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.border.primary};
+  background-color: ${({ theme }) => theme.background.elevated};
 `;
 
 const IconWrapper = styled.div<{ $color: 'success' | 'primary' }>`

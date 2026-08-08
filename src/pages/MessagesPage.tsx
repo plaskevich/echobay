@@ -299,6 +299,7 @@ const Container = styled.div`
 
 const Header = styled.div<{ $mobileHidden: boolean }>`
   margin-bottom: 1rem;
+  width: fit-content;
   @media (max-width: 768px) {
     ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
     padding: 1rem 0.75rem 1rem 0.75rem;
@@ -310,7 +311,6 @@ const Layout = styled.div`
   display: flex;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
   display: flex;
   gap: 1.5rem;
 
