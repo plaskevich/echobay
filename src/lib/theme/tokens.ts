@@ -1,14 +1,4 @@
-import type {
-  Duration,
-  Easing,
-  Elevation,
-  FontSize,
-  FontWeight,
-  LineHeight,
-  ShadowColors,
-  Spacing,
-  Transition,
-} from './types';
+import type { Duration, Easing, FontSize, FontWeight, LineHeight, Spacing, Transition } from './types';
 
 const spacing: Spacing = {
   '3xs': '0.125rem',
@@ -78,10 +68,3 @@ export const sharedTokens = {
   easing,
   transition,
 };
-
-export const makeElevation = (shadow: ShadowColors): Elevation => ({
-  sm: `0 1px 2px ${shadow.small}`,
-  md: `0 4px 6px -1px ${shadow.medium}`,
-  lg: `0 10px 25px -5px ${shadow.large}`,
-  xl: `0 20px 40px -12px ${shadow.large}`,
-});

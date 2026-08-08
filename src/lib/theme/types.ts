@@ -51,13 +51,6 @@ export interface Transition {
   slow: string;
 }
 
-export interface Elevation {
-  sm: string;
-  md: string;
-  lg: string;
-  xl: string;
-}
-
 export interface ThemeColors {
   background: {
     primary: string;
@@ -117,5 +110,3 @@ export interface ThemeColors {
   easing: Easing;
   transition: Transition;
 }
-
-export type ShadowColors = ThemeColors['shadow'];

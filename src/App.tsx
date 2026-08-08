@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
@@ -8,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { ResetPassword } from '@/components/auth/ResetPassword';
+import { AppToaster } from '@/components/common/AppToaster';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { theme } from '@/lib/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';
@@ -63,31 +63,7 @@ export function App() {
   return (
     <StyledThemeProvider theme={theme}>
       <RouterProvider router={router} />
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: theme.background.secondary,
-            color: theme.text.primary,
-            border: `1px solid ${theme.border.primary}`,
-            padding: '0.75rem 1rem',
-            boxShadow: `0 0.25rem 0.75rem ${theme.shadow.medium}`,
-          },
-          success: {
-            iconTheme: {
-              primary: theme.state.success,
-              secondary: theme.background.primary,
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: theme.state.error,
-              secondary: theme.background.primary,
-            },
-          },
-        }}
-      />
+      <AppToaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </StyledThemeProvider>
   );
