@@ -146,7 +146,7 @@ const SuggestionItem = styled.li<{ $isSelected: boolean }>`
   padding: 12px 16px;
   cursor: pointer;
   background: ${({ theme, $isSelected }) => ($isSelected ? theme.background.tertiary : 'transparent')};
-  transition: background-color 0.2s;
+  transition: background-color ${({ theme }) => theme.transition.base};
 
   &:hover {
     background: ${({ theme }) => theme.background.tertiary};

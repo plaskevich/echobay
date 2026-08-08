@@ -74,12 +74,12 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  transition: transform 0.2s;
+  transition: transform ${({ theme }) => theme.transition.base};
 
   i {
     font-size: 1.75rem;
     color: ${({ theme, $isFavorited }) => ($isFavorited ? theme.black.main : theme.text.secondary)};
-    transition: color 0.2s;
+    transition: color ${({ theme }) => theme.transition.base};
   }
 
   &:hover i {

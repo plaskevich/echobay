@@ -151,10 +151,10 @@ const InputContainer = styled.div<{ $isOpen: boolean; $disabled: boolean }>`
   align-items: center;
   padding: 0.625rem 0.75rem;
   border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.border.hover : theme.border.primary)};
-  background-color: ${({ theme, $isOpen }) => ($isOpen ? '#fff' : theme.background.primary)};
+  background-color: ${({ theme, $isOpen }) => ($isOpen ? theme.background.elevated : theme.background.primary)};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
   opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 `;
 
 const TagsContainer = styled.div`
@@ -193,7 +193,7 @@ const TagRemove = styled.button`
   background: none;
   color: ${({ theme }) => theme.primary.main};
   opacity: 0.7;
-  transition: opacity 0.15s ease;
+  transition: opacity ${({ theme }) => theme.transition.fast};
 
   &:hover {
     opacity: 1;
@@ -222,7 +222,7 @@ const SearchInput = styled.input`
 const CaretIcon = styled.i<{ $isOpen: boolean }>`
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1;
-  transition: transform 0.2s ease;
+  transition: transform ${({ theme }) => theme.transition.base};
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0)')};
   flex-shrink: 0;
 `;
@@ -235,7 +235,7 @@ const Dropdown = styled.div`
   margin-top: 0.25rem;
   max-height: 200px;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.background.elevated};
   border: 1px solid ${({ theme }) => theme.border.hover};
   box-shadow: ${({ theme }) => theme.shadow};
   z-index: 100;
@@ -245,7 +245,7 @@ const DropdownItem = styled.div<{ $disabled?: boolean }>`
   padding: 0.75rem 1rem;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
   color: ${({ theme, $disabled }) => ($disabled ? theme.text.tertiary : theme.text.primary)};
-  transition: background-color 0.15s ease;
+  transition: background-color ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme, $disabled }) => ($disabled ? 'transparent' : theme.background.secondary)};

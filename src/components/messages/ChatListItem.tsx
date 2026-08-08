@@ -72,7 +72,7 @@ const ChatItem = styled.button<{ $active?: boolean }>`
   border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : theme.border.primary)};
   background: ${({ theme, $active }) => ($active ? theme.background.secondary : 'transparent')};
   text-align: left;
-  transition: border-color 0.15s ease;
+  transition: border-color ${(props) => props.theme.transition.fast};
   width: 100%;
 
   &:hover {
@@ -85,7 +85,7 @@ const ChatItemAvatar = styled.div`
   width: 2.5rem;
   height: 2.5rem;
   overflow: hidden;
-  background: #fff;
+  background: ${(props) => props.theme.background.elevated};
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -187,7 +187,7 @@ const ChatItemFormatFallback = styled.div`
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;

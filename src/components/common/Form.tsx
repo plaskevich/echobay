@@ -45,7 +45,7 @@ export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
-    background-color: #fff;
+    background-color: ${(props) => props.theme.background.elevated};
   }
 
   &:disabled {
@@ -86,7 +86,7 @@ export const TextArea = styled.textarea<{ $hasError?: boolean }>`
   &:focus {
     outline: none;
     border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
-    background-color: #fff;
+    background-color: ${(props) => props.theme.background.elevated};
   }
 
   &::placeholder {
@@ -116,7 +116,7 @@ export const FileInput = styled.input`
     margin-right: 1rem;
     border: none;
     background-color: ${(props) => props.theme.black.main};
-    color: white;
+    color: ${(props) => props.theme.text.inverse};
     cursor: pointer;
     font-weight: 500;
 

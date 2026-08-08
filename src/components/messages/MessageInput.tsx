@@ -56,11 +56,11 @@ const MessageInputWrapper = styled.div`
   align-items: center;
   border: 1px solid ${(props) => props.theme.border.primary};
   overflow: hidden;
-  transition: border-color 0.15s ease;
+  transition: border-color ${(props) => props.theme.transition.fast};
 
   &:focus-within {
     border-color: ${(props) => props.theme.border.hover};
-    background-color: #fff;
+    background-color: ${(props) => props.theme.background.elevated};
   }
 `;
 
@@ -95,7 +95,7 @@ const MessageSendButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.15s ease;
+  transition: color ${(props) => props.theme.transition.fast};
 
   &:hover:not(:disabled) {
     color: ${(props) => props.theme.primary.main};

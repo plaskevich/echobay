@@ -40,12 +40,12 @@ const StyledInput = styled.input<{ $hasError?: boolean }>`
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   background-color: transparent;
   color: ${({ theme }) => theme.text.primary};
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 
   &:focus {
     outline: none;
     border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.background.elevated};
   }
 
   &::placeholder {

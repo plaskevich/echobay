@@ -209,7 +209,7 @@ const Badge = styled.span`
   height: 1.25rem;
   padding: 0 0.375rem;
   background-color: ${({ theme }) => theme.black.main};
-  color: white;
+  color: ${({ theme }) => theme.text.inverse};
   font-size: 0.6875rem;
   font-weight: 600;
 `;
@@ -218,7 +218,7 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(0, 0, 0, 0.4);
+  background: ${({ theme }) => theme.overlay.dark};
 `;
 
 const Panel = styled.div`

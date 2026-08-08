@@ -243,7 +243,7 @@ const ClearAllButton = styled.button`
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     color: ${({ theme }) => theme.state.error};
@@ -265,7 +265,7 @@ const FilterPill = styled.div`
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: 0.875rem;
@@ -290,7 +290,7 @@ const PillRemoveButton = styled.button`
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.75rem;
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     color: ${({ theme }) => theme.text.primary};

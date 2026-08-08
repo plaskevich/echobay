@@ -98,8 +98,14 @@ export function AuthForm({
 
       {serverError && <AuthErrorMessage>{serverError}</AuthErrorMessage>}
 
-      <Button type="submit" fullWidth isLoading={isLoading} data-testid="auth-submit-button">
-        {mode === 'login' ? 'Log In' : 'Sign Up'}
+      <Button
+        type="submit"
+        fullWidth
+        isLoading={isLoading}
+        data-testid="auth-submit-button"
+        style={{ fontWeight: 700 }}
+      >
+        {mode === 'login' ? 'LOG IN' : 'SIGN UP'}
       </Button>
     </AuthFormLayout>
   );

@@ -131,11 +131,11 @@ const PageButton = styled.button<{ $active: boolean }>`
   padding: 0 0.375rem;
   border: 1px solid ${({ $active, theme }) => ($active ? theme.black.main : theme.border.primary)};
   background: ${({ $active, theme }) => ($active ? theme.black.main : 'transparent')};
-  color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.primary)};
+  color: ${({ $active, theme }) => ($active ? theme.text.inverse : theme.text.primary)};
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     border-color: ${({ theme }) => theme.border.hover};

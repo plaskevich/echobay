@@ -97,7 +97,7 @@ const UserLink = styled(Link)`
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color ${(props) => props.theme.transition.fast};
 
   &:hover {
     color: ${(props) => props.theme.primary.main};
@@ -141,7 +141,7 @@ const ItemImage = styled.img`
 const ItemFormatFallback = styled.div`
   width: 3rem;
   height: 3rem;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;

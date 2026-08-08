@@ -56,6 +56,7 @@ export interface ThemeColors {
     primary: string;
     secondary: string;
     tertiary: string;
+    elevated: string;
     primaryHover: string;
     secondaryHover: string;
   };
@@ -64,6 +65,7 @@ export interface ThemeColors {
     secondary: string;
     tertiary: string;
     muted: string;
+    inverse: string;
     accent: string;
   };
   border: {

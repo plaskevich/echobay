@@ -6,6 +6,7 @@ export const theme: ThemeColors = {
     primary: '#F5F5F5',
     secondary: '#E7E7E7',
     tertiary: '#dddddd',
+    elevated: '#ffffff',
     primaryHover: '#F0F0F0',
     secondaryHover: '#DEDEDE',
   },
@@ -14,6 +15,7 @@ export const theme: ThemeColors = {
     secondary: '#525252',
     tertiary: '#515151',
     muted: 'rgb(156, 156, 164)',
+    inverse: '#ffffff',
     accent: '#00f',
   },
   border: {

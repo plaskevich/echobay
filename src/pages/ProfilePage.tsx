@@ -111,9 +111,9 @@ const FilterTab = styled.button<{ $active: boolean }>`
   }
   border: 1px solid ${(props) => (props.$active ? props.theme.black.main : props.theme.border.primary)};
   background-color: ${(props) => (props.$active ? props.theme.black.main : props.theme.background.primary)};
-  color: ${(props) => (props.$active ? '#fff' : props.theme.text.primary)};
+  color: ${(props) => (props.$active ? props.theme.text.inverse : props.theme.text.primary)};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
     border-color: ${(props) => props.theme.border.hover};

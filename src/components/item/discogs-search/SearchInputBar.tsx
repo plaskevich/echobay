@@ -115,7 +115,7 @@ const SearchButton = styled.button`
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  transition: background-color 0.2s;
+  transition: background-color ${(props) => props.theme.transition.base};
   background-color: transparent;
 
   &:hover:not(:disabled) {

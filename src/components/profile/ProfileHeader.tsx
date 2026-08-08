@@ -114,7 +114,7 @@ export const Placeholder = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #fff;
+  background: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   font-size: 3rem;
   border-radius: 50%;

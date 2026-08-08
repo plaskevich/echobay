@@ -31,7 +31,7 @@ const ResultItem = styled.button`
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   text-align: left;
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover:not(:disabled) {
     border-color: ${(props) => props.theme.primary.main};

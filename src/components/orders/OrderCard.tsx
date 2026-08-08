@@ -60,7 +60,7 @@ export default function OrderCard({ order }: OrderCardProps) {
 const Card = styled.div`
   border: 1px solid ${(props) => props.theme.border.primary};
   overflow: hidden;
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
     border-color: ${(props) => props.theme.border.hover};
@@ -113,7 +113,7 @@ const OrderImage = styled.img`
 const OrderFormatFallback = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;

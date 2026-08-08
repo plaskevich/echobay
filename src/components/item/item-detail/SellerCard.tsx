@@ -86,7 +86,7 @@ const SellerAvatarPlaceholder = styled.div`
   justify-content: center;
   color: ${({ theme }) => theme.text.primary};
   font-size: 1.5rem;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.background.elevated};
   border-radius: 50%;
 `;
 

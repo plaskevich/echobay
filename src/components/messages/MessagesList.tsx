@@ -172,7 +172,7 @@ const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
   padding: 0.5rem 0.9rem;
   background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.secondary)};
-  color: ${({ theme, $isOwn }) => ($isOwn ? 'white' : theme.text.primary)};
+  color: ${({ theme, $isOwn }) => ($isOwn ? theme.text.inverse : theme.text.primary)};
   display: flex;
   flex-direction: column;
   gap: 0.25rem;

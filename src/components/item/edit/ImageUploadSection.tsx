@@ -63,10 +63,7 @@ export function ImageUploadSection({
               onDragOver={(e) => handleDragOver(e, index)}
               onDrop={(e) => handleDrop(e, index)}
               onDragEnd={handleDragEnd}
-              style={{
-                opacity: dragOverIndex === index ? 0.5 : 1,
-                outline: dragOverIndex === index ? '2px dashed #888' : 'none',
-              }}
+              $dragOver={dragOverIndex === index}
             >
               <PreviewImage alt={`Preview ${index + 1}`} src={preview} />
               {index === 0 && <MainBadge>Main</MainBadge>}
@@ -75,7 +72,7 @@ export function ImageUploadSection({
                 type="button"
                 aria-label={`Remove image ${index + 1}`}
               >
-                ×
+                <i className="hn hn-times" aria-hidden />
               </RemoveImageButton>
             </ImagePreview>
           ))}
@@ -97,12 +94,14 @@ export const ImagePreviewContainer = styled.div`
   }
 `;
 
-export const ImagePreview = styled.div`
+export const ImagePreview = styled.div<{ $dragOver?: boolean }>`
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid ${(props) => props.theme.border.primary};
   cursor: grab;
+  opacity: ${(props) => (props.$dragOver ? 0.5 : 1)};
+  outline: ${(props) => (props.$dragOver ? `2px dashed ${props.theme.border.primary}` : 'none')};
 
   &:active {
     cursor: grabbing;
@@ -122,7 +121,7 @@ export const MainBadge = styled.span`
   left: 50%;
   transform: translateX(-50%);
   background-color: ${(props) => props.theme.overlay.dark};
-  color: white;
+  color: ${(props) => props.theme.text.inverse};
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.15rem 0.35rem;
@@ -135,7 +134,7 @@ export const RemoveImageButton = styled.button`
   top: 0.25rem;
   right: 0.25rem;
   background-color: ${(props) => props.theme.overlay.dark};
-  color: white;
+  color: ${(props) => props.theme.text.inverse};
   border: none;
   width: 1.5rem;
   height: 1.5rem;

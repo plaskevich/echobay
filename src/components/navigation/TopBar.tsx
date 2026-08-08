@@ -158,7 +158,7 @@ const LogoText = styled.span`
   font-size: 2.4rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
-  transition: all 0.3s;
+  transition: all ${(props) => props.theme.transition.slow};
   margin-top: 0.3rem;
 
   @media (hover: hover) {
@@ -203,7 +203,7 @@ const IconButton = styled.button`
   color: ${(props) => props.theme.text.secondary};
   background: none;
   border: none;
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
   display: flex;
   align-items: center;
   font-size: 1.4rem;

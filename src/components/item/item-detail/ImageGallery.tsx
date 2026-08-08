@@ -129,7 +129,7 @@ const StatusBanner = styled.div<{ $status: ListingStatus }>`
   padding: 1rem 1.25rem;
   background-color: ${(props) =>
     props.$status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
-  color: ${(props) => (props.$status === 'sold' ? '#fff' : props.theme.text.primary)};
+  color: ${(props) => (props.$status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
   font-size: 1.2rem;
   font-weight: 600;
   display: inline-flex;
@@ -143,7 +143,7 @@ const MainImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform ${({ theme }) => theme.transition.slow};
 `;
 
 const MainImageFormatFallback = styled.div`
@@ -162,11 +162,11 @@ const ZoomHint = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background: ${({ theme }) => theme.overlay.darker};
-  color: white;
+  color: ${({ theme }) => theme.text.inverse};
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity ${({ theme }) => theme.transition.slow};
   pointer-events: none;
   backdrop-filter: blur(8px);
 `;
@@ -176,7 +176,7 @@ const ImageCounter = styled.div`
   top: 1rem;
   right: 1rem;
   background: ${({ theme }) => theme.black.main};
-  color: white;
+  color: ${({ theme }) => theme.text.inverse};
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
@@ -202,9 +202,9 @@ const ThumbnailWrapper = styled.div<{ $active: boolean }>`
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
-  border: 2px solid ${({ theme, $active }) => ($active ? theme.border.hover : 'transparent')};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : 'transparent')};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 
   &:hover {
     border-color: ${({ theme }) => theme.border.primary};
@@ -215,7 +215,7 @@ const Thumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.2s ease;
+  transition: transform ${({ theme }) => theme.transition.base};
 `;
 
 const NavButton = styled.button<{ $position: 'left' | 'right' }>`
@@ -224,14 +224,14 @@ const NavButton = styled.button<{ $position: 'left' | 'right' }>`
   ${({ $position }) => $position}: 1rem;
   transform: translateY(-50%);
   background: transparent;
-  color: white;
+  color: ${({ theme }) => theme.text.inverse};
   border: none;
   font-size: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: all ${({ theme }) => theme.transition.slow};
   z-index: 2;
 
   ${MainImageWrapper}:hover & {

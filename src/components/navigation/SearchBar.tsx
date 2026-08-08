@@ -110,7 +110,7 @@ const SearchInput = styled.input`
   padding: 0.5rem 2.5rem 0.5rem 2rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   font-size: 1rem;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   box-sizing: border-box;
 
@@ -148,7 +148,7 @@ const ClearButton = styled.button`
   align-items: center;
   font-size: 0.75rem;
   padding: 0.25rem;
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
     color: ${(props) => props.theme.primary.main};

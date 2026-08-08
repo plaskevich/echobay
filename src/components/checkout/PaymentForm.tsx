@@ -106,9 +106,11 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
       </PaymentSection>
 
       <TestModeNotice>
-        <NoticeTitle>🧪 Test Mode</NoticeTitle>
+        <NoticeTitle>
+          <i className="hn hn-info-circle" aria-hidden /> Test Mode
+        </NoticeTitle>
         <NoticeText>
-          Use test card: <code>4242 4242 4242 4242</code>
+          Use test card: <span>4242 4242 4242 4242</span>
           <br />
           Any future expiry date, any 3-digit CVC
         </NoticeText>
@@ -178,7 +180,7 @@ const CardElementWrapper = styled.div`
 
   &:focus-within {
     border-color: ${({ theme }) => theme.border.hover};
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.background.elevated};
   }
 `;
 
@@ -204,11 +206,14 @@ const SecureNote = styled.span`
 
 const TestModeNotice = styled.div`
   padding: 1rem;
-  border: 1px dashed ${({ theme }) => theme.border.primary};
   margin-top: 1rem;
+  background-color: ${({ theme }) => theme.background.elevated};
 `;
 
 const NoticeTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.875rem;
   font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
@@ -220,10 +225,11 @@ const NoticeText = styled.div`
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1.5;
 
-  code {
+  span {
     padding: 0.125rem 0.375rem;
-    background-color: ${({ theme }) => theme.background.secondary};
-    font-family: monospace;
+    font-family: ${({ theme }) => theme.fontFamilyAlt};
     font-size: 0.875rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.text.primary};
   }
 `;

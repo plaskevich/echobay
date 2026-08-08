@@ -151,11 +151,11 @@ const BackButton = styled.button`
   align-items: center;
   gap: 0.35rem;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   i {
     font-size: 1rem;
-    transition: transform 0.15s ease;
+    transition: transform ${({ theme }) => theme.transition.fast};
   }
 
   &:hover {

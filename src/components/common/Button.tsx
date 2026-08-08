@@ -18,7 +18,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
     case 'primary':
       return css`
         background-color: ${({ theme }) => theme.black.main};
-        color: white;
+        color: ${({ theme }) => theme.text.inverse};
         border: none;
 
         &:hover:not(:disabled) {
@@ -71,7 +71,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
     case 'danger':
       return css`
         background-color: ${({ theme }) => theme.state.error};
-        color: white;
+        color: ${({ theme }) => theme.text.inverse};
         border: none;
 
         &:hover:not(:disabled) {
@@ -90,7 +90,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
 
         &:hover:not(:disabled) {
           background-color: ${({ theme }) => theme.state.error};
-          color: white;
+          color: ${({ theme }) => theme.text.inverse};
         }
 
         &:active:not(:disabled) {

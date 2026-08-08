@@ -140,11 +140,11 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
   font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-weight: 600;
   font-size: 0.875rem;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 
   &:focus {
     outline: none;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.background.elevated};
     border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
   }
 

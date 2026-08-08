@@ -14,7 +14,7 @@ export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
   white-space: nowrap;
   &:hover {
     border-color: ${({ theme, $active }) => ($active ? theme.black.main : theme.border.hover)};
@@ -22,7 +22,7 @@ export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }
 
   i {
     font-size: 0.75rem;
-    transition: all 0.2s ease;
+    transition: all ${({ theme }) => theme.transition.base};
     transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
     @media (max-width: 640px) {
       display: none;
@@ -83,11 +83,11 @@ export const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.15s ease;
+  transition: border-color ${({ theme }) => theme.transition.fast};
   box-sizing: border-box;
 
   &::placeholder {
@@ -116,17 +116,18 @@ export const CheckboxList = styled.div`
   }
 `;
 
-export const CheckboxItem = styled.div<{ $checked?: boolean }>`
+export const CheckboxItem = styled.div<{ $checked?: boolean; $empty?: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ $empty }) => ($empty ? 'center' : 'space-between')};
   gap: 0.5rem;
   padding: 0.6rem 0.75rem;
-  cursor: pointer;
+  cursor: ${({ $empty }) => ($empty ? 'default' : 'pointer')};
+  opacity: ${({ $empty }) => ($empty ? 0.5 : 1)};
   font-size: 0.875rem;
   color: ${({ theme }) => theme.text.primary};
   font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.background.secondary};
@@ -166,10 +167,10 @@ export const DropdownApplyButton = styled.button`
   border: none;
   border-top: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.black.main};
-  color: white;
+  color: ${({ theme }) => theme.text.inverse};
   font-size: 0.875rem;
   font-weight: 600;
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.black.light};
@@ -185,33 +186,21 @@ export const DropdownApplyButton = styled.button`
 export const Checkbox = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
-  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
+  border: 1px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
   background-color: ${({ theme, $checked }) => ($checked ? theme.black.main : theme.background.primary)};
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  &::after {
-    content: '';
-    display: ${({ $checked }) => ($checked ? 'block' : 'none')};
-    width: 1rem;
-    height: 1rem;
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+  color: ${({ theme }) => theme.text.inverse};
+  font-size: 0.75rem;
 
   @media (max-width: 640px) {
     width: 1.25rem;
     height: 1.25rem;
-
-    &::after {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
+    font-size: 0.875rem;
   }
 `;
 
@@ -225,7 +214,7 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
   font-size: 0.875rem;
   color: ${({ theme }) => theme.text.primary};
   font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.background.secondary};
@@ -245,9 +234,9 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
 export const Radio = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
-  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
+  border: 1px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
   background-color: ${({ theme }) => theme.background.primary};
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -259,7 +248,7 @@ export const Radio = styled.div<{ $checked?: boolean }>`
     height: 0.5rem;
     background-color: ${({ theme }) => theme.black.main};
     opacity: ${({ $checked }) => ($checked ? 1 : 0)};
-    transition: opacity 0.15s ease;
+    transition: opacity ${({ theme }) => theme.transition.fast};
   }
 
   @media (max-width: 640px) {

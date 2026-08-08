@@ -208,7 +208,7 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   padding: 0.5rem 0.6rem;
   background-color: ${(props) =>
     props.status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
-  color: ${(props) => (props.status === 'sold' ? '#fff' : props.theme.text.primary)};
+  color: ${(props) => (props.status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -227,14 +227,13 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s;
+  transition: transform ${(props) => props.theme.transition.base};
   z-index: 10;
 
   i {
     font-size: 1.4rem;
     color: ${(props) => (props.$isFavorited ? props.theme.black.main : props.theme.text.secondary)};
-    filter: drop-shadow(${(props) => props.theme.shadow});
-    transition: all 0.2s;
+    transition: all ${(props) => props.theme.transition.base};
   }
 
   &:hover {
@@ -245,10 +244,5 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
 
   &:active {
     transform: scale(0.9);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    transform: none;
   }
 `;

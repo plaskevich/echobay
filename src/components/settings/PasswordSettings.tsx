@@ -4,10 +4,10 @@ import toast from 'react-hot-toast';
 
 import { updatePassword } from '@/api/auth';
 import { Button } from '@/components/common/Button';
-import { FieldError, FieldWrapper } from '@/components/common/Form';
+import { ButtonGroup, FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 
-import { ButtonRow, Container, Description, Form, Message, SectionTitle } from './styles';
+import { Container, Description, Form, Message, SectionTitle } from './styles';
 
 interface PasswordFormData {
   newPassword: string;
@@ -89,11 +89,11 @@ export default function PasswordSettings() {
 
         {message && <Message $type={message.type}>{message.text}</Message>}
 
-        <ButtonRow>
+        <ButtonGroup>
           <Button type="submit" disabled={!isValid} isLoading={isSaving}>
             Save
           </Button>
-        </ButtonRow>
+        </ButtonGroup>
       </Form>
     </Container>
   );

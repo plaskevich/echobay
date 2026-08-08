@@ -60,7 +60,7 @@ const Step = styled.div<{ $done: boolean; $active: boolean }>`
     ${({ theme, $done, $active }) => ($active ? theme.black.main : $done ? theme.black.light : theme.border.primary)};
   background-color: ${({ theme, $done, $active }) =>
     $active ? theme.black.main : $done ? theme.black.light : 'transparent'};
-  color: ${({ theme, $done, $active }) => ($active || $done ? '#fff' : theme.text.secondary)};
+  color: ${({ theme, $done, $active }) => ($active || $done ? theme.text.inverse : theme.text.secondary)};
   opacity: ${({ $done }) => ($done ? 0.75 : 1)};
   transition:
     background-color ${({ theme }) => theme.transition.base},

@@ -107,7 +107,7 @@ const GenreList = styled.div`
 const GenreTag = styled.span`
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: 0.875rem;
