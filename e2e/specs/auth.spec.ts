@@ -22,7 +22,7 @@ test.describe('Authentication', () => {
 
     await expect(page.getByText('Welcome Back')).toBeVisible();
     await page.getByTestId('auth-toggle-button').click();
-    await expect(page.getByText('Create Account')).toBeVisible();
+    await expect(page.getByText('Welcome to EchoBay')).toBeVisible();
   });
 
   test('should show error for invalid credentials', async ({ page }) => {

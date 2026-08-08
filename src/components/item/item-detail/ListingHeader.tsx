@@ -101,7 +101,7 @@ const Artist = styled.p`
   }
 `;
 
-const Title = styled.p`
+const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
