@@ -89,16 +89,12 @@ const MessageSendButton = styled.button`
   padding: 0.875rem 1rem;
   border: none;
   background: transparent;
-  color: ${(props) => props.theme.text.primary};
+  color: ${(props) => props.theme.primary.main};
   font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color ${(props) => props.theme.transition.fast};
-
-  &:hover:not(:disabled) {
-    color: ${(props) => props.theme.primary.main};
-  }
 
   &:disabled {
     opacity: 0.5;

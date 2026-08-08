@@ -22,7 +22,7 @@ export function ProfileEditForm() {
 
   return (
     <Container data-testid="profile-edit-form">
-      <FormHeader title="Edit Profile" subtitle="Update your profile information" />
+      <FormHeader title="Edit Profile" />
 
       <Form onSubmit={handleSubmit}>
         <Panel>

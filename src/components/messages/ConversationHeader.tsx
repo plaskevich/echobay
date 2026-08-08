@@ -105,6 +105,9 @@ const BottomRow = styled.div`
   gap: 0.75rem;
   padding: 0.5rem 1.25rem;
   border: 1px solid ${(props) => props.theme.border.primary};
+  &:hover {
+    border-color: ${(props) => props.theme.border.hover};
+  }
 
   @media (max-width: 768px) {
     padding: 0.75rem;
