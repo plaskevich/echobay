@@ -48,12 +48,10 @@ export function FavoritesPage() {
 
   return (
     <Container>
-      <Header>
-        <PageTitle>My Favorites</PageTitle>
-        <Subtitle data-testid="favorites-count">
-          {listings.length} {listings.length === 1 ? 'item' : 'items'}
-        </Subtitle>
-      </Header>
+      <PageTitle>My Favorites</PageTitle>
+      <Subtitle data-testid="favorites-count">
+        {listings.length} {listings.length === 1 ? 'item' : 'items'}
+      </Subtitle>
 
       {listings.length === 0 ? (
         <EmptyState data-testid="favorites-empty">
@@ -83,10 +81,6 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
-`;
-
-const Header = styled.div`
-  margin-bottom: 2rem;
 `;
 
 const Subtitle = styled.p`

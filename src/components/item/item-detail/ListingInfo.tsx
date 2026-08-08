@@ -70,7 +70,6 @@ const InfoGrid = styled.div`
   }
 
   @media (max-width: 640px) {
-    padding: 1rem;
     gap: 0.75rem;
   }
 `;

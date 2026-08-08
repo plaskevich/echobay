@@ -132,10 +132,6 @@ const Price = styled.p`
   line-height: 1;
   color: ${({ theme }) => theme.primary.main};
   margin: 0;
-
-  @media (max-width: 640px) {
-    font-size: 1rem;
-  }
 `;
 
 const ShippingPrice = styled.p`

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { PiCaretLeft, PiCaretRight, PiSlidersHorizontal, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
 import { MultiSelectFilter } from '@/components/listings/filters/MultiSelectFilter';
 import { RangeFilter } from '@/components/listings/filters/RangeFilter';
 import { SortFilter } from '@/components/listings/filters/SortFilter';
+import { ApplyButtonWrapper, DropdownApplyButton, FilterButton } from '@/components/listings/filters/styles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
 import { useGenres } from '@/queries/useGenres';
@@ -127,7 +127,7 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
   return (
     <>
       <MobileFilterButton onClick={openPanel} $active={activeCount > 0} data-testid="mobile-filter-button">
-        <PiSlidersHorizontal />
+        <i className="hn hn-filter" aria-hidden />
         Filters
         {activeCount > 0 && <Badge>{activeCount}</Badge>}
       </MobileFilterButton>
@@ -139,11 +139,11 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
               <Header>
                 {activeCategory ? (
                   <HeaderIconButton onClick={handleBack} aria-label="Back">
-                    <PiCaretLeft />
+                    <i className="hn hn-angle-left" aria-hidden />
                   </HeaderIconButton>
                 ) : (
                   <HeaderIconButton onClick={closePanel} aria-label="Close">
-                    <PiX />
+                    <i className="hn hn-times" aria-hidden />
                   </HeaderIconButton>
                 )}
                 <HeaderTitle>{activeCategory ? CATEGORY_LABELS[activeCategory] : 'Filter'}</HeaderTitle>
@@ -162,7 +162,7 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
                         <CategoryLabel>{cat.label}</CategoryLabel>
                         <CategoryValueRow>
                           <CategoryValue $isSort={cat.isSort}>{getSummaryLabel(filters, cat.key)}</CategoryValue>
-                          <PiCaretRight />
+                          <i className="hn hn-angle-right" aria-hidden />
                         </CategoryValueRow>
                       </CategoryRow>
                     ))}
@@ -172,11 +172,11 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
                 )}
               </Content>
 
-              <Footer>
-                <ShowResultsButton onClick={handleApply} data-testid="mobile-filter-apply">
+              <ApplyButtonWrapper>
+                <DropdownApplyButton onClick={handleApply} data-testid="mobile-filter-apply">
                   Show results
-                </ShowResultsButton>
-              </Footer>
+                </DropdownApplyButton>
+              </ApplyButtonWrapper>
             </Panel>
           </Overlay>,
           document.body
@@ -185,23 +185,17 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
   );
 }
 
-const MobileFilterButton = styled.button<{ $active?: boolean }>`
+const MobileFilterButton = styled(FilterButton)`
   display: none;
 
   @media (max-width: 640px) {
     display: flex;
-    align-items: center;
     gap: 0.4rem;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-    background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
-    color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
-    font-size: 0.875rem;
-    white-space: nowrap;
     width: fit-content;
     align-self: flex-end;
 
-    svg {
+    i {
+      display: inline-block;
       font-size: 1rem;
     }
   }
@@ -214,7 +208,7 @@ const Badge = styled.span`
   min-width: 1.25rem;
   height: 1.25rem;
   padding: 0 0.375rem;
-  background-color: ${({ theme }) => theme.primary.main};
+  background-color: ${({ theme }) => theme.black.main};
   color: white;
   font-size: 0.6875rem;
   font-weight: 600;
@@ -273,34 +267,13 @@ const HeaderAction = styled.button`
   text-align: right;
 
   &:hover {
-    color: ${({ theme }) => theme.primary.main};
+    color: ${({ theme }) => theme.text.primary};
   }
 `;
 
 const Content = styled.div`
   flex: 1;
   overflow-y: auto;
-`;
-
-const Footer = styled.div`
-  padding: 1rem;
-  border-top: 1px solid ${({ theme }) => theme.border.primary};
-  flex-shrink: 0;
-`;
-
-const ShowResultsButton = styled.button`
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  background-color: ${({ theme }) => theme.primary.main};
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.15s ease;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.primary.hover};
-  }
 `;
 
 const CategoryList = styled.div`
@@ -334,11 +307,12 @@ const CategoryValueRow = styled.div`
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
 
-  svg {
+  i {
     font-size: 0.875rem;
   }
 `;
 
 const CategoryValue = styled.span<{ $isSort?: boolean }>`
-  color: ${({ theme, $isSort }) => ($isSort ? theme.primary.main : theme.text.secondary)};
+  color: ${({ theme, $isSort }) => ($isSort ? theme.text.primary : theme.text.secondary)};
+  font-weight: ${({ $isSort }) => ($isSort ? 600 : 400)};
 `;

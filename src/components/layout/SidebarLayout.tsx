@@ -43,7 +43,8 @@ export const SidebarNav = styled.div`
 
   @media (max-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
     gap: 0.5rem;
     margin-bottom: 1rem;
   }
@@ -72,10 +73,10 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   }
 
   @media (max-width: 768px) {
+    justify-content: center;
+    text-align: center;
     padding: 0.625rem 0.875rem;
     font-size: 0.9375rem;
-    border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-    background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
     white-space: normal;
   }
 `;

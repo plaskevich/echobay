@@ -9,14 +9,15 @@ export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-  background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
-  color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.text.primary)};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : theme.border.primary)};
+  background-color: ${({ theme }) => theme.background.primary};
+  color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;
+  font-weight: ${({ $active }) => ($active ? 600 : 400)};
   transition: all 0.2s ease;
   white-space: nowrap;
   &:hover {
-    border-color: ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.hover)};
+    border-color: ${({ theme, $active }) => ($active ? theme.black.main : theme.border.hover)};
   }
 
   i {
@@ -26,18 +27,6 @@ export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }
     @media (max-width: 640px) {
       display: none;
     }
-  }
-`;
-
-export const MobileOverlay = styled.div`
-  display: none;
-
-  @media (max-width: 640px) {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: ${({ theme }) => theme.overlay.dark};
-    z-index: 99;
   }
 `;
 
@@ -70,48 +59,6 @@ export const DropdownMenu = styled.div`
     background-color: ${({ theme }) => theme.background.primary};
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-  }
-`;
-
-export const MobileHeader = styled.div`
-  display: none;
-
-  @media (max-width: 640px) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid ${({ theme }) => theme.border.primary};
-    flex-shrink: 0;
-  }
-`;
-
-export const MobileHeaderBack = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.text.primary};
-  display: flex;
-  align-items: center;
-  padding: 0.25rem;
-  font-size: 1.25rem;
-`;
-
-export const MobileHeaderTitle = styled.span`
-  font-size: 1rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.primary};
-`;
-
-export const MobileHeaderAction = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.25rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.primary.main};
   }
 `;
 
@@ -177,13 +124,12 @@ export const CheckboxItem = styled.div<{ $checked?: boolean }>`
   padding: 0.6rem 0.75rem;
   cursor: pointer;
   font-size: 0.875rem;
-  color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.primary)};
-  font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
+  color: ${({ theme }) => theme.text.primary};
+  font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
   transition: all 0.15s ease;
 
   &:hover {
     background-color: ${({ theme }) => theme.background.secondary};
-    /* color: ${({ theme }) => theme.primary.main}; */
   }
 
   span {
@@ -239,8 +185,8 @@ export const DropdownApplyButton = styled.button`
 export const Checkbox = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
-  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
-  background-color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.background.primary)};
+  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
+  background-color: ${({ theme, $checked }) => ($checked ? theme.black.main : theme.background.primary)};
   transition: all 0.15s ease;
   flex-shrink: 0;
   display: flex;
@@ -277,8 +223,8 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
   padding: 0.6rem 0.75rem;
   cursor: pointer;
   font-size: 0.875rem;
-  color: ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.text.primary)};
-  font-weight: ${({ $checked }) => ($checked ? 500 : 400)};
+  color: ${({ theme }) => theme.text.primary};
+  font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
   transition: all 0.15s ease;
 
   &:hover {
@@ -299,7 +245,7 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
 export const Radio = styled.div<{ $checked?: boolean }>`
   width: 1rem;
   height: 1rem;
-  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.primary.main : theme.border.primary)};
+  border: 1.5px solid ${({ theme, $checked }) => ($checked ? theme.black.main : theme.border.primary)};
   background-color: ${({ theme }) => theme.background.primary};
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -311,7 +257,7 @@ export const Radio = styled.div<{ $checked?: boolean }>`
     content: '';
     width: 0.5rem;
     height: 0.5rem;
-    background-color: ${({ theme }) => theme.primary.main};
+    background-color: ${({ theme }) => theme.black.main};
     opacity: ${({ $checked }) => ($checked ? 1 : 0)};
     transition: opacity 0.15s ease;
   }

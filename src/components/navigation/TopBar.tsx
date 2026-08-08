@@ -151,9 +151,11 @@ const LogoText = styled.span`
   transition: all 0.3s;
   margin-top: 0.3rem;
 
-  ${LogoLink}:hover & {
-    color: ${(props) => props.theme.primary.main};
-    transform: scale(1.03);
+  @media (hover: hover) {
+    ${LogoLink}:hover & {
+      color: ${(props) => props.theme.primary.main};
+      transform: scale(1.03);
+    }
   }
 
   @media (max-width: 640px) {
@@ -204,7 +206,13 @@ const IconButton = styled.button`
     border-radius: 50%;
   }
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      color: ${(props) => props.theme.primary.main};
+    }
+  }
+
+  &:active {
     color: ${(props) => props.theme.primary.main};
   }
 

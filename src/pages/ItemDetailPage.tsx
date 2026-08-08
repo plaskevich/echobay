@@ -93,7 +93,7 @@ export function ItemDetailPage() {
 
           <ListingDescription description={listing.description} />
 
-          <SellerCard ownerId={listing.owner_id} />
+          {!isOwner && <SellerCard ownerId={listing.owner_id} />}
 
           <ButtonGroup>
             {isOwner ? (

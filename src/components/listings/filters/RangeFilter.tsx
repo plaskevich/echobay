@@ -109,6 +109,8 @@ const RangeInputContainer = styled.div`
 const InputPrefix = styled.span`
   position: absolute;
   left: 0.75rem;
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 600;
   color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
   font-size: 0.875rem;
@@ -135,6 +137,8 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.2s ease;
 

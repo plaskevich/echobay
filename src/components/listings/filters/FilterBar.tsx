@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
@@ -196,7 +195,7 @@ export function FilterBar() {
 
         {(isActive || appliedSort !== 'recommended') && (
           <ClearAllButton onClick={handleClearAll} data-testid="clear-filters-button">
-            <PiX />
+            <i className="hn hn-times" aria-hidden />
             Clear filters
           </ClearAllButton>
         )}
@@ -208,7 +207,7 @@ export function FilterBar() {
             <FilterPill key={pill.id}>
               <span>{pill.label}</span>
               <PillRemoveButton onClick={pill.onRemove} aria-label={`Remove ${pill.label} filter`}>
-                <PiX size={12} />
+                <i className="hn hn-times" aria-hidden />
               </PillRemoveButton>
             </FilterPill>
           ))}
@@ -290,9 +289,10 @@ const PillRemoveButton = styled.button`
   border: none;
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
+  font-size: 0.75rem;
   transition: all 0.15s ease;
 
   &:hover {
-    color: ${({ theme }) => theme.primary.main};
+    color: ${({ theme }) => theme.text.primary};
   }
 `;

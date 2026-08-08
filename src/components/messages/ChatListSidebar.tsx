@@ -96,9 +96,9 @@ const ChatList = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     min-width: 0;
-    border-right: none;
     max-height: none;
     flex: 1;
+    padding: 0 0.75rem;
   }
 `;
 

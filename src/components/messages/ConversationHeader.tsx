@@ -87,7 +87,7 @@ const TopRow = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
   display: flex;
   justify-content: center;
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -110,7 +110,7 @@ const BottomRow = styled.div`
   gap: 0.75rem;
   padding: 0.75rem 1.25rem;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     padding: 0.75rem;
   }
 `;
@@ -132,7 +132,7 @@ const ItemImage = styled.img`
   object-fit: cover;
   flex-shrink: 0;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     width: 2.75rem;
     height: 2.75rem;
   }
@@ -148,7 +148,7 @@ const ItemFormatFallback = styled.div`
   justify-content: center;
   flex-shrink: 0;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     width: 2.75rem;
     height: 2.75rem;
   }

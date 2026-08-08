@@ -42,7 +42,7 @@ const MessageInputArea = styled.div`
   padding: 1rem 1.25rem;
   border-top: 1px solid ${(props) => props.theme.border.primary};
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     position: sticky;
     bottom: 0;
     z-index: 10;

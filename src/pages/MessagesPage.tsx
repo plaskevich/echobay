@@ -224,11 +224,12 @@ export default function MessagesPage() {
 
   const handleBackToChats = useCallback(() => {
     setMobileShowConversation(false);
-  }, []);
+    setSearchParams({}, { replace: true });
+  }, [setSearchParams]);
 
   return (
     <Container data-testid="messages-page">
-      <Header>
+      <Header $mobileHidden={mobileShowConversation}>
         <PageTitle>Messages</PageTitle>
       </Header>
 
@@ -292,15 +293,16 @@ const Container = styled.div`
     height: auto;
     flex: 1;
     min-height: 0;
+    padding-top: 0;
   }
 `;
 
-const Header = styled.div`
+const Header = styled.div<{ $mobileHidden: boolean }>`
   margin-bottom: 1rem;
   @media (max-width: 768px) {
+    ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
     padding: 1rem 0.75rem 1rem 0.75rem;
     margin: 0;
-    border-bottom: 1px solid ${(props) => props.theme.border.primary};
   }
 `;
 
@@ -317,9 +319,6 @@ const Layout = styled.div`
     flex: 1;
     width: 100%;
     overflow: visible;
-    border: none;
-    box-shadow: none;
-    background: transparent;
   }
 `;
 

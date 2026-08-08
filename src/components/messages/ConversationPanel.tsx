@@ -122,6 +122,7 @@ const Panel = styled.div<{ $hidden?: boolean }>`
   @media (max-width: 768px) {
     min-height: 0;
     overflow: visible;
+    border: none;
   }
 `;
 
@@ -132,7 +133,6 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: ${(props) => props.theme.background.tertiary};
     border-bottom: 1px solid ${(props) => props.theme.border.primary};
   }
 `;
