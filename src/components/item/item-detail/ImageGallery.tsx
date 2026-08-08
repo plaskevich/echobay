@@ -35,6 +35,9 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
   return (
     <>
       <ImageSection>
+        <NavButton onClick={prevImage} disabled={images.length < 2} aria-label="Previous image">
+          <i className="hn hn-angle-left" aria-hidden />
+        </NavButton>
         <MainImageWrapper onClick={hasImages ? () => setIsLightboxOpen(true) : undefined} $clickable={hasImages}>
           {hasImages ? (
             <MainImage src={images[selectedImage]} alt={title} />
@@ -51,19 +54,14 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
           )}
           {hasImages && <ZoomHint>Click to view fullscreen</ZoomHint>}
           {images.length > 1 && (
-            <>
-              <ImageCounter>
-                {selectedImage + 1} / {images.length}
-              </ImageCounter>
-              <NavButton $position="left" onClick={prevImage} aria-label="Previous image">
-                <i className="hn hn-angle-left" aria-hidden />
-              </NavButton>
-              <NavButton $position="right" onClick={nextImage} aria-label="Next image">
-                <i className="hn hn-angle-right" aria-hidden />
-              </NavButton>
-            </>
+            <ImageCounter>
+              {selectedImage + 1} / {images.length}
+            </ImageCounter>
           )}
         </MainImageWrapper>
+        <NavButton onClick={nextImage} disabled={images.length < 2} aria-label="Next image">
+          <i className="hn hn-angle-right" aria-hidden />
+        </NavButton>
 
         {images.length > 1 && (
           <ThumbnailGrid>
@@ -90,23 +88,27 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
 }
 
 const ImageSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 0.75rem;
   width: 100%;
-  min-width: 0;
+  max-width: 600px;
 
   @media (min-width: 768px) {
     position: sticky;
     top: 5rem;
     align-self: start;
   }
+
+  @media (max-width: 640px) {
+    max-width: 100%;
+    column-gap: 0.5rem;
+  }
 `;
 
 const MainImageWrapper = styled.div<{ $clickable: boolean }>`
   position: relative;
-  width: 100%;
-  max-width: 480px;
   aspect-ratio: 1;
   overflow: hidden;
   cursor: ${({ $clickable }) => ($clickable ? 'zoom-in' : 'default')};
@@ -114,10 +116,6 @@ const MainImageWrapper = styled.div<{ $clickable: boolean }>`
 
   &:hover > div {
     opacity: 1;
-  }
-
-  @media (max-width: 640px) {
-    max-width: 100%;
   }
 `;
 
@@ -184,15 +182,15 @@ const ImageCounter = styled.div`
 `;
 
 const ThumbnailGrid = styled.div`
+  grid-column: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, 64px);
   gap: 0.75rem;
   width: 100%;
   min-width: 0;
-  max-width: 480px;
 
   @media (max-width: 480px) {
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-template-columns: repeat(auto-fill, 48px);
     gap: 0.5rem;
   }
 `;
@@ -218,37 +216,36 @@ const Thumbnail = styled.img`
   transition: transform ${({ theme }) => theme.transition.base};
 `;
 
-const NavButton = styled.button<{ $position: 'left' | 'right' }>`
-  position: absolute;
-  top: 50%;
-  ${({ $position }) => $position}: 1rem;
-  transform: translateY(-50%);
+const NavButton = styled.button`
+  flex: none;
+  color: ${({ theme }) => theme.text.secondary};
   background: transparent;
-  color: ${({ theme }) => theme.text.inverse};
   border: none;
-  font-size: 2.5rem;
+  /* margin: 0 1rem; */
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: all ${({ theme }) => theme.transition.slow};
-  z-index: 2;
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transition.base};
 
-  ${MainImageWrapper}:hover & {
-    opacity: 1;
+  &:hover:not(:disabled) {
+    transform: scale(1.2);
+    color: ${({ theme }) => theme.text.primary};
   }
 
-  &:hover {
-    transform: translateY(-50%) scale(1.1);
+  &:active:not(:disabled) {
+    transform: scale(0.95);
   }
 
-  &:active {
-    transform: translateY(-50%) scale(0.95);
+  &:disabled {
+    visibility: hidden;
+    cursor: default;
   }
 
-  @media (max-width: 768px) {
-    opacity: 1;
-    width: 2.5rem;
-    height: 2.5rem;
+  @media (max-width: 480px) {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
   }
 `;

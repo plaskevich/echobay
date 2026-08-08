@@ -28,8 +28,21 @@ interface AuthState {
   initialize: () => Promise<() => void>;
 }
 
+function persistedUser(): User | null {
+  try {
+    const key = Object.keys(localStorage).find((k) => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    const raw = key && localStorage.getItem(key);
+    if (!raw) return null;
+    const session = JSON.parse(raw.startsWith('base64-') ? atob(raw.slice(7)) : raw);
+    if (!session?.user || (session.expires_at ?? 0) * 1000 < Date.now()) return null;
+    return session.user;
+  } catch {
+    return null;
+  }
+}
+
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
+  user: persistedUser(),
   isLoading: false,
   isInitialized: false,
   isRecoveryMode: false,
@@ -117,6 +130,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (session?.user) {
         const freshUser = await getCurrentUser();
         set({ user: freshUser ?? session.user });
+      } else {
+        set({ user: null });
       }
 
       if (authSubscription) {

@@ -65,7 +65,7 @@ export const HOME_LISTING_GENRES = [
 ] as const;
 
 const EXTRA_FORMATS = ['vinyl', 'cd', 'tape'] as const;
-export const HOME_EXTRA_LISTINGS = Array.from({ length: 20 }, (_, i) => ({
+export const HOME_EXTRA_LISTINGS = Array.from({ length: 60 }, (_, i) => ({
   title: `Extra Album ${String(i + 1).padStart(2, '0')}`,
   artist: `Extra Artist ${String(i + 1).padStart(2, '0')}`,
   format: EXTRA_FORMATS[i % EXTRA_FORMATS.length],

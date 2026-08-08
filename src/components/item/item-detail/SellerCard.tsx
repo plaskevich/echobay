@@ -63,6 +63,12 @@ const Card = styled(Link)`
   gap: 0.875rem;
   text-decoration: none;
   color: inherit;
+  padding: 0.5rem 0.75rem;
+  margin: -0.5rem -0.75rem;
+  transition: all ${({ theme }) => theme.transition.fast};
+  &:hover {
+    background-color: ${({ theme }) => theme.background.elevated};
+  }
 `;
 
 const SellerAvatarContainer = styled.div`

@@ -4,55 +4,79 @@ import { Skeleton } from '@/components/common/Skeleton';
 
 export function ItemDetailSkeleton() {
   return (
-    <Content aria-hidden="true" data-testid="item-detail-skeleton">
-      <ImageSkeleton />
-      <Details>
-        {/* title + price */}
-        <Skeleton width="40%" height="1.5rem" />
-        <Skeleton width="70%" height="1.8rem" />
-        <PriceBlock>
-          <Skeleton width="25%" height="1.4rem" />
-          <Skeleton width="30%" height="1rem" />
-        </PriceBlock>
+    <Wrapper aria-hidden="true" data-testid="item-detail-skeleton">
+      <BackSkeleton />
+      <Content>
+        <ImageSection>
+          <ImageSkeleton />
+          <ThumbnailRow>
+            {Array.from({ length: 4 }, (_, i) => (
+              <ThumbnailSkeleton key={i} />
+            ))}
+          </ThumbnailRow>
+        </ImageSection>
+        <Details>
+          {/* title + price */}
+          <Skeleton width="40%" height="1.5rem" />
+          <Skeleton width="70%" height="1.8rem" />
+          <PriceBlock>
+            <Skeleton width="25%" height="1.4rem" />
+            <Skeleton width="30%" height="1rem" />
+          </PriceBlock>
 
-        {/* info grid */}
-        <InfoGrid>
-          {Array.from({ length: 4 }, (_, i) => (
-            <InfoItem key={i}>
-              <Skeleton width="4rem" height="1rem" />
-              <Skeleton width="6rem" height="1.2rem" />
-            </InfoItem>
-          ))}
-        </InfoGrid>
+          {/* info grid */}
+          <InfoGrid>
+            {Array.from({ length: 4 }, (_, i) => (
+              <InfoItem key={i}>
+                <Skeleton width="4rem" height="1rem" />
+                <Skeleton width="6rem" height="1.2rem" />
+              </InfoItem>
+            ))}
+          </InfoGrid>
 
-        {/* description */}
-        <Section>
-          <Skeleton width="8rem" height="1.5rem" />
-          <Skeleton width="100%" height="1rem" />
-          <Skeleton width="95%" height="1rem" />
-          <Skeleton width="82%" height="1rem" />
-        </Section>
+          {/* description */}
+          <Section>
+            <Skeleton width="8rem" height="1.5rem" />
+            <Skeleton width="100%" height="1rem" />
+            <Skeleton width="95%" height="1rem" />
+            <Skeleton width="82%" height="1rem" />
+          </Section>
 
-        {/* seller */}
-        <Section>
-          <Skeleton width="5rem" height="1.5rem" />
-          <SellerRow>
-            <AvatarSkeleton />
-            <SellerInfo>
-              <Skeleton width="7rem" height="1.125rem" />
-              <Skeleton width="5rem" height="1rem" />
-            </SellerInfo>
-          </SellerRow>
-        </Section>
+          {/* seller */}
+          <Section>
+            <Skeleton width="5rem" height="1.5rem" />
+            <SellerRow>
+              <AvatarSkeleton />
+              <SellerInfo>
+                <Skeleton width="7rem" height="1.125rem" />
+                <Skeleton width="5rem" height="1rem" />
+              </SellerInfo>
+            </SellerRow>
+          </Section>
 
-        <ButtonGroup>
-          <Skeleton height="2.75rem" />
-          <Skeleton height="2.75rem" />
-        </ButtonGroup>
-      </Details>
-    </Content>
+          <ButtonGroup>
+            <Skeleton height="2.75rem" />
+            <Skeleton height="2.75rem" />
+          </ButtonGroup>
+        </Details>
+      </Content>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  width: 100%;
+`;
+
+const BackSkeleton = styled(Skeleton)`
+  width: 3.5rem;
+  height: 1.25rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 640px) {
+    margin-bottom: 1rem;
+  }
+`;
 
 const Content = styled.div`
   display: grid;
@@ -61,21 +85,51 @@ const Content = styled.div`
   align-items: start;
 
   @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 300px) minmax(0, 560px);
+    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
     justify-content: start;
-    gap: ${({ theme }) => theme.spacing.xl};
+    gap: 1.5rem;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 460px) minmax(0, 560px);
-    gap: 3.5rem;
+    gap: 2rem;
+  }
+`;
+
+const ImageSection = styled.div`
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+  gap: 1rem 0.75rem;
+  width: 100%;
+  max-width: 600px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
+    column-gap: 0.5rem;
   }
 `;
 
 const ImageSkeleton = styled(Skeleton)`
+  grid-column: 2;
   width: 100%;
   height: auto;
-  max-width: 480px;
+  aspect-ratio: 1 / 1;
+`;
+
+const ThumbnailRow = styled.div`
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 64px);
+  gap: 0.75rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(4, 48px);
+    gap: 0.5rem;
+  }
+`;
+
+const ThumbnailSkeleton = styled(Skeleton)`
+  width: 100%;
+  height: auto;
   aspect-ratio: 1 / 1;
 `;
 

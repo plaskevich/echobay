@@ -182,14 +182,14 @@ const Content = styled.div`
   align-items: start;
 
   @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 300px) minmax(0, 500px);
+    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
     justify-content: start;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 460px) minmax(0, 500px);
-    gap: 3.5rem;
+    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
+    gap: 2rem;
   }
 `;
 

@@ -121,7 +121,7 @@ const PriceSection = styled.div`
 
 const Price = styled.p`
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
   font-weight: 700;
   line-height: 1;
   color: ${({ theme }) => theme.primary.main};
@@ -129,7 +129,7 @@ const Price = styled.p`
 `;
 
 const ShippingPrice = styled.p`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-weight: 500;
   color: ${({ theme }) => theme.text.muted};

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Pagination } from '@/components/common/Pagination';
+import { Skeleton } from '@/components/common/Skeleton';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { ListingCardSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
@@ -73,10 +74,14 @@ export function ListingsView() {
         <FilterBar />
       </StickyFilters>
 
-      {total > 0 && (
-        <ItemsSummary>
-          {startIndex}-{endIndex} of {total} items
-        </ItemsSummary>
+      {showSkeleton ? (
+        <SummarySkeleton width="9rem" />
+      ) : (
+        total > 0 && (
+          <ItemsSummary>
+            {startIndex}-{endIndex} of {total} items
+          </ItemsSummary>
+        )
       )}
 
       {error ? (
@@ -118,7 +123,6 @@ export function ListingsView() {
 
 const StickyFilters = styled.div`
   position: sticky;
-  /* Must match TopBar's NavContent height, or the bar slides under it and loses its top padding. */
   top: 4rem;
   z-index: 40;
   ${glassSurface}
@@ -152,6 +156,12 @@ const ItemsSummary = styled.p`
   padding-bottom: ${({ theme }) => theme.spacing.xs};
   font-weight: 600;
   font-size: 0.875rem;
+`;
+
+const SummarySkeleton = styled(Skeleton)`
+  height: 1.3125rem;
+  margin-left: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 const StatusText = styled.p<{ $error?: boolean }>`

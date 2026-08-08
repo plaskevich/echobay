@@ -298,7 +298,7 @@ test.describe('Home Page', () => {
       await supabaseAdmin.from('listings').insert(HOME_EXTRA_LISTINGS.map((l) => ({ ...l, owner_id: sellerId })));
     });
     test('navigates to next page and back', async ({ page }) => {
-      await page.goto('/?pageSize=24');
+      await page.goto('/?pageSize=60');
       await expect(page.getByText(/1-\d+ of \d+ items/)).toBeVisible();
       await page.getByTestId('next-page-button').click();
       await expect(page).toHaveURL(/page=2/);
