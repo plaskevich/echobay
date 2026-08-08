@@ -8,6 +8,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { ResetPassword } from '@/components/auth/ResetPassword';
 import { AppToaster } from '@/components/common/AppToaster';
+import { RouteError } from '@/components/common/RouteError';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { theme } from '@/lib/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';
@@ -25,21 +26,25 @@ import { useAuthStore } from '@/store/auth-store';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
-      <Route index element={<HomePage />} />
-      <Route path="/auth/reset-password" element={<ResetPassword />} />
-      <Route path="/items/:id" element={<ItemDetailPage />} />
-      <Route path="/users/:id" element={<UserProfilePage />} />
+      <Route errorElement={<RouteError />}>
+        <Route index element={<HomePage />} />
+        <Route path="/auth/reset-password" element={<ResetPassword />} />
+        <Route path="/items/:id" element={<ItemDetailPage />} />
+        <Route path="/users/:id" element={<UserProfilePage />} />
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="/favorites" element={<FavoritesPage />} />
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/edit" element={<ProfileEditForm />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/items/new" element={<EditItemPage mode="create" />} />
-        <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
-        <Route path="/checkout/:id" element={<CheckoutPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<ProfileEditForm />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/items/new" element={<EditItemPage mode="create" />} />
+          <Route path="/items/:id/edit" element={<EditItemPage mode="edit" />} />
+          <Route path="/checkout/:id" element={<CheckoutPage />} />
+        </Route>
+
+        <Route path="*" element={<RouteError />} />
       </Route>
     </Route>
   )

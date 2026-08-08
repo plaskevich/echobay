@@ -66,12 +66,18 @@ const Container = styled.div`
 `;
 
 const Panel = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  align-items: start;
+  gap: 2.5rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 
   @media (max-width: 640px) {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0;
   }
 `;
 
@@ -90,6 +96,7 @@ const LoadingMessage = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 1rem;
 
   @media (max-width: 640px) {

@@ -28,10 +28,19 @@ const FormGroup = styled.div`
   gap: 0.2rem;
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ $required?: boolean }>`
   font-size: 1rem;
   font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
+
+  ${({ $required, theme }) =>
+    $required &&
+    `
+    &::after {
+      content: '*';
+      color: ${theme.primary.main};
+    }
+  `}
 `;
 
 const StyledInput = styled.input<{ $hasError?: boolean }>`

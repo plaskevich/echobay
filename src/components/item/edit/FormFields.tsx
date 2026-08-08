@@ -35,7 +35,9 @@ export function FormFields({
     <SectionsWrapper>
       <TwoColumnGrid>
         <FormGroup>
-          <Label htmlFor="title">Title*</Label>
+          <Label htmlFor="title" $required>
+            Title
+          </Label>
           <Input
             id="title"
             $hasError={!!errors.title}
@@ -49,7 +51,9 @@ export function FormFields({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="artist">Artist*</Label>
+          <Label htmlFor="artist" $required>
+            Artist
+          </Label>
           <Input
             id="artist"
             $hasError={!!errors.artist}
@@ -63,7 +67,9 @@ export function FormFields({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="year">Year*</Label>
+          <Label htmlFor="year" $required>
+            Year
+          </Label>
           <Input
             id="year"
             $hasError={!!errors.year}
@@ -93,7 +99,9 @@ export function FormFields({
 
       <TwoColumnGrid>
         <FormGroup>
-          <Label htmlFor="format">Format*</Label>
+          <Label htmlFor="format" $required>
+            Format
+          </Label>
           <Select
             id="format"
             $hasError={!!errors.format}
@@ -111,7 +119,9 @@ export function FormFields({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="condition">Condition*</Label>
+          <Label htmlFor="condition" $required>
+            Condition
+          </Label>
           <Select
             id="condition"
             $hasError={!!errors.condition}
@@ -140,7 +150,9 @@ export function FormFields({
       />
       <TwoColumnGrid>
         <FormGroup>
-          <Label htmlFor="price">Price*</Label>
+          <Label htmlFor="price" $required>
+            Price
+          </Label>
           <CurrencyInputWrapper>
             <InputPrefix data-testid="listing-price-prefix" aria-hidden="true">
               {CURRENCY_SYMBOL}

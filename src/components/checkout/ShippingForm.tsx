@@ -69,7 +69,7 @@ export function ShippingForm({
 
       <Fields>
         <FormGroup>
-          <Label>Full Name*</Label>
+          <Label $required>Full Name</Label>
           <Input
             type="text"
             $hasError={!!errors.fullName}
@@ -83,7 +83,7 @@ export function ShippingForm({
         </FormGroup>
 
         <FormGroup>
-          <Label>Phone Number*</Label>
+          <Label $required>Phone Number</Label>
           <Input
             type="tel"
             $hasError={!!errors.phone}
@@ -97,7 +97,7 @@ export function ShippingForm({
         </FormGroup>
 
         <FullWidth>
-          <Label>Address Line 1*</Label>
+          <Label $required>Address Line 1</Label>
           <Input
             type="text"
             $hasError={!!errors.addressLine1}
@@ -123,7 +123,7 @@ export function ShippingForm({
         </FullWidth>
 
         <FormGroup>
-          <Label>City*</Label>
+          <Label $required>City</Label>
           <Input
             type="text"
             $hasError={!!errors.city}
@@ -137,7 +137,7 @@ export function ShippingForm({
         </FormGroup>
 
         <FormGroup>
-          <Label>Postal Code*</Label>
+          <Label $required>Postal Code</Label>
           <Input
             type="text"
             $hasError={!!errors.postalCode}
@@ -153,7 +153,7 @@ export function ShippingForm({
         </FormGroup>
 
         <FormGroup>
-          <Label>Country*</Label>
+          <Label $required>Country</Label>
           <Select
             $hasError={!!errors.country}
             {...register('country', {
