@@ -71,7 +71,6 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   background: none;
   border: none;
   padding: 0;
-  margin-top: 1rem;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -88,12 +87,7 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   }
 
   &:active {
-    transform: scale(0.9);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    transform: none;
+    transform: scale(0.8);
   }
 `;
 

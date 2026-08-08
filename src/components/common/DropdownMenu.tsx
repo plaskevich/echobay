@@ -164,7 +164,7 @@ const DropdownPanel = styled.div.withConfig({
   box-sizing: border-box;
   background: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  box-shadow: 0 6px 12px -6px ${(props) => props.theme.shadow.medium};
+  box-shadow: ${(props) => props.theme.shadow};
   z-index: 100;
 `;
 

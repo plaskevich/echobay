@@ -40,7 +40,7 @@ export const DropdownMenu = styled.div`
   padding: 0.4rem;
   background-color: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  box-shadow: ${({ theme }) => theme.shadow};
   z-index: 100;
 
   @media (max-width: 640px) {

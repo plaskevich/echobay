@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { PiPlusCircle } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -58,7 +57,7 @@ export default function ProfilePage() {
         emptyAction={
           statusFilter === 'all' ? (
             <Button onClick={() => navigate('/items/new')} variant="primary" size="medium">
-              <PiPlusCircle size={20} />
+              <i className="hn hn-plus" aria-hidden />
               Create Your First Listing
             </Button>
           ) : undefined

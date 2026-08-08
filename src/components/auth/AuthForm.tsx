@@ -1,7 +1,7 @@
 import { type UseFormReturn } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
 import styled from 'styled-components';
 
+import googleIcon from '@/assets/google.svg';
 import { AuthErrorMessage, AuthFormLayout } from '@/components/auth/authLayout';
 import { Button } from '@/components/common/Button';
 import { FieldError, FieldWrapper } from '@/components/common/Form';
@@ -37,15 +37,11 @@ export function AuthForm({
   return (
     <AuthFormLayout onSubmit={onSubmit}>
       <GoogleButton type="button" onClick={onGoogleSignIn} disabled={isLoading}>
-        <FcGoogle size={20} />
+        <img src={googleIcon} alt="" width={20} height={20} />
         Continue with Google
       </GoogleButton>
 
-      <Divider>
-        <DividerLine />
-        <DividerText>or</DividerText>
-        <DividerLine />
-      </Divider>
+      <Divider />
 
       <FieldWrapper>
         <Input
@@ -119,14 +115,12 @@ const GoogleButton = styled.button`
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  transition:
-    background-color ${({ theme }) => theme.transition.base},
-    border-color ${({ theme }) => theme.transition.base};
+  font-weight: 600;
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  transition: border-color ${({ theme }) => theme.transition.base};
   width: 100%;
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.background.secondary};
     border-color: ${({ theme }) => theme.border.hover};
   }
 
@@ -136,22 +130,12 @@ const GoogleButton = styled.button`
   }
 `;
 
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin: ${({ theme }) => theme.spacing.xs} 0;
-`;
-
-const DividerLine = styled.div`
-  flex: 1;
+const Divider = styled.hr`
   height: 1px;
+  border: none;
   background-color: ${({ theme }) => theme.border.primary};
-`;
-
-const DividerText = styled.span`
-  color: ${({ theme }) => theme.text.secondary};
-  font-size: ${({ theme }) => theme.fontSize.sm};
+  /* full-bleed through the dialog's padding; falls back to flush when not in a dialog */
+  margin: 1.2rem calc(-1 * var(--dialog-body-padding, 0px));
 `;
 
 const ForgotPasswordLink = styled.button`
@@ -161,7 +145,7 @@ const ForgotPasswordLink = styled.button`
   border: none;
   padding: 0;
   font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.primary.main};
+  color: ${({ theme }) => theme.text.primary};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   text-decoration: none;
 

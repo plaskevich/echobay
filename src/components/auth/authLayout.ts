@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { PageTitle } from '@/components/common/PageTitle';
 import { minFullContentHeight } from '@/components/layout/viewport';
 
 export const AuthContainer = styled.div`
@@ -24,7 +23,7 @@ export const AuthCard = styled.div`
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   max-width: 450px;
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  box-shadow: ${({ theme }) => theme.shadow};
 
   @media (max-height: 760px) {
     padding: ${({ theme }) => theme.spacing.lg};
@@ -38,14 +37,16 @@ export const AuthCard = styled.div`
   }
 `;
 
-export const AuthCardTitle = styled(PageTitle)`
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+export const AuthCardTitle = styled.h2`
   text-align: center;
+  font-size: 2rem;
+  margin: 0;
 `;
 
 export const AuthSubtitle = styled.p`
   font-size: ${({ theme }) => theme.fontSize.base};
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
+  margin-top: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
   text-align: center;
   line-height: ${({ theme }) => theme.lineHeight.normal};

@@ -1,5 +1,4 @@
 import { useCallback, useRef, useState } from 'react';
-import { PiCaretDown, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -100,7 +99,7 @@ export function MultiSelect({
                   }}
                   aria-label={`Remove ${opt.label}`}
                 >
-                  <PiX size={14} />
+                  <i className="hn hn-times" aria-hidden />
                 </TagRemove>
               )}
             </Tag>
@@ -116,7 +115,7 @@ export function MultiSelect({
             disabled={disabled}
           />
         </TagsContainer>
-        <CaretIcon $isOpen={isOpen} />
+        <CaretIcon className="hn hn-chevron-down" $isOpen={isOpen} aria-hidden />
       </InputContainer>
 
       {isOpen && filteredOptions.length > 0 && (
@@ -184,6 +183,8 @@ const TagLabel = styled.span`
 `;
 
 const TagRemove = styled.button`
+  font-size: 0.875rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,8 +219,9 @@ const SearchInput = styled.input`
   }
 `;
 
-const CaretIcon = styled(PiCaretDown)<{ $isOpen: boolean }>`
+const CaretIcon = styled.i<{ $isOpen: boolean }>`
   color: ${({ theme }) => theme.text.secondary};
+  line-height: 1;
   transition: transform 0.2s ease;
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0)')};
   flex-shrink: 0;
@@ -235,7 +237,7 @@ const Dropdown = styled.div`
   overflow-y: auto;
   background-color: #fff;
   border: 1px solid ${({ theme }) => theme.border.hover};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
+  box-shadow: ${({ theme }) => theme.shadow};
   z-index: 100;
 `;
 

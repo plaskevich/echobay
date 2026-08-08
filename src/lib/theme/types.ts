@@ -94,11 +94,7 @@ export interface ThemeColors {
   };
   price: string;
   favorite: string;
-  shadow: {
-    small: string;
-    medium: string;
-    large: string;
-  };
+  shadow: string;
   overlay: {
     dark: string;
     darker: string;
@@ -120,7 +116,6 @@ export interface ThemeColors {
   duration: Duration;
   easing: Easing;
   transition: Transition;
-  elevation: Elevation;
 }
 
 export type ShadowColors = ThemeColors['shadow'];

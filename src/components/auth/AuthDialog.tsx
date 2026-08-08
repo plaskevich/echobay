@@ -8,7 +8,7 @@ import { type AuthMode, useAuthStore } from '@/store/auth-store';
 
 const TITLES: Record<AuthMode, string> = {
   login: 'Welcome Back',
-  signup: 'Create Account',
+  signup: 'Welcome to EchoBay',
   forgot: 'Reset Password',
 };
 
@@ -30,7 +30,11 @@ function AuthDialogContent() {
         <ForgotPasswordForm onBack={() => switchMode('login')} />
       ) : (
         <>
-          <AuthSubtitle>{mode === 'login' ? 'Log in to your EchoBay account' : 'Join EchoBay today'}</AuthSubtitle>
+          <AuthSubtitle>
+            {mode === 'login'
+              ? 'Your crates are right where you left them'
+              : "Discover records you didn't know you needed"}
+          </AuthSubtitle>
           <AuthForm
             mode={mode}
             form={form}

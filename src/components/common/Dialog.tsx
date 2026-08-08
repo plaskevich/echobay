@@ -102,7 +102,7 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   background-color: ${(props) => props.theme.overlay.dark};
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -135,7 +135,8 @@ const DialogTitle = styled.h2`
 `;
 
 const DialogBody = styled.div`
-  padding: 2rem;
+  --dialog-body-padding: 2rem;
+  padding: var(--dialog-body-padding);
   overflow-y: auto;
 `;
 

@@ -1,5 +1,4 @@
 import { type SelectHTMLAttributes } from 'react';
-import { PiCaretDown } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { BaseInput, FormGroup as InputFormGroup, Label as InputLabel } from './Input';
@@ -12,7 +11,7 @@ export function Select({ $hasError, ...props }: SelectComponentProps) {
   return (
     <SelectWrapper>
       <StyledSelect $hasError={$hasError} {...props} />
-      <SelectIcon />
+      <SelectIcon className="hn hn-chevron-down" aria-hidden />
     </SelectWrapper>
   );
 }
@@ -64,11 +63,12 @@ export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   }
 `;
 
-const SelectIcon = styled(PiCaretDown)`
+const SelectIcon = styled.i`
   position: absolute;
   right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
+  line-height: 1;
   pointer-events: none;
   color: ${(props) => props.theme.text.secondary};
 `;

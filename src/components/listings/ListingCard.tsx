@@ -233,7 +233,7 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   i {
     font-size: 1.4rem;
     color: ${(props) => (props.$isFavorited ? props.theme.black.main : props.theme.text.secondary)};
-    filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
+    filter: drop-shadow(${(props) => props.theme.shadow});
     transition: all 0.2s;
   }
 

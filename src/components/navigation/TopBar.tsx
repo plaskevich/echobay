@@ -92,9 +92,19 @@ export function TopBar() {
                 </Dropdown>
               </>
             ) : (
-              <Button variant="primary" size="small" onClick={() => openAuthDialog()} data-testid="open-auth">
-                Log in | Sign up
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  size="small"
+                  onClick={() => openAuthDialog('signup')}
+                  data-testid="open-auth-signup"
+                >
+                  Sign up
+                </Button>
+                <Button variant="primary" size="small" onClick={() => openAuthDialog('login')} data-testid="open-auth">
+                  Log in
+                </Button>
+              </>
             )}
           </RightSection>
         </NavContent>

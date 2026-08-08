@@ -35,7 +35,7 @@ const ResultItem = styled.button`
 
   &:hover:not(:disabled) {
     border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 2px 8px ${(props) => props.theme.shadow.small};
+    box-shadow: ${(props) => props.theme.shadow};
   }
 
   &:disabled {

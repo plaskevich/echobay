@@ -25,12 +25,12 @@ const FormGroup = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.2rem;
 `;
 
 const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
 `;
 
