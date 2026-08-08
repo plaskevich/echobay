@@ -1,4 +1,3 @@
-import { PiArrowLeft, PiChatsCircleDuotone } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -61,7 +60,7 @@ export function ConversationPanel({
           {onBack && (
             <MobileHeader>
               <BackButton onClick={onBack} data-testid="conversation-back-button">
-                <PiArrowLeft size={20} />
+                <i className="hn hn-angle-left" aria-hidden />
               </BackButton>
               {otherUsername && otherUserId ? (
                 <MobileUsernameLink to={`/users/${otherUserId}`}>{otherUsername}</MobileUsernameLink>
@@ -105,7 +104,7 @@ export function ConversationPanel({
         </>
       ) : (
         <EmptyConversation data-testid="conversation-empty">
-          <PiChatsCircleDuotone size={52} aria-hidden />
+          <EmptyConversationIcon className="hn hn-comments" aria-hidden />
           <EmptyConversationText>Select a conversation or contact a seller from a listing</EmptyConversationText>
         </EmptyConversation>
       )}
@@ -118,10 +117,16 @@ const Panel = styled.div<{ $hidden?: boolean }>`
   display: ${({ $hidden }) => ($hidden ? 'none' : 'flex')};
   flex-direction: column;
   min-width: 0;
-
+  padding: 0 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: -1rem;
   @media (max-width: 768px) {
     min-height: 0;
     overflow: visible;
+    border: none;
+    margin-top: 0;
+    padding: 0 1rem;
   }
 `;
 
@@ -132,8 +137,6 @@ const MobileHeader = styled.div`
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: ${(props) => props.theme.background.tertiary};
-    border-bottom: 1px solid ${(props) => props.theme.border.primary};
   }
 `;
 
@@ -143,11 +146,12 @@ const BackButton = styled.button`
   justify-content: center;
   border: none;
   background: none;
-  color: ${(props) => props.theme.text.muted};
+  color: ${(props) => props.theme.text.primary};
+  font-size: 1.25rem;
   padding: 0;
   cursor: pointer;
   flex-shrink: 0;
-  width: 24px;
+  width: 1.5rem;
 `;
 
 const MobileUsername = styled.span`
@@ -155,7 +159,7 @@ const MobileUsername = styled.span`
   text-align: center;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: ${(props) => props.theme.text.muted};
+  color: ${(props) => props.theme.text.primary};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -166,7 +170,7 @@ const MobileUsernameLink = styled(Link)`
   text-align: center;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: ${(props) => props.theme.text.muted};
+  color: ${(props) => props.theme.text.primary};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -178,7 +182,7 @@ const MobileUsernameLink = styled(Link)`
 `;
 
 const Spacer = styled.div`
-  width: 24px;
+  width: 1.5rem;
   flex-shrink: 0;
 `;
 
@@ -191,6 +195,11 @@ const EmptyConversation = styled.div`
   gap: 1rem;
   padding: 2rem;
   color: ${(props) => props.theme.text.tertiary};
+`;
+
+const EmptyConversationIcon = styled.i`
+  font-size: 3rem;
+  color: ${(props) => props.theme.text.primary};
 `;
 
 const EmptyConversationText = styled.p`

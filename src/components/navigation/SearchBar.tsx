@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PiMagnifyingGlass, PiX } from 'react-icons/pi';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -82,11 +81,11 @@ function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }
         data-testid="search-input"
       />
       <SearchIconWrapper>
-        <PiMagnifyingGlass />
+        <i className="hn hn-search" />
       </SearchIconWrapper>
       {inputValue && (
         <ClearButton onClick={handleClear} aria-label="Clear search" data-testid="clear-search-button">
-          <PiX />
+          <i className="hn hn-times" />
         </ClearButton>
       )}
     </SearchWrapper>
@@ -108,22 +107,20 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
   width: 100%;
-  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 2rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   font-size: 1rem;
-  background-color: ${(props) => props.theme.background.tertiary};
+  background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   box-sizing: border-box;
 
   &:focus {
     outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+    border-color: ${(props) => props.theme.black.main};
   }
 
   &::placeholder {
-    color: ${(props) => props.theme.text.tertiary};
+    color: ${(props) => props.theme.text.secondary};
   }
 `;
 
@@ -135,7 +132,7 @@ const SearchIconWrapper = styled.div`
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 0.875rem;
   pointer-events: none;
 `;
 
@@ -149,13 +146,11 @@ const ClearButton = styled.button`
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
   padding: 0.25rem;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
-    color: ${(props) => props.theme.text.primary};
-    background-color: ${(props) => props.theme.background.secondary};
+    color: ${(props) => props.theme.primary.main};
   }
 `;

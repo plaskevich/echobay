@@ -29,7 +29,7 @@ export const Sidebar = styled.div`
 `;
 
 export const SidebarTitle = styled(PageTitle)`
-  margin: 0 0 1.5rem 1rem;
+  margin-bottom: 1.2rem;
 
   @media (max-width: 768px) {
     margin: 0 0 1rem 0;
@@ -43,7 +43,8 @@ export const SidebarNav = styled.div`
 
   @media (max-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
     gap: 0.5rem;
     margin-bottom: 1rem;
   }
@@ -54,18 +55,17 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.background.primary};
-  border: none;
-  color: ${({ theme, $active }) => ($active ? theme.text.accent : theme.text.primary)};
+  background-color: ${({ theme, $active }) => ($active ? theme.black.main : 'transparent')};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.black.main : theme.border.primary)};
+  color: ${({ theme, $active }) => ($active ? theme.text.inverse : theme.text.primary)};
   font-size: 1rem;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
-  transition: background-color 0.3s ease;
+  transition: all ${({ theme }) => theme.transition.slow};
   white-space: nowrap;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.background.secondary};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 
   &:active {
@@ -73,10 +73,10 @@ export const SidebarItem = styled.button<{ $active?: boolean }>`
   }
 
   @media (max-width: 768px) {
+    justify-content: center;
+    text-align: center;
     padding: 0.625rem 0.875rem;
     font-size: 0.9375rem;
-    border: 1px solid ${({ theme, $active }) => ($active ? theme.primary.main : theme.border.primary)};
-    background-color: ${({ theme, $active }) => ($active ? theme.primary.light : theme.background.primary)};
     white-space: normal;
   }
 `;

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import type { Order } from '@/api/orders';
 import { getFormatIcon } from '@/lib/getFormatIcon';
-import { signatureSurface } from '@/lib/theme';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -59,15 +58,12 @@ export default function OrderCard({ order }: OrderCardProps) {
 }
 
 const Card = styled.div`
-  background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  ${signatureSurface}
   overflow: hidden;
-  transition: all 0.2s;
-  box-shadow: 0 1px 3px 0 ${(props) => props.theme.shadow.small};
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
-    box-shadow: 0 4px 6px -1px ${(props) => props.theme.shadow.medium};
+    border-color: ${(props) => props.theme.border.hover};
   }
 `;
 
@@ -76,7 +72,7 @@ const CardLink = styled(Link)`
   gap: 1.5rem;
   text-decoration: none;
   color: inherit;
-  padding: 1.5rem;
+  padding: 1rem;
 
   @media (max-width: 768px) {
     gap: 1rem;
@@ -90,8 +86,8 @@ const CardLink = styled(Link)`
 
 const ImageContainer = styled.div`
   flex-shrink: 0;
-  width: 120px;
-  height: 120px;
+  width: 8rem;
+  height: 8rem;
 
   @media (max-width: 768px) {
     width: 80px;
@@ -108,7 +104,6 @@ const OrderImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.md};
 
   @media (max-width: 480px) {
     aspect-ratio: 16 / 9;
@@ -118,9 +113,8 @@ const OrderImage = styled.img`
 const OrderFormatFallback = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  background-color: ${(props) => props.theme.background.secondary};
-  color: ${(props) => props.theme.text.tertiary};
+  background-color: ${(props) => props.theme.background.elevated};
+  color: ${(props) => props.theme.text.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,17 +128,16 @@ const CardContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between;
 `;
 
 const OrderHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 `;
 
 const OrderTitle = styled.h3`
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0;
   color: ${(props) => props.theme.text.primary};
@@ -159,7 +152,7 @@ const OrderArtist = styled.p`
 const OrderDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.1rem;
 `;
 
 const DetailRow = styled.div`
@@ -171,8 +164,8 @@ const DetailRow = styled.div`
 
 const DetailLabel = styled.span`
   font-size: 0.875rem;
-  color: ${(props) => props.theme.text.tertiary};
-  font-weight: 500;
+  color: ${(props) => props.theme.text.primary};
+  font-weight: 700;
 `;
 
 const DetailValue = styled.span`
@@ -182,7 +175,6 @@ const DetailValue = styled.span`
 
 const StatusBadge = styled.span<{ status: string }>`
   display: inline-block;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
@@ -190,7 +182,7 @@ const StatusBadge = styled.span<{ status: string }>`
     switch (props.status) {
       case 'paid':
       case 'confirmed':
-        return props.theme.state.success;
+        return props.theme.primary.main;
       case 'shipped':
         return props.theme.primary.main;
       case 'delivered':

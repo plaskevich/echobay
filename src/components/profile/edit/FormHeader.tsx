@@ -4,14 +4,14 @@ import { PageTitle } from '@/components/common/PageTitle';
 
 interface FormHeaderProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 export function FormHeader({ title, subtitle }: FormHeaderProps) {
   return (
     <Header>
       <PageTitle>{title}</PageTitle>
-      <Subtitle>{subtitle}</Subtitle>
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
     </Header>
   );
 }

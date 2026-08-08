@@ -1,5 +1,3 @@
-import { PiShoppingCart, PiStorefront } from 'react-icons/pi';
-
 import { Sidebar, SidebarItem, SidebarNav, SidebarTitle } from '@/components/layout/SidebarLayout';
 import type { OrderFilter } from '@/pages/OrdersPage';
 
@@ -9,8 +7,8 @@ interface OrdersSidebarProps {
 }
 
 const filters: { key: OrderFilter; label: string; icon: React.ReactNode }[] = [
-  { key: 'bought', label: 'Bought', icon: <PiShoppingCart size={20} /> },
-  { key: 'sold', label: 'Sold', icon: <PiStorefront size={20} /> },
+  { key: 'bought', label: 'Bought', icon: <i className="hn hn-shopping-cart" /> },
+  { key: 'sold', label: 'Sold', icon: <i className="hn hn-shop" /> },
 ];
 
 export default function OrdersSidebar({ filter, setFilter }: OrdersSidebarProps) {

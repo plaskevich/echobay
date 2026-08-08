@@ -2,7 +2,6 @@ import EmailSettings from './EmailSettings';
 import PasswordSettings from './PasswordSettings';
 import type { SettingsSection } from './SettingsSidebar';
 import ShippingSettings from './ShippingSettings';
-import ThemeSettings from './ThemeSettings';
 
 interface SettingsContentProps {
   activeSection: SettingsSection;
@@ -16,7 +15,5 @@ export default function SettingsContent({ activeSection }: SettingsContentProps)
       return <PasswordSettings />;
     case 'shipping':
       return <ShippingSettings />;
-    case 'theme':
-      return <ThemeSettings />;
   }
 }

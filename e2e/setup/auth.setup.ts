@@ -8,12 +8,13 @@ const TEST_USER_PASSWORD = 'TestPassword123!';
 setup('authenticate', async ({ page }) => {
   await createTestUser(TEST_USER_EMAIL, TEST_USER_PASSWORD);
 
-  await page.goto('/auth');
+  await page.goto('/');
+  await page.getByTestId('open-auth').click();
 
   await page.getByLabel('Email').fill(TEST_USER_EMAIL);
   await page.getByLabel('Password', { exact: true }).fill(TEST_USER_PASSWORD);
 
   await page.getByTestId('auth-submit-button').click();
-  await expect(page).toHaveURL('/?page=1', { timeout: 10000 });
+  await expect(page.getByTestId('open-auth')).toBeHidden({ timeout: 10000 });
   await page.context().storageState({ path: 'e2e/.auth/user.json' });
 });

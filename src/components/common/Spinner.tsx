@@ -8,19 +8,18 @@ const spin = keyframes`
 
 interface SpinnerProps {
   size?: string;
-  thickness?: string;
-  $trackColor?: string;
   $color?: string;
 }
 
-export const Spinner = styled.span<SpinnerProps>`
+export function Spinner({ size, $color }: SpinnerProps) {
+  return <SpinnerIcon className="hn hn-spinner-third" $size={size} $color={$color} aria-hidden="true" />;
+}
+
+const SpinnerIcon = styled.i<{ $size?: string; $color?: string }>`
   display: inline-block;
   flex-shrink: 0;
-  width: ${({ size }) => size ?? '1rem'};
-  height: ${({ size }) => size ?? '1rem'};
-  border: ${({ thickness }) => thickness ?? '2px'} solid
-    ${({ theme, $trackColor }) => $trackColor ?? theme.spinner.background};
-  border-top-color: ${({ theme, $color }) => $color ?? theme.spinner.foreground};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  animation: ${spin} 0.6s linear infinite;
+  line-height: 1;
+  font-size: ${({ $size }) => $size ?? '1rem'};
+  color: ${({ $color }) => $color ?? 'currentColor'};
+  animation: ${spin} 0.8s steps(8) infinite;
 `;

@@ -1,8 +1,8 @@
 import { Country, State } from 'country-state-city';
-import { PiTruck } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import type { MessageMetadata } from '@/api/messages';
+import { Button, type ButtonProps } from '@/components/common/Button';
 
 function resolveCountryName(code: string) {
   return Country.getCountryByCode(code)?.name ?? code;
@@ -71,12 +71,14 @@ export function SellerShippingDetails({
       </AddressBlock>
       {canShip && onConfirmShipped && (
         <ActionButton
+          variant="primary"
+          size="small"
           onClick={() => onConfirmShipped(orderId)}
-          disabled={isUpdating}
+          isLoading={isUpdating}
           data-testid="confirm-shipped-button"
         >
-          <PiTruck size={18} />
-          {isUpdating ? 'Updating...' : 'Mark as Shipped'}
+          {!isUpdating && <i className="hn hn-people-carry" aria-hidden />}
+          Mark as Shipped
         </ActionButton>
       )}
       {orderStatus === 'shipped' && <StatusTag $variant="shipped">Shipped</StatusTag>}
@@ -87,8 +89,7 @@ export function SellerShippingDetails({
 
 const AddressBlock = styled.div`
   padding: 0.625rem 0.75rem;
-  background-color: ${({ theme }) => theme.background.tertiary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   display: flex;
   flex-direction: column;
@@ -112,37 +113,14 @@ const AddressValue = styled.span`
   color: ${({ theme }) => theme.text.primary};
 `;
 
-const ActionButton = styled.button<{ disabled?: boolean }>`
-  display: inline-flex;
+export const ActionButton = styled(Button)<ButtonProps>`
   margin-top: 0.5rem;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background-color: ${({ theme }) => theme.primary.main};
-  color: white;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-  transition: opacity 0.2s;
   align-self: flex-start;
-
-  &:hover:not(:disabled) {
-    opacity: 0.9;
-  }
 `;
 
-const StatusTag = styled.span<{ $variant: 'shipped' | 'delivered' }>`
-  display: inline-flex;
-  align-items: center;
+export const StatusTag = styled.span<{ $variant: 'shipped' | 'delivered' }>`
   align-self: flex-start;
-  padding: 0.25rem 0.75rem;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.75rem;
   font-weight: 600;
-  background-color: ${({ theme, $variant }) =>
-    $variant === 'delivered' ? `${theme.state.success}20` : `${theme.primary.main}20`};
   color: ${({ theme, $variant }) => ($variant === 'delivered' ? theme.state.success : theme.primary.main)};
 `;

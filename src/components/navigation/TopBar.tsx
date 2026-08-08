@@ -1,13 +1,3 @@
-import {
-  PiBasketBold,
-  PiChatCircleDuotone,
-  PiGearBold,
-  PiHeartDuotone,
-  PiPlusCircleDuotone,
-  PiSignOutBold,
-  PiUserBold,
-  PiUserCircleDuotone,
-} from 'react-icons/pi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -19,7 +9,6 @@ import {
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
 import { SearchBar } from '@/components/navigation/SearchBar';
-import { glassSurface } from '@/lib/theme';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
@@ -27,6 +16,7 @@ import { useAuthStore } from '@/store/auth-store';
 export function TopBar() {
   const { user } = useAuthStore();
   const signOut = useAuthStore((state) => state.signOut);
+  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
   const { data: profile } = useProfile(user?.id);
   const { data: unreadChats } = useUnreadChats();
   const location = useLocation();
@@ -53,19 +43,25 @@ export function TopBar() {
           <RightSection>
             {user ? (
               <>
-                <Link to="/favorites">
-                  <IconButton aria-label="Favorites">
-                    <PiHeartDuotone />
-                  </IconButton>
+                <Link to="/items/new">
+                  <SellButton variant="primary" size="small">
+                    Sell
+                  </SellButton>
                 </Link>
                 <Link to="/messages">
                   <IconButtonWrapper>
-                    <IconButton aria-label="Messages">
-                      <PiChatCircleDuotone />
+                    <IconButton aria-label="Messages" style={{ marginTop: '0.25rem', fontSize: '1.32rem' }}>
+                      <i className="hn hn-message" />
                     </IconButton>
                     {hasUnread && <NavUnreadDot />}
                   </IconButtonWrapper>
                 </Link>
+                <Link to="/favorites">
+                  <IconButton aria-label="Favorites">
+                    <i className="hn hn-heart" />
+                  </IconButton>
+                </Link>
+
                 <Dropdown
                   menuLabel="Profile options"
                   trigger={({ onClick, ...triggerProps }) => (
@@ -73,39 +69,41 @@ export function TopBar() {
                       {profile?.avatar_url ? (
                         <img src={profile.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
                       ) : (
-                        <PiUserCircleDuotone />
+                        <i className="hn hn-user" />
                       )}
                     </IconButton>
                   )}
                 >
                   <DropdownMenuLink to="/profile">
-                    <PiUserBold /> Profile
+                    <i className="hn hn-user" /> Profile
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/orders">
-                    <PiBasketBold />
+                    <i className="hn hn-receipt" />
                     Orders
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/settings">
-                    <PiGearBold /> Settings
+                    <i className="hn hn-cog" /> Settings
                   </DropdownMenuLink>
                   <DropdownMenuSeparator />
                   <DropdownMenuButton variant="danger" onClick={handleLogout}>
-                    <PiSignOutBold /> Log out
+                    <i className="hn hn-logout" /> Log out
                   </DropdownMenuButton>
                 </Dropdown>
-                <Link to="/items/new">
-                  <SellButton variant="primary" size="small">
-                    <PiPlusCircleDuotone size={14} />
-                    Sell
-                  </SellButton>
-                </Link>
               </>
             ) : (
-              <Link to="/auth">
-                <Button variant="primary" size="small">
-                  Log in | Sign up
+              <>
+                <Button
+                  variant="outline"
+                  size="small"
+                  onClick={() => openAuthDialog('signup')}
+                  data-testid="open-auth-signup"
+                >
+                  Sign up
                 </Button>
-              </Link>
+                <Button variant="primary" size="small" onClick={() => openAuthDialog('login')} data-testid="open-auth">
+                  Log in
+                </Button>
+              </>
             )}
           </RightSection>
         </NavContent>
@@ -115,7 +113,7 @@ export function TopBar() {
 }
 
 const Nav = styled.nav`
-  ${glassSurface}
+  background-color: ${(props) => props.theme.background.primary};
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
   position: sticky;
   top: 0;
@@ -140,10 +138,10 @@ const NavContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 3.5rem;
+  height: 4rem;
 
   @media (min-width: 640px) {
-    height: 4rem;
+    height: 5rem;
   }
 `;
 
@@ -156,14 +154,17 @@ const LogoLink = styled(Link)`
 
 const LogoText = styled.span`
   font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   line-height: 1;
   color: ${(props) => props.theme.text.muted};
-  transition: color 0.2s;
+  transition: all ${(props) => props.theme.transition.slow};
   margin-top: 0.3rem;
 
-  ${LogoLink}:hover & {
-    color: ${(props) => props.theme.text.accent};
+  @media (hover: hover) {
+    ${LogoLink}:hover & {
+      color: ${(props) => props.theme.primary.main};
+      transform: scale(1.03);
+    }
   }
 
   @media (max-width: 640px) {
@@ -187,7 +188,7 @@ const RightSection = styled.div`
   gap: 0.35rem;
 
   @media (min-width: 640px) {
-    gap: 0.7rem;
+    gap: 0.75rem;
   }
 `;
 
@@ -198,27 +199,30 @@ const SellButton = styled(Button)`
 `;
 
 const IconButton = styled.button`
-  padding: 0.5rem;
   color: ${(props) => props.theme.text.secondary};
   background: none;
   border: none;
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  transition: all 0.2s;
+  transition: all ${(props) => props.theme.transition.base};
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 
   img {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: ${(props) => props.theme.borderRadius.full};
+    width: 1.75rem;
+    height: 1.75rem;
     object-fit: cover;
     display: block;
+    border-radius: 50%;
   }
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      color: ${(props) => props.theme.primary.main};
+    }
+  }
+
+  &:active {
     color: ${(props) => props.theme.primary.main};
-    background-color: ${(props) => props.theme.primary.light};
   }
 
   @media (max-width: 640px) {
@@ -237,7 +241,6 @@ const NavUnreadDot = styled.span`
   right: 0.5rem;
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: ${(props) => props.theme.borderRadius.full};
   background-color: ${(props) => props.theme.state.error};
   pointer-events: none;
 

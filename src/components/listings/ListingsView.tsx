@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Pagination } from '@/components/common/Pagination';
+import { Skeleton } from '@/components/common/Skeleton';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { ListingCardSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { usePaginatedSearchParams } from '@/hooks/usePaginatedSearchParams';
-import { glassSurface } from '@/lib/theme';
 import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
@@ -38,10 +38,12 @@ export function ListingsView() {
     [appliedFilters, selectedSort, searchQuery, user?.id, recentlyViewedIds, currentPage, currentPageSize]
   );
 
-  const { data, isLoading, error } = useListings(combinedFilters);
+  const { data, isLoading, isPlaceholderData, error } = useListings(combinedFilters);
   const listings = data?.items ?? [];
   const total = data?.total ?? 0;
   const totalPages = data?.totalPages ?? 0;
+  // keepPreviousData serves the old page while the new one loads — skeleton it instead of showing stale items.
+  const showSkeleton = isLoading || isPlaceholderData;
 
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
@@ -71,21 +73,19 @@ export function ListingsView() {
         <FilterBar />
       </StickyFilters>
 
-      {total > 0 && (
-        <ItemsSummary>
-          {startIndex}-{endIndex} of {total} items
-        </ItemsSummary>
+      {showSkeleton ? (
+        <SummarySkeleton width="9rem" />
+      ) : (
+        total > 0 && (
+          <ItemsSummary>
+            {startIndex}-{endIndex} of {total} items
+          </ItemsSummary>
+        )
       )}
 
-      {isLoading ? (
-        <Grid aria-busy="true" data-testid="listings-loading">
-          {Array.from({ length: currentPageSize || 12 }).map((_, i) => (
-            <ListingCardSkeleton key={i} />
-          ))}
-        </Grid>
-      ) : error ? (
+      {error ? (
         <StatusText $error>Error: {error instanceof Error ? error.message : 'An error occurred'}</StatusText>
-      ) : listings.length === 0 ? (
+      ) : !showSkeleton && listings.length === 0 ? (
         <StatusText>
           {searchQuery.trim() || hasActiveFilters(appliedFilters)
             ? 'No items match your filters.'
@@ -93,11 +93,19 @@ export function ListingsView() {
         </StatusText>
       ) : (
         <>
-          <Grid>
-            {listings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing as Listing} />
-            ))}
-          </Grid>
+          {showSkeleton ? (
+            <Grid aria-busy="true" data-testid="listings-loading">
+              {Array.from({ length: currentPageSize || 12 }).map((_, i) => (
+                <ListingCardSkeleton key={i} />
+              ))}
+            </Grid>
+          ) : (
+            <Grid>
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing as Listing} />
+              ))}
+            </Grid>
+          )}
           <Pagination
             page={currentPage}
             totalPages={totalPages}
@@ -114,9 +122,9 @@ export function ListingsView() {
 
 const StickyFilters = styled.div`
   position: sticky;
-  top: 3rem;
+  top: 4rem;
   z-index: 40;
-  ${glassSurface}
+  background-color: ${(props) => props.theme.background.primary};
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding: 1rem calc(50vw - 50%);
@@ -127,7 +135,7 @@ const StickyFilters = styled.div`
   }
 
   @media (min-width: 640px) {
-    top: 4rem;
+    top: 5rem;
   }
 `;
 
@@ -142,9 +150,17 @@ const SearchWrapper = styled.div`
 const ItemsSummary = styled.p`
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
   padding-left: ${({ theme }) => theme.spacing.xs};
   padding-bottom: ${({ theme }) => theme.spacing.xs};
+  font-weight: 600;
+  font-size: 0.875rem;
+`;
+
+const SummarySkeleton = styled(Skeleton)`
+  height: 1.3125rem;
+  margin-left: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 const StatusText = styled.p<{ $error?: boolean }>`

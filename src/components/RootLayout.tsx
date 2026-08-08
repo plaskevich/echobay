@@ -1,6 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { AuthDialog } from '@/components/auth/AuthDialog';
 import { TopBar } from '@/components/navigation/TopBar';
 
 const AppWrapper = styled.div`
@@ -20,7 +21,7 @@ const MainContent = styled.main`
   flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem 1rem;
   width: 100%;
   box-sizing: border-box;
 
@@ -38,6 +39,7 @@ export function RootLayout() {
       <MainContent>
         <Outlet />
       </MainContent>
+      <AuthDialog />
     </AppWrapper>
   );
 }

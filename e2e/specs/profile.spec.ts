@@ -94,7 +94,7 @@ test.describe('Public User Profile', () => {
   test('shows listings on public profile', async ({ page }) => {
     await page.goto(`/users/${sellerId}`);
 
-    await expect(page.getByRole('heading', { name: "publicuser's Listings" })).toBeVisible();
+    await expect(page.getByTestId('listing-count')).toHaveText('1 item');
     await expect(page.getByRole('heading', { name: 'Revolver' })).toBeVisible();
   });
 

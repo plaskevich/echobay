@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Rating } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css';
 
+import { pixelStarStyles } from './pixelStar';
+
 interface SellerRatingDisplayProps {
   average: number;
   count: number;
@@ -15,7 +17,7 @@ export function SellerRatingDisplay({ average, count }: SellerRatingDisplayProps
 
   return (
     <Container data-testid="seller-rating">
-      <Rating style={{ maxWidth: 100 }} value={average} readOnly />
+      <Rating style={{ maxWidth: 100 }} value={average} readOnly itemStyles={pixelStarStyles} />
       <RatingText>
         <Average>{average.toFixed(1)}</Average>
         <Count>
@@ -33,8 +35,8 @@ const Container = styled.div`
 `;
 
 const NoRatings = styled.span`
-  font-size: 0.8125rem;
-  color: ${({ theme }) => theme.text.tertiary};
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.secondary};
 `;
 
 const RatingText = styled.div`

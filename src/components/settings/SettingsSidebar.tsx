@@ -1,19 +1,18 @@
-import { PiAddressBook, PiEnvelopeSimple, PiLockSimple, PiPalette } from 'react-icons/pi';
+import styled from 'styled-components';
 
 import { Sidebar, SidebarItem, SidebarNav, SidebarTitle } from '@/components/layout/SidebarLayout';
 
-export type SettingsSection = 'email' | 'password' | 'shipping' | 'theme';
+export type SettingsSection = 'email' | 'password' | 'shipping';
 
 interface SettingsSidebarProps {
   activeSection: SettingsSection;
   setActiveSection: (section: SettingsSection) => void;
 }
 
-const sections: { key: SettingsSection; label: string; icon: React.ReactNode }[] = [
-  { key: 'email', label: 'Email Address', icon: <PiEnvelopeSimple size={20} /> },
-  { key: 'password', label: 'Password', icon: <PiLockSimple size={20} /> },
-  { key: 'shipping', label: 'Shipping Address', icon: <PiAddressBook size={20} /> },
-  { key: 'theme', label: 'Theme', icon: <PiPalette size={20} /> },
+const sections: { key: SettingsSection; label: string; shortLabel?: string; icon: React.ReactNode }[] = [
+  { key: 'email', label: 'Email Address', shortLabel: 'Email', icon: <i className="hn hn-envelope" /> },
+  { key: 'password', label: 'Password', icon: <i className="hn hn-unlock" /> },
+  { key: 'shipping', label: 'Shipping Address', shortLabel: 'Shipping', icon: <i className="hn hn-notebook" /> },
 ];
 
 export default function SettingsSidebar({ activeSection, setActiveSection }: SettingsSidebarProps) {
@@ -21,7 +20,7 @@ export default function SettingsSidebar({ activeSection, setActiveSection }: Set
     <Sidebar>
       <SidebarTitle>Settings</SidebarTitle>
       <SidebarNav>
-        {sections.map(({ key, label, icon }) => (
+        {sections.map(({ key, label, shortLabel, icon }) => (
           <SidebarItem
             key={key}
             data-testid={`settings-section-${key}`}
@@ -29,10 +28,25 @@ export default function SettingsSidebar({ activeSection, setActiveSection }: Set
             onClick={() => setActiveSection(key)}
           >
             {icon}
-            {label}
+            <FullLabel>{label}</FullLabel>
+            <ShortLabel>{shortLabel ?? label}</ShortLabel>
           </SidebarItem>
         ))}
       </SidebarNav>
     </Sidebar>
   );
 }
+
+const FullLabel = styled.span`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const ShortLabel = styled.span`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: inline;
+  }
+`;

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { PageTitle } from '@/components/common/PageTitle';
 import { minFullContentHeight } from '@/components/layout/viewport';
 
 export const AuthContainer = styled.div`
@@ -21,11 +20,10 @@ export const AuthContainer = styled.div`
 export const AuthCard = styled.div`
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   max-width: 450px;
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  box-shadow: ${({ theme }) => theme.shadow};
 
   @media (max-height: 760px) {
     padding: ${({ theme }) => theme.spacing.lg};
@@ -33,21 +31,22 @@ export const AuthCard = styled.div`
 
   @media (max-width: 640px) {
     padding: ${({ theme }) => theme.spacing.lg};
-    border-radius: ${({ theme }) => theme.borderRadius.md};
     box-shadow: none;
     border: none;
     background-color: transparent;
   }
 `;
 
-export const AuthCardTitle = styled(PageTitle)`
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+export const AuthCardTitle = styled.h2`
   text-align: center;
+  font-size: 2rem;
+  margin: 0;
 `;
 
 export const AuthSubtitle = styled.p`
   font-size: ${({ theme }) => theme.fontSize.base};
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
+  margin-top: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
   text-align: center;
   line-height: ${({ theme }) => theme.lineHeight.normal};
@@ -72,6 +71,5 @@ export const AuthErrorMessage = styled.div`
   background-color: ${({ theme }) => theme.state.error}20;
   color: ${({ theme }) => theme.state.error};
   border: 1px solid ${({ theme }) => theme.state.error};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

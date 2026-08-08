@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { updatePassword } from '@/api/auth';
@@ -33,14 +34,20 @@ export function ResetPassword() {
   const [serverError, setServerError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { isRecoveryMode, isInitialized, clearRecoveryMode } = useAuthStore();
+  const { isRecoveryMode, isInitialized, clearRecoveryMode, openAuthDialog } = useAuthStore();
+
+  const isExpired = isInitialized && !isRecoveryMode;
 
   useEffect(() => {
     return () => clearRecoveryMode();
   }, [clearRecoveryMode]);
 
-  if (isInitialized && !isRecoveryMode) {
-    return <Navigate to="/auth/forgot-password" replace />;
+  useEffect(() => {
+    if (isExpired) openAuthDialog('forgot');
+  }, [isExpired, openAuthDialog]);
+
+  if (isExpired) {
+    return <Navigate to="/" replace />;
   }
 
   const password = watch('password');
@@ -55,10 +62,9 @@ export function ResetPassword() {
       setServerError(error.message);
     } else {
       clearRecoveryMode();
-      navigate('/auth', {
-        replace: true,
-        state: { passwordReset: true },
-      });
+      toast.success('Password updated successfully. You can now log in.');
+      navigate('/', { replace: true });
+      openAuthDialog('login');
     }
   };
 

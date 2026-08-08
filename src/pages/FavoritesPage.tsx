@@ -1,4 +1,3 @@
-import { PiHeartDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
@@ -6,7 +5,6 @@ import { PageTitle } from '@/components/common/PageTitle';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 interface FavoriteWithListing {
   id: string;
@@ -18,7 +16,6 @@ interface FavoriteWithListing {
 
 export function FavoritesPage() {
   const { user } = useAuthStore();
-  const themeColors = useThemeStore((state) => state.themeColors);
   const { data: favorites = [], isLoading, error } = useUserFavorites(user?.id);
 
   if (!user) {
@@ -49,16 +46,14 @@ export function FavoritesPage() {
 
   return (
     <Container>
-      <Header>
-        <StyledPageTitle>My Favorites</StyledPageTitle>
-        <Subtitle data-testid="favorites-count">
-          {listings.length} {listings.length === 1 ? 'item' : 'items'}
-        </Subtitle>
-      </Header>
+      <PageTitle>My Favorites</PageTitle>
+      <Subtitle data-testid="favorites-count">
+        {listings.length} {listings.length === 1 ? 'item' : 'items'}
+      </Subtitle>
 
       {listings.length === 0 ? (
         <EmptyState data-testid="favorites-empty">
-          <PiHeartDuotone size={60} color={themeColors.text.secondary} />
+          <EmptyIcon className="hn hn-heart" aria-hidden />
           <EmptyTitle>No favorites yet</EmptyTitle>
           <EmptyText>Start exploring and add items to your favorites by clicking the heart icon</EmptyText>
         </EmptyState>
@@ -79,24 +74,19 @@ const Container = styled.div`
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  padding-top: 2rem;
 
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
 `;
 
-const Header = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const StyledPageTitle = styled(PageTitle)`
-  margin-bottom: 0.5rem;
-`;
-
 const Subtitle = styled.p`
-  font-size: 1rem;
-  color: ${(props) => props.theme.text.secondary};
-  margin: 0;
+  margin-top: 0.2rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.text.primary};
+  font-weight: 600;
+  font-size: 0.875rem;
 `;
 
 const Grid = styled.div`
@@ -125,6 +115,12 @@ const EmptyState = styled.div`
   @media (max-width: 640px) {
     padding: 3rem 1rem;
   }
+`;
+
+const EmptyIcon = styled.i`
+  font-size: 3.75rem;
+  line-height: 1;
+  color: ${(props) => props.theme.text.secondary};
 `;
 
 const EmptyTitle = styled.h2`

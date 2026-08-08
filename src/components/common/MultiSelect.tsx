@@ -1,5 +1,4 @@
 import { useCallback, useRef, useState } from 'react';
-import { PiCaretDown, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -100,7 +99,7 @@ export function MultiSelect({
                   }}
                   aria-label={`Remove ${opt.label}`}
                 >
-                  <PiX size={14} />
+                  <i className="hn hn-times" aria-hidden />
                 </TagRemove>
               )}
             </Tag>
@@ -116,7 +115,7 @@ export function MultiSelect({
             disabled={disabled}
           />
         </TagsContainer>
-        <CaretIcon $isOpen={isOpen} />
+        <CaretIcon className="hn hn-chevron-down" $isOpen={isOpen} aria-hidden />
       </InputContainer>
 
       {isOpen && filteredOptions.length > 0 && (
@@ -151,24 +150,17 @@ const InputContainer = styled.div<{ $isOpen: boolean; $disabled: boolean }>`
   display: flex;
   align-items: center;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.background.primary};
+  border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.border.hover : theme.border.primary)};
+  background-color: ${({ theme, $isOpen }) => ($isOpen ? theme.background.elevated : theme.background.primary)};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
   opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
-  transition: all 0.2s ease;
-
-  ${({ $isOpen, theme }) =>
-    $isOpen &&
-    `
-    box-shadow: 0 0 0 3px ${theme.primary.light};
-  `}
+  transition: all ${({ theme }) => theme.transition.base};
 `;
 
 const TagsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: 0.1rem;
   flex: 1;
   align-items: center;
 `;
@@ -178,9 +170,7 @@ const Tag = styled.span`
   align-items: center;
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
-  background-color: ${({ theme }) => theme.primary.light};
   color: ${({ theme }) => theme.primary.main};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-size: 0.875rem;
   font-weight: 500;
 `;
@@ -193,6 +183,8 @@ const TagLabel = styled.span`
 `;
 
 const TagRemove = styled.button`
+  font-size: 0.875rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,7 +193,7 @@ const TagRemove = styled.button`
   background: none;
   color: ${({ theme }) => theme.primary.main};
   opacity: 0.7;
-  transition: opacity 0.15s ease;
+  transition: opacity ${({ theme }) => theme.transition.fast};
 
   &:hover {
     opacity: 1;
@@ -227,9 +219,10 @@ const SearchInput = styled.input`
   }
 `;
 
-const CaretIcon = styled(PiCaretDown)<{ $isOpen: boolean }>`
+const CaretIcon = styled.i<{ $isOpen: boolean }>`
   color: ${({ theme }) => theme.text.secondary};
-  transition: transform 0.2s ease;
+  line-height: 1;
+  transition: transform ${({ theme }) => theme.transition.base};
   transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0)')};
   flex-shrink: 0;
 `;
@@ -242,10 +235,9 @@ const Dropdown = styled.div`
   margin-top: 0.25rem;
   max-height: 200px;
   overflow-y: auto;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
+  background-color: ${({ theme }) => theme.background.elevated};
+  border: 1px solid ${({ theme }) => theme.border.hover};
+  box-shadow: ${({ theme }) => theme.shadow};
   z-index: 100;
 `;
 
@@ -253,18 +245,10 @@ const DropdownItem = styled.div<{ $disabled?: boolean }>`
   padding: 0.75rem 1rem;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
   color: ${({ theme, $disabled }) => ($disabled ? theme.text.tertiary : theme.text.primary)};
-  transition: background-color 0.15s ease;
+  transition: background-color ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme, $disabled }) => ($disabled ? 'transparent' : theme.background.secondary)};
-  }
-
-  &:first-child {
-    border-radius: ${({ theme }) => theme.borderRadius.md} ${({ theme }) => theme.borderRadius.md} 0 0;
-  }
-
-  &:last-child {
-    border-radius: 0 0 ${({ theme }) => theme.borderRadius.md} ${({ theme }) => theme.borderRadius.md};
   }
 `;
 

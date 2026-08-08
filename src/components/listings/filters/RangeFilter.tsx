@@ -109,7 +109,9 @@ const RangeInputContainer = styled.div`
 const InputPrefix = styled.span`
   position: absolute;
   left: 0.75rem;
-  color: ${({ theme }) => theme.text.secondary};
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 600;
+  color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
   font-size: 0.875rem;
   bottom: 0.6rem;
@@ -121,7 +123,7 @@ const InputPrefix = styled.span`
 
 const RangeLabel = styled.span`
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.secondary};
+  color: ${({ theme }) => theme.text.primary};
   font-weight: 500;
   @media (max-width: 640px) {
     font-size: 1rem;
@@ -133,16 +135,17 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
   padding: 0.625rem 0.75rem;
   ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 1.75rem;'}
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  font-weight: 600;
   font-size: 0.875rem;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.light)};
+    background-color: ${({ theme }) => theme.background.elevated};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
   }
 
   &::placeholder {
@@ -159,7 +162,6 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
     width: 100%;
     padding: 0.875rem 1rem;
     font-size: 1rem;
-    border-radius: ${({ theme }) => theme.borderRadius.md};
     ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 2rem;'}
   }
 `;

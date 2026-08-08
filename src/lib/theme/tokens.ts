@@ -1,24 +1,4 @@
-import type {
-  BorderRadius,
-  Duration,
-  Easing,
-  Elevation,
-  FontSize,
-  FontWeight,
-  LineHeight,
-  ShadowColors,
-  Spacing,
-  Transition,
-} from './types';
-
-const borderRadius: BorderRadius = {
-  xs: '0.25rem',
-  sm: '0.5rem',
-  md: '0.875rem',
-  lg: '1.25rem',
-  xl: '1.75rem',
-  full: '9999px',
-};
+import type { Duration, Easing, FontSize, FontWeight, LineHeight, Spacing, Transition } from './types';
 
 const spacing: Spacing = {
   '3xs': '0.125rem',
@@ -33,6 +13,8 @@ const spacing: Spacing = {
 };
 
 const fontFamily = "'Archivo Variable', system-ui, Avenir, Helvetica, Arial, sans-serif";
+
+const fontFamilyAlt = "'Chakra Petch', 'Archivo Variable', system-ui, sans-serif";
 
 const fontSize: FontSize = {
   xs: '0.75rem',
@@ -76,9 +58,9 @@ const transition: Transition = {
 };
 
 export const sharedTokens = {
-  borderRadius,
   spacing,
   fontFamily,
+  fontFamilyAlt,
   fontSize,
   fontWeight,
   lineHeight,
@@ -86,10 +68,3 @@ export const sharedTokens = {
   easing,
   transition,
 };
-
-export const makeElevation = (shadow: ShadowColors): Elevation => ({
-  sm: `0 1px 2px ${shadow.small}`,
-  md: `0 4px 6px -1px ${shadow.medium}`,
-  lg: `0 10px 25px -5px ${shadow.large}`,
-  xl: `0 20px 40px -12px ${shadow.large}`,
-});

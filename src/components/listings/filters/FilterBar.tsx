@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
@@ -196,7 +195,7 @@ export function FilterBar() {
 
         {(isActive || appliedSort !== 'recommended') && (
           <ClearAllButton onClick={handleClearAll} data-testid="clear-filters-button">
-            <PiX />
+            <i className="hn hn-times" aria-hidden />
             Clear filters
           </ClearAllButton>
         )}
@@ -208,7 +207,7 @@ export function FilterBar() {
             <FilterPill key={pill.id}>
               <span>{pill.label}</span>
               <PillRemoveButton onClick={pill.onRemove} aria-label={`Remove ${pill.label} filter`}>
-                <PiX size={12} />
+                <i className="hn hn-times" aria-hidden />
               </PillRemoveButton>
             </FilterPill>
           ))}
@@ -241,15 +240,13 @@ const ClearAllButton = styled.button`
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
   font-size: 0.875rem;
-  transition: all 0.15s ease;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    color: ${({ theme }) => theme.state.error};
-    background-color: ${({ theme }) => theme.background.secondary};
+    color: ${({ theme }) => theme.primary.main};
   }
 `;
 
@@ -266,13 +263,12 @@ const ActiveFiltersRow = styled.div`
 const FilterPill = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem 0.5rem 0.375rem 0.75rem;
-  background-color: ${({ theme }) => theme.primary.light};
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
 
   span {
@@ -291,10 +287,10 @@ const PillRemoveButton = styled.button`
   height: 1.25rem;
   padding: 0;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
   background-color: transparent;
-  color: ${({ theme }) => theme.text.primary};
-  transition: all 0.15s ease;
+  color: ${({ theme }) => theme.text.secondary};
+  font-size: 0.75rem;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     color: ${({ theme }) => theme.primary.main};

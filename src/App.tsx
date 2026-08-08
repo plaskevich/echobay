@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
@@ -7,10 +6,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
-import { ForgotPassword } from '@/components/auth/ForgotPassword';
 import { ResetPassword } from '@/components/auth/ResetPassword';
+import { AppToaster } from '@/components/common/AppToaster';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
-import { AuthPage } from '@/pages/AuthPage';
+import { theme } from '@/lib/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';
@@ -22,14 +21,11 @@ import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
 import UserProfilePage from '@/pages/UserProfilePage';
 import { useAuthStore } from '@/store/auth-store';
-import { useThemeStore } from '@/store/theme-store';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
       <Route index element={<HomePage />} />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/auth/forgot-password" element={<ForgotPassword />} />
       <Route path="/auth/reset-password" element={<ResetPassword />} />
       <Route path="/items/:id" element={<ItemDetailPage />} />
       <Route path="/users/:id" element={<UserProfilePage />} />
@@ -50,7 +46,6 @@ const router = createBrowserRouter(
 );
 
 export function App() {
-  const themeColors = useThemeStore((state) => state.themeColors);
   const initialize = useAuthStore((state) => state.initialize);
 
   useEffect(() => {
@@ -66,34 +61,9 @@ export function App() {
   }, [initialize]);
 
   return (
-    <StyledThemeProvider theme={themeColors}>
+    <StyledThemeProvider theme={theme}>
       <RouterProvider router={router} />
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: themeColors.background.secondary,
-            color: themeColors.text.primary,
-            border: `1px solid ${themeColors.border.primary}`,
-            borderRadius: themeColors.borderRadius.sm,
-            padding: '0.75rem 1rem',
-            boxShadow: `0 0.25rem 0.75rem ${themeColors.shadow.medium}`,
-          },
-          success: {
-            iconTheme: {
-              primary: themeColors.state.success,
-              secondary: themeColors.background.primary,
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: themeColors.state.error,
-              secondary: themeColors.background.primary,
-            },
-          },
-        }}
-      />
+      <AppToaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </StyledThemeProvider>
   );

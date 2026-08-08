@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Rating } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css';
 
+import { Button } from '@/components/common/Button';
+import { pixelStarStyles } from '@/components/common/pixelStar';
 import { useOrderRating, useSubmitRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -24,7 +26,7 @@ export function SellerRatingWidget({ orderId, sellerId }: SellerRatingWidgetProp
     return (
       <RatingContainer data-testid="rating-submitted">
         <RatingLabel>Your rating</RatingLabel>
-        <Rating style={{ maxWidth: 120 }} value={existingRating.rating} readOnly />
+        <Rating style={{ maxWidth: 120 }} value={existingRating.rating} readOnly itemStyles={pixelStarStyles} />
       </RatingContainer>
     );
   }
@@ -47,11 +49,17 @@ export function SellerRatingWidget({ orderId, sellerId }: SellerRatingWidgetProp
     <RatingContainer data-testid="rating-widget">
       <RatingLabel>Rate the seller</RatingLabel>
       <RatingRow>
-        <Rating style={{ maxWidth: 150 }} value={selectedRating} onChange={handleChange} />
+        <Rating style={{ maxWidth: 150 }} value={selectedRating} onChange={handleChange} itemStyles={pixelStarStyles} />
         {selectedRating > 0 && (
-          <SubmitButton onClick={handleSubmit} disabled={submitRating.isPending} data-testid="rating-submit-button">
-            {submitRating.isPending ? 'Submitting...' : 'Submit'}
-          </SubmitButton>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={handleSubmit}
+            isLoading={submitRating.isPending}
+            data-testid="rating-submit-button"
+          >
+            Submit
+          </Button>
         )}
       </RatingRow>
     </RatingContainer>
@@ -75,21 +83,4 @@ const RatingRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-`;
-
-const SubmitButton = styled.button<{ disabled?: boolean }>`
-  padding: 0.375rem 0.75rem;
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background-color: ${({ theme }) => theme.primary.main};
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
-  transition: opacity 0.2s;
-
-  &:hover:not(:disabled) {
-    opacity: 0.9;
-  }
 `;

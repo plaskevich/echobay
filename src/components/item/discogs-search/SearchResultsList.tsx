@@ -1,4 +1,3 @@
-import { PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { type DiscogsSearchResult } from '@/hooks/useDiscogsSearch';
@@ -18,7 +17,7 @@ export function SearchResultsList({ results, onSelectRelease, onClose, isSearchi
       <ResultsHeader>
         <ResultsTitle>Select a release to auto-fill the form:</ResultsTitle>
         <CloseResultsButton type="button" onClick={onClose}>
-          <PiX /> Close
+          <i className="hn hn-times" aria-hidden /> Close
         </CloseResultsButton>
       </ResultsHeader>
       <ResultsList>
@@ -59,7 +58,6 @@ const CloseResultsButton = styled.button`
   align-items: center;
   gap: 0.25rem;
   font-size: 0.875rem;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 
   &:hover {
     color: ${(props) => props.theme.text.primary};

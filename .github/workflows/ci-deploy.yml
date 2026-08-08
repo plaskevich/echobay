@@ -3,6 +3,8 @@ name: CI & Deploy
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 concurrency:
   group: ci-deploy-${{ github.ref }}
@@ -67,6 +69,7 @@ jobs:
           retention-days: 14
 
       - name: Deploy to Vercel
+        if: github.event_name == 'push'
         run: |
           pnpm exec vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           pnpm exec vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}

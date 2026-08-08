@@ -1,4 +1,3 @@
-import { PiChatCenteredText, PiShoppingCart } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/common/Button';
@@ -21,8 +20,8 @@ export function BuyerActions({ listingId }: BuyerActionsProps) {
   return (
     <>
       <Button variant="primary" size="medium" fullWidth onClick={handleBuyNow} data-testid="buy-now-button">
-        <PiShoppingCart size={20} />
-        Buy now
+        <i className="hn hn-shopping-cart" />
+        Purchase
       </Button>
       <Button
         variant="outline"
@@ -31,8 +30,8 @@ export function BuyerActions({ listingId }: BuyerActionsProps) {
         onClick={handleContactSeller}
         data-testid="contact-seller-button"
       >
-        <PiChatCenteredText size={20} />
-        Contact seller
+        <i className="hn hn-message-dots" />
+        Message seller
       </Button>
     </>
   );

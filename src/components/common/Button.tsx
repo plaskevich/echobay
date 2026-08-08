@@ -17,16 +17,12 @@ const getVariantStyles = (variant: ButtonVariant) => {
   switch (variant) {
     case 'primary':
       return css`
-        background-color: ${({ theme }) => theme.primary.main};
-        color: white;
+        background-color: ${({ theme }) => theme.black.main};
+        color: ${({ theme }) => theme.text.inverse};
         border: none;
 
         &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.primary.hover};
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
+          background-color: ${({ theme }) => theme.black.light};
         }
       `;
     case 'secondary':
@@ -47,11 +43,11 @@ const getVariantStyles = (variant: ButtonVariant) => {
     case 'outline':
       return css`
         background-color: transparent;
-        color: ${({ theme }) => theme.primary.main};
-        border: 1px solid ${({ theme }) => theme.primary.main};
+        color: ${({ theme }) => theme.text.primary};
+        border: 1px solid ${({ theme }) => theme.border.primary};
 
         &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.primary.light};
+          border-color: ${({ theme }) => theme.border.hover};
         }
 
         &:active:not(:disabled) {
@@ -75,7 +71,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
     case 'danger':
       return css`
         background-color: ${({ theme }) => theme.state.error};
-        color: white;
+        color: ${({ theme }) => theme.text.inverse};
         border: none;
 
         &:hover:not(:disabled) {
@@ -94,7 +90,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
 
         &:hover:not(:disabled) {
           background-color: ${({ theme }) => theme.state.error};
-          color: white;
+          color: ${({ theme }) => theme.text.inverse};
         }
 
         &:active:not(:disabled) {
@@ -113,7 +109,6 @@ const getSizeStyles = (size: ButtonSize) => {
         padding: 0.5rem 1rem;
         font-size: 0.875rem;
         height: 2rem;
-        border-radius: ${({ theme }) => theme.borderRadius.lg};
         gap: 0.3rem;
       `;
     case 'medium':
@@ -121,14 +116,12 @@ const getSizeStyles = (size: ButtonSize) => {
         padding: 0.5rem 1rem;
         font-size: 1rem;
         height: 2.75rem;
-        border-radius: ${({ theme }) => theme.borderRadius.sm};
       `;
     case 'large':
       return css`
         padding: 1rem 2rem;
         font-size: 1.125rem;
         height: 3.5rem;
-        border-radius: ${({ theme }) => theme.borderRadius.md};
         @media (max-width: 640px) {
           padding: 0.75rem 1.5rem;
           font-size: 1rem;

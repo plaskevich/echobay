@@ -1,26 +1,4 @@
-import { darkTheme } from './dark';
-import { lightTheme } from './light';
-
-export type {
-  BorderRadius,
-  Duration,
-  Easing,
-  Elevation,
-  FontSize,
-  FontWeight,
-  LineHeight,
-  ShadowColors,
-  Spacing,
-  Theme,
-  ThemeColors,
-  Transition,
-} from './types';
-export { makeElevation, sharedTokens } from './tokens';
-export { glassSurface, signatureSurface } from './mixins';
-export { lightTheme } from './light';
-export { darkTheme } from './dark';
-
-export const themes = {
-  light: lightTheme,
-  dark: darkTheme,
-};
+export type { Duration, Easing, FontSize, FontWeight, LineHeight, Spacing, ThemeColors, Transition } from './types';
+export { sharedTokens } from './tokens';
+export { glassSurface } from './mixins';
+export { theme } from './theme';

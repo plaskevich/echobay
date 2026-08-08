@@ -1,4 +1,3 @@
-import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 import styled from 'styled-components';
 
 import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
@@ -48,7 +47,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
           aria-label="Previous page"
           data-testid="previous-page-button"
         >
-          <PiCaretLeft size={18} />
+          <i className="hn hn-angle-left" />
         </NavButton>
 
         {getPageNumbers().map((p, i) =>
@@ -67,7 +66,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
           aria-label="Next page"
           data-testid="next-page-button"
         >
-          <PiCaretRight size={18} />
+          <i className="hn hn-angle-right" />
         </NavButton>
       </PageControls>
 
@@ -80,6 +79,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange, on
             </option>
           ))}
         </SizeSelect>
+        <SelectChevron className="hn hn-chevron-down" aria-hidden="true" />
       </SizeSelector>
     </Container>
   );
@@ -109,16 +109,14 @@ const NavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  font-size: 1rem;
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.text.primary};
+  color: ${({ theme }) => theme.text.secondary};
   cursor: pointer;
-  transition: background-color 0.15s;
 
   &:hover:not(:disabled) {
-    color: ${({ theme }) => theme.text.accent};
+    color: ${({ theme }) => theme.black.main};
   }
 
   &:disabled {
@@ -131,17 +129,16 @@ const PageButton = styled.button<{ $active: boolean }>`
   min-width: 2rem;
   height: 2rem;
   padding: 0 0.375rem;
-  border: 1px solid ${({ $active, theme }) => ($active ? theme.primary.main : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background: ${({ $active, theme }) => ($active ? theme.primary.main : 'transparent')};
-  color: ${({ $active, theme }) => ($active ? '#fff' : theme.text.primary)};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.black.main : theme.border.primary)};
+  background: ${({ $active, theme }) => ($active ? theme.black.main : 'transparent')};
+  color: ${({ $active, theme }) => ($active ? theme.text.inverse : theme.text.primary)};
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 400)};
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    background-color: ${({ $active, theme }) => ($active ? theme.primary.hover : theme.background.secondary)};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 `;
 
@@ -159,6 +156,15 @@ const SizeSelector = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+`;
+
+const SelectChevron = styled.i`
+  position: absolute;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.secondary};
+  pointer-events: none;
 `;
 
 const SizeLabel = styled.span`
@@ -167,16 +173,23 @@ const SizeLabel = styled.span`
 `;
 
 const SizeSelect = styled.select`
-  padding: 0.3rem;
+  appearance: none;
+  box-sizing: content-box;
+  width: 1.8rem; /* fits the widest option (240) */
+  padding: 0.3rem 1.5rem 0.3rem 0.5rem;
+  text-align: center;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   font-size: 0.875rem;
   cursor: pointer;
 
+  &:hover {
+    border-color: ${({ theme }) => theme.border.hover};
+  }
+
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.primary.main};
+    border-color: ${({ theme }) => theme.border.hover};
   }
 `;

@@ -1,26 +1,32 @@
 import { type UseFormReturn } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import googleIcon from '@/assets/google.svg';
 import { AuthErrorMessage, AuthFormLayout } from '@/components/auth/authLayout';
 import { Button } from '@/components/common/Button';
 import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 import { type AuthFormData } from '@/hooks/useAuthForm';
 
-type AuthMode = 'login' | 'signup';
-
 interface AuthFormProps {
-  mode: AuthMode;
+  mode: 'login' | 'signup';
   form: UseFormReturn<AuthFormData>;
   serverError: string;
   isLoading: boolean;
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   onGoogleSignIn: () => void;
+  onForgotPassword: () => void;
 }
 
-export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogleSignIn }: AuthFormProps) {
+export function AuthForm({
+  mode,
+  form,
+  serverError,
+  isLoading,
+  onSubmit,
+  onGoogleSignIn,
+  onForgotPassword,
+}: AuthFormProps) {
   const {
     register,
     formState: { errors },
@@ -31,15 +37,11 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
   return (
     <AuthFormLayout onSubmit={onSubmit}>
       <GoogleButton type="button" onClick={onGoogleSignIn} disabled={isLoading}>
-        <FcGoogle size={20} />
+        <img src={googleIcon} alt="" width={20} height={20} />
         Continue with Google
       </GoogleButton>
 
-      <Divider>
-        <DividerLine />
-        <DividerText>or</DividerText>
-        <DividerLine />
-      </Divider>
+      <Divider />
 
       <FieldWrapper>
         <Input
@@ -70,7 +72,11 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
         {errors.password && <FieldError>{errors.password.message}</FieldError>}
       </FieldWrapper>
 
-      {mode === 'login' && <ForgotPasswordLink to="/auth/forgot-password">Forgot password?</ForgotPasswordLink>}
+      {mode === 'login' && (
+        <ForgotPasswordLink type="button" onClick={onForgotPassword}>
+          Forgot password?
+        </ForgotPasswordLink>
+      )}
 
       {mode === 'signup' && (
         <FieldWrapper>
@@ -92,8 +98,14 @@ export function AuthForm({ mode, form, serverError, isLoading, onSubmit, onGoogl
 
       {serverError && <AuthErrorMessage>{serverError}</AuthErrorMessage>}
 
-      <Button type="submit" fullWidth isLoading={isLoading} data-testid="auth-submit-button">
-        {mode === 'login' ? 'Log In' : 'Sign Up'}
+      <Button
+        type="submit"
+        fullWidth
+        isLoading={isLoading}
+        data-testid="auth-submit-button"
+        style={{ fontWeight: 700 }}
+      >
+        {mode === 'login' ? 'LOG IN' : 'SIGN UP'}
       </Button>
     </AuthFormLayout>
   );
@@ -108,16 +120,13 @@ const GoogleButton = styled.button`
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  transition:
-    background-color ${({ theme }) => theme.transition.base},
-    border-color ${({ theme }) => theme.transition.base};
+  font-weight: 600;
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
+  transition: border-color ${({ theme }) => theme.transition.base};
   width: 100%;
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.background.secondary};
     border-color: ${({ theme }) => theme.border.hover};
   }
 
@@ -127,29 +136,22 @@ const GoogleButton = styled.button`
   }
 `;
 
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin: ${({ theme }) => theme.spacing.xs} 0;
-`;
-
-const DividerLine = styled.div`
-  flex: 1;
+const Divider = styled.hr`
   height: 1px;
+  border: none;
   background-color: ${({ theme }) => theme.border.primary};
+  /* full-bleed through the dialog's padding; falls back to flush when not in a dialog */
+  margin: 1.2rem calc(-1 * var(--dialog-body-padding, 0px));
 `;
 
-const DividerText = styled.span`
-  color: ${({ theme }) => theme.text.secondary};
-  font-size: ${({ theme }) => theme.fontSize.sm};
-`;
-
-const ForgotPasswordLink = styled(Link)`
+const ForgotPasswordLink = styled.button`
   align-self: center;
   margin-top: -${({ theme }) => theme.spacing.sm};
+  background: none;
+  border: none;
+  padding: 0;
   font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.primary.main};
+  color: ${({ theme }) => theme.text.primary};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   text-decoration: none;
 

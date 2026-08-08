@@ -1,6 +1,5 @@
-import { PiHeart, PiHeartFill } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
@@ -34,12 +33,12 @@ export function ListingCard({ listing }: ListingCardProps) {
   const isOwner = user?.id === listing.owner_id;
   const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
   const { toggleFavorite, isLoading } = useToggleFavorite();
-  const navigate = useNavigate();
+  const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
 
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) navigate('/auth');
+    if (!user) openAuthDialog();
     else await toggleFavorite(user.id, listing.id, isFavorited);
   };
 
@@ -49,7 +48,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   return (
     <CardLink to={`/items/${listing.id}`}>
       <Card data-testid="listing-card">
-        <ImageContainer>
+        <ImageContainer $dimmed={showStatusBanner}>
           {imageUrl ? (
             <ListingImage src={imageUrl} alt={listing.title} />
           ) : (
@@ -57,7 +56,12 @@ export function ListingCard({ listing }: ListingCardProps) {
               {getFormatIcon(listing.format, 100)}
             </FormatIconFallback>
           )}
-          {showStatusBanner && <StatusBanner status={listing.status!}>{getStatusLabel(listing.status)}</StatusBanner>}
+          {showStatusBanner && (
+            <StatusBanner status={listing.status!}>
+              <i className={listing.status === 'sold' ? 'hn hn-tag-solid' : 'hn hn-eye-cross-solid'} />
+              {getStatusLabel(listing.status)}
+            </StatusBanner>
+          )}
         </ImageContainer>
         <Artist>{listing.artist}</Artist>
         <ListingTitle>{listing.title}</ListingTitle>
@@ -75,7 +79,7 @@ export function ListingCard({ listing }: ListingCardProps) {
             disabled={isLoading}
             aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {isFavorited ? <PiHeartFill /> : <PiHeart />}
+            <i className={isFavorited ? 'hn hn-heart-solid' : 'hn hn-heart'} />
           </FavoriteButton>
         )}
       </Card>
@@ -93,10 +97,7 @@ const CardLink = styled(Link)`
 const Card = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.background.primary};
-  border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  padding: ${(props) => props.theme.spacing.md};
-  box-shadow: ${(props) => props.theme.elevation.sm};
+  padding: ${(props) => props.theme.spacing.xs};
   transition:
     box-shadow ${(props) => props.theme.transition.base},
     transform ${(props) => props.theme.transition.base},
@@ -108,9 +109,6 @@ const Card = styled.div`
   overflow: hidden;
   gap: 0.1rem;
   &:hover {
-    box-shadow: ${(props) => props.theme.elevation.md};
-    border-color: ${(props) => props.theme.border.hover};
-    transform: translateY(-2px);
     cursor: pointer;
   }
 
@@ -119,10 +117,20 @@ const Card = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ $dimmed?: boolean }>`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
+  overflow: hidden;
+
+  ${(props) =>
+    props.$dimmed &&
+    css`
+      > :first-child {
+        filter: brightness(0.8) blur(1px);
+        transform: scale(1.04);
+      }
+    `}
 
   @media (max-width: 480px) {
     margin-bottom: 0.5rem;
@@ -133,13 +141,11 @@ const ListingImage = styled.img`
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 `;
 
 const FormatIconFallback = styled.div`
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: ${(props) => props.theme.borderRadius.md};
   background-color: ${(props) => props.theme.background.secondary};
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
@@ -148,7 +154,7 @@ const FormatIconFallback = styled.div`
 `;
 
 const ListingTitle = styled.h3`
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   margin: 0;
   color: ${(props) => props.theme.text.primary};
@@ -162,7 +168,7 @@ const ListingTitle = styled.h3`
 `;
 
 const Artist = styled.p`
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   overflow: hidden;
@@ -176,22 +182,22 @@ const Artist = styled.p`
 
 const Format = styled.p`
   font-size: 0.75rem;
-  color: ${(props) => props.theme.text.tertiary};
+  color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  text-transform: uppercase;
   font-weight: 500;
-  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
   gap: 0.2rem;
 `;
 
 const Price = styled.p`
+  font-family: ${(props) => props.theme.fontFamilyAlt};
   font-size: 1rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.price};
+  font-weight: 700;
+  line-height: 1;
+  color: ${(props) => props.theme.text.primary};
   margin: auto 0 0 0;
-  padding-top: 0.5rem;
+  padding-top: 0.2rem;
 `;
 
 const StatusBanner = styled.div<{ status: ListingStatus }>`
@@ -199,17 +205,16 @@ const StatusBanner = styled.div<{ status: ListingStatus }>`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.5rem 1rem;
-  border-radius: 0 0 ${(props) => props.theme.borderRadius.md} ${(props) => props.theme.borderRadius.md};
+  padding: 0.5rem 0.6rem;
   background-color: ${(props) =>
-    props.status === 'sold' ? props.theme.status.sold.background : props.theme.status.hidden.background};
-  color: ${(props) => (props.status === 'sold' ? props.theme.status.sold.text : props.theme.status.hidden.text)};
-  font-size: 0.875rem;
+    props.status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
+  color: ${(props) => (props.status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  box-shadow: 0 6px 16px ${(props) => props.theme.shadow.medium};
+  gap: 0.5rem;
 `;
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
@@ -222,30 +227,22 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s;
+  transition: transform ${(props) => props.theme.transition.base};
   z-index: 10;
 
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: ${(props) => (props.$isFavorited ? props.theme.favorite : props.theme.text.secondary)};
-    filter: drop-shadow(0 2px 4px ${(props) => props.theme.shadow.medium});
-    transition: all 0.2s;
+  i {
+    font-size: 1.4rem;
+    color: ${(props) => (props.$isFavorited ? props.theme.black.main : props.theme.text.secondary)};
+    transition: all ${(props) => props.theme.transition.base};
   }
 
   &:hover {
-    transform: scale(1.1);
-    svg {
-      color: ${(props) => props.theme.favorite};
+    i {
+      color: ${(props) => props.theme.black.main};
     }
   }
 
   &:active {
     transform: scale(0.9);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    transform: none;
   }
 `;

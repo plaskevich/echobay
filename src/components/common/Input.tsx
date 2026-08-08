@@ -25,12 +25,12 @@ const FormGroup = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.2rem;
 `;
 
 const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -38,15 +38,14 @@ const StyledInput = styled.input<{ $hasError?: boolean }>`
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.background.primary};
+  background-color: transparent;
   color: ${({ theme }) => theme.text.primary};
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transition.base};
 
   &:focus {
     outline: none;
-    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.primary.main)};
-    box-shadow: 0 0 0 3px ${({ theme, $hasError }) => ($hasError ? `${theme.state.error}30` : theme.primary.light)};
+    border-color: ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.hover)};
+    background-color: ${({ theme }) => theme.background.elevated};
   }
 
   &::placeholder {

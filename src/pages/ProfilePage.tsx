@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { PiPlusCircle } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,6 +12,8 @@ import { useSellerRating } from '@/queries/useRatings';
 import { useAuthStore } from '@/store/auth-store';
 
 type StatusFilter = 'all' | ListingStatus;
+
+const STATUS_ORDER: ListingStatus[] = ['active', 'hidden', 'sold'];
 
 const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -30,7 +31,7 @@ export default function ProfilePage() {
 
   const filteredListings = useMemo(() => {
     const filtered = statusFilter === 'all' ? listings : listings.filter((l) => l.status === statusFilter);
-    return [...filtered].sort((a, b) => (a.status === 'sold' ? 1 : 0) - (b.status === 'sold' ? 1 : 0));
+    return [...filtered].sort((a, b) => STATUS_ORDER.indexOf(a.status!) - STATUS_ORDER.indexOf(b.status!));
   }, [listings, statusFilter]);
 
   if (!user) return null;
@@ -50,14 +51,13 @@ export default function ProfilePage() {
       />
       <UserListings
         listings={filteredListings}
-        title="My Listings"
         isLoading={listingsLoading}
         error={listingsError}
         emptyMessage={statusFilter === 'all' ? "You haven't created any listings yet" : `No ${statusFilter} listings`}
         emptyAction={
           statusFilter === 'all' ? (
             <Button onClick={() => navigate('/items/new')} variant="primary" size="medium">
-              <PiPlusCircle size={20} />
+              <i className="hn hn-plus" aria-hidden />
               Create Your First Listing
             </Button>
           ) : undefined
@@ -84,6 +84,7 @@ export default function ProfilePage() {
 }
 
 const Container = styled.div`
+  padding-top: 2rem;
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
@@ -108,16 +109,13 @@ const FilterTab = styled.button<{ $active: boolean }>`
   @media (max-width: 640px) {
     flex: 1;
   }
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  border: 1px solid ${(props) => (props.$active ? props.theme.primary.main : props.theme.border.primary)};
-  background-color: ${(props) => (props.$active ? props.theme.primary.light : props.theme.background.primary)};
-  color: ${(props) => (props.$active ? props.theme.primary.main : props.theme.text.primary)};
+  border: 1px solid ${(props) => (props.$active ? props.theme.black.main : props.theme.border.primary)};
+  background-color: ${(props) => (props.$active ? props.theme.black.main : props.theme.background.primary)};
+  color: ${(props) => (props.$active ? props.theme.text.inverse : props.theme.text.primary)};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
-    border-color: ${(props) => props.theme.primary.main};
-    background-color: ${(props) => props.theme.primary.light};
-    color: ${(props) => props.theme.primary.main};
+    border-color: ${(props) => props.theme.border.hover};
   }
 `;

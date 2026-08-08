@@ -1,17 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { resetPassword } from '@/api/auth';
-import {
-  AuthCard,
-  AuthCardTitle,
-  AuthContainer,
-  AuthErrorMessage,
-  AuthFormLayout,
-  AuthSubtitle,
-} from '@/components/auth/authLayout';
+import { AuthErrorMessage, AuthFormLayout, AuthSubtitle } from '@/components/auth/authLayout';
 import { Button } from '@/components/common/Button';
 import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
@@ -20,7 +12,7 @@ interface ForgotPasswordFormData {
   email: string;
 }
 
-export function ForgotPassword() {
+export function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
   const {
     register,
     handleSubmit,
@@ -46,52 +38,52 @@ export function ForgotPassword() {
     }
   };
 
+  if (isSubmitted) {
+    return (
+      <SuccessContent>
+        <AuthSubtitle>Check your email</AuthSubtitle>
+        <Description>
+          We sent a password reset link to <strong>{getValues('email')}</strong>. Click the link in the email to set a
+          new password.
+        </Description>
+        <BackLink type="button" onClick={onBack}>
+          Back to Log In
+        </BackLink>
+      </SuccessContent>
+    );
+  }
+
   return (
-    <AuthContainer>
-      <AuthCard>
-        <AuthCardTitle>Reset Password</AuthCardTitle>
+    <>
+      <AuthSubtitle>
+        Enter the email address associated with your account and we'll send you a link to reset your password.
+      </AuthSubtitle>
 
-        {isSubmitted ? (
-          <SuccessContent>
-            <AuthSubtitle>Check your email</AuthSubtitle>
-            <Description>
-              We sent a password reset link to <strong>{getValues('email')}</strong>. Click the link in the email to set
-              a new password.
-            </Description>
-            <BackLink to="/auth">Back to Log In</BackLink>
-          </SuccessContent>
-        ) : (
-          <>
-            <AuthSubtitle>
-              Enter the email address associated with your account and we'll send you a link to reset your password.
-            </AuthSubtitle>
+      <AuthFormLayout onSubmit={handleSubmit(onSubmit)}>
+        <FieldWrapper>
+          <Input
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            $hasError={!!errors.email}
+            {...register('email', { required: 'Please enter your email address' })}
+            disabled={isLoading}
+            autoComplete="email"
+          />
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
+        </FieldWrapper>
 
-            <AuthFormLayout onSubmit={handleSubmit(onSubmit)}>
-              <FieldWrapper>
-                <Input
-                  label="Email"
-                  type="email"
-                  placeholder="Enter your email"
-                  $hasError={!!errors.email}
-                  {...register('email', { required: 'Please enter your email address' })}
-                  disabled={isLoading}
-                  autoComplete="email"
-                />
-                {errors.email && <FieldError>{errors.email.message}</FieldError>}
-              </FieldWrapper>
+        {serverError && <AuthErrorMessage>{serverError}</AuthErrorMessage>}
 
-              {serverError && <AuthErrorMessage>{serverError}</AuthErrorMessage>}
+        <Button type="submit" fullWidth isLoading={isLoading}>
+          Send Reset Link
+        </Button>
+      </AuthFormLayout>
 
-              <Button type="submit" fullWidth isLoading={isLoading}>
-                Send Reset Link
-              </Button>
-            </AuthFormLayout>
-
-            <BackLink to="/auth">Back to Log In</BackLink>
-          </>
-        )}
-      </AuthCard>
-    </AuthContainer>
+      <BackLink type="button" onClick={onBack}>
+        Back to Log In
+      </BackLink>
+    </>
   );
 }
 
@@ -106,9 +98,13 @@ const Description = styled.p`
   margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
-const BackLink = styled(Link)`
+const BackLink = styled.button`
   display: block;
+  width: 100%;
   margin-top: ${({ theme }) => theme.spacing.lg};
+  background: none;
+  border: none;
+  padding: 0;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.primary.main};

@@ -1,5 +1,4 @@
 import { type KeyboardEvent } from 'react';
-import { PiMagnifyingGlass, PiX } from 'react-icons/pi';
 import styled from 'styled-components';
 
 interface SearchInputBarProps {
@@ -39,7 +38,7 @@ export function SearchInputBar({
       />
       {searchQuery && (
         <ClearButton type="button" onClick={onClear} disabled={isSearching} aria-label="Clear search">
-          <PiX />
+          <i className="hn hn-times" />
         </ClearButton>
       )}
       <SearchButton
@@ -48,7 +47,7 @@ export function SearchInputBar({
         disabled={isSearching || !searchQuery.trim() || isDisabled}
         data-testid="discogs-search-button"
       >
-        <PiMagnifyingGlass size={18} />
+        <i className="hn hn-search" />
       </SearchButton>
     </SearchInputGroup>
   );
@@ -64,15 +63,13 @@ const SearchInput = styled.input`
   flex: 1;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
 
   &:focus {
     outline: none;
-    border-color: ${(props) => props.theme.primary.main};
-    box-shadow: 0 0 0 3px ${(props) => props.theme.primary.light};
+    border-color: ${(props) => props.theme.border.hover};
   }
 
   &::placeholder {
@@ -97,7 +94,6 @@ const ClearButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${(props) => props.theme.borderRadius.sm};
 
   &:hover {
     color: ${(props) => props.theme.text.primary};
@@ -111,21 +107,19 @@ const ClearButton = styled.button`
 `;
 
 const SearchButton = styled.button`
-  padding: 0.75rem 1rem;
-  background-color: ${(props) => props.theme.primary.main};
-  color: white;
+  color: #000;
   border: none;
-  border-radius: ${(props) => props.theme.borderRadius.md};
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  transition: background-color 0.2s;
+  transition: background-color ${(props) => props.theme.transition.base};
+  background-color: transparent;
 
   &:hover:not(:disabled) {
-    background-color: ${(props) => props.theme.primary.hover};
+    color: ${(props) => props.theme.primary.main};
   }
 
   &:disabled {

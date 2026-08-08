@@ -1,4 +1,3 @@
-import { PiPaperPlaneRightDuotone } from 'react-icons/pi';
 import styled from 'styled-components';
 
 interface MessageInputProps {
@@ -32,7 +31,7 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
           aria-label="Send message"
           data-testid="message-send-button"
         >
-          <PiPaperPlaneRightDuotone size={20} />
+          <i className="hn hn-arrow-circle-up-solid" aria-hidden />
         </MessageSendButton>
       </MessageInputWrapper>
     </MessageInputArea>
@@ -40,29 +39,27 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
 }
 
 const MessageInputArea = styled.div`
-  padding: 1rem 1.25rem;
-  border-top: 1px solid ${(props) => props.theme.border.primary};
+  padding: 1rem 0;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     position: sticky;
     bottom: 0;
     z-index: 10;
     background-color: ${(props) => props.theme.background.primary};
-    padding: 0.75rem 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+    padding: 0.75rem 0 max(0.75rem, env(safe-area-inset-bottom));
   }
 `;
 
 const MessageInputWrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
-  border-radius: ${(props) => props.theme.borderRadius.md};
   overflow: hidden;
-  transition: border-color 0.15s ease;
+  transition: border-color ${(props) => props.theme.transition.fast};
 
   &:focus-within {
-    border-color: ${(props) => props.theme.primary.main};
+    border-color: ${(props) => props.theme.border.hover};
+    background-color: ${(props) => props.theme.background.elevated};
   }
 `;
 
@@ -93,13 +90,11 @@ const MessageSendButton = styled.button`
   border: none;
   background: transparent;
   color: ${(props) => props.theme.primary.main};
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &:hover:not(:disabled) {
-    color: ${(props) => props.theme.primary.hover};
-  }
+  transition: color ${(props) => props.theme.transition.fast};
 
   &:disabled {
     opacity: 0.5;

@@ -4,10 +4,12 @@ import toast from 'react-hot-toast';
 
 import { updateEmail } from '@/api/auth';
 import { Button } from '@/components/common/Button';
+import { ButtonGroup } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
+import { InfoMessage } from '@/components/common/Message';
 import { useAuthStore } from '@/store/auth-store';
 
-import { ButtonRow, Container, Description, Form, Message, SectionTitle } from './styles';
+import { Container, Description, Form, Message, SectionTitle } from './styles';
 
 interface EmailFormData {
   email: string;
@@ -51,9 +53,9 @@ export default function EmailSettings() {
         <Input label="Current Email" type="email" value={user?.email ?? ''} disabled />
 
         {isOAuthUser ? (
-          <Message $type="error">
+          <InfoMessage>
             Your email is managed by your Google account. To change it, update your email in Google and sign in again.
-          </Message>
+          </InfoMessage>
         ) : (
           <>
             <Input
@@ -65,11 +67,11 @@ export default function EmailSettings() {
 
             {message && <Message $type={message.type}>{message.text}</Message>}
 
-            <ButtonRow>
+            <ButtonGroup>
               <Button type="submit" disabled={!hasChanges} isLoading={isSaving}>
                 Save
               </Button>
-            </ButtonRow>
+            </ButtonGroup>
           </>
         )}
       </Form>

@@ -70,12 +70,12 @@ export function MultiSelectFilter({
           return (
             <CheckboxItem key={opt.value} $checked={isChecked} onClick={() => handleToggle(opt.value)}>
               <span>{opt.label}</span>
-              <Checkbox $checked={isChecked} />
+              <Checkbox $checked={isChecked}>{isChecked && <i className="hn hn-check" aria-hidden />}</Checkbox>
             </CheckboxItem>
           );
         })}
         {searchable && filteredOptions.length === 0 && (
-          <CheckboxItem as="div" style={{ cursor: 'default', opacity: 0.5, justifyContent: 'center' }}>
+          <CheckboxItem as="div" $empty>
             <span>No results found</span>
           </CheckboxItem>
         )}

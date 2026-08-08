@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
-import { PiLockSimpleFill } from 'react-icons/pi';
 import styled, { useTheme } from 'styled-components';
 
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 import { createPaymentIntent } from '@/api/checkout';
+import { Amount, StepCard, StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
-import { Form } from '@/components/common/Form';
+import { ButtonGroup, Form } from '@/components/common/Form';
 import { formatPrice } from '@/lib/utils';
 
 interface PaymentFormProps {
@@ -86,7 +86,7 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
 
   return (
     <Form onSubmit={handleSubmit} data-testid="payment-form">
-      <FormTitle data-testid="payment-form-title">Payment Details</FormTitle>
+      <StepTitle data-testid="payment-form-title">Payment Details</StepTitle>
 
       <OrderAmount>
         <AmountLabel>Total Amount</AmountLabel>
@@ -100,21 +100,23 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
         </CardElementWrapper>
         {error && <ErrorText data-testid="payment-error">{error}</ErrorText>}
         <SecureNote>
-          <PiLockSimpleFill aria-hidden />
+          <i className="hn hn-lock" aria-hidden />
           Payments are encrypted and processed securely by Stripe.
         </SecureNote>
       </PaymentSection>
 
       <TestModeNotice>
-        <NoticeTitle>🧪 Test Mode</NoticeTitle>
+        <NoticeTitle>
+          <i className="hn hn-info-circle" aria-hidden /> Test Mode
+        </NoticeTitle>
         <NoticeText>
-          Use test card: <code>4242 4242 4242 4242</code>
+          Use test card: <span>4242 4242 4242 4242</span>
           <br />
           Any future expiry date, any 3-digit CVC
         </NoticeText>
       </TestModeNotice>
 
-      <ButtonContainer>
+      <ButtonGroup>
         <Button
           type="button"
           variant="outline"
@@ -133,45 +135,25 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
         >
           Review Order
         </Button>
-      </ButtonContainer>
+      </ButtonGroup>
     </Form>
   );
 }
 
-const FormTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 1rem;
-
-  @media (max-width: 640px) {
-    font-size: 1.25rem;
-  }
-`;
-
-const OrderAmount = styled.div`
-  display: flex;
+const OrderAmount = styled(StepCard)`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.25rem;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.primary.light},
-    ${({ theme }) => theme.background.primary}
-  );
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
 const AmountLabel = styled.span`
   font-size: 1rem;
-  color: ${({ theme }) => theme.text.secondary};
+  font-weight: 700;
+  color: ${({ theme }) => theme.text.primary};
 `;
 
-const AmountValue = styled.span`
+const AmountValue = styled(Amount)`
   font-size: 1.5rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.primary.main};
 
   @media (max-width: 640px) {
     font-size: 1.25rem;
@@ -193,15 +175,12 @@ const Label = styled.label`
 const CardElementWrapper = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.background.primary};
-  transition:
-    border-color ${({ theme }) => theme.transition.base},
-    box-shadow ${({ theme }) => theme.transition.base};
+  transition: border-color ${({ theme }) => theme.transition.base};
 
   &:focus-within {
-    border-color: ${({ theme }) => theme.primary.main};
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary.light};
+    border-color: ${({ theme }) => theme.border.hover};
+    background-color: ${({ theme }) => theme.background.elevated};
   }
 `;
 
@@ -217,9 +196,9 @@ const SecureNote = styled.span`
   gap: 0.375rem;
   margin-top: 0.375rem;
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.text.tertiary};
+  color: ${({ theme }) => theme.text.secondary};
 
-  svg {
+  i {
     color: ${({ theme }) => theme.state.success};
     flex-shrink: 0;
   }
@@ -227,15 +206,16 @@ const SecureNote = styled.span`
 
 const TestModeNotice = styled.div`
   padding: 1rem;
-  background-color: ${({ theme }) => theme.background.primary};
-  border: 1px dashed ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
   margin-top: 1rem;
+  background-color: ${({ theme }) => theme.background.elevated};
 `;
 
 const NoticeTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 0.5rem;
 `;
@@ -245,24 +225,11 @@ const NoticeText = styled.div`
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1.5;
 
-  code {
+  span {
     padding: 0.125rem 0.375rem;
-    background-color: ${({ theme }) => theme.background.secondary};
-    border-radius: ${({ theme }) => theme.borderRadius.sm};
-    font-family: monospace;
+    font-family: ${({ theme }) => theme.fontFamilyAlt};
     font-size: 0.875rem;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-
-  @media (max-width: 768px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.text.primary};
   }
 `;

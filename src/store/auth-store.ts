@@ -7,31 +7,59 @@ import { insertProfileIfNotExists } from '@/api/profile';
 
 let authSubscription: Subscription | null = null;
 
+export type AuthMode = 'login' | 'signup' | 'forgot';
+
 interface AuthState {
   user: User | null;
   isLoading: boolean;
   isInitialized: boolean;
   isRecoveryMode: boolean;
+  isAuthDialogOpen: boolean;
+  authDialogMode: AuthMode;
+  authRedirect: string | null;
   setUser: (user: User | null) => void;
   setLoading: (isLoading: boolean) => void;
   clearRecoveryMode: () => void;
+  openAuthDialog: (mode?: AuthMode, redirect?: string) => void;
+  closeAuthDialog: () => void;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   logIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   initialize: () => Promise<() => void>;
 }
 
+function persistedUser(): User | null {
+  try {
+    const key = Object.keys(localStorage).find((k) => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    const raw = key && localStorage.getItem(key);
+    if (!raw) return null;
+    const session = JSON.parse(raw.startsWith('base64-') ? atob(raw.slice(7)) : raw);
+    if (!session?.user || (session.expires_at ?? 0) * 1000 < Date.now()) return null;
+    return session.user;
+  } catch {
+    return null;
+  }
+}
+
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
+  user: persistedUser(),
   isLoading: false,
   isInitialized: false,
   isRecoveryMode: false,
+  isAuthDialogOpen: false,
+  authDialogMode: 'login',
+  authRedirect: null,
 
   setUser: (user) => set({ user }),
 
   setLoading: (isLoading) => set({ isLoading }),
 
   clearRecoveryMode: () => set({ isRecoveryMode: false }),
+
+  openAuthDialog: (mode = 'login', redirect) =>
+    set({ isAuthDialogOpen: true, authDialogMode: mode, authRedirect: redirect ?? null }),
+
+  closeAuthDialog: () => set({ isAuthDialogOpen: false, authRedirect: null }),
 
   signUp: async (email: string, password: string) => {
     set({ isLoading: true });
@@ -102,6 +130,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (session?.user) {
         const freshUser = await getCurrentUser();
         set({ user: freshUser ?? session.user });
+      } else {
+        set({ user: null });
       }
 
       if (authSubscription) {

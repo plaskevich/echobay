@@ -1,11 +1,3 @@
-import {
-  PiCheckCircleDuotone,
-  PiEyeDuotone,
-  PiEyeSlashDuotone,
-  PiPencilSimpleLineDuotone,
-  PiTrashDuotone,
-} from 'react-icons/pi';
-
 import type { ListingStatus } from '@/api/listings';
 import { Button } from '@/components/common/Button';
 
@@ -29,7 +21,7 @@ export function OwnerActions({
   if (status === 'sold') {
     return (
       <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete} data-testid="delete-listing-button">
-        <PiTrashDuotone size={20} />
+        <i className="hn hn-trash" />
         Delete Listing
       </Button>
     );
@@ -40,11 +32,11 @@ export function OwnerActions({
       {status === 'active' && (
         <>
           <Button variant="primary" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
-            <PiCheckCircleDuotone size={20} />
+            <i className="hn hn-tag" />
             Mark as Sold
           </Button>
           <Button variant="outline" size="medium" fullWidth onClick={onHide} data-testid="hide-listing-button">
-            <PiEyeSlashDuotone size={20} />
+            <i className="hn hn-eye-cross" />
             Hide Listing
           </Button>
         </>
@@ -52,21 +44,21 @@ export function OwnerActions({
       {status === 'hidden' && onSetActive && (
         <>
           <Button variant="primary" size="medium" fullWidth onClick={onSetActive} data-testid="set-active-button">
-            <PiEyeDuotone size={20} />
+            <i className="hn hn-eye" />
             Set as Active
           </Button>
           <Button variant="outline" size="medium" fullWidth onClick={onMarkAsSold} data-testid="mark-sold-button">
-            <PiCheckCircleDuotone size={20} />
+            <i className="hn hn-tag" />
             Mark as Sold
           </Button>
         </>
       )}
       <Button variant="outline" size="medium" fullWidth onClick={onEdit} data-testid="edit-listing-button">
-        <PiPencilSimpleLineDuotone size={20} />
+        <i className="hn hn-pen" />
         Edit Listing
       </Button>
       <Button variant="danger-outline" size="medium" fullWidth onClick={onDelete} data-testid="delete-listing-button">
-        <PiTrashDuotone size={20} />
+        <i className="hn hn-trash-alt" />
         Delete Listing
       </Button>
     </>

@@ -136,8 +136,7 @@ const SuggestionsList = styled.ul`
   list-style: none;
   background: ${({ theme }) => theme.background.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
+  box-shadow: ${({ theme }) => theme.shadow};
   max-height: 300px;
   overflow-y: auto;
   z-index: 1000;
@@ -147,7 +146,7 @@ const SuggestionItem = styled.li<{ $isSelected: boolean }>`
   padding: 12px 16px;
   cursor: pointer;
   background: ${({ theme, $isSelected }) => ($isSelected ? theme.background.tertiary : 'transparent')};
-  transition: background-color 0.2s;
+  transition: background-color ${({ theme }) => theme.transition.base};
 
   &:hover {
     background: ${({ theme }) => theme.background.tertiary};
