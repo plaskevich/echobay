@@ -7,8 +7,6 @@ export const theme: ThemeColors = {
     secondary: '#E7E7E7',
     tertiary: '#dddddd',
     elevated: '#ffffff',
-    primaryHover: '#F0F0F0',
-    secondaryHover: '#DEDEDE',
   },
   text: {
     primary: '#0a0a0a',
@@ -16,7 +14,6 @@ export const theme: ThemeColors = {
     tertiary: '#515151',
     muted: 'rgb(156, 156, 164)',
     inverse: '#ffffff',
-    accent: '#00f',
   },
   border: {
     primary: '#c1c1c1',
@@ -24,21 +21,16 @@ export const theme: ThemeColors = {
   },
   primary: {
     main: '#00f',
-    hover: 'rgb(49, 49, 250)',
-    light: 'rgb(236, 236, 255)',
   },
   state: {
     success: '#14be39',
     warning: '#f59e0b',
     error: '#D62828',
-    info: '#0588f0',
   },
   black: {
     main: '#0a0a0a',
     light: '#212121',
   },
-  price: '#404040',
-  favorite: '#D62828',
   shadow: '0px 1px 4px rgba(0, 0, 0, 0.4)',
   overlay: {
     dark: 'rgba(0, 0, 0, 0.4)',
@@ -46,11 +38,6 @@ export const theme: ThemeColors = {
   },
   glass: {
     background: 'rgba(245, 245, 245, 0.94)',
-    border: 'rgba(0, 0, 0, 0.06)',
-  },
-  spinner: {
-    background: 'rgba(255, 255, 255, 0.3)',
-    foreground: '#ffffff',
   },
   ...sharedTokens,
 };

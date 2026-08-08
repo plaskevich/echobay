@@ -57,8 +57,6 @@ export interface ThemeColors {
     secondary: string;
     tertiary: string;
     elevated: string;
-    primaryHover: string;
-    secondaryHover: string;
   };
   text: {
     primary: string;
@@ -66,7 +64,6 @@ export interface ThemeColors {
     tertiary: string;
     muted: string;
     inverse: string;
-    accent: string;
   };
   border: {
     primary: string;
@@ -78,17 +75,12 @@ export interface ThemeColors {
   };
   primary: {
     main: string;
-    hover: string;
-    light: string;
   };
   state: {
     success: string;
     warning: string;
     error: string;
-    info: string;
   };
-  price: string;
-  favorite: string;
   shadow: string;
   overlay: {
     dark: string;
@@ -96,11 +88,6 @@ export interface ThemeColors {
   };
   glass: {
     background: string;
-    border: string;
-  };
-  spinner: {
-    background: string;
-    foreground: string;
   };
   spacing: Spacing;
   fontFamily: string;
