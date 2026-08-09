@@ -157,7 +157,7 @@ const DropdownPanel = styled.div.withConfig({
   shouldForwardProp: (prop) => !['$align', '$minWidth'].includes(prop),
 })<{ $align: DropdownAlign; $minWidth: string }>`
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 1rem);
   ${(p) => (p.$align === 'left' ? 'left: 0;' : 'right: 0;')}
   min-width: ${(p) => p.$minWidth};
   max-width: calc(100vw - 1rem);
@@ -172,16 +172,22 @@ const dropdownItemStyles = css`
   width: 100%;
   box-sizing: border-box;
   font-size: 1rem;
-  color: ${(props) => props.theme.text.secondary};
+  color: ${(props) => props.theme.text.primary};
   text-decoration: none;
   user-select: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin: 1rem 0.75rem;
+  transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
     color: ${(props) => props.theme.primary.main};
+  }
+
+  @media (max-width: 640px) {
+    font-size: 1.125rem;
+    margin: 1.25rem 1rem;
   }
 `;
 

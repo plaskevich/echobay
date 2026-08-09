@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+import { Spinner } from '@/components/common/Spinner';
 
 interface StateDisplayProps {
   message: string;
@@ -11,8 +13,12 @@ interface EmptyStateProps extends Partial<StateDisplayProps> {
   title?: string;
 }
 
-export function LoadingState({ message = 'Loading...', ...rest }: Partial<StateDisplayProps>) {
-  return <StateText {...rest}>{message}</StateText>;
+export function LoadingState({ message = 'Loading', ...rest }: Partial<StateDisplayProps>) {
+  return (
+    <LoadingContainer role="status" aria-label={message} {...rest}>
+      <Spinner size="3rem" />
+    </LoadingContainer>
+  );
 }
 
 export function EmptyState({ message, icon, title, ...rest }: EmptyStateProps) {
@@ -32,10 +38,19 @@ export function ErrorState({ message, ...rest }: StateDisplayProps) {
   return <ErrorText {...rest}>{message}</ErrorText>;
 }
 
-const StateText = styled.p`
-  color: ${({ theme }) => theme.text.secondary};
-  padding: ${({ theme }) => theme.spacing.lg};
-  font-size: ${({ theme }) => theme.fontSize.sm};
+const appear = keyframes`
+  to { opacity: 1; }
+`;
+
+const LoadingContainer = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing.xl};
+  color: ${({ theme }) => theme.primary.main};
+  opacity: 0;
+  animation: ${appear} 0.2s ease-out 0.5s forwards;
 `;
 
 const CenteredStateText = styled.p`

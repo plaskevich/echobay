@@ -11,6 +11,7 @@ export const SidebarLayout = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+    align-items: stretch;
     margin: 0 auto;
     gap: 1.5rem;
     padding: 1rem 0.75rem;
@@ -23,7 +24,6 @@ export const Sidebar = styled.div`
   min-width: 300px;
 
   @media (max-width: 768px) {
-    width: 100%;
     min-width: 0;
   }
 `;

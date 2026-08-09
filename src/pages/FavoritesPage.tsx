@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
 import { PageTitle } from '@/components/common/PageTitle';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -29,7 +30,7 @@ export function FavoritesPage() {
   if (isLoading) {
     return (
       <Container>
-        <InfoMessage>Loading your favorites...</InfoMessage>
+        <LoadingState message="Loading favorites" />
       </Container>
     );
   }

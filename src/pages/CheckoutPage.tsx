@@ -12,8 +12,9 @@ import type { ShippingAddress } from '@/components/checkout/ShippingForm';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { StepPanel } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
-import { ErrorMessage, InfoMessage } from '@/components/common/Message';
+import { ErrorMessage } from '@/components/common/Message';
 import { PageTitle } from '@/components/common/PageTitle';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { stripePromise } from '@/lib/stripe';
 import { useListing } from '@/queries/useListings';
 import { useShippingAddress } from '@/queries/useShipping';
@@ -41,7 +42,7 @@ export function CheckoutPage() {
   if (isLoading) {
     return (
       <Container>
-        <InfoMessage>Loading checkout...</InfoMessage>
+        <LoadingState message="Loading checkout" />
       </Container>
     );
   }

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Form } from '@/components/common/Form';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
 
 import { AvatarUpload } from './AvatarUpload';
@@ -13,11 +14,7 @@ export function ProfileEditForm() {
     useProfileEdit();
 
   if (loading) {
-    return (
-      <>
-        <LoadingMessage>Loading profile...</LoadingMessage>
-      </>
-    );
+    return <LoadingState message="Loading profile" />;
   }
 
   return (
@@ -85,13 +82,6 @@ const FieldsPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-`;
-
-const LoadingMessage = styled.div`
-  text-align: center;
-  padding: 3rem;
-  color: ${(props) => props.theme.text.secondary};
-  font-size: 1.125rem;
 `;
 
 const ButtonGroup = styled.div`

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ListingSummary, Message } from '@/api/messages';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
@@ -20,6 +21,7 @@ interface ConversationState {
   messageDraft: string;
   showConversation: boolean;
   isLoading: boolean;
+  isConversationLoading?: boolean;
   orderStatus?: string;
   isUpdatingOrder?: boolean;
 }
@@ -49,7 +51,8 @@ export function ConversationPanel({
 }: ConversationPanelProps) {
   const { currentUserId, otherUsername, otherUserId, otherAvatarUrl, chatBuyerId, chatSellerId } = participants;
 
-  const { messages, messageDraft, showConversation, isLoading, orderStatus, isUpdatingOrder } = conversationState;
+  const { messages, messageDraft, showConversation, isLoading, isConversationLoading, orderStatus, isUpdatingOrder } =
+    conversationState;
 
   const { onMessageDraftChange, onSendMessage, onBack, onConfirmShipped, onConfirmReceived } = actions;
 
@@ -102,6 +105,8 @@ export function ConversationPanel({
             disabled={isLoading}
           />
         </>
+      ) : isConversationLoading ? (
+        <LoadingState message="Loading conversation" data-testid="conversation-loading" />
       ) : (
         <EmptyConversation data-testid="conversation-empty">
           <EmptyConversationIcon className="hn hn-comments" aria-hidden />

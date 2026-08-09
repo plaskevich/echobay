@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
 import { PageTitle } from '@/components/common/PageTitle';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { DiscogsSearch } from '@/components/item/discogs-search';
 import { FormActions } from '@/components/item/edit/FormActions';
 import { FormFields } from '@/components/item/edit/FormFields';
@@ -254,7 +255,7 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
   };
 
   if (id && isLoadingListing) {
-    return <div>Loading listing data...</div>;
+    return <LoadingState message="Loading listing data" />;
   }
 
   return (

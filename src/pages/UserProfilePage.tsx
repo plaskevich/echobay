@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { LoadingState } from '@/components/common/StateDisplay';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { usePublicUserListings } from '@/queries/useListings';
@@ -20,7 +21,7 @@ export default function UserProfilePage() {
   if (profileLoading) {
     return (
       <Container>
-        <LoadingText>Loading profile...</LoadingText>
+        <LoadingState message="Loading profile" />
       </Container>
     );
   }
@@ -66,12 +67,6 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 1rem 0.75rem;
   }
-`;
-
-const LoadingText = styled.p`
-  color: ${(props) => props.theme.text.secondary};
-  text-align: center;
-  padding: 2rem;
 `;
 
 const ErrorText = styled.p`

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { LoadingState } from '@/components/common/StateDisplay';
 import { useAuthStore } from '@/store/auth-store';
 
 export function ProtectedRoute() {
@@ -19,7 +20,7 @@ export function ProtectedRoute() {
   if (!isInitialized) {
     return (
       <LoadingContainer>
-        <LoadingText>Loading...</LoadingText>
+        <LoadingState />
       </LoadingContainer>
     );
   }
@@ -36,9 +37,4 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 50vh;
-`;
-
-const LoadingText = styled.p`
-  color: ${({ theme }) => theme.text.secondary};
-  font-size: 1rem;
 `;

@@ -15,7 +15,7 @@ export default function OrdersContent({ isLoading, orders, filter }: OrdersConte
   return (
     <OrdersSection>
       {isLoading ? (
-        <LoadingState message="Loading orders..." data-testid="orders-loading" />
+        <LoadingState message="Loading orders" data-testid="orders-loading" />
       ) : orders.length === 0 ? (
         <EmptyState message={`No ${filter} orders found`} data-testid="orders-empty" />
       ) : (

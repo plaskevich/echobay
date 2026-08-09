@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
@@ -8,18 +8,16 @@ import {
   DropdownMenuLink,
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
+import { Logo } from '@/components/navigation/Logo';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { useUnreadChats } from '@/queries/useMessages';
-import { useProfile } from '@/queries/useProfiles';
 import { useAuthStore } from '@/store/auth-store';
 
 export function TopBar() {
   const { user } = useAuthStore();
   const signOut = useAuthStore((state) => state.signOut);
   const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
-  const { data: profile } = useProfile(user?.id);
   const { data: unreadChats } = useUnreadChats();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const hasUnread = unreadChats ? unreadChats.size > 0 : false;
@@ -33,9 +31,7 @@ export function TopBar() {
     <Nav>
       <NavContainer>
         <NavContent>
-          <LogoLink to="/" onClick={() => location.pathname === '/'}>
-            <LogoText>EchoBay</LogoText>
-          </LogoLink>
+          <Logo />
           <SearchWrapper>
             <SearchBar />
           </SearchWrapper>
@@ -66,27 +62,23 @@ export function TopBar() {
                   menuLabel="Profile options"
                   trigger={({ onClick, ...triggerProps }) => (
                     <IconButton type="button" aria-label="Profile menu" onClick={onClick} {...triggerProps}>
-                      {profile?.avatar_url ? (
-                        <img src={profile.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
-                      ) : (
-                        <i className="hn hn-user" />
-                      )}
+                      <i className="hn hn-user" />
                     </IconButton>
                   )}
                 >
                   <DropdownMenuLink to="/profile">
-                    <i className="hn hn-user" /> Profile
+                    <i className="hn hn-user-solid" /> Profile
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/orders">
-                    <i className="hn hn-receipt" />
+                    <i className="hn hn-receipt-solid" />
                     Orders
                   </DropdownMenuLink>
                   <DropdownMenuLink to="/settings">
-                    <i className="hn hn-cog" /> Settings
+                    <i className="hn hn-cog-solid" /> Settings
                   </DropdownMenuLink>
                   <DropdownMenuSeparator />
                   <DropdownMenuButton variant="danger" onClick={handleLogout}>
-                    <i className="hn hn-logout" /> Log out
+                    <i className="hn hn-logout-solid" /> Log out
                   </DropdownMenuButton>
                 </Dropdown>
               </>
@@ -145,50 +137,23 @@ const NavContent = styled.div`
   }
 `;
 
-const LogoLink = styled(Link)`
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-`;
-
-const LogoText = styled.span`
-  font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;
-  font-size: 2.4rem;
-  line-height: 1;
-  color: ${(props) => props.theme.text.muted};
-  transition: all ${(props) => props.theme.transition.slow};
-  margin-top: 0.3rem;
-
-  @media (hover: hover) {
-    ${LogoLink}:hover & {
-      color: ${(props) => props.theme.primary.main};
-      transform: scale(1.03);
-    }
-  }
-
-  @media (max-width: 640px) {
-    font-size: 2rem;
-  }
-`;
-
 const SearchWrapper = styled.div`
   flex: 1;
   display: none;
 
   @media (min-width: 768px) {
     display: block;
-    margin: 0 2rem;
+    margin: 0 4rem;
   }
 `;
 
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.75rem;
 
   @media (min-width: 640px) {
-    gap: 0.75rem;
+    gap: 1rem;
   }
 `;
 
@@ -199,7 +164,7 @@ const SellButton = styled(Button)`
 `;
 
 const IconButton = styled.button`
-  color: ${(props) => props.theme.text.secondary};
+  color: ${(props) => props.theme.text.primary};
   background: none;
   border: none;
   transition: all ${(props) => props.theme.transition.base};
@@ -237,12 +202,13 @@ const IconButtonWrapper = styled.div`
 
 const NavUnreadDot = styled.span`
   position: absolute;
-  top: 0.6rem;
-  right: 0.5rem;
-  width: 0.5rem;
-  height: 0.5rem;
+  top: 0.2rem;
+  right: 0.2rem;
+  width: 0.6rem;
+  height: 0.6rem;
   background-color: ${(props) => props.theme.state.error};
   pointer-events: none;
+  border-radius: 50%;
 
   @media (max-width: 640px) {
     top: 0.5rem;

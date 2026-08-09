@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { LoadingState } from '@/components/common/StateDisplay';
 import { type Listing, ListingCard } from '@/components/listings/ListingCard';
 
 export interface UserListingsProps {
@@ -22,7 +23,7 @@ export function UserListings({
   if (isLoading) {
     return (
       <Container>
-        <Message>Loading...</Message>
+        <LoadingState />
       </Container>
     );
   }
@@ -67,10 +68,6 @@ const ListingCount = styled.span`
   color: ${({ theme }) => theme.text.primary};
   font-weight: 600;
   font-size: 0.875rem;
-`;
-
-const Message = styled.p`
-  color: ${(props) => props.theme.text.secondary};
 `;
 
 const ErrorMessage = styled.p`

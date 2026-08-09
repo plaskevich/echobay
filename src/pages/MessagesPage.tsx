@@ -33,7 +33,7 @@ export default function MessagesPage() {
 
   const { data: chats = [], isLoading: chatsLoading } = useUserChats();
   const { data: unreadChats } = useUnreadChats();
-  const { data: listing } = useListing(listingIdParam || '');
+  const { data: listing, isLoading: listingLoading } = useListing(listingIdParam || '');
   const createChatMutation = useCreateChat();
   const sendMessageMutation = useSendMessage();
   const markAsRead = useMarkChatAsRead();
@@ -52,7 +52,7 @@ export default function MessagesPage() {
   const effectiveChatId =
     chatIdParam || existingChatByListing?.id || (listingIdParam || isMobile ? undefined : chats[0]?.id);
 
-  const { data: selectedChat } = useChat(effectiveChatId || undefined);
+  const { data: selectedChat, isLoading: chatLoading } = useChat(effectiveChatId || undefined);
   const { data: messages = [] } = useMessages(effectiveChatId || undefined);
   const { data: orderData } = useOrderForChat(selectedChat?.order_id);
 
@@ -184,6 +184,9 @@ export default function MessagesPage() {
   const displayListing = selectedChat?.listings ?? (listingIdParam && listing ? listing : null);
   const showConversation = effectiveChatId || (listingIdParam && listing);
   const isLoading = createChatMutation.isPending || sendMessageMutation.isPending;
+  // Until these settle, showConversation is false for a beat — spinner instead of the empty state.
+  const isConversationLoading =
+    chatsLoading || (!!listingIdParam && listingLoading) || (!!effectiveChatId && chatLoading);
   const pendingListingForSidebar = listingIdParam && listing && !existingChatByListing ? listing : null;
   const otherUserInfo = selectedChat
     ? getOtherUserInfo(selectedChat)
@@ -263,6 +266,7 @@ export default function MessagesPage() {
               messageDraft,
               showConversation: !!showConversation,
               isLoading,
+              isConversationLoading,
               orderStatus: orderData?.status,
               isUpdatingOrder: updateOrderStatus.isPending,
             }}
