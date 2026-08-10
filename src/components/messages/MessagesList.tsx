@@ -2,6 +2,7 @@ import { Fragment, forwardRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import type { Message } from '@/api/messages';
+import type { OrderStatus } from '@/api/orders';
 import { SystemMessage } from '@/components/messages/system/SystemMessage';
 
 interface MessagesListProps {
@@ -9,7 +10,7 @@ interface MessagesListProps {
   currentUserId: string;
   chatBuyerId?: string;
   chatSellerId?: string;
-  orderStatus?: string;
+  orderStatus?: OrderStatus;
   onConfirmShipped?: (orderId: string) => void;
   onConfirmReceived?: (orderId: string) => void;
   isUpdatingOrder?: boolean;

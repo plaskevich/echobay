@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import type { MessageMetadata, SystemEvent } from '@/api/messages';
+import type { OrderStatus } from '@/api/orders';
 
 import { SellerRatingWidget } from './SellerRatingWidget';
 import { ActionButton, SellerShippingDetails, StatusTag } from './SellerShippingDetails';
@@ -9,7 +10,7 @@ export interface SystemMessageProps {
   metadata: MessageMetadata;
   isSeller: boolean;
   isBuyer: boolean;
-  orderStatus?: string;
+  orderStatus?: OrderStatus;
   sellerId?: string;
   onConfirmShipped?: (orderId: string) => void;
   onConfirmReceived?: (orderId: string) => void;

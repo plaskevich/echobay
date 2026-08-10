@@ -1,7 +1,23 @@
+import type { GenreRef } from '@/api/genres';
 import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
 import { supabase } from '@/lib/supabase';
 
 export type ListingStatus = 'active' | 'hidden' | 'sold';
+
+export interface Listing {
+  id: string;
+  title: string;
+  artist: string;
+  year?: number | null;
+  description: string;
+  price: number;
+  shipping_price?: number;
+  format?: string;
+  images?: string[];
+  created_at: string;
+  owner_id: string;
+  status?: ListingStatus;
+}
 
 export interface ListingData {
   owner_id: string;
@@ -21,13 +37,7 @@ export interface ListingData {
 export interface ListingWithGenres extends ListingData {
   id: string;
   created_at: string;
-  listing_genres?: Array<{
-    genres: {
-      id: string;
-      name: string;
-      slug: string;
-    };
-  }>;
+  listing_genres?: Array<{ genres: GenreRef }>;
 }
 
 export interface ListingFilters {

@@ -166,6 +166,9 @@ const DropdownPanel = styled.div.withConfig({
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: ${(props) => props.theme.shadow};
   z-index: 100;
+  @media (max-width: 640px) {
+    top: calc(100% + 0.75rem);
+  }
 `;
 
 const dropdownItemStyles = css`

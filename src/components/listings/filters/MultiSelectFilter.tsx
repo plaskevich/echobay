@@ -1,18 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { ListingFilters } from '@/api/listings';
+import type { MultiSelectOption } from '@/components/common/MultiSelect';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import { Checkbox, CheckboxItem, CheckboxList, SearchInput, SearchInputWrapper } from './styles';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
 interface MultiSelectFilterProps {
   filterKey: keyof ListingFilters;
-  options: Option[];
+  options: MultiSelectOption[];
   searchable?: boolean;
   searchPlaceholder?: string;
 }

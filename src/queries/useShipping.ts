@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { fetchShippingAddress, saveShippingAddress } from '@/api/shipping';
-import type { ShippingAddress } from '@/components/checkout/ShippingForm';
+import { type ShippingAddress, fetchShippingAddress, saveShippingAddress } from '@/api/shipping';
 
 export const shippingKeys = {
   all: ['shipping'] as const,

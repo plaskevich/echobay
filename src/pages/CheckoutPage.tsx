@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import { Elements } from '@stripe/react-stripe-js';
 
+import type { ShippingAddress } from '@/api/shipping';
 import { CheckoutProgressBar } from '@/components/checkout/CheckoutProgressBar';
 import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { PaymentForm } from '@/components/checkout/PaymentForm';
-import type { ShippingAddress } from '@/components/checkout/ShippingForm';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { StepPanel } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';

@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import type { ListingStatus } from '@/api/listings';
 import { Button } from '@/components/common/Button';
-import type { ListingStatus } from '@/components/listings/ListingCard';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { useUserListings } from '@/queries/useListings';

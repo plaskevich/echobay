@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import type { GenreRef } from '@/api/genres';
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
@@ -54,10 +55,7 @@ export function ItemDetailPage() {
     );
   }
 
-  const genres =
-    listing.listing_genres
-      ?.map((lg: { genres: { id: string; name: string; slug: string } }) => lg.genres)
-      .filter(Boolean) || [];
+  const genres = listing.listing_genres?.map((lg: { genres: GenreRef }) => lg.genres).filter(Boolean) || [];
 
   return (
     <Container>

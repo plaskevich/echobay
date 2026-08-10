@@ -2,6 +2,7 @@ import { Country, State } from 'country-state-city';
 import styled from 'styled-components';
 
 import type { MessageMetadata } from '@/api/messages';
+import type { OrderStatus } from '@/api/orders';
 import { Button, type ButtonProps } from '@/components/common/Button';
 
 function resolveCountryName(code: string) {
@@ -16,7 +17,7 @@ function resolveStateName(countryCode: string, stateCode: string) {
 interface SellerShippingDetailsProps {
   shippingAddress: NonNullable<MessageMetadata['shipping_address']>;
   orderId: string;
-  orderStatus?: string;
+  orderStatus?: OrderStatus;
   onConfirmShipped?: (orderId: string) => void;
   isUpdating?: boolean;
 }

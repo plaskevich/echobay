@@ -1,5 +1,6 @@
 import type { Genre } from '@/api/genres';
 import type { ListingFilters } from '@/api/listings';
+import type { MultiSelectOption } from '@/components/common/MultiSelect';
 import { CONDITION_OPTIONS, CURRENCY_SYMBOL, FORMAT_OPTIONS } from '@/lib/constants/listings';
 
 export type ListingSortOption = 'recommended' | 'newest' | 'cheapest' | 'most_expensive';
@@ -72,7 +73,7 @@ export function isRangeInvalid(min?: number, max?: number): boolean {
   return min !== undefined && max !== undefined && min > max;
 }
 
-export function toGenreOptions(genres: Genre[]): { value: string; label: string }[] {
+export function toGenreOptions(genres: Genre[]): MultiSelectOption[] {
   return genres.map((g) => ({ value: g.id, label: g.name }));
 }
 

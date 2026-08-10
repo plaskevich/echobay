@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { confirmPayment } from '@/api/checkout';
 import { getChatByListing } from '@/api/messages';
-import type { ShippingAddress } from '@/components/checkout/ShippingForm';
+import type { ShippingAddress } from '@/api/shipping';
 import { useCreateChat, useSendOrderMessages } from '@/queries/useMessages';
 import { useAuthStore } from '@/store/auth-store';
 

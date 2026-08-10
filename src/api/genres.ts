@@ -8,6 +8,8 @@ export interface Genre {
   parent_id: string | null;
 }
 
+export type GenreRef = Pick<Genre, 'id' | 'name' | 'slug'>;
+
 export async function fetchGenres() {
   return await supabase.from('genres').select('*').order('display_order', { ascending: true });
 }

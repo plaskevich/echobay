@@ -1,17 +1,12 @@
 import styled from 'styled-components';
 
+import type { GenreRef } from '@/api/genres';
 import { capitalize, getFormatLabel } from '@/lib/utils';
-
-interface Genre {
-  id: string;
-  name: string;
-  slug: string;
-}
 
 interface ListingInfoProps {
   format?: string;
   condition?: string;
-  genres?: Genre[];
+  genres?: GenreRef[];
   label?: string;
   year?: number | null;
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ListingSummary, Message } from '@/api/messages';
+import type { OrderStatus } from '@/api/orders';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
@@ -22,7 +23,7 @@ interface ConversationState {
   showConversation: boolean;
   isLoading: boolean;
   isConversationLoading?: boolean;
-  orderStatus?: string;
+  orderStatus?: OrderStatus;
   isUpdatingOrder?: boolean;
 }
 

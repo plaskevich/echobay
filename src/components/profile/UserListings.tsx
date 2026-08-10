@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
+import type { Listing } from '@/api/listings';
 import { LoadingState } from '@/components/common/StateDisplay';
-import { type Listing, ListingCard } from '@/components/listings/ListingCard';
+import { ListingCard } from '@/components/listings/ListingCard';
 
 export interface UserListingsProps {
   listings: Listing[];

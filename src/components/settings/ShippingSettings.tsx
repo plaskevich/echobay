@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import type { ShippingAddress } from '@/components/checkout/ShippingForm';
+import type { ShippingAddress } from '@/api/shipping';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { useSaveShippingAddress, useShippingAddress } from '@/queries/useShipping';
 import { useAuthStore } from '@/store/auth-store';

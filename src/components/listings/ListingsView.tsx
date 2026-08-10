@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 
+import type { Listing } from '@/api/listings';
 import { Pagination } from '@/components/common/Pagination';
 import { Skeleton } from '@/components/common/Skeleton';
-import { type Listing, ListingCard } from '@/components/listings/ListingCard';
+import { ListingCard } from '@/components/listings/ListingCard';
 import { ListingCardSkeleton } from '@/components/listings/ListingCardSkeleton';
 import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { Order } from '@/api/orders';
+import type { Order, OrderStatus } from '@/api/orders';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice } from '@/lib/utils';
 
@@ -48,7 +48,7 @@ export default function OrderCard({ order }: OrderCardProps) {
             </DetailRow>
             <DetailRow>
               <DetailLabel>Status:</DetailLabel>
-              <StatusBadge data-testid="order-status" status={order.status}>
+              <StatusBadge data-testid="order-status" $status={order.status}>
                 {order.status}
               </StatusBadge>
             </DetailRow>
@@ -157,13 +157,13 @@ const DetailValue = styled.span`
   }
 `;
 
-const StatusBadge = styled.span<{ status: string }>`
+const StatusBadge = styled.span<{ $status: OrderStatus }>`
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 500;
   text-transform: capitalize;
   color: ${(props) => {
-    switch (props.status) {
+    switch (props.$status) {
       case 'paid':
       case 'confirmed':
         return props.theme.primary.main;

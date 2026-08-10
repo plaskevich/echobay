@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { ShippingAddress } from '@/components/checkout/ShippingForm';
+import type { ShippingAddress } from '@/api/shipping';
 
 export type CheckoutStep = 'shipping' | 'payment' | 'summary';
 

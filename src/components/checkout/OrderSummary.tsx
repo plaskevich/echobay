@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import type { ShippingAddress } from '@/api/shipping';
 import { OrderConfirmed } from '@/components/checkout/OrderConfirmed';
 import { Amount, StepCard, StepPanel, StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
@@ -7,8 +8,6 @@ import { ButtonGroup } from '@/components/common/Form';
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { capitalize, formatPrice, getFormatLabel } from '@/lib/utils';
-
-import type { ShippingAddress } from './ShippingForm';
 
 interface OrderSummaryProps {
   listing: {

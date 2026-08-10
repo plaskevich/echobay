@@ -3,20 +3,10 @@ import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import styled from 'styled-components';
 
+import type { ShippingAddress } from '@/api/shipping';
 import { StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup, FieldError, Form, FormGroup, Input, Label, Select } from '@/components/common/Form';
-
-export interface ShippingAddress {
-  fullName: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-  phone: string;
-}
 
 interface ShippingFormProps {
   onSubmit: (address: ShippingAddress) => void;

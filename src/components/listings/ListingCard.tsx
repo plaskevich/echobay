@@ -1,27 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import type { Listing, ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
-
-export type ListingStatus = 'active' | 'hidden' | 'sold';
-
-export interface Listing {
-  id: string;
-  title: string;
-  artist: string;
-  year?: number | null;
-  description: string;
-  price: number;
-  shipping_price?: number;
-  format?: string;
-  images?: string[];
-  created_at: string;
-  owner_id: string;
-  status?: ListingStatus;
-}
 
 interface ListingCardProps {
   listing: Listing;
@@ -57,7 +41,7 @@ export function ListingCard({ listing }: ListingCardProps) {
             </FormatIconFallback>
           )}
           {showStatusBanner && (
-            <StatusBanner status={listing.status!}>
+            <StatusBanner $status={listing.status!}>
               <i className={listing.status === 'sold' ? 'hn hn-tag-solid' : 'hn hn-eye-cross-solid'} />
               {getStatusLabel(listing.status)}
             </StatusBanner>
@@ -200,15 +184,15 @@ const Price = styled.p`
   padding-top: 0.2rem;
 `;
 
-const StatusBanner = styled.div<{ status: ListingStatus }>`
+const StatusBanner = styled.div<{ $status: ListingStatus }>`
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 0.5rem 0.6rem;
   background-color: ${(props) =>
-    props.status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
-  color: ${(props) => (props.status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
+    props.$status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
+  color: ${(props) => (props.$status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
