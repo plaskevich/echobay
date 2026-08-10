@@ -69,7 +69,7 @@ export function App() {
     <StyledThemeProvider theme={theme}>
       <RouterProvider router={router} />
       <AppToaster />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
     </StyledThemeProvider>
   );
 }
