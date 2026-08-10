@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { ChatWithDetails } from '@/api/messages';
-import { sendMessage } from '@/api/messages';
 import { PageTitle } from '@/components/common/PageTitle';
 import { fullContentHeight } from '@/components/layout/viewport';
 import { ChatListSidebar } from '@/components/messages/ChatListSidebar';
@@ -22,6 +21,18 @@ import {
 } from '@/queries/useMessages';
 import { useOrderForChat, useUpdateOrderStatus } from '@/queries/useOrders';
 import { useAuthStore } from '@/store/auth-store';
+
+const MOBILE_VIEWPORT = '(max-width: 768px)';
+
+function subscribeToMobileViewport(onChange: () => void) {
+  const query = window.matchMedia(MOBILE_VIEWPORT);
+  query.addEventListener('change', onChange);
+  return () => query.removeEventListener('change', onChange);
+}
+
+function getIsMobileViewport() {
+  return typeof window !== 'undefined' && window.matchMedia(MOBILE_VIEWPORT).matches;
+}
 
 export default function MessagesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,7 +58,7 @@ export default function MessagesPage() {
     listingIdParam || undefined
   );
 
-  const isMobile = useMemo(() => typeof window !== 'undefined' && window.innerWidth <= 768, []);
+  const isMobile = useSyncExternalStore(subscribeToMobileViewport, getIsMobileViewport);
 
   const effectiveChatId =
     chatIdParam || existingChatByListing?.id || (listingIdParam || isMobile ? undefined : chats[0]?.id);
@@ -137,17 +148,19 @@ export default function MessagesPage() {
     setSearchParams,
   ]);
 
-  const handleConfirmShipped = useCallback(
-    (orderId: string) => {
+  const confirmOrderStatus = useCallback(
+    (orderId: string, status: 'shipped' | 'delivered', content: string) => {
       if (!effectiveChatId) return;
       updateOrderStatus.mutate(
-        { orderId, status: 'shipped' },
+        { orderId, status },
         {
           onSuccess: () => {
-            sendMessage(effectiveChatId, user.id, 'Item has been shipped', {
+            sendMessageMutation.mutate({
+              chatId: effectiveChatId,
+              content,
               type: 'system',
               metadata: {
-                event: 'shipped',
+                event: status,
                 order_id: orderId,
                 listing_title: selectedChat?.listings?.title,
               },
@@ -156,35 +169,23 @@ export default function MessagesPage() {
         }
       );
     },
-    [effectiveChatId, user.id, selectedChat, updateOrderStatus]
+    [effectiveChatId, selectedChat, updateOrderStatus, sendMessageMutation]
+  );
+
+  const handleConfirmShipped = useCallback(
+    (orderId: string) => confirmOrderStatus(orderId, 'shipped', 'Item has been shipped'),
+    [confirmOrderStatus]
   );
 
   const handleConfirmReceived = useCallback(
-    (orderId: string) => {
-      if (!effectiveChatId) return;
-      updateOrderStatus.mutate(
-        { orderId, status: 'delivered' },
-        {
-          onSuccess: () => {
-            sendMessage(effectiveChatId, user.id, 'Item has been received', {
-              type: 'system',
-              metadata: {
-                event: 'delivered',
-                order_id: orderId,
-                listing_title: selectedChat?.listings?.title,
-              },
-            });
-          },
-        }
-      );
-    },
-    [effectiveChatId, user.id, selectedChat, updateOrderStatus]
+    (orderId: string) => confirmOrderStatus(orderId, 'delivered', 'Item has been received'),
+    [confirmOrderStatus]
   );
 
   const displayListing = selectedChat?.listings ?? (listingIdParam && listing ? listing : null);
   const showConversation = effectiveChatId || (listingIdParam && listing);
   const isLoading = createChatMutation.isPending || sendMessageMutation.isPending;
-  // Until these settle, showConversation is false for a beat — spinner instead of the empty state.
+
   const isConversationLoading =
     chatsLoading || (!!listingIdParam && listingLoading) || (!!effectiveChatId && chatLoading);
   const pendingListingForSidebar = listingIdParam && listing && !existingChatByListing ? listing : null;

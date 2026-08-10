@@ -103,11 +103,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true });
     try {
       await signOut();
-      set({ user: null });
     } catch (error) {
       console.error('Error signing out:', error);
     } finally {
-      set({ isLoading: false });
+      set({ user: null, isLoading: false });
     }
   },
 

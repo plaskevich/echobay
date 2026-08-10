@@ -220,10 +220,9 @@ test.describe('Messages', () => {
         timeout: 10000,
       });
 
-      await expect(page.getByTestId('chat-list-item')).toHaveCount(2, { timeout: 5000 });
-
-      const firstChat = page.getByTestId('chat-list-item').nth(1);
-      await firstChat.click();
+      const otherChat = page.getByTestId('chat-list-item').filter({ hasText: MESSAGES_LISTING.title });
+      await expect(otherChat).toHaveCount(1, { timeout: 5000 });
+      await otherChat.click();
 
       await expect(page.getByTestId('conversation-header-title')).toHaveText(MESSAGES_LISTING.title);
       await expect(

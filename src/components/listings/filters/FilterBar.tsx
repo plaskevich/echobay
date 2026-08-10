@@ -15,6 +15,7 @@ import { SortFilter } from './SortFilter';
 import {
   DEFAULT_SORT,
   type FilterCategory,
+  clearCategoryFromFilters,
   conditionOptions,
   formatOptions,
   formatRangeLabel,
@@ -100,15 +101,8 @@ export function FilterBar() {
     setAppliedFilters(stripValue(appliedFilters));
   };
 
-  const removeRange = (key: keyof ListingFilters) => {
-    const stripRange = (source: ListingFilters) => {
-      const next = { ...source } as ListingFilters;
-      delete (next[key] as { min?: number; max?: number }).min;
-      delete (next[key] as { min?: number; max?: number }).max;
-      return next;
-    };
-
-    setAppliedFilters(stripRange(appliedFilters));
+  const removeRange = (key: 'price' | 'year') => {
+    setAppliedFilters(clearCategoryFromFilters(appliedFilters, key));
   };
 
   const multiSelectPills = multiSelectConfigs.flatMap((config) => {
@@ -129,7 +123,7 @@ export function FilterBar() {
       return {
         id: `${range.key}-range`,
         label,
-        onRemove: () => removeRange(range.key as keyof ListingFilters),
+        onRemove: () => removeRange(range.key),
       };
     })
     .filter(Boolean) as { id: string; label: string; onRemove: () => void }[];

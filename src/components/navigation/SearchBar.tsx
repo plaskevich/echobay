@@ -32,15 +32,24 @@ type SearchInputFieldProps = {
 function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }: SearchInputFieldProps) {
   const [inputValue, setInputValue] = useState(isHomePage ? searchQuery : '');
 
+  const applyQuery = (query: string) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (query) {
+        next.set('q', query);
+      } else {
+        next.delete('q');
+      }
+      next.set('page', '1');
+      return next;
+    });
+  };
+
   const handleSearchChange = (value: string) => {
     if (!isHomePage) {
       return;
     }
-    if (value.trim()) {
-      setSearchParams({ q: value.trim() });
-    } else {
-      setSearchParams({});
-    }
+    applyQuery(value.trim());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,8 +69,9 @@ function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }
 
   const handleClear = () => {
     setInputValue('');
-    setSearchParams({});
-    if (!isHomePage) {
+    if (isHomePage) {
+      applyQuery('');
+    } else {
       navigate('/');
     }
   };

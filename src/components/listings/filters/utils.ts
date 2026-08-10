@@ -105,17 +105,9 @@ export function clearCategoryFromFilters(filters: ListingFilters, category: Filt
       return { ...filters, conditions: undefined };
     case 'genres':
       return { ...filters, genres: undefined };
-    case 'price': {
-      const next = { ...filters };
-      delete next.price?.min;
-      delete next.price?.max;
-      return next;
-    }
-    case 'year': {
-      const next = { ...filters };
-      delete next.year?.min;
-      delete next.year?.max;
-      return next;
-    }
+    case 'price':
+      return { ...filters, price: undefined };
+    case 'year':
+      return { ...filters, year: undefined };
   }
 }

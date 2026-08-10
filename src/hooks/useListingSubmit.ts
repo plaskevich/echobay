@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import { setListingGenres } from '@/api/genres';
+import { useSetListingGenres } from '@/queries/useGenres';
 import { useCreateListing, useUpdateListing } from '@/queries/useListings';
 
 export interface ListingFormData {
@@ -40,6 +40,7 @@ export function useListingSubmit({
   const navigate = useNavigate();
   const createMutation = useCreateListing();
   const updateMutation = useUpdateListing();
+  const setGenresMutation = useSetListingGenres();
   const [error, setError] = useState<string | null>(null);
   const isEditMode = !!listingId;
 
@@ -121,7 +122,7 @@ export function useListingSubmit({
       const savedListingId = await saveListing(listingData);
 
       if (savedListingId) {
-        await setListingGenres(savedListingId, selectedGenreIds);
+        await setGenresMutation.mutateAsync({ listingId: savedListingId, genreIds: selectedGenreIds });
       }
 
       toast.success(`Listing ${isEditMode ? 'updated' : 'created'} successfully!`);

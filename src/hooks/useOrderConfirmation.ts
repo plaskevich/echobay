@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import { confirmPayment } from '@/api/checkout';
-import { createChat, getChatByListing, sendOrderSystemMessages } from '@/api/messages';
+import { getChatByListing } from '@/api/messages';
 import type { ShippingAddress } from '@/components/checkout/ShippingForm';
+import { useCreateChat, useSendOrderMessages } from '@/queries/useMessages';
 import { useAuthStore } from '@/store/auth-store';
 
 interface UseOrderConfirmationProps {
@@ -30,6 +31,8 @@ export function useOrderConfirmation({
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const createChatMutation = useCreateChat();
+  const sendOrderMessagesMutation = useSendOrderMessages();
 
   const handleConfirmOrder = async () => {
     setProcessing(true);
@@ -69,14 +72,16 @@ export function useOrderConfirmation({
       if (existingChat.data) {
         chatId = existingChat.data.id;
       } else {
-        const chatResult = await createChat(userId, listingOwnerId, listingId, orderId);
-        if (chatResult.error || !chatResult.data) {
-          throw new Error('Failed to create chat');
-        }
-        chatId = chatResult.data.id;
+        const newChat = await createChatMutation.mutateAsync({
+          buyerId: userId,
+          sellerId: listingOwnerId,
+          listingId,
+          orderId,
+        });
+        chatId = newChat.id;
       }
 
-      await sendOrderSystemMessages(chatId, userId, orderId, listingTitle, shippingAddress);
+      await sendOrderMessagesMutation.mutateAsync({ chatId, orderId, listingTitle, shippingAddress });
     } catch (err) {
       console.error('Chat creation failed after successful order:', err);
     }
