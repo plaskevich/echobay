@@ -29,7 +29,7 @@ const flicker = keyframes`
 `;
 
 const LogoText = styled.span`
-  --logo-off: ${(props) => props.theme.text.secondary};
+  --logo-off: ${(props) => props.theme.text.muted};
   --logo-on: ${(props) => props.theme.text.primary};
   --logo-glow: none;
   font-family: 'LEDLIGHT', 'Archivo Variable', system-ui, sans-serif;

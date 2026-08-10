@@ -5,6 +5,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import type { ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { glassSurface } from '@/lib/theme/mixins';
 import { getStatusLabel } from '@/lib/utils';
 
 interface ImageGalleryProps {
@@ -74,7 +75,7 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
         )}
       </ImageSection>
 
-      <Lightbox
+      <StyledLightbox
         open={hasImages && isLightboxOpen}
         close={() => setIsLightboxOpen(false)}
         slides={slides}
@@ -82,10 +83,36 @@ export function ImageGallery({ images, format, title, status }: ImageGalleryProp
         on={{
           view: ({ index }) => setSelectedImage(index),
         }}
+        render={{
+          iconPrev: () => <LightboxIcon className="hn hn-angle-left" />,
+          iconNext: () => <LightboxIcon className="hn hn-angle-right" />,
+          iconClose: () => <LightboxIcon className="hn hn-times" />,
+        }}
       />
     </>
   );
 }
+
+const StyledLightbox = styled(Lightbox)`
+  ${glassSurface}
+
+  .yarl__container {
+    background-color: transparent;
+  }
+
+  .yarl__button {
+    color: ${({ theme }) => theme.text.primary};
+    filter: none;
+  }
+`;
+
+const LightboxIcon = styled.i`
+  font-size: 2.5rem;
+  line-height: 1;
+  &.hn-times {
+    font-size: 2rem;
+  }
+`;
 
 const ImageSection = styled.div`
   display: grid;

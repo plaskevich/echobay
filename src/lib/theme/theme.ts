@@ -37,7 +37,7 @@ export const theme: ThemeColors = {
     darker: 'rgba(0, 0, 0, 0.8)',
   },
   glass: {
-    background: 'rgba(245, 245, 245, 0.94)',
+    background: 'rgba(245, 245, 245, 0.9)',
   },
   ...sharedTokens,
 };

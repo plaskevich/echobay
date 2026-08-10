@@ -8,7 +8,7 @@ interface OrdersSidebarProps {
 
 const filters: { key: OrderFilter; label: string; icon: React.ReactNode }[] = [
   { key: 'bought', label: 'Bought', icon: <i className="hn hn-shopping-cart" /> },
-  { key: 'sold', label: 'Sold', icon: <i className="hn hn-shop" /> },
+  { key: 'sold', label: 'Sold', icon: <i className="hn hn-tag" /> },
 ];
 
 export default function OrdersSidebar({ filter, setFilter }: OrdersSidebarProps) {
