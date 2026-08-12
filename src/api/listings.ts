@@ -81,7 +81,7 @@ export async function fetchListing(id: string) {
     `
     )
     .eq('id', id)
-    .single();
+    .maybeSingle();
 
   return await query;
 }

@@ -34,10 +34,6 @@ export function EmptyState({ message, icon, title, ...rest }: EmptyStateProps) {
   return <CenteredStateText {...rest}>{message}</CenteredStateText>;
 }
 
-export function ErrorState({ message, ...rest }: StateDisplayProps) {
-  return <ErrorText {...rest}>{message}</ErrorText>;
-}
-
 const appear = keyframes`
   to { opacity: 1; }
 `;
@@ -59,12 +55,6 @@ const CenteredStateText = styled.p`
   padding: ${({ theme }) => theme.spacing.xl};
 `;
 
-const ErrorText = styled.p`
-  color: ${({ theme }) => theme.state.error};
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing.xl};
-`;
-
 const EmptyStateContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,15 +68,16 @@ const EmptyStateContainer = styled.div`
 const EmptyStateIcon = styled.div`
   display: flex;
   font-size: 2.5rem;
-  color: ${({ theme }) => theme.text.tertiary};
+  color: ${({ theme }) => theme.text.secondary};
   margin-bottom: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const EmptyStateTitle = styled.h2`
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.xl};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
+  font-family: ${({ theme }) => theme.fontFamilyAlt};
 `;
 
 const EmptyStateMessage = styled.p`

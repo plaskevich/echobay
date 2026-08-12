@@ -239,3 +239,11 @@ test.describe('Item Detail Page', () => {
     });
   });
 });
+
+for (const id of ['00000000-0000-0000-0000-000000000000', 'not-a-uuid']) {
+  test(`shows Listing not found for id "${id}"`, async ({ page }) => {
+    await page.goto(`/items/${id}`);
+
+    await expect(page.getByText('Listing not found')).toBeVisible();
+  });
+}

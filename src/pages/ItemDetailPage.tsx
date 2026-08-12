@@ -2,9 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import type { GenreRef } from '@/api/genres';
-import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
-import { ErrorState } from '@/components/common/StateDisplay';
+import { ErrorPage } from '@/components/common/ErrorPage';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ItemDetailSkeleton } from '@/components/item/item-detail/ItemDetailSkeleton';
@@ -50,8 +49,11 @@ export function ItemDetailPage() {
   if (error || !listing) {
     return (
       <Container>
-        <ErrorState message={`Error: ${error instanceof Error ? error.message : 'Listing not found'}`} />
-        <Button onClick={() => navigate('/')}>Back</Button>
+        {error ? (
+          <ErrorPage message={error instanceof Error ? error.message : undefined} />
+        ) : (
+          <ErrorPage notFound title="Listing not found" message="This listing doesn't exist or has been removed." />
+        )}
       </Container>
     );
   }

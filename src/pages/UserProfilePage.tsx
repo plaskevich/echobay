@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 
+import { ErrorPage } from '@/components/common/ErrorPage';
 import { PageContainer as Container } from '@/components/common/PageContainer';
-import { ErrorState, LoadingState } from '@/components/common/StateDisplay';
+import { LoadingState } from '@/components/common/StateDisplay';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { usePublicUserListings } from '@/queries/useListings';
@@ -29,7 +30,7 @@ export default function UserProfilePage() {
   if (!profile) {
     return (
       <Container>
-        <ErrorState message="User not found" />
+        <ErrorPage notFound title="User not found" message="This profile doesn't exist or has been removed." />
       </Container>
     );
   }

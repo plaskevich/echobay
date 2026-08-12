@@ -83,8 +83,8 @@ export function useListing(id: string) {
     queryKey: listingKeys.detail(id),
     queryFn: async () => {
       const { data, error } = await fetchListing(id);
-      if (error) throw error;
-      return data;
+      if (error && error.code !== '22P02') throw error;
+      return data ?? null;
     },
     enabled: !!id && isInitialized,
     staleTime: 1000 * 60 * 5, // 5 minutes

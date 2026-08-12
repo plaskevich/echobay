@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Elements } from '@stripe/react-stripe-js';
@@ -11,8 +11,7 @@ import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { PaymentForm } from '@/components/checkout/PaymentForm';
 import { ShippingForm } from '@/components/checkout/ShippingForm';
 import { StepPanel } from '@/components/checkout/styles';
-import { Button } from '@/components/common/Button';
-import { ErrorMessage } from '@/components/common/Message';
+import { ErrorPage } from '@/components/common/ErrorPage';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { stripePromise } from '@/lib/stripe';
@@ -23,7 +22,6 @@ import { useCheckoutStore } from '@/store/checkout-store';
 
 export function CheckoutPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { data: listing, isLoading, error } = useListing(id!);
   const user = useAuthStore((s) => s.user);
   const { data: savedAddress } = useShippingAddress(user?.id);
@@ -50,8 +48,11 @@ export function CheckoutPage() {
   if (error || !listing) {
     return (
       <Container>
-        <ErrorMessage>Error: {error instanceof Error ? error.message : 'Listing not found'}</ErrorMessage>
-        <Button onClick={() => navigate('/')}>Back to Home</Button>
+        {error ? (
+          <ErrorPage message={error instanceof Error ? error.message : undefined} />
+        ) : (
+          <ErrorPage notFound title="Listing not found" message="This listing doesn't exist or has been removed." />
+        )}
       </Container>
     );
   }

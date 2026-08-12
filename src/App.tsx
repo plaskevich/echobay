@@ -8,7 +8,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { RootLayout } from '@/components/RootLayout';
 import { ResetPassword } from '@/components/auth/ResetPassword';
 import { AppToaster } from '@/components/common/AppToaster';
-import { RouteError } from '@/components/common/RouteError';
+import { RouteError } from '@/components/common/ErrorPage';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
 import { theme } from '@/lib/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';

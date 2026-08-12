@@ -4,21 +4,26 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { EmptyState } from '@/components/common/StateDisplay';
 
-export function RouteError() {
-  const error = useRouteError();
+export interface ErrorPageProps {
+  notFound?: boolean;
+  title?: string;
+  message?: string;
+  'data-testid'?: string;
+}
+
+export function ErrorPage({ notFound = false, title, message, ...rest }: ErrorPageProps) {
   const navigate = useNavigate();
 
-  const notFound = !error || (isRouteErrorResponse(error) && error.status === 404);
-
   return (
-    <Container data-testid="route-error">
+    <Container {...rest}>
       <EmptyState
-        icon={<i className={notFound ? 'hn hn-map-signs' : 'hn hn-exclamation-triangle'} aria-hidden />}
-        title={notFound ? 'Page not found' : 'Something went wrong'}
+        icon={<i className="hn hn-exclamation-triangle" aria-hidden />}
+        title={title ?? (notFound ? 'Page not found' : 'Something went wrong')}
         message={
-          notFound
+          message ??
+          (notFound
             ? "The page you're looking for doesn't exist or has been moved."
-            : 'An unexpected error occurred. Try again, or head back home.'
+            : 'An unexpected error occurred. Try again, or head back home.')
         }
       />
       <Actions>
@@ -33,6 +38,13 @@ export function RouteError() {
       </Actions>
     </Container>
   );
+}
+
+export function RouteError() {
+  const error = useRouteError();
+  const notFound = !error || (isRouteErrorResponse(error) && error.status === 404);
+
+  return <ErrorPage data-testid="route-error" notFound={notFound} />;
 }
 
 const Container = styled.div`
