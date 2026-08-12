@@ -42,7 +42,7 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
     }
 
     try {
-      const { clientSecret, paymentIntentId } = await createPaymentIntent(amount, listingId);
+      const { clientSecret, paymentIntentId } = await createPaymentIntent(listingId);
 
       const { error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {

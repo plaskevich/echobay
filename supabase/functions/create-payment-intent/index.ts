@@ -1,6 +1,8 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import Stripe from 'https://esm.sh/stripe@14.14.0?target=deno';
 
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
   apiVersion: '2023-10-16',
   httpClient: Stripe.createFetchHttpClient(),
@@ -17,21 +19,35 @@ serve(async (req) => {
   }
 
   try {
-    const { amount, listingId, currency = 'eur' } = await req.json();
-
-    // Validate input
-    if (!amount || amount <= 0) {
-      throw new Error('Invalid amount');
-    }
+    const { listingId } = await req.json();
 
     if (!listingId) {
       throw new Error('Listing ID is required');
     }
 
+    // The amount is read from the listing, never taken from the request body --
+    // a client-supplied price lets the buyer name their own total.
+    const supabase = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_ANON_KEY') ?? '');
+    const { data: listing, error: listingError } = await supabase
+      .from('listings')
+      .select('price, shipping_price')
+      .eq('id', listingId)
+      .single();
+
+    if (listingError || !listing) {
+      throw new Error('Listing not found');
+    }
+
+    const amount = Number(listing.price) + Number(listing.shipping_price ?? 0);
+
+    if (!(amount > 0)) {
+      throw new Error('Listing has no payable amount');
+    }
+
     // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
-      currency,
+      currency: 'eur',
       metadata: {
         listingId,
       },

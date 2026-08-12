@@ -15,7 +15,6 @@ export interface CheckoutData {
     phone: string;
   };
   paymentIntentId: string;
-  amount: number;
 }
 
 export interface OrderResult {
@@ -25,7 +24,6 @@ export interface OrderResult {
 }
 
 export async function createPaymentIntent(
-  amount: number,
   listingId: string
 ): Promise<{ clientSecret: string; paymentIntentId: string }> {
   try {
@@ -39,11 +37,7 @@ export async function createPaymentIntent(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.access_token}`,
       },
-      body: JSON.stringify({
-        amount,
-        listingId,
-        currency: 'eur',
-      }),
+      body: JSON.stringify({ listingId }),
     });
 
     if (!response.ok) {
@@ -78,7 +72,6 @@ export async function confirmPayment(checkoutData: CheckoutData): Promise<OrderR
         paymentIntentId: checkoutData.paymentIntentId,
         listingId: checkoutData.listingId,
         shippingAddress: checkoutData.shippingAddress,
-        amount: checkoutData.amount,
       }),
     });
 

@@ -10,8 +10,6 @@ interface UseOrderConfirmationProps {
   listingId: string;
   listingTitle: string;
   listingOwnerId: string;
-  listingPrice: number;
-  listingShippingPrice?: number;
   shippingAddress: ShippingAddress;
   paymentIntentId: string;
   onConfirmed?: () => void;
@@ -21,8 +19,6 @@ export function useOrderConfirmation({
   listingId,
   listingTitle,
   listingOwnerId,
-  listingPrice,
-  listingShippingPrice = 0,
   shippingAddress,
   paymentIntentId,
   onConfirmed,
@@ -39,12 +35,10 @@ export function useOrderConfirmation({
     setError(null);
 
     try {
-      const totalAmount = listingPrice + listingShippingPrice;
       const result = await confirmPayment({
         listingId,
         shippingAddress,
         paymentIntentId,
-        amount: totalAmount,
       });
 
       if (!result.success || !result.orderId) {

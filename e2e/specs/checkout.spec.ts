@@ -39,7 +39,7 @@ test.describe('Checkout', () => {
     listingId = listings![0].id;
     freeShippingListingId = listings![1].id;
 
-    await supabaseAdmin.from('profiles').update({ shipping_address: null }).eq('id', testUserId);
+    await supabaseAdmin.from('shipping_addresses').delete().eq('user_id', testUserId);
   });
 
   test.afterAll(async () => {

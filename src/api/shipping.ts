@@ -12,9 +12,9 @@ export interface ShippingAddress {
 }
 
 export async function fetchShippingAddress(userId: string) {
-  return await supabase.from('profiles').select('shipping_address').eq('id', userId).single();
+  return await supabase.from('shipping_addresses').select('address').eq('user_id', userId).maybeSingle();
 }
 
 export async function saveShippingAddress(userId: string, address: ShippingAddress) {
-  return await supabase.from('profiles').update({ shipping_address: address }).eq('id', userId);
+  return await supabase.from('shipping_addresses').upsert({ user_id: userId, address });
 }

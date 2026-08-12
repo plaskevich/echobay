@@ -34,8 +34,6 @@ export function OrderSummary({ listing, shippingAddress, paymentIntentId, onBack
     listingId: listing.id,
     listingTitle: listing.title,
     listingOwnerId: listing.owner_id,
-    listingPrice: listing.price,
-    listingShippingPrice: listing.shipping_price,
     shippingAddress,
     paymentIntentId,
     onConfirmed,

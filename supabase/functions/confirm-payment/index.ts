@@ -19,7 +19,7 @@ serve(async (req) => {
   }
 
   try {
-    const { paymentIntentId, listingId, shippingAddress, amount } = await req.json();
+    const { paymentIntentId, listingId, shippingAddress } = await req.json();
 
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
@@ -44,11 +44,32 @@ serve(async (req) => {
       throw new Error('Unauthorized');
     }
 
+    // The expected total comes from the listing, never from the request body.
+    // Comparing a client-sent amount against the payment intent compares two
+    // client-controlled numbers and always passes.
+    const { data: listing, error: listingError } = await supabaseClient
+      .from('listings')
+      .select('price, shipping_price')
+      .eq('id', listingId)
+      .single();
+
+    if (listingError || !listing) {
+      throw new Error('Listing not found');
+    }
+
+    const amount = Number(listing.price) + Number(listing.shipping_price ?? 0);
+
     // Verify the payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status !== 'succeeded') {
       throw new Error('Payment has not been completed');
+    }
+
+    // Without this, a payment for one listing can be redeemed against another
+    // listing of the same price.
+    if (paymentIntent.metadata?.listingId !== listingId) {
+      throw new Error('Payment does not belong to this listing');
     }
 
     // Verify the amount matches

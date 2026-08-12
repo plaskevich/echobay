@@ -13,10 +13,8 @@ export function useShippingAddress(userId: string | undefined) {
     queryFn: async () => {
       if (!userId) return null;
       const { data, error } = await fetchShippingAddress(userId);
-      if (error && error.code !== 'PGRST116') {
-        throw error;
-      }
-      return (data?.shipping_address as ShippingAddress) || null;
+      if (error) throw error;
+      return (data?.address as ShippingAddress) || null;
     },
     enabled: !!userId,
   });
