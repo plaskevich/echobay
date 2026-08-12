@@ -6,7 +6,6 @@ export const favoriteKeys = {
   all: ['favorites'] as const,
   lists: () => [...favoriteKeys.all, 'list'] as const,
   userFavorites: (userId: string) => [...favoriteKeys.all, 'user', userId] as const,
-  isFavorited: (userId: string, listingId: string) => [...favoriteKeys.all, 'check', userId, listingId] as const,
 };
 
 const FAVORITES_STALE_TIME = 1000 * 60 * 5; // 5 minutes
@@ -30,23 +29,9 @@ export function useUserFavorites(userId: string | undefined) {
 }
 
 export function useIsFavorited(userId: string | undefined, listingId: string) {
-  const queryClient = useQueryClient();
+  const { data: favorites } = useUserFavorites(userId);
 
-  return useQuery({
-    queryKey: favoriteKeys.isFavorited(userId || '', listingId),
-    queryFn: async () => {
-      if (!userId) return false;
-      const favorites = await queryClient.fetchQuery<Favorite[]>({
-        queryKey: favoriteKeys.userFavorites(userId),
-        queryFn: () => loadUserFavorites(userId),
-        staleTime: FAVORITES_STALE_TIME,
-      });
-
-      return favorites.some((favorite) => favorite.listing_id === listingId);
-    },
-    enabled: !!userId && !!listingId,
-    staleTime: FAVORITES_STALE_TIME,
-  });
+  return favorites?.some((favorite) => favorite.listing_id === listingId) ?? false;
 }
 
 export function useAddFavorite() {
@@ -57,10 +42,13 @@ export function useAddFavorite() {
       const { error } = await addFavorite(userId, listingId);
       if (error) throw error;
     },
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData<boolean>(favoriteKeys.isFavorited(variables.userId, variables.listingId), true);
-      queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(variables.userId) });
-      queryClient.invalidateQueries({ queryKey: favoriteKeys.isFavorited(variables.userId, variables.listingId) });
+    onSuccess: (_, { userId, listingId }) => {
+      queryClient.setQueryData<Favorite[]>(favoriteKeys.userFavorites(userId), (favorites) =>
+        favorites && !favorites.some((favorite) => favorite.listing_id === listingId)
+          ? [{ id: listingId, user_id: userId, listing_id: listingId, created_at: '' }, ...favorites]
+          : favorites
+      );
+      queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(userId) });
     },
   });
 }
@@ -73,10 +61,11 @@ export function useRemoveFavorite() {
       const { error } = await removeFavorite(userId, listingId);
       if (error) throw error;
     },
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData<boolean>(favoriteKeys.isFavorited(variables.userId, variables.listingId), false);
-      queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(variables.userId) });
-      queryClient.invalidateQueries({ queryKey: favoriteKeys.isFavorited(variables.userId, variables.listingId) });
+    onSuccess: (_, { userId, listingId }) => {
+      queryClient.setQueryData<Favorite[]>(favoriteKeys.userFavorites(userId), (favorites) =>
+        favorites?.filter((favorite) => favorite.listing_id !== listingId)
+      );
+      queryClient.invalidateQueries({ queryKey: favoriteKeys.userFavorites(userId) });
     },
   });
 }

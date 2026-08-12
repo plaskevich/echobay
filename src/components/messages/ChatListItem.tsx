@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { ellipsis } from '@/lib/theme/mixins';
 
 interface ChatListItemProps {
   username: string;
@@ -119,9 +120,7 @@ const ChatItemTitle = styled.div<{ $unread?: boolean }>`
   font-weight: ${({ $unread }) => ($unread ? 700 : 600)};
   font-size: 0.875rem;
   color: ${(props) => props.theme.text.primary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const HeaderRight = styled.div`
@@ -163,17 +162,13 @@ const ChatItemSubtitle = styled.div`
 const ChatItemArtist = styled.span`
   font-size: 0.725rem;
   color: ${(props) => props.theme.text.secondary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const ChatItemTitleLine = styled.span`
   font-size: 0.875rem;
   color: ${(props) => props.theme.text.secondary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const ChatItemThumbnail = styled.img`

@@ -7,6 +7,7 @@ import { MobileFilterPanel } from '@/components/listings/filters/MobileFilterPan
 import { RangeFilter } from '@/components/listings/filters/RangeFilter';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
+import { ellipsis } from '@/lib/theme/mixins';
 import { useGenres } from '@/queries/useGenres';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
@@ -267,9 +268,7 @@ const FilterPill = styled.div`
 
   span {
     max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${ellipsis}
   }
 `;
 

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Dialog } from '@/components/common/Dialog';
 import { Form } from '@/components/common/Form';
+import { PageContainer as Container } from '@/components/common/PageContainer';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { DiscogsSearch } from '@/components/item/discogs-search';
@@ -316,13 +317,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     </Container>
   );
 }
-
-const Container = styled.div`
-  padding-top: 2rem;
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
-  }
-`;
 
 const StyledPageTitle = styled(PageTitle)`
   margin-bottom: 1rem;

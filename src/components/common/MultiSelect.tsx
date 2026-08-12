@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useClickOutside } from '@/hooks/useClickOutside';
+import { ellipsis } from '@/lib/theme/mixins';
 
 export interface MultiSelectOption {
   value: string;
@@ -177,9 +178,7 @@ const Tag = styled.span`
 
 const TagLabel = styled.span`
   max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const TagRemove = styled.button`

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { type DiscogsSearchResult } from '@/hooks/useDiscogsSearch';
+import { ellipsis } from '@/lib/theme/mixins';
 
 interface SearchResultItemProps {
   result: DiscogsSearchResult;
@@ -62,9 +63,7 @@ const ResultInfo = styled.div`
 const ResultTitle = styled.div`
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const ResultMeta = styled.div`

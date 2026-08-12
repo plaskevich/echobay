@@ -16,7 +16,7 @@ interface ListingHeaderProps {
 export function ListingHeader({ artist, title, price, shippingPrice, listingId, isOwner }: ListingHeaderProps) {
   const user = useAuthStore((state) => state.user);
   const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
-  const { data: isFavorited = false } = useIsFavorited(user?.id, listingId);
+  const isFavorited = useIsFavorited(user?.id, listingId);
   const { toggleFavorite, isLoading } = useToggleFavorite();
 
   const handleFavoriteClick = () => {

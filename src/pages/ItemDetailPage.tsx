@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import type { GenreRef } from '@/api/genres';
 import { Button } from '@/components/common/Button';
 import { Dialog } from '@/components/common/Dialog';
+import { ErrorState } from '@/components/common/StateDisplay';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
 import { ItemDetailSkeleton } from '@/components/item/item-detail/ItemDetailSkeleton';
@@ -49,7 +50,7 @@ export function ItemDetailPage() {
   if (error || !listing) {
     return (
       <Container>
-        <ErrorText>Error: {error instanceof Error ? error.message : 'Listing not found'}</ErrorText>
+        <ErrorState message={`Error: ${error instanceof Error ? error.message : 'Listing not found'}`} />
         <Button onClick={() => navigate('/')}>Back</Button>
       </Container>
     );
@@ -204,10 +205,4 @@ const ButtonGroup = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
-`;
-
-const ErrorText = styled.p`
-  color: ${({ theme }) => theme.state.error};
-  text-align: center;
-  padding: 2rem;
 `;

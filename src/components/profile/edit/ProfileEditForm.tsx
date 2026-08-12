@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Form } from '@/components/common/Form';
+import { PageContainer as Container } from '@/components/common/PageContainer';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
 
@@ -54,13 +55,6 @@ export function ProfileEditForm() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  padding-top: 2rem;
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
-  }
-`;
 
 const Panel = styled.div`
   display: grid;

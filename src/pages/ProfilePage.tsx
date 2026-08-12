@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import type { ListingStatus } from '@/api/listings';
 import { Button } from '@/components/common/Button';
+import { PageContainer as Container } from '@/components/common/PageContainer';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { useUserListings } from '@/queries/useListings';
@@ -82,13 +83,6 @@ export default function ProfilePage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  padding-top: 2rem;
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
-  }
-`;
 
 const FilterTabs = styled.div`
   display: flex;

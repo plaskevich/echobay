@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { LoadingState } from '@/components/common/StateDisplay';
+import { PageContainer as Container } from '@/components/common/PageContainer';
+import { ErrorState, LoadingState } from '@/components/common/StateDisplay';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
 import { usePublicUserListings } from '@/queries/useListings';
@@ -29,7 +29,7 @@ export default function UserProfilePage() {
   if (!profile) {
     return (
       <Container>
-        <ErrorText>User not found</ErrorText>
+        <ErrorState message="User not found" />
       </Container>
     );
   }
@@ -57,20 +57,3 @@ export default function UserProfilePage() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  padding-top: 2rem;
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
-  }
-`;
-
-const ErrorText = styled.p`
-  color: ${(props) => props.theme.state.error};
-  text-align: center;
-  padding: 2rem;
-`;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import type { Listing } from '@/api/listings';
 import { ErrorMessage, InfoMessage } from '@/components/common/Message';
+import { PageContainer as Container } from '@/components/common/PageContainer';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { ListingCard } from '@/components/listings/ListingCard';
@@ -72,23 +73,11 @@ export function FavoritesPage() {
 
 export default FavoritesPage;
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding-top: 2rem;
-
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
-  }
-`;
-
 const Subtitle = styled.p`
   margin-top: 0.2rem;
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
   font-weight: 600;
-  font-size: 0.875rem;
 `;
 
 const Grid = styled.div`

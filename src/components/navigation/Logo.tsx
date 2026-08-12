@@ -13,7 +13,6 @@ const LogoLink = styled(Link)`
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  text-decoration: none;
 `;
 
 const flicker = keyframes`

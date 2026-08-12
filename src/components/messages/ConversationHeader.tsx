@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { ellipsis } from '@/lib/theme/mixins';
 import { formatPrice, getFormatLabel } from '@/lib/utils';
 
 interface ConversationHeaderProps {
@@ -91,7 +92,6 @@ const UserLink = styled(Link)`
   font-size: 0.875rem;
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
-  text-decoration: none;
   transition: color ${(props) => props.theme.transition.fast};
 
   &:hover {
@@ -118,7 +118,6 @@ const ItemLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
   color: inherit;
   flex: 1;
   min-width: 0;
@@ -166,9 +165,7 @@ const ItemArtist = styled.div`
 const ItemTitle = styled.div`
   font-weight: 600;
   font-size: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
   color: ${(props) => props.theme.text.primary};
 `;
 

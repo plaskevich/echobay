@@ -72,7 +72,6 @@ const Card = styled.div`
 const CardLink = styled(Link)`
   display: flex;
   gap: 1.5rem;
-  text-decoration: none;
   color: inherit;
   padding: 1rem;
 

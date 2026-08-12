@@ -7,6 +7,7 @@ import { LoadingState } from '@/components/common/StateDisplay';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
+import { ellipsis } from '@/lib/theme/mixins';
 
 interface ConversationParticipants {
   currentUserId: string;
@@ -166,9 +167,7 @@ const MobileUsername = styled.span`
   font-size: 0.9375rem;
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 `;
 
 const MobileUsernameLink = styled(Link)`
@@ -177,10 +176,7 @@ const MobileUsernameLink = styled(Link)`
   font-size: 0.9375rem;
   font-weight: 600;
   color: ${(props) => props.theme.text.primary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-decoration: none;
+  ${ellipsis}
 
   &:hover {
     text-decoration: underline;

@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 import type { Listing, ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { ellipsis } from '@/lib/theme/mixins';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -15,7 +16,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   const imageUrl = listing.images && listing.images.length > 0 ? listing.images[0] : null;
   const { user } = useAuthStore();
   const isOwner = user?.id === listing.owner_id;
-  const { data: isFavorited = false } = useIsFavorited(user?.id, listing.id);
+  const isFavorited = useIsFavorited(user?.id, listing.id);
   const { toggleFavorite, isLoading } = useToggleFavorite();
   const openAuthDialog = useAuthStore((state) => state.openAuthDialog);
 
@@ -72,7 +73,6 @@ export function ListingCard({ listing }: ListingCardProps) {
 }
 
 const CardLink = styled(Link)`
-  text-decoration: none;
   color: inherit;
   display: flex;
   min-width: 0;
@@ -142,9 +142,7 @@ const ListingTitle = styled.h3`
   font-weight: 600;
   margin: 0;
   color: ${(props) => props.theme.text.primary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 
   @media (max-width: 480px) {
     font-size: 0.875rem;
@@ -155,9 +153,7 @@ const Artist = styled.p`
   font-size: 0.75rem;
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${ellipsis}
 
   @media (max-width: 480px) {
     font-size: 0.8125rem;
