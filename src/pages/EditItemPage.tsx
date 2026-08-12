@@ -112,8 +112,8 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
       format: existingListing.format || '',
       label: existingListing.label || '',
       condition: existingListing.condition || '',
-      price: existingListing.price?.toString() || '',
-      shipping_price: existingListing.shipping_price?.toString() || '',
+      price: existingListing.price?.toFixed(2) || '',
+      shipping_price: existingListing.shipping_price?.toFixed(2) || '',
       description: existingListing.description || '',
     });
 

@@ -150,7 +150,7 @@ const Container = styled.div`
 const InputContainer = styled.div<{ $isOpen: boolean; $disabled: boolean }>`
   display: flex;
   align-items: center;
-  padding: 0.625rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme, $isOpen }) => ($isOpen ? theme.border.hover : theme.border.primary)};
   background-color: ${({ theme, $isOpen }) => ($isOpen ? theme.background.elevated : theme.background.primary)};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'text')};
@@ -170,7 +170,6 @@ const Tag = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
   color: ${({ theme }) => theme.primary.main};
   font-size: 0.875rem;
   font-weight: 500;
@@ -182,8 +181,7 @@ const TagLabel = styled.span`
 `;
 
 const TagRemove = styled.button`
-  font-size: 0.875rem;
-  line-height: 1;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,10 +200,11 @@ const TagRemove = styled.button`
 const SearchInput = styled.input`
   flex: 1;
   min-width: 60px;
-  padding: 0.25rem;
+  padding: 0;
   border: none;
   background: transparent;
   font-size: 1rem;
+  line-height: 1.25;
   color: ${({ theme }) => theme.text.primary};
   outline: none;
 

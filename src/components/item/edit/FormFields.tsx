@@ -1,7 +1,16 @@
-import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
+import { type FieldErrors, type UseFormRegister, type UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
 
-import { FieldError, FormGroup, HelpText, Input, Label, Select, TextArea } from '@/components/common/Form';
+import {
+  FieldError,
+  FormGroup,
+  HelpText,
+  Input,
+  Label,
+  Select,
+  TextArea,
+  TwoColumnGrid,
+} from '@/components/common/Form';
 import { GenreSelector } from '@/components/common/GenreSelector';
 import { type ListingFormData } from '@/hooks/useListingSubmit';
 import {
@@ -11,6 +20,19 @@ import {
   MAX_MAIN_GENRES,
   MAX_SUBGENRES,
 } from '@/lib/constants/listings';
+
+const MONEY_RULE = {
+  validate: (value: string) => !value || /^\d+([.,]\d{1,2})?$/.test(value) || 'Enter an amount like 13.00',
+};
+
+const withCents = (field: UseFormRegisterReturn) => ({
+  ...field,
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
+    const amount = Number(e.target.value.replace(',', '.'));
+    if (e.target.value && !Number.isNaN(amount)) e.target.value = amount.toFixed(2);
+    return field.onBlur(e);
+  },
+});
 
 interface FormFieldsProps {
   register: UseFormRegister<ListingFormData>;
@@ -160,11 +182,10 @@ export function FormFields({
             <StyledInput
               id="price"
               $hasError={!!errors.price}
-              {...register('price', { required: 'Price should be greater than 0' })}
-              min="0"
+              {...withCents(register('price', { required: 'Price should be greater than 0', ...MONEY_RULE }))}
               placeholder="0.00"
-              step="0.01"
-              type="number"
+              type="text"
+              inputMode="decimal"
               disabled={isSubmitting}
               data-testid="listing-price-input"
             />
@@ -180,16 +201,20 @@ export function FormFields({
             </InputPrefix>
             <StyledInput
               id="shipping_price"
-              {...register('shipping_price')}
-              min="0"
+              $hasError={!!errors.shipping_price}
+              {...withCents(register('shipping_price', MONEY_RULE))}
               placeholder="0.00"
-              step="0.01"
-              type="number"
+              type="text"
+              inputMode="decimal"
               disabled={isSubmitting}
               data-testid="listing-shipping-input"
             />
           </CurrencyInputWrapper>
-          <HelpText>Leave empty for free shipping</HelpText>
+          {errors.shipping_price ? (
+            <FieldError>{errors.shipping_price.message}</FieldError>
+          ) : (
+            <HelpText>Leave empty for free shipping</HelpText>
+          )}
         </FormGroup>
       </TwoColumnGrid>
 
@@ -212,21 +237,10 @@ const SectionsWrapper = styled.div`
   gap: 1.5rem;
 `;
 
-const TwoColumnGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.75rem;
-  }
-`;
-
 const CurrencyInputWrapper = styled.div`
   position: relative;
   input {
-    padding-left: 2rem;
+    padding-left: 1.75rem;
     width: 100%;
   }
 `;
@@ -234,8 +248,9 @@ const CurrencyInputWrapper = styled.div`
 const InputPrefix = styled.span`
   position: absolute;
   left: 1rem;
-  bottom: 0.96rem;
-  color: ${({ theme }) => theme.text.secondary};
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
   font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-weight: 500;

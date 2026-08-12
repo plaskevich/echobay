@@ -26,6 +26,17 @@ export const FormGroup = InputFormGroup;
 export const Label = InputLabel;
 export const Input = BaseInput;
 
+export const TwoColumnGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+`;
+
 const SelectWrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -34,7 +45,7 @@ const SelectWrapper = styled.div`
 
 export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   width: 100%;
-  padding: 1rem 2.5rem 1rem 1rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   font-size: 1rem;
   background-color: ${(props) => props.theme.background.primary};

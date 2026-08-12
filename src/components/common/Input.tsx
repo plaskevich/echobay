@@ -44,8 +44,9 @@ const Label = styled.label<{ $required?: boolean }>`
 `;
 
 const StyledInput = styled.input<{ $hasError?: boolean }>`
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   font-size: 1rem;
+  line-height: 1.25;
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   background-color: transparent;
   color: ${({ theme }) => theme.text.primary};

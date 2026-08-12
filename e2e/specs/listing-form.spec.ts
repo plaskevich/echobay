@@ -208,8 +208,8 @@ test.describe('Edit Listing', () => {
     await expect(page.getByTestId('listing-artist-input')).toHaveValue(EDITABLE_LISTING.artist);
     await expect(page.getByTestId('listing-format-select')).toHaveValue(EDITABLE_LISTING.format);
     await expect(page.getByTestId('listing-condition-select')).toHaveValue(EDITABLE_LISTING.condition);
-    await expect(page.getByTestId('listing-price-input')).toHaveValue('15');
-    await expect(page.getByTestId('listing-shipping-input')).toHaveValue('2.5');
+    await expect(page.getByTestId('listing-price-input')).toHaveValue('15.00');
+    await expect(page.getByTestId('listing-shipping-input')).toHaveValue('2.50');
     await expect(page.getByTestId('listing-year-input')).toHaveValue(String(EDITABLE_LISTING.year));
     await expect(page.getByTestId('listing-label-input')).toHaveValue(EDITABLE_LISTING.label);
     await expect(page.getByTestId('listing-description-input')).toHaveValue(EDITABLE_LISTING.description);

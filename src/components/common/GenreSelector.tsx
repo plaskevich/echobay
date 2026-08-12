@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { FormGroup, HelpText, Label } from '@/components/common/Form';
+import { FormGroup, HelpText, Label, TwoColumnGrid } from '@/components/common/Form';
 import { MultiSelect, type MultiSelectOption } from '@/components/common/MultiSelect';
 import { MAX_MAIN_GENRES, MAX_SUBGENRES } from '@/lib/constants/listings';
 import { useMainGenres, useSubgenres } from '@/queries/useGenres';
@@ -57,7 +56,7 @@ export function GenreSelector({
   }));
 
   return (
-    <Container>
+    <TwoColumnGrid>
       <FormGroup>
         <Label>Genre</Label>
         <MultiSelect
@@ -87,16 +86,6 @@ export function GenreSelector({
             : `Select up to ${maxSubgenres} subgenres`}
         </HelpText>
       </FormGroup>
-    </Container>
+    </TwoColumnGrid>
   );
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-  }
-`;

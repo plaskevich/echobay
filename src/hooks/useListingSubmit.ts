@@ -70,8 +70,8 @@ export function useListingSubmit({
   };
 
   function buildListingData(data: ListingFormData, images: string[]) {
-    const parsedPrice = parseFloat(data.price);
-    const parsedShipping = data.shipping_price ? parseFloat(data.shipping_price) : 0;
+    const parsedPrice = parseFloat(data.price.replace(',', '.'));
+    const parsedShipping = data.shipping_price ? parseFloat(data.shipping_price.replace(',', '.')) : 0;
     const parsedYear = data.year ? parseInt(data.year, 10) : null;
 
     if (Number.isNaN(parsedPrice) || parsedPrice < 0) throw new Error('Invalid price');
