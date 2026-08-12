@@ -5,10 +5,10 @@ import { Skeleton } from '@/components/common/Skeleton';
 export function ChatListItemSkeleton() {
   return (
     <Row aria-hidden="true">
-      <Skeleton width="40px" height="40px" />
+      <Skeleton $width="40px" $height="40px" />
       <Content>
-        <Skeleton width="60%" height="0.95rem" />
-        <Skeleton width="85%" height="0.85rem" />
+        <Skeleton $width="60%" $height="0.95rem" />
+        <Skeleton $width="85%" $height="0.85rem" />
       </Content>
     </Row>
   );

@@ -75,7 +75,7 @@ export function ListingsView() {
       </StickyFilters>
 
       {showSkeleton ? (
-        <SummarySkeleton width="9rem" />
+        <SummarySkeleton $width="9rem" />
       ) : (
         total > 0 && (
           <ItemsSummary>

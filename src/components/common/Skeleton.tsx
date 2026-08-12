@@ -10,13 +10,13 @@ const shimmer = keyframes`
 `;
 
 interface SkeletonProps {
-  width?: string;
-  height?: string;
+  $width?: string;
+  $height?: string;
 }
 
 export const Skeleton = styled.div<SkeletonProps>`
-  width: ${({ width }) => width ?? '100%'};
-  height: ${({ height }) => height ?? '1rem'};
+  width: ${({ $width }) => $width ?? '100%'};
+  height: ${({ $height }) => $height ?? '1rem'};
   background: linear-gradient(
     90deg,
     ${({ theme }) => theme.background.secondary} 25%,

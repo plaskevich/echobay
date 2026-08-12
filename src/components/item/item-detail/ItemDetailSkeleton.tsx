@@ -17,46 +17,46 @@ export function ItemDetailSkeleton() {
         </ImageSection>
         <Details>
           {/* title + price */}
-          <Skeleton width="40%" height="1.5rem" />
-          <Skeleton width="70%" height="1.8rem" />
+          <Skeleton $width="40%" $height="1.5rem" />
+          <Skeleton $width="70%" $height="1.8rem" />
           <PriceBlock>
-            <Skeleton width="25%" height="1.4rem" />
-            <Skeleton width="30%" height="1rem" />
+            <Skeleton $width="25%" $height="1.4rem" />
+            <Skeleton $width="30%" $height="1rem" />
           </PriceBlock>
 
           {/* info grid */}
           <InfoGrid>
             {Array.from({ length: 4 }, (_, i) => (
               <InfoItem key={i}>
-                <Skeleton width="4rem" height="1rem" />
-                <Skeleton width="6rem" height="1.2rem" />
+                <Skeleton $width="4rem" $height="1rem" />
+                <Skeleton $width="6rem" $height="1.2rem" />
               </InfoItem>
             ))}
           </InfoGrid>
 
           {/* description */}
           <Section>
-            <Skeleton width="8rem" height="1.5rem" />
-            <Skeleton width="100%" height="1rem" />
-            <Skeleton width="95%" height="1rem" />
-            <Skeleton width="82%" height="1rem" />
+            <Skeleton $width="8rem" $height="1.5rem" />
+            <Skeleton $width="100%" $height="1rem" />
+            <Skeleton $width="95%" $height="1rem" />
+            <Skeleton $width="82%" $height="1rem" />
           </Section>
 
           {/* seller */}
           <Section>
-            <Skeleton width="5rem" height="1.5rem" />
+            <Skeleton $width="5rem" $height="1.5rem" />
             <SellerRow>
               <AvatarSkeleton />
               <SellerInfo>
-                <Skeleton width="7rem" height="1.125rem" />
-                <Skeleton width="5rem" height="1rem" />
+                <Skeleton $width="7rem" $height="1.125rem" />
+                <Skeleton $width="5rem" $height="1rem" />
               </SellerInfo>
             </SellerRow>
           </Section>
 
           <ButtonGroup>
-            <Skeleton height="2.75rem" />
-            <Skeleton height="2.75rem" />
+            <Skeleton $height="2.75rem" />
+            <Skeleton $height="2.75rem" />
           </ButtonGroup>
         </Details>
       </Content>

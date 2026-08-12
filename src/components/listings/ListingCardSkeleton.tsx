@@ -6,10 +6,10 @@ export function ListingCardSkeleton() {
   return (
     <Card aria-hidden="true" data-testid="listing-card-skeleton">
       <ImageSkeleton />
-      <ArtistSkeleton width="55%" />
-      <Skeleton width="80%" height="1.3125rem" />
-      <Skeleton width="35%" height="1.125rem" />
-      <PriceSkeleton width="30%" height="1rem" />
+      <ArtistSkeleton $width="55%" />
+      <Skeleton $width="80%" $height="1.3125rem" />
+      <Skeleton $width="35%" $height="1.125rem" />
+      <PriceSkeleton $width="30%" $height="1rem" />
     </Card>
   );
 }
