@@ -15,6 +15,7 @@ import { ErrorPage } from '@/components/common/ErrorPage';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { stripePromise } from '@/lib/stripe';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useListing } from '@/queries/useListings';
 import { useShippingAddress } from '@/queries/useShipping';
 import { useAuthStore } from '@/store/auth-store';
@@ -140,15 +141,15 @@ export function CheckoutPage() {
 const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding-top: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const Header = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { PAGE_SIZE_OPTIONS } from '@/lib/constants/listings';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export type PageSize = (typeof PAGE_SIZE_OPTIONS)[number];
 
@@ -89,27 +90,27 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  padding: 1.5rem 0 0.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.xs};
   flex-wrap: wrap;
 
-  @media (max-width: 480px) {
-    gap: 0.75rem;
-    padding: 1rem 0 0.25rem;
+  @media (max-width: ${breakpoint.xs}) {
+    gap: ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.md} 0 ${({ theme }) => theme.spacing['2xs']};
   }
 `;
 
 const PageControls = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const NavButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   border: none;
   background: transparent;
   color: ${({ theme }) => theme.text.secondary};
@@ -132,8 +133,8 @@ const PageButton = styled.button<{ $active: boolean }>`
   border: 1px solid ${({ $active, theme }) => ($active ? theme.black.main : theme.border.primary)};
   background: ${({ $active, theme }) => ($active ? theme.black.main : 'transparent')};
   color: ${({ $active, theme }) => ($active ? theme.text.inverse : theme.text.primary)};
-  font-size: 0.875rem;
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ $active, theme }) => ($active ? theme.fontWeight.semibold : theme.fontWeight.regular)};
   cursor: pointer;
   transition: all ${({ theme }) => theme.transition.fast};
 
@@ -149,26 +150,26 @@ const Ellipsis = styled.span`
   width: 1.5rem;
   height: 2rem;
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 const SizeSelector = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   position: relative;
 `;
 
 const SelectChevron = styled.i`
   position: absolute;
   right: 0.5rem;
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
   pointer-events: none;
 `;
 
 const SizeLabel = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
@@ -176,12 +177,12 @@ const SizeSelect = styled.select`
   appearance: none;
   box-sizing: content-box;
   width: 1.8rem; /* fits the widest option (240) */
-  padding: 0.3rem 1.5rem 0.3rem 0.5rem;
+  padding: 0.3rem ${({ theme }) => theme.spacing.lg} 0.3rem ${({ theme }) => theme.spacing.xs};
   text-align: center;
   border: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   cursor: pointer;
 
   &:hover {

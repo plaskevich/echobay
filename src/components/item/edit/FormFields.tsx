@@ -234,7 +234,7 @@ export function FormFields({
 const SectionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 const CurrencyInputWrapper = styled.div`
@@ -253,10 +253,10 @@ const InputPrefix = styled.span`
   color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 const StyledInput = styled(Input)`
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

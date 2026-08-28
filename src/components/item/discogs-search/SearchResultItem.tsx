@@ -27,8 +27,8 @@ export function SearchResultItem({ result, onSelect, isDisabled }: SearchResultI
 
 const ResultItem = styled.button`
   display: flex;
-  gap: 1rem;
-  padding: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.sm};
   background-color: ${(props) => props.theme.background.primary};
   border: 1px solid ${(props) => props.theme.border.primary};
   text-align: left;
@@ -56,27 +56,27 @@ const ResultInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
   min-width: 0;
 `;
 
 const ResultTitle = styled.div`
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   ${ellipsis}
 `;
 
 const ResultMeta = styled.div`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   display: flex;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   flex-wrap: wrap;
 
   span {
     &:not(:last-child)::after {
       content: '•';
-      margin-left: 0.5rem;
+      margin-left: ${({ theme }) => theme.spacing.xs};
       color: ${(props) => props.theme.text.tertiary};
     }
   }

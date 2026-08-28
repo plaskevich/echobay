@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 export function SearchBar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -105,7 +107,7 @@ function SearchInputField({ isHomePage, searchQuery, setSearchParams, navigate }
 const SearchContainer = styled.div`
   flex: 1;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     max-width: 100%;
   }
 `;
@@ -117,9 +119,10 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
   width: 100%;
-  padding: 0.5rem 2.5rem 0.5rem 2rem;
+  padding: ${({ theme }) => theme.spacing.xs} 2.5rem ${({ theme }) => theme.spacing.xs}
+    ${({ theme }) => theme.spacing.xl};
   border: 1px solid ${(props) => props.theme.border.primary};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${(props) => props.theme.background.elevated};
   color: ${(props) => props.theme.text.primary};
   box-sizing: border-box;
@@ -142,7 +145,7 @@ const SearchIconWrapper = styled.div`
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   pointer-events: none;
 `;
 
@@ -156,8 +159,8 @@ const ClearButton = styled.button`
   color: ${(props) => props.theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 0.75rem;
-  padding: 0.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  padding: ${({ theme }) => theme.spacing['2xs']};
   transition: all ${(props) => props.theme.transition.base};
 
   &:hover {

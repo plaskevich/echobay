@@ -31,23 +31,23 @@ export function SellerRatingDisplay({ average, count }: SellerRatingDisplayProps
 const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const NoRatings = styled.span`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
 const RatingText = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const Average = styled.span`
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
 `;
 

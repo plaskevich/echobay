@@ -7,6 +7,7 @@ import { createPaymentIntent } from '@/api/checkout';
 import { Amount, StepCard, StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup, Form } from '@/components/common/Form';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { formatPrice } from '@/lib/utils';
 
 interface PaymentFormProps {
@@ -143,37 +144,37 @@ export function PaymentForm({ amount, listingId, onBack, onNext }: PaymentFormPr
 const OrderAmount = styled(StepCard)`
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
+  padding: ${({ theme }) => theme.spacing.md} 1.25rem;
 `;
 
 const AmountLabel = styled.span`
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const AmountValue = styled(Amount)`
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
 
-  @media (max-width: 640px) {
-    font-size: 1.25rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.xl};
   }
 `;
 
 const PaymentSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const CardElementWrapper = styled.div`
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.background.primary};
   transition: border-color ${({ theme }) => theme.transition.base};
@@ -185,9 +186,9 @@ const CardElementWrapper = styled.div`
 `;
 
 const ErrorText = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.state.error};
-  margin-top: 0.5rem;
+  margin-top: ${({ theme }) => theme.spacing.xs};
 `;
 
 const SecureNote = styled.span`
@@ -195,7 +196,7 @@ const SecureNote = styled.span`
   align-items: center;
   gap: 0.375rem;
   margin-top: 0.375rem;
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
 
   i {
@@ -205,31 +206,31 @@ const SecureNote = styled.span`
 `;
 
 const TestModeNotice = styled.div`
-  padding: 1rem;
-  margin-top: 1rem;
+  padding: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme }) => theme.background.elevated};
 `;
 
 const NoticeTitle = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 700;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 0.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 const NoticeText = styled.div`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1.5;
 
   span {
-    padding: 0.125rem 0.375rem;
+    padding: ${({ theme }) => theme.spacing['3xs']} 0.375rem;
     font-family: ${({ theme }) => theme.fontFamilyAlt};
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    font-weight: ${({ theme }) => theme.fontWeight.semibold};
     color: ${({ theme }) => theme.text.primary};
   }
 `;

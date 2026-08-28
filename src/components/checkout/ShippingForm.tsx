@@ -7,6 +7,7 @@ import type { ShippingAddress } from '@/api/shipping';
 import { StepTitle } from '@/components/checkout/styles';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup, FieldError, Form, FormGroup, Input, Label, Select } from '@/components/common/Form';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 interface ShippingFormProps {
   onSubmit: (address: ShippingAddress) => void;
@@ -189,13 +190,13 @@ const Fields = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     grid-template-columns: 1fr;
   }
 `;
 
 const FullWidth = styled(FormGroup)`
-  @media (min-width: 769px) {
+  @media (min-width: ${breakpoint.md}) {
     grid-column: 1 / -1;
   }
 `;

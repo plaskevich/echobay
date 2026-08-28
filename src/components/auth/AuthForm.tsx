@@ -121,7 +121,7 @@ const GoogleButton = styled.button`
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   font-family: ${({ theme }) => theme.fontFamilyAlt};
   transition: border-color ${({ theme }) => theme.transition.base};
   width: 100%;

@@ -7,6 +7,7 @@ import { PageTitle } from '@/components/common/PageTitle';
 import { fullContentHeight } from '@/components/layout/viewport';
 import { ChatListSidebar } from '@/components/messages/ChatListSidebar';
 import { ConversationPanel } from '@/components/messages/ConversationPanel';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useListing } from '@/queries/useListings';
 import {
   useChat,
@@ -22,7 +23,7 @@ import {
 import { useOrderForChat, useUpdateOrderStatus } from '@/queries/useOrders';
 import { useAuthStore } from '@/store/auth-store';
 
-const MOBILE_VIEWPORT = '(max-width: 768px)';
+const MOBILE_VIEWPORT = `(max-width: ${breakpoint.md})`;
 
 function subscribeToMobileViewport(onChange: () => void) {
   const query = window.matchMedia(MOBILE_VIEWPORT);
@@ -287,14 +288,14 @@ export default function MessagesPage() {
 }
 
 const Container = styled.div`
-  padding-top: 2rem;
+  padding-top: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   ${fullContentHeight}
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     height: auto;
     flex: 1;
     min-height: 0;
@@ -303,11 +304,12 @@ const Container = styled.div`
 `;
 
 const Header = styled.div<{ $mobileHidden: boolean }>`
-  margin-bottom: 1rem;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   width: fit-content;
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
-    padding: 1rem 0.75rem 1rem 0.75rem;
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm} ${({ theme }) =>
+      theme.spacing.md} ${({ theme }) => theme.spacing.sm};
     margin: 0;
   }
 `;
@@ -317,9 +319,9 @@ const Layout = styled.div`
   flex: 1;
   min-height: 0;
   display: flex;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     min-height: 0;
     flex: 1;
     width: 100%;
@@ -330,7 +332,7 @@ const Layout = styled.div`
 const ChatListWrapper = styled.div<{ $mobileHidden: boolean }>`
   display: flex;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
     flex: 1;
   }
@@ -341,7 +343,7 @@ const ConversationWrapper = styled.div<{ $mobileHidden: boolean }>`
   flex: 1;
   min-width: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     ${({ $mobileHidden }) => $mobileHidden && 'display: none;'}
   }
 `;

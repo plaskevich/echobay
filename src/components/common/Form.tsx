@@ -1,6 +1,8 @@
 import { type SelectHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 import { BaseInput, FormGroup as InputFormGroup, Label as InputLabel } from './Input';
 
 interface SelectComponentProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -31,7 +33,7 @@ export const TwoColumnGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 1.25rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     grid-template-columns: 1fr 1fr;
     gap: 1.75rem;
   }
@@ -47,7 +49,7 @@ export const StyledSelect = styled.select<{ $hasError?: boolean }>`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
   cursor: pointer;
@@ -85,9 +87,9 @@ const SelectIcon = styled.i`
 `;
 
 export const TextArea = styled.textarea<{ $hasError?: boolean }>`
-  padding: 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   background-color: transparent;
   color: ${(props) => props.theme.text.primary};
   min-height: 120px;
@@ -111,9 +113,9 @@ export const TextArea = styled.textarea<{ $hasError?: boolean }>`
 `;
 
 export const FileInput = styled.input`
-  padding: 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${(props) => props.theme.border.primary};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
 
@@ -123,13 +125,13 @@ export const FileInput = styled.input`
   }
 
   &::file-selector-button {
-    padding: 0.5rem 1rem;
-    margin-right: 1rem;
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+    margin-right: ${({ theme }) => theme.spacing.md};
     border: none;
     background-color: ${(props) => props.theme.black.main};
     color: ${(props) => props.theme.text.inverse};
     cursor: pointer;
-    font-weight: 500;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
 
     &:hover {
       background-color: ${(props) => props.theme.black.light};
@@ -148,11 +150,11 @@ export const FileInput = styled.input`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.md};
   justify-content: flex-end;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     width: 100%;
     flex-wrap: nowrap;
     justify-content: center;
@@ -171,12 +173,12 @@ export const FieldWrapper = styled.div`
 `;
 
 export const FieldError = styled.span`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.state.error};
 `;
 
 export const HelpText = styled.span`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.tertiary};
-  margin-top: 0.25rem;
+  margin-top: ${({ theme }) => theme.spacing['2xs']};
 `;

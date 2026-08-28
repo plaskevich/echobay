@@ -123,7 +123,7 @@ const AutocompleteWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 const SuggestionsList = styled.ul`
@@ -158,12 +158,12 @@ const SuggestionItem = styled.li<{ $isSelected: boolean }>`
 `;
 
 const LocationName = styled.div`
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.primary};
   margin-bottom: 2px;
 `;
 
 const LocationCountry = styled.div`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
 `;

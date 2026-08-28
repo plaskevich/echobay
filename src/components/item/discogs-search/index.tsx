@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { ErrorMessage } from '@/components/common/Message';
 import { type DiscogsSearchResult } from '@/hooks/useDiscogsSearch';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 import { SearchInputBar } from './SearchInputBar';
 import { SearchResultsList } from './SearchResultsList';
@@ -59,26 +60,26 @@ export function DiscogsSearch({
 }
 
 const SearchSection = styled.div`
-  margin-bottom: 1rem;
-  padding: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
   background-color: ${(props) => props.theme.background.secondary};
   border: 1px solid ${(props) => props.theme.border.primary};
 
-  @media (max-width: 640px) {
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.md};
+    margin-bottom: ${({ theme }) => theme.spacing.lg};
   }
 `;
 
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const SearchLabel = styled.h3`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   margin: 0;
 `;

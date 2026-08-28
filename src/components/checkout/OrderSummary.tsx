@@ -7,6 +7,7 @@ import { Button } from '@/components/common/Button';
 import { ButtonGroup } from '@/components/common/Form';
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { capitalize, formatPrice, getFormatLabel } from '@/lib/utils';
 
 interface OrderSummaryProps {
@@ -144,8 +145,8 @@ const Section = styled.div`
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
 `;
@@ -162,11 +163,11 @@ const ItemImage = styled.img`
 `;
 
 const Format = styled.p`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${(props) => props.theme.text.secondary};
   margin: auto 0 0;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
@@ -181,19 +182,19 @@ const ItemInfo = styled.div`
 `;
 
 const ItemCondition = styled.div`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 const ItemArtist = styled.div`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
 const ItemTitle = styled.div`
   font-size: 1.0625rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -203,32 +204,32 @@ const AddressCard = styled(StepCard)`
 `;
 
 const AddressLine = styled.div`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
   line-height: 1.5;
 `;
 
 const PaymentCard = styled(StepCard)`
   align-items: center;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const PaymentIcon = styled.i`
   flex-shrink: 0;
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   line-height: 1;
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const PaymentText = styled.div`
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
-  margin-bottom: 0.125rem;
+  margin-bottom: ${({ theme }) => theme.spacing['3xs']};
 `;
 
 const PaymentSubtext = styled.div`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
@@ -245,14 +246,14 @@ const PriceRow = styled.div`
 `;
 
 const PriceLabel = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
 const PriceValue = styled.span`
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -260,28 +261,28 @@ const TotalRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding-top: 0.75rem;
+  padding-top: ${({ theme }) => theme.spacing.sm};
   margin-top: auto;
   border-top: 1px solid ${({ theme }) => theme.border.primary};
 `;
 
 const TotalLabel = styled.span`
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const TotalAmount = styled(Amount)`
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
 
-  @media (max-width: 640px) {
-    font-size: 1.25rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.xl};
   }
 `;
 
 const ErrorText = styled.div`
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme }) => theme.state.error};
   color: ${({ theme }) => theme.state.error};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;

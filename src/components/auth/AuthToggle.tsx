@@ -17,9 +17,9 @@ export function AuthToggle({ mode, onToggle }: AuthToggleProps) {
 }
 
 const ToggleText = styled.p`
-  margin-top: 1.5rem;
+  margin-top: ${({ theme }) => theme.spacing.lg};
   text-align: center;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
@@ -27,9 +27,9 @@ const ToggleButton = styled.button`
   background: none;
   border: none;
   color: ${({ theme }) => theme.primary.main};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   padding: 0;
-  margin-left: 0.25rem;
+  margin-left: ${({ theme }) => theme.spacing['2xs']};
 
   &:hover {
     text-decoration: underline;

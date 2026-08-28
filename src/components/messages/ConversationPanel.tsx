@@ -7,6 +7,7 @@ import { LoadingState } from '@/components/common/StateDisplay';
 import { ConversationHeader } from '@/components/messages/ConversationHeader';
 import { MessageInput } from '@/components/messages/MessageInput';
 import { MessagesList } from '@/components/messages/MessagesList';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { ellipsis } from '@/lib/theme/mixins';
 
 interface ConversationParticipants {
@@ -124,26 +125,26 @@ const Panel = styled.div<{ $hidden?: boolean }>`
   display: ${({ $hidden }) => ($hidden ? 'none' : 'flex')};
   flex-direction: column;
   min-width: 0;
-  padding: 0 2rem;
+  padding: 0 ${({ theme }) => theme.spacing.xl};
   max-width: 800px;
   margin: 0 auto;
   margin-top: -1rem;
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     min-height: 0;
     overflow: visible;
     border: none;
     margin-top: 0;
-    padding: 0 1rem;
+    padding: 0 ${({ theme }) => theme.spacing.md};
   }
 `;
 
 const MobileHeader = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -154,7 +155,7 @@ const BackButton = styled.button`
   border: none;
   background: none;
   color: ${(props) => props.theme.text.primary};
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   padding: 0;
   cursor: pointer;
   flex-shrink: 0;
@@ -165,7 +166,7 @@ const MobileUsername = styled.span`
   flex: 1;
   text-align: center;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   ${ellipsis}
 `;
@@ -174,7 +175,7 @@ const MobileUsernameLink = styled(Link)`
   flex: 1;
   text-align: center;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   ${ellipsis}
 
@@ -194,8 +195,8 @@ const EmptyConversation = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xl};
   color: ${(props) => props.theme.text.tertiary};
 `;
 

@@ -18,7 +18,7 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: 0.75rem 0.875rem;
+  padding: ${({ theme }) => theme.spacing.sm} 0.875rem;
 `;
 
 const Content = styled.div`

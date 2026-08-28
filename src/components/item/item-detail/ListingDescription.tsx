@@ -18,18 +18,18 @@ export function ListingDescription({ description }: ListingDescriptionProps) {
 const DescriptionSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1.6;
   margin: 0;

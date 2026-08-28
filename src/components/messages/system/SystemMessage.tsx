@@ -180,8 +180,8 @@ function SystemContent({
 
 const Card = styled.div`
   display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md};
   align-items: center;
   background-color: ${({ theme }) => theme.background.elevated};
 `;
@@ -206,8 +206,8 @@ const TextBlock = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
 `;
 

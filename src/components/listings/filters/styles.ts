@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 export const FilterDropdownContainer = styled.div`
   position: relative;
 `;
@@ -7,13 +9,13 @@ export const FilterDropdownContainer = styled.div`
 export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : theme.border.primary)};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
-  font-size: 0.875rem;
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ $active, theme }) => ($active ? theme.fontWeight.semibold : theme.fontWeight.regular)};
   transition: all ${({ theme }) => theme.transition.base};
   white-space: nowrap;
   &:hover {
@@ -21,10 +23,10 @@ export const FilterButton = styled.button<{ $active?: boolean; $open?: boolean }
   }
 
   i {
-    font-size: 0.75rem;
+    font-size: ${({ theme }) => theme.fontSize.xs};
     transition: all ${({ theme }) => theme.transition.base};
     transform: rotate(${({ $open }) => ($open ? '180deg' : '0deg')});
-    @media (max-width: 640px) {
+    @media (max-width: ${breakpoint.sm}) {
       display: none;
     }
   }
@@ -43,7 +45,7 @@ export const DropdownMenu = styled.div`
   box-shadow: ${({ theme }) => theme.shadow};
   z-index: 100;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     position: fixed;
     top: 0;
     left: 0;
@@ -67,13 +69,14 @@ export const SearchInputWrapper = styled.div`
   top: -0.4rem;
   z-index: 1;
   margin: -0.4rem -0.4rem 0 -0.4rem;
-  padding: 0.75rem 0.75rem 0.25rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing['2xs']}
+    ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme }) => theme.background.primary};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     position: static;
     margin: 0;
-    padding: 0.75rem 1rem;
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
     flex-shrink: 0;
   }
@@ -81,11 +84,11 @@ export const SearchInputWrapper = styled.div`
 
 export const SearchInput = styled.input`
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   outline: none;
   transition: border-color ${({ theme }) => theme.transition.fast};
   box-sizing: border-box;
@@ -99,9 +102,9 @@ export const SearchInput = styled.input`
     border-color: ${({ theme }) => theme.border.hover};
   }
 
-  @media (max-width: 640px) {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
   }
 `;
 
@@ -109,7 +112,7 @@ export const CheckboxList = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     flex: 1;
     overflow-y: auto;
     padding: 0;
@@ -120,13 +123,13 @@ export const CheckboxItem = styled.div<{ $checked?: boolean; $empty?: boolean }>
   display: flex;
   align-items: center;
   justify-content: ${({ $empty }) => ($empty ? 'center' : 'space-between')};
-  gap: 0.5rem;
-  padding: 0.6rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: 0.6rem ${({ theme }) => theme.spacing.sm};
   cursor: ${({ $empty }) => ($empty ? 'default' : 'pointer')};
   opacity: ${({ $empty }) => ($empty ? 0.5 : 1)};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
+  font-weight: ${({ $checked, theme }) => ($checked ? theme.fontWeight.semibold : theme.fontWeight.regular)};
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
@@ -137,9 +140,9 @@ export const CheckboxItem = styled.div<{ $checked?: boolean; $empty?: boolean }>
     flex: 1;
   }
 
-  @media (max-width: 640px) {
-    padding: 1rem;
-    font-size: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   }
 `;
@@ -149,13 +152,14 @@ export const ApplyButtonWrapper = styled.div`
   bottom: -0.4rem;
   z-index: 2;
   margin: 0 -0.4rem -0.4rem -0.4rem;
-  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.sm}
+    ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme }) => theme.background.primary};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     position: static;
     margin: 0;
-    padding: 1rem;
+    padding: ${({ theme }) => theme.spacing.md};
     flex-shrink: 0;
     border-top: 1px solid ${({ theme }) => theme.border.primary};
   }
@@ -163,22 +167,22 @@ export const ApplyButtonWrapper = styled.div`
 
 export const DropdownApplyButton = styled.button`
   width: 100%;
-  padding: 0.625rem 0.75rem;
+  padding: 0.625rem ${({ theme }) => theme.spacing.sm};
   border: none;
   border-top: 1px solid ${({ theme }) => theme.border.primary};
   background-color: ${({ theme }) => theme.black.main};
   color: ${({ theme }) => theme.text.inverse};
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.black.light};
   }
 
-  @media (max-width: 640px) {
-    padding: 1rem;
-    font-size: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
     border: none;
   }
 `;
@@ -195,12 +199,12 @@ export const Checkbox = styled.div<{ $checked?: boolean }>`
   justify-content: center;
 
   color: ${({ theme }) => theme.text.inverse};
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     width: 1.25rem;
     height: 1.25rem;
-    font-size: 0.875rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;
 
@@ -208,12 +212,12 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.6rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: 0.6rem ${({ theme }) => theme.spacing.sm};
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: ${({ $checked }) => ($checked ? 600 : 400)};
+  font-weight: ${({ $checked, theme }) => ($checked ? theme.fontWeight.semibold : theme.fontWeight.regular)};
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
@@ -224,9 +228,9 @@ export const RadioItem = styled.div<{ $checked?: boolean }>`
     flex: 1;
   }
 
-  @media (max-width: 640px) {
-    padding: 1rem;
-    font-size: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
     border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   }
 `;
@@ -251,7 +255,7 @@ export const Radio = styled.div<{ $checked?: boolean }>`
     transition: opacity ${({ theme }) => theme.transition.fast};
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     width: 1.25rem;
     height: 1.25rem;
 

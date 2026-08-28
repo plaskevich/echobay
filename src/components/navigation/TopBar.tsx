@@ -8,8 +8,10 @@ import {
   DropdownMenuLink,
   DropdownMenuSeparator,
 } from '@/components/common/DropdownMenu';
+import { CONTENT_MAX_WIDTH } from '@/components/layout/viewport';
 import { Logo } from '@/components/navigation/Logo';
 import { SearchBar } from '@/components/navigation/SearchBar';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useUnreadChats } from '@/queries/useMessages';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -113,16 +115,16 @@ const Nav = styled.nav`
 `;
 
 const NavContainer = styled.div`
-  max-width: 1280px;
+  max-width: ${CONTENT_MAX_WIDTH};
   margin: 0 auto;
-  padding: 0 0.75rem;
+  padding: 0 ${({ theme }) => theme.spacing.sm};
 
-  @media (min-width: 640px) {
-    padding: 0 1.5rem;
+  @media (min-width: ${breakpoint.sm}) {
+    padding: 0 ${({ theme }) => theme.spacing.lg};
   }
 
-  @media (min-width: 1024px) {
-    padding: 0 2rem;
+  @media (min-width: ${breakpoint.lg}) {
+    padding: 0 ${({ theme }) => theme.spacing.xl};
   }
 `;
 
@@ -132,7 +134,7 @@ const NavContent = styled.div`
   justify-content: space-between;
   height: 4rem;
 
-  @media (min-width: 640px) {
+  @media (min-width: ${breakpoint.sm}) {
     height: 5rem;
   }
 `;
@@ -141,25 +143,25 @@ const SearchWrapper = styled.div`
   flex: 1;
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     display: block;
-    margin: 0 4rem;
+    margin: 0 ${({ theme }) => theme.spacing['3xl']};
   }
 `;
 
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 
-  @media (min-width: 640px) {
-    gap: 1rem;
+  @media (min-width: ${breakpoint.sm}) {
+    gap: ${({ theme }) => theme.spacing.md};
   }
 `;
 
 const SellButton = styled(Button)`
-  @media (max-width: 640px) {
-    padding: 0.75rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -190,7 +192,7 @@ const IconButton = styled.button`
     color: ${(props) => props.theme.primary.main};
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     padding: 0.4rem;
   }
 `;
@@ -210,7 +212,7 @@ const NavUnreadDot = styled.span`
   pointer-events: none;
   border-radius: 50%;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     top: 0.5rem;
     right: 0.4rem;
     width: 0.45rem;

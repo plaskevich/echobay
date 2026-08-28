@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { ellipsis } from '@/lib/theme/mixins';
 import { formatPrice, getFormatLabel } from '@/lib/utils';
 
@@ -80,17 +81,17 @@ export function ConversationHeader({
 }
 
 const TopRow = styled.div`
-  padding: 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm};
   display: flex;
   justify-content: center;
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     display: none;
   }
 `;
 
 const UserLink = styled(Link)`
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   transition: color ${(props) => props.theme.transition.fast};
 
@@ -102,26 +103,26 @@ const UserLink = styled(Link)`
 const BottomRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1.25rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs} 1.25rem;
   border: 1px solid ${(props) => props.theme.border.primary};
   &:hover {
     border-color: ${(props) => props.theme.border.hover};
   }
 
-  @media (max-width: 768px) {
-    padding: 0.75rem;
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const ItemLink = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
   color: inherit;
   flex: 1;
   min-width: 0;
-  padding: 0.25rem;
+  padding: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const ItemImage = styled.img`
@@ -130,7 +131,7 @@ const ItemImage = styled.img`
   object-fit: cover;
   flex-shrink: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     width: 2.75rem;
     height: 2.75rem;
   }
@@ -146,7 +147,7 @@ const ItemFormatFallback = styled.div`
   justify-content: center;
   flex-shrink: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     width: 2.75rem;
     height: 2.75rem;
   }
@@ -163,8 +164,8 @@ const ItemArtist = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.base};
   ${ellipsis}
   color: ${(props) => props.theme.text.primary};
 `;
@@ -174,6 +175,6 @@ const ItemMeta = styled.div`
   color: ${(props) => props.theme.text.secondary};
 `;
 const Price = styled.span`
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   font-family: ${(props) => props.theme.fontFamilyAlt};
 `;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Skeleton } from '@/components/common/Skeleton';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export function ListingCardSkeleton() {
   return (
@@ -23,7 +24,7 @@ const Card = styled.div`
   min-width: 0;
   gap: 0.1rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     padding: ${({ theme }) => theme.spacing.sm};
   }
 `;
@@ -32,17 +33,17 @@ const ImageSkeleton = styled(Skeleton)`
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  margin-bottom: 1rem;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: 480px) {
-    margin-bottom: 0.5rem;
+  @media (max-width: ${breakpoint.xs}) {
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
 const ArtistSkeleton = styled(Skeleton)`
   height: 1.125rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     height: 1.21875rem;
   }
 `;

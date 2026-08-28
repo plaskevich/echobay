@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { ListingsView } from '@/components/listings/ListingsView';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export default function HomePage() {
   return (
@@ -11,7 +12,7 @@ export default function HomePage() {
 }
 
 const Container = styled.div`
-  @media (max-width: 768px) {
-    padding: 0 0.75rem 1rem;
+  @media (max-width: ${breakpoint.md}) {
+    padding: 0 ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   }
 `;

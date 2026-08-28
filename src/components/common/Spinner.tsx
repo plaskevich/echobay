@@ -19,7 +19,7 @@ const SpinnerIcon = styled.i<{ $size?: string; $color?: string }>`
   display: inline-block;
   flex-shrink: 0;
   line-height: 1;
-  font-size: ${({ $size }) => $size ?? '1rem'};
+  font-size: ${({ $size, theme }) => $size ?? theme.fontSize.base};
   color: ${({ $color }) => $color ?? 'currentColor'};
   animation: ${spin} 0.8s steps(8) infinite;
 `;

@@ -2,7 +2,7 @@ import { Toaster } from 'react-hot-toast';
 import styled, { keyframes, useTheme } from 'styled-components';
 
 const ToastIcon = styled.i`
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   line-height: 1;
   flex-shrink: 0;
 `;

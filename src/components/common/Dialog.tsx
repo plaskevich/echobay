@@ -2,6 +2,7 @@ import { useEffect, useId } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 import { Button } from './Button';
 
@@ -123,19 +124,20 @@ const DialogContainer = styled.div`
 `;
 
 const DialogHeader = styled.div`
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${(props) => props.theme.border.primary};
 `;
 
 const DialogTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   margin: 0;
 `;
 
 const DialogBody = styled.div`
-  --dialog-body-padding: 2rem;
+  --dialog-body-padding: ${({ theme }) => theme.spacing.xl};
   padding: var(--dialog-body-padding);
   overflow-y: auto;
 `;
@@ -147,12 +149,13 @@ const DialogMessage = styled.p`
 `;
 
 const DialogFooter = styled.div`
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.lg}
+    ${({ theme }) => theme.spacing.lg};
   display: flex;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
   justify-content: flex-end;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     flex-direction: column-reverse;
 
     button {

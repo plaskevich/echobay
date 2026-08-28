@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export interface ProfileHeaderProps {
   avatarUrl?: string | null;
@@ -82,14 +83,14 @@ export function ProfileHeader({
 const Header = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     flex-direction: column;
     text-align: center;
     gap: 1.25rem;
-    padding: 1.5rem 1rem;
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
     margin-bottom: 1.25rem;
   }
 `;
@@ -130,14 +131,14 @@ const ProfileInfo = styled.div`
     flex-shrink: 0;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     align-items: center;
   }
 `;
 
 const Username = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
   margin: 0;
   line-height: 1.1;
@@ -147,16 +148,16 @@ const MetaRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.35rem 1rem;
+  gap: 0.35rem ${({ theme }) => theme.spacing.md};
   margin-top: 0.1rem;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     justify-content: center;
   }
 `;
 
 const ProfileMeta = styled.p`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   display: inline-flex;
@@ -165,19 +166,19 @@ const ProfileMeta = styled.p`
 `;
 
 const ProfileAbout = styled.p`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  margin-top: 0.25rem;
+  margin-top: ${({ theme }) => theme.spacing['2xs']};
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     text-align: left;
 
     .hn {
-      margin-top: 0.125rem;
+      margin-top: ${({ theme }) => theme.spacing['3xs']};
     }
   }
 `;
@@ -185,10 +186,10 @@ const ProfileAbout = styled.p`
 const ButtonsWrapper = styled.div`
   margin-left: auto;
   display: flex;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
   flex-direction: column;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     margin-left: 0;
     width: 100%;
 

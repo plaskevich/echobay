@@ -169,10 +169,10 @@ const TagsContainer = styled.div`
 const Tag = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
   color: ${({ theme }) => theme.primary.main};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 const TagLabel = styled.span`
@@ -203,7 +203,7 @@ const SearchInput = styled.input`
   padding: 0;
   border: none;
   background: transparent;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   line-height: 1.25;
   color: ${({ theme }) => theme.text.primary};
   outline: none;
@@ -230,7 +230,7 @@ const Dropdown = styled.div`
   top: 100%;
   left: 0;
   right: 0;
-  margin-top: 0.25rem;
+  margin-top: ${({ theme }) => theme.spacing['2xs']};
   max-height: 200px;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.background.elevated};
@@ -240,7 +240,7 @@ const Dropdown = styled.div`
 `;
 
 const DropdownItem = styled.div<{ $disabled?: boolean }>`
-  padding: 0.75rem 1rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
   color: ${({ theme, $disabled }) => ($disabled ? theme.text.tertiary : theme.text.primary)};
   transition: background-color ${({ theme }) => theme.transition.fast};
@@ -251,7 +251,7 @@ const DropdownItem = styled.div<{ $disabled?: boolean }>`
 `;
 
 const NoResults = styled.div`
-  padding: 0.75rem 1rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   color: ${({ theme }) => theme.text.tertiary};
   font-style: italic;
 `;

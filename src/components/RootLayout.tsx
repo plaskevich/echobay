@@ -2,7 +2,9 @@ import { Outlet, ScrollRestoration } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { AuthDialog } from '@/components/auth/AuthDialog';
+import { CONTENT_MAX_WIDTH } from '@/components/layout/viewport';
 import { TopBar } from '@/components/navigation/TopBar';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 const AppWrapper = styled.div`
   min-height: 100vh;
@@ -19,13 +21,13 @@ const MainContent = styled.main`
   min-height: 0;
   display: flex;
   flex-direction: column;
-  max-width: 1280px;
+  max-width: ${CONTENT_MAX_WIDTH};
   margin: 0 auto;
-  padding: 0 1rem 2rem 1rem;
+  padding: 0 ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
   width: 100%;
   box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     padding: 0;
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }

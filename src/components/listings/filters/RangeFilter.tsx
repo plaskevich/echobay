@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import type { ListingFilters } from '@/api/listings';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import { isRangeInvalid } from './utils';
@@ -84,12 +85,12 @@ export function RangeFilter({
 const RangeInputs = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.sm};
 
-  @media (max-width: 640px) {
-    padding: 1.5rem 1rem;
-    gap: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+    gap: ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -110,36 +111,36 @@ const InputPrefix = styled.span`
   position: absolute;
   left: 0.75rem;
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
   pointer-events: none;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   bottom: 0.6rem;
-  @media (max-width: 640px) {
-    font-size: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.base};
     bottom: 0.75rem;
   }
 `;
 
 const RangeLabel = styled.span`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: 500;
-  @media (max-width: 640px) {
-    font-size: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.base};
   }
 `;
 
 const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
   width: 80px;
-  padding: 0.625rem 0.75rem;
+  padding: 0.625rem ${({ theme }) => theme.spacing.sm};
   ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 1.75rem;'}
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};
   background-color: ${({ theme }) => theme.background.primary};
   color: ${({ theme }) => theme.text.primary};
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   transition: all ${({ theme }) => theme.transition.base};
 
   &:focus {
@@ -158,22 +159,22 @@ const RangeInput = styled.input<{ $hasError?: boolean; $hasPrefix?: boolean }>`
     margin: 0;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     width: 100%;
-    padding: 0.875rem 1rem;
-    font-size: 1rem;
-    ${({ $hasPrefix }) => $hasPrefix && 'padding-left: 2rem;'}
+    padding: 0.875rem ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
+    ${({ $hasPrefix }) => $hasPrefix && 'padding-left: ${({ theme }) => theme.spacing.xl};'}
   }
 `;
 
 const ValidationError = styled.p`
-  padding: 0 0.75rem;
+  padding: 0 ${({ theme }) => theme.spacing.sm};
   margin: 0;
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.state.error};
-  @media (max-width: 640px) {
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
     margin-top: -0.5rem;
     align-self: center;
   }
@@ -181,6 +182,6 @@ const ValidationError = styled.p`
 
 const RangeSeparator = styled.span`
   color: ${({ theme }) => theme.text.tertiary};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   margin-top: 1.25rem;
 `;

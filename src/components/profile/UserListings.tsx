@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import type { Listing } from '@/api/listings';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { ListingCard } from '@/components/listings/ListingCard';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export interface UserListingsProps {
   listings: Listing[];
@@ -67,8 +68,8 @@ const Container = styled.div`
 const ListingCount = styled.span`
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 const ErrorMessage = styled.p`
@@ -80,26 +81,26 @@ const EmptyState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: ${({ theme }) => theme.spacing['3xl']} ${({ theme }) => theme.spacing.xl};
   text-align: center;
   background: ${(props) => props.theme.background.secondary};
   border: 1px dashed ${(props) => props.theme.border.primary};
 `;
 
 const EmptyMessage = styled.p`
-  font-size: 1.125rem;
+  font-size: ${({ theme }) => theme.fontSize.lg};
   color: ${(props) => props.theme.text.secondary};
-  margin-bottom: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
 const Grid = styled.div`
-  margin-top: 0.5rem;
+  margin-top: ${({ theme }) => theme.spacing.xs};
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;

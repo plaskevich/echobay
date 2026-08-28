@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { FileInput, FormGroup, Label } from '@/components/common/Form';
 import { ErrorMessage } from '@/components/common/Message';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 interface ImageUploadSectionProps {
   imagePreviews: string[];
@@ -85,12 +86,12 @@ export function ImageUploadSection({
 export const ImagePreviewContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.xs};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    gap: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -122,8 +123,8 @@ export const MainBadge = styled.span`
   transform: translateX(-50%);
   background-color: ${(props) => props.theme.overlay.dark};
   color: ${(props) => props.theme.text.inverse};
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   padding: 0.15rem 0.35rem;
   line-height: 1.2;
   pointer-events: none;
@@ -141,7 +142,7 @@ export const RemoveImageButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   line-height: 1;
 
   &:hover {

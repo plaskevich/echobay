@@ -17,11 +17,11 @@ export function FormHeader({ title, subtitle }: FormHeaderProps) {
 }
 
 const Header = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
 const Subtitle = styled.p`
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
 `;

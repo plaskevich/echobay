@@ -7,6 +7,7 @@ import { Button } from '@/components/common/Button';
 import { PageContainer as Container } from '@/components/common/PageContainer';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { UserListings } from '@/components/profile/UserListings';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useUserListings } from '@/queries/useListings';
 import { useProfile } from '@/queries/useProfiles';
 import { useSellerRating } from '@/queries/useRatings';
@@ -86,21 +87,21 @@ export default function ProfilePage() {
 
 const FilterTabs = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   margin-bottom: 1.25rem;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     width: 100%;
   }
 `;
 
 const FilterTab = styled.button<{ $active: boolean }>`
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   white-space: nowrap;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     flex: 1;
   }
   border: 1px solid ${(props) => (props.$active ? props.theme.black.main : props.theme.border.primary)};

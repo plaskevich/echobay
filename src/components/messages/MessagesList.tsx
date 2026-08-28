@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components';
 import type { Message } from '@/api/messages';
 import type { OrderStatus } from '@/api/orders';
 import { SystemMessage } from '@/components/messages/system/SystemMessage';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 interface MessagesListProps {
   messages: Message[];
@@ -122,12 +123,12 @@ function formatFullDateTime(date: Date) {
 const MessagesArea = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 1rem 0;
+  padding: ${({ theme }) => theme.spacing.md} 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
     overflow-y: visible;
   }
 `;
@@ -139,8 +140,8 @@ const DateDivider = styled.div`
   align-self: center;
   color: ${({ theme }) => theme.text.muted};
   font-size: 0.85rem;
-  margin: 0.25rem 0;
-  padding: 0.15rem 0.5rem;
+  margin: ${({ theme }) => theme.spacing['2xs']} 0;
+  padding: 0.15rem ${({ theme }) => theme.spacing.xs};
 `;
 
 const messageIn = keyframes`
@@ -171,12 +172,12 @@ const MessageWrapper = styled.div`
 
 const MessageBubble = styled.div<{ $isOwn: boolean }>`
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
-  padding: 0.4rem 0.75rem;
+  padding: 0.4rem ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme, $isOwn }) => ($isOwn ? theme.primary.main : theme.background.secondary)};
   color: ${({ theme, $isOwn }) => ($isOwn ? theme.text.inverse : theme.text.primary)};
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const MessageContent = styled.div`
@@ -186,9 +187,9 @@ const MessageContent = styled.div`
 `;
 
 const Timestamp = styled.span`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme }) => theme.text.muted};
   align-self: flex-end;
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

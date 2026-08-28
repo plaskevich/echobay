@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import type { GenreRef } from '@/api/genres';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { capitalize, getFormatLabel } from '@/lib/utils';
 
 interface ListingInfoProps {
@@ -55,56 +56,56 @@ export function ListingInfo({ format, condition, genres, label, year }: ListingI
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   box-sizing: border-box;
   width: fit-content;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 
-  @media (max-width: 640px) {
-    gap: 0.75rem;
+  @media (max-width: ${breakpoint.sm}) {
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const InfoItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const FullRowInfoItem = styled(InfoItem)`
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     grid-column: 1 / -1;
   }
 `;
 
 const InfoLabel = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.secondary};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 const InfoValue = styled.span`
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 const GenreList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const GenreTag = styled.span`
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing['2xs']} ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

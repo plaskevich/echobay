@@ -9,6 +9,7 @@ import { SortFilter } from '@/components/listings/filters/SortFilter';
 import { ApplyButtonWrapper, DropdownApplyButton, FilterButton } from '@/components/listings/filters/styles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useGenres } from '@/queries/useGenres';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
@@ -188,7 +189,7 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
 const MobileFilterButton = styled(FilterButton)`
   display: none;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     display: flex;
     gap: 0.4rem;
     width: fit-content;
@@ -196,7 +197,7 @@ const MobileFilterButton = styled(FilterButton)`
 
     i {
       display: inline-block;
-      font-size: 1rem;
+      font-size: ${({ theme }) => theme.fontSize.base};
     }
   }
 `;
@@ -211,7 +212,7 @@ const Badge = styled.span`
   background-color: ${({ theme }) => theme.black.main};
   color: ${({ theme }) => theme.text.inverse};
   font-size: 0.6875rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 const Overlay = styled.div`
@@ -234,7 +235,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   flex-shrink: 0;
 `;
@@ -245,14 +246,14 @@ const HeaderIconButton = styled.button`
   color: ${({ theme }) => theme.text.primary};
   display: flex;
   align-items: center;
-  padding: 0.25rem;
-  font-size: 1.25rem;
+  padding: ${({ theme }) => theme.spacing['2xs']};
+  font-size: ${({ theme }) => theme.fontSize.xl};
   min-width: 2rem;
 `;
 
 const HeaderTitle = styled.span`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -260,9 +261,9 @@ const HeaderAction = styled.button`
   background: none;
   border: none;
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.25rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  padding: ${({ theme }) => theme.spacing['2xs']};
   min-width: 2rem;
   text-align: right;
 
@@ -285,7 +286,7 @@ const CategoryRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.border.primary};
   cursor: pointer;
 
@@ -295,24 +296,24 @@ const CategoryRow = styled.div`
 `;
 
 const CategoryLabel = styled.span`
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.primary};
 `;
 
 const CategoryValueRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 
   i {
-    font-size: 0.875rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;
 
 const CategoryValue = styled.span<{ $isSort?: boolean }>`
   color: ${({ theme, $isSort }) => ($isSort ? theme.text.primary : theme.text.secondary)};
-  font-weight: ${({ $isSort }) => ($isSort ? 600 : 400)};
+  font-weight: ${({ $isSort, theme }) => ($isSort ? theme.fontWeight.semibold : theme.fontWeight.regular)};
 `;

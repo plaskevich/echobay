@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import type { Order, OrderStatus } from '@/api/orders';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { formatPrice } from '@/lib/utils';
 
 interface OrderCardProps {
@@ -71,13 +72,13 @@ const Card = styled.div`
 
 const CardLink = styled(Link)`
   display: flex;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
   color: inherit;
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: 768px) {
-    gap: 1rem;
-    padding: 1rem;
+  @media (max-width: ${breakpoint.md}) {
+    gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -116,14 +117,14 @@ const OrderHeader = styled.div`
 `;
 
 const OrderTitle = styled.h3`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   margin: 0;
   color: ${(props) => props.theme.text.primary};
 `;
 
 const OrderArtist = styled.p`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
 `;
@@ -137,29 +138,29 @@ const OrderDetails = styled.div`
 const DetailRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   flex-wrap: wrap;
 `;
 
 const DetailLabel = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.primary};
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 const DetailValue = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   & > span {
     font-family: ${(props) => props.theme.fontFamilyAlt};
-    font-weight: 600;
+    font-weight: ${({ theme }) => theme.fontWeight.semibold};
   }
 `;
 
 const StatusBadge = styled.span<{ $status: OrderStatus }>`
   display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   text-transform: capitalize;
   color: ${(props) => {
     switch (props.$status) {

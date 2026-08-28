@@ -89,17 +89,17 @@ export function SellerShippingDetails({
 }
 
 const AddressBlock = styled.div`
-  padding: 0.625rem 0.75rem;
+  padding: 0.625rem ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme }) => theme.background.secondary};
   border: 1px solid ${({ theme }) => theme.border.primary};
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const AddressRow = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   font-size: 0.8125rem;
   line-height: 1.5;
 `;
@@ -115,13 +115,13 @@ const AddressValue = styled.span`
 `;
 
 export const ActionButton = styled(Button)<ButtonProps>`
-  margin-top: 0.5rem;
+  margin-top: ${({ theme }) => theme.spacing.xs};
   align-self: flex-start;
 `;
 
 export const StatusTag = styled.span<{ $variant: 'shipped' | 'delivered' }>`
   align-self: flex-start;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme, $variant }) => ($variant === 'delivered' ? theme.state.success : theme.primary.main)};
 `;

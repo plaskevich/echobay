@@ -2,6 +2,7 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import { Spinner } from '@/components/common/Spinner';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'danger-outline';
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -106,25 +107,25 @@ const getSizeStyles = (size: ButtonSize) => {
   switch (size) {
     case 'small':
       return css`
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
+        padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+        font-size: ${({ theme }) => theme.fontSize.sm};
         height: 2rem;
         gap: 0.3rem;
       `;
     case 'medium':
       return css`
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
+        padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+        font-size: ${({ theme }) => theme.fontSize.base};
         height: 2.75rem;
       `;
     case 'large':
       return css`
-        padding: 1rem 2rem;
-        font-size: 1.125rem;
+        padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+        font-size: ${({ theme }) => theme.fontSize.lg};
         height: 3.5rem;
-        @media (max-width: 640px) {
-          padding: 0.75rem 1.5rem;
-          font-size: 1rem;
+        @media (max-width: ${breakpoint.sm}) {
+          padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+          font-size: ${({ theme }) => theme.fontSize.base};
           height: 3rem;
         }
       `;
@@ -139,8 +140,8 @@ const StyledButton = styled.button.withConfig({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 500;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   transition:
     background-color ${({ theme }) => theme.transition.base},
     border-color ${({ theme }) => theme.transition.base},

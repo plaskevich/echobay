@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Sidebar, SidebarItem, SidebarNav, SidebarTitle } from '@/components/layout/SidebarLayout';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export type SettingsSection = 'email' | 'password' | 'shipping';
 
@@ -38,7 +39,7 @@ export default function SettingsSidebar({ activeSection, setActiveSection }: Set
 }
 
 const FullLabel = styled.span`
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     display: none;
   }
 `;
@@ -46,7 +47,7 @@ const FullLabel = styled.span`
 const ShortLabel = styled.span`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     display: inline;
   }
 `;

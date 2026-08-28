@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 import { Button } from '../common/Button';
 
 export function OrderConfirmed() {
@@ -25,15 +27,15 @@ const SuccessContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
   margin: 0 auto;
   text-align: center;
   width: 100%;
-  padding: 4rem 2rem;
+  padding: ${({ theme }) => theme.spacing['3xl']} ${({ theme }) => theme.spacing.xl};
 
-  @media (max-width: 640px) {
-    gap: 1rem;
-    padding: 3rem 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing['2xl']} ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -44,14 +46,14 @@ const SuccessIcon = styled.i`
 `;
 
 const SuccessTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
 `;
 
 const SuccessMessage = styled.p`
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${({ theme }) => theme.text.secondary};
   line-height: 1.6;
   margin: 0;

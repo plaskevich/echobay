@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 import { Skeleton } from '@/components/common/Skeleton';
+import { GALLERY_MAX_WIDTH } from '@/components/item/item-detail/ImageGallery';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export function ItemDetailSkeleton() {
   return (
@@ -71,10 +73,10 @@ const Wrapper = styled.div`
 const BackSkeleton = styled(Skeleton)`
   width: 3.5rem;
   height: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 640px) {
-    margin-bottom: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -84,27 +86,27 @@ const Content = styled.div`
   width: 100%;
   align-items: start;
 
-  @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
+  @media (min-width: ${breakpoint.md}) {
+    grid-template-columns: minmax(0, ${GALLERY_MAX_WIDTH}) minmax(0, 500px);
     justify-content: start;
-    gap: 1.5rem;
+    gap: ${({ theme }) => theme.spacing.lg};
   }
 
-  @media (min-width: 1024px) {
-    gap: 2rem;
+  @media (min-width: ${breakpoint.lg}) {
+    gap: ${({ theme }) => theme.spacing.xl};
   }
 `;
 
 const ImageSection = styled.div`
   display: grid;
   grid-template-columns: 2rem minmax(0, 1fr) 2rem;
-  gap: 1rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   width: 100%;
-  max-width: 600px;
+  max-width: ${GALLERY_MAX_WIDTH};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
-    column-gap: 0.5rem;
+    column-gap: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -119,11 +121,11 @@ const ThumbnailRow = styled.div`
   grid-column: 2;
   display: grid;
   grid-template-columns: repeat(4, 64px);
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(4, 48px);
-    gap: 0.5rem;
+    gap: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -143,31 +145,31 @@ const Details = styled.div`
 const PriceBlock = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const InfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   width: fit-content;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const InfoItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const Section = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const SellerRow = styled.div`
@@ -186,7 +188,7 @@ const AvatarSkeleton = styled(Skeleton)`
 const SellerInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
   flex: 1;
   min-width: 0;
 `;
@@ -194,6 +196,6 @@ const SellerInfo = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;

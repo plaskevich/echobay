@@ -36,5 +36,5 @@ const OrdersSection = styled.div`
 const OrdersList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 `;

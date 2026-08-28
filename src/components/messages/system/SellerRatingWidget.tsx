@@ -70,17 +70,17 @@ const RatingContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
-  margin-top: 0.25rem;
+  margin-top: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const RatingLabel = styled.span`
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.secondary};
 `;
 
 const RatingRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;

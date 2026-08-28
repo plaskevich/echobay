@@ -6,6 +6,7 @@ import { Dialog } from '@/components/common/Dialog';
 import { ErrorPage } from '@/components/common/ErrorPage';
 import { BuyerActions } from '@/components/item/item-detail/BuyerActions';
 import { ImageGallery } from '@/components/item/item-detail/ImageGallery';
+import { GALLERY_MAX_WIDTH } from '@/components/item/item-detail/ImageGallery';
 import { ItemDetailSkeleton } from '@/components/item/item-detail/ItemDetailSkeleton';
 import { ListingDescription } from '@/components/item/item-detail/ListingDescription';
 import { ListingHeader } from '@/components/item/item-detail/ListingHeader';
@@ -14,6 +15,7 @@ import { OwnerActions } from '@/components/item/item-detail/OwnerActions';
 import { SellerCard } from '@/components/item/item-detail/SellerCard';
 import { useListingActions } from '@/hooks/useListingActions';
 import { useLogView } from '@/hooks/useLogView';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useListing } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -133,10 +135,10 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  padding: 2rem 1.5rem;
+  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -144,10 +146,10 @@ const BackButton = styled.button`
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  margin-bottom: 1.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -155,7 +157,7 @@ const BackButton = styled.button`
   transition: all ${({ theme }) => theme.transition.fast};
 
   i {
-    font-size: 1rem;
+    font-size: ${({ theme }) => theme.fontSize.base};
     transition: transform ${({ theme }) => theme.transition.fast};
   }
 
@@ -171,33 +173,33 @@ const BackButton = styled.button`
     transform: scale(0.97);
   }
 
-  @media (max-width: 640px) {
-    margin-bottom: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 `;
 
 const Content = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
   width: 100%;
   align-items: start;
 
-  @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
+  @media (min-width: ${breakpoint.md}) {
+    grid-template-columns: minmax(0, ${GALLERY_MAX_WIDTH}) minmax(0, 500px);
     justify-content: start;
-    gap: 1.5rem;
+    gap: ${({ theme }) => theme.spacing.lg};
   }
 
-  @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 600px) minmax(0, 500px);
-    gap: 2rem;
+  @media (min-width: ${breakpoint.lg}) {
+    grid-template-columns: minmax(0, ${GALLERY_MAX_WIDTH}) minmax(0, 500px);
+    gap: ${({ theme }) => theme.spacing.xl};
   }
 `;
 
 const DetailsSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
   min-width: 0;
 `;
@@ -205,6 +207,6 @@ const DetailsSection = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;

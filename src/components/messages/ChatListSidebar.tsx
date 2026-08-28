@@ -5,6 +5,7 @@ import { EmptyState } from '@/components/common/StateDisplay';
 import { ChatListItem } from '@/components/messages/ChatListItem';
 import { ChatListItemSkeleton } from '@/components/messages/ChatListItemSkeleton';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 interface ChatListSidebarProps {
   chats: ChatWithDetails[];
@@ -90,20 +91,20 @@ const ChatList = styled.div`
   min-width: 288px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   overflow-y: auto;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     width: 100%;
     min-width: 0;
     max-height: none;
     flex: 1;
-    padding: 0 0.75rem;
+    padding: 0 ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const LoadingList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;

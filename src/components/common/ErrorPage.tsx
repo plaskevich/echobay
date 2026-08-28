@@ -51,10 +51,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 1rem;
+  padding: ${({ theme }) => theme.spacing['2xl']} ${({ theme }) => theme.spacing.md};
 `;
 
 const Actions = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 `;

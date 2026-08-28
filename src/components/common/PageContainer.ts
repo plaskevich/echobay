@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-export const PageContainer = styled.div`
-  padding-top: 2rem;
+import { breakpoint } from '@/lib/theme/breakpoints';
 
-  @media (max-width: 768px) {
-    padding: 1rem 0.75rem;
+export const PageContainer = styled.div`
+  padding-top: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   }
 `;

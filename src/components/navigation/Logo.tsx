@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 export function Logo() {
   return (
     <LogoLink to="/">
@@ -42,7 +44,7 @@ const LogoText = styled.span`
     animation: none;
   }
 
-  @media (max-width: 640px) {
-    font-size: 2rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize['3xl']};
   }
 `;

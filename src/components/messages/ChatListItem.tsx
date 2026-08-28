@@ -68,8 +68,8 @@ export function ChatListItem({
 const ChatItem = styled.button<{ $active?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 0.875rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.sm} 0.875rem;
   border: 1px solid ${({ theme, $active }) => ($active ? theme.border.hover : theme.border.primary)};
   background: ${({ theme, $active }) => ($active ? theme.background.secondary : 'transparent')};
   text-align: left;
@@ -92,7 +92,7 @@ const ChatItemAvatar = styled.div`
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.text.primary};
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
 
   img {
     width: 100%;
@@ -113,12 +113,12 @@ const ChatItemHeader = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const ChatItemTitle = styled.div<{ $unread?: boolean }>`
-  font-weight: ${({ $unread }) => ($unread ? 700 : 600)};
-  font-size: 0.875rem;
+  font-weight: ${({ $unread, theme }) => ($unread ? theme.fontWeight.bold : theme.fontWeight.semibold)};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.primary};
   ${ellipsis}
 `;
@@ -128,14 +128,14 @@ const HeaderRight = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const ChatItemTimestamp = styled.span<{ $unread?: boolean }>`
   flex-shrink: 0;
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${({ theme, $unread }) => ($unread ? theme.primary.main : theme.text.tertiary)};
-  font-weight: ${({ $unread }) => ($unread ? 600 : 400)};
+  font-weight: ${({ $unread, theme }) => ($unread ? theme.fontWeight.semibold : theme.fontWeight.regular)};
 `;
 
 const UnreadDot = styled.span`
@@ -155,7 +155,7 @@ const ChatItemSubtitle = styled.div`
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: ${({ theme }) => theme.spacing['3xs']};
   overflow: hidden;
 `;
 
@@ -166,7 +166,7 @@ const ChatItemArtist = styled.span`
 `;
 
 const ChatItemTitleLine = styled.span`
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${(props) => props.theme.text.secondary};
   ${ellipsis}
 `;

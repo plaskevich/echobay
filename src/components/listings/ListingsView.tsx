@@ -10,6 +10,7 @@ import { FilterBar } from '@/components/listings/filters/FilterBar';
 import { hasActiveFilters } from '@/components/listings/filters/utils';
 import { SearchBar } from '@/components/navigation/SearchBar';
 import { usePaginatedSearchParams } from '@/hooks/usePaginatedSearchParams';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useListings } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
@@ -130,20 +131,20 @@ const StickyFilters = styled.div`
   margin-right: calc(50% - 50vw);
   padding: 1rem calc(50vw - 50%);
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     margin: 0 -0.75rem;
-    padding: 1rem 0.75rem 0.75rem;
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.sm};
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: ${breakpoint.sm}) {
     top: 5rem;
   }
 `;
 
 const SearchWrapper = styled.div`
-  padding: 0.25rem 0 0.75rem 0;
+  padding: ${({ theme }) => theme.spacing['2xs']} 0 ${({ theme }) => theme.spacing.sm} 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     display: none;
   }
 `;
@@ -154,8 +155,8 @@ const ItemsSummary = styled.p`
   color: ${({ theme }) => theme.text.primary};
   padding-left: ${({ theme }) => theme.spacing.xs};
   padding-bottom: ${({ theme }) => theme.spacing.xs};
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 const SummarySkeleton = styled(Skeleton)`
@@ -174,7 +175,7 @@ const Grid = styled.div`
   gap: ${({ theme }) => theme.spacing.lg};
   padding-top: 0.1rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(2, 1fr);
     gap: ${({ theme }) => theme.spacing.sm};
   }

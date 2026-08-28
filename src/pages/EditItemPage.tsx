@@ -14,6 +14,7 @@ import { ImageUploadSection } from '@/components/item/edit/ImageUploadSection';
 import { type DiscogsRelease, extractArtistName, useDiscogsSearch } from '@/hooks/useDiscogsSearch';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { useListingSubmit } from '@/hooks/useListingSubmit';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useGenres, useListingGenres, useMainGenres } from '@/queries/useGenres';
 import { useListing } from '@/queries/useListings';
 import { useAuthStore } from '@/store/auth-store';
@@ -319,9 +320,9 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
 }
 
 const StyledPageTitle = styled(PageTitle)`
-  margin-bottom: 1rem;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: 640px) {
-    margin-bottom: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 `;

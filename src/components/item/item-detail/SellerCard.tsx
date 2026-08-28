@@ -47,12 +47,12 @@ export function SellerCard({ ownerId }: SellerCardProps) {
 const SellerSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
 `;
@@ -63,7 +63,7 @@ const Card = styled(Link)`
   gap: 0.875rem;
   text-decoration: none;
   color: inherit;
-  padding: 0.5rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   margin: -0.5rem -0.75rem;
   transition: all ${({ theme }) => theme.transition.fast};
   &:hover {
@@ -91,7 +91,7 @@ const SellerAvatarPlaceholder = styled.div`
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.text.primary};
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
   background-color: ${({ theme }) => theme.background.elevated};
   border-radius: 50%;
 `;
@@ -99,14 +99,14 @@ const SellerAvatarPlaceholder = styled.div`
 const SellerInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: ${({ theme }) => theme.spacing['3xs']};
   flex: 1;
   min-width: 0;
 `;
 
 const SellerName = styled.span`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.primary};
 `;
 
@@ -115,7 +115,7 @@ const SellerLocation = styled.span`
   color: ${({ theme }) => theme.text.tertiary};
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
 `;
 
 const ViewProfileArrow = styled.span`
@@ -123,5 +123,5 @@ const ViewProfileArrow = styled.span`
   color: ${({ theme }) => theme.text.tertiary};
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
 `;

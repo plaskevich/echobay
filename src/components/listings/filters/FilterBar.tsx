@@ -7,6 +7,7 @@ import { MobileFilterPanel } from '@/components/listings/filters/MobileFilterPan
 import { RangeFilter } from '@/components/listings/filters/RangeFilter';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { CURRENCY_SYMBOL } from '@/lib/constants/listings';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { ellipsis } from '@/lib/theme/mixins';
 import { useGenres } from '@/queries/useGenres';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
@@ -215,16 +216,16 @@ export function FilterBar() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const DesktopFiltersRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   align-items: center;
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     display: none;
   }
 `;
@@ -232,12 +233,12 @@ const DesktopFiltersRow = styled.div`
 const ClearAllButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.5rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border: none;
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {
@@ -248,9 +249,9 @@ const ClearAllButton = styled.button`
 const ActiveFiltersRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   align-items: center;
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     display: none;
   }
 `;
@@ -258,13 +259,14 @@ const ActiveFiltersRow = styled.div`
 const FilterPill = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
+  padding: ${({ theme }) => theme.spacing['2xs']} ${({ theme }) => theme.spacing.xs}
+    ${({ theme }) => theme.spacing['2xs']} ${({ theme }) => theme.spacing.xs};
   background-color: ${({ theme }) => theme.background.elevated};
   color: ${({ theme }) => theme.text.primary};
   border: 1px solid ${({ theme }) => theme.border.primary};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 
   span {
     max-width: 150px;
@@ -282,7 +284,7 @@ const PillRemoveButton = styled.button`
   border: none;
   background-color: transparent;
   color: ${({ theme }) => theme.text.secondary};
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   transition: all ${({ theme }) => theme.transition.fast};
 
   &:hover {

@@ -11,6 +11,8 @@ import {
 import { Link, type LinkProps } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 type DropdownAlign = 'left' | 'right';
 
 type DropdownTriggerRenderProps = {
@@ -166,7 +168,7 @@ const DropdownPanel = styled.div.withConfig({
   border: 1px solid ${(props) => props.theme.border.primary};
   box-shadow: ${(props) => props.theme.shadow};
   z-index: 100;
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     top: calc(100% + 0.75rem);
   }
 `;
@@ -174,23 +176,23 @@ const DropdownPanel = styled.div.withConfig({
 const dropdownItemStyles = css`
   width: 100%;
   box-sizing: border-box;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${(props) => props.theme.text.primary};
   text-decoration: none;
   user-select: none;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   transition: all ${(props) => props.theme.transition.base};
 
   &:hover {
     color: ${(props) => props.theme.primary.main};
   }
 
-  @media (max-width: 640px) {
-    font-size: 1.125rem;
-    margin: 1.25rem 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.lg};
+    margin: 1.25rem ${({ theme }) => theme.spacing.md};
   }
 `;
 

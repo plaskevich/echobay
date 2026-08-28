@@ -6,6 +6,7 @@ import { PageContainer as Container } from '@/components/common/PageContainer';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { ListingCard } from '@/components/listings/ListingCard';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { useUserFavorites } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -77,21 +78,21 @@ const Subtitle = styled.p`
   margin-top: 0.2rem;
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.text.primary};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: 640px) {
-    gap: 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    gap: ${({ theme }) => theme.spacing.md};
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -100,11 +101,11 @@ const EmptyState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: ${({ theme }) => theme.spacing['3xl']} ${({ theme }) => theme.spacing.xl};
   text-align: center;
 
-  @media (max-width: 640px) {
-    padding: 3rem 1rem;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing['2xl']} ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -115,14 +116,14 @@ const EmptyIcon = styled.i`
 `;
 
 const EmptyTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
-  margin: 2rem 0 0.5rem 0;
+  margin: ${({ theme }) => theme.spacing.xl} 0 ${({ theme }) => theme.spacing.xs} 0;
 `;
 
 const EmptyText = styled.p`
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   max-width: 400px;

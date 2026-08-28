@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
+
 interface MessageInputProps {
   value: string;
   onChange: (value: string) => void;
@@ -39,9 +41,9 @@ export function MessageInput({ value, onChange, onSend, disabled }: MessageInput
 }
 
 const MessageInputArea = styled.div`
-  padding: 1rem 0;
+  padding: ${({ theme }) => theme.spacing.md} 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${breakpoint.md}) {
     position: sticky;
     bottom: 0;
     z-index: 10;
@@ -65,8 +67,8 @@ const MessageInputWrapper = styled.div`
 
 const MessageInputField = styled.input`
   flex: 1;
-  padding: 0.875rem 1rem 0.875rem 1.25rem;
-  font-size: 1rem;
+  padding: 0.875rem ${({ theme }) => theme.spacing.md} 0.875rem 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   border: none;
   background: transparent;
   color: ${(props) => props.theme.text.primary};
@@ -86,11 +88,11 @@ const MessageInputField = styled.input`
 `;
 
 const MessageSendButton = styled.button`
-  padding: 0.875rem 1rem;
+  padding: 0.875rem ${({ theme }) => theme.spacing.md};
   border: none;
   background: transparent;
   color: ${(props) => props.theme.primary.main};
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   display: flex;
   align-items: center;
   justify-content: center;

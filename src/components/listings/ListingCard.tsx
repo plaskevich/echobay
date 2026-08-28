@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 import type { Listing, ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { ellipsis } from '@/lib/theme/mixins';
 import { formatPrice, getFormatLabel, getStatusLabel } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
@@ -96,7 +97,7 @@ const Card = styled.div`
     cursor: pointer;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     padding: ${(props) => props.theme.spacing.sm};
   }
 `;
@@ -104,7 +105,7 @@ const Card = styled.div`
 const ImageContainer = styled.div<{ $dimmed?: boolean }>`
   position: relative;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   overflow: hidden;
 
   ${(props) =>
@@ -116,8 +117,8 @@ const ImageContainer = styled.div<{ $dimmed?: boolean }>`
       }
     `}
 
-  @media (max-width: 480px) {
-    margin-bottom: 0.5rem;
+  @media (max-width: ${breakpoint.xs}) {
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -138,33 +139,33 @@ const FormatIconFallback = styled.div`
 `;
 
 const ListingTitle = styled.h3`
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   margin: 0;
   color: ${(props) => props.theme.text.primary};
   ${ellipsis}
 
-  @media (max-width: 480px) {
-    font-size: 0.875rem;
+  @media (max-width: ${breakpoint.xs}) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;
 
 const Artist = styled.p`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
   ${ellipsis}
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     font-size: 0.8125rem;
   }
 `;
 
 const Format = styled.p`
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.fontSize.xs};
   color: ${(props) => props.theme.text.secondary};
   margin: 0;
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   display: flex;
   align-items: center;
   gap: 0.2rem;
@@ -172,8 +173,8 @@ const Format = styled.p`
 
 const Price = styled.p`
   font-family: ${(props) => props.theme.fontFamilyAlt};
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   line-height: 1;
   color: ${(props) => props.theme.text.primary};
   margin: auto 0 0 0;
@@ -185,16 +186,16 @@ const StatusBanner = styled.div<{ $status: ListingStatus }>`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.5rem 0.6rem;
+  padding: ${({ theme }) => theme.spacing.xs} 0.6rem;
   background-color: ${(props) =>
     props.$status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
   color: ${(props) => (props.$status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   letter-spacing: 0.01em;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const FavoriteButton = styled.button<{ $isFavorited: boolean }>`

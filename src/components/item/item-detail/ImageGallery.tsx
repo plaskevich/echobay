@@ -5,6 +5,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import type { ListingStatus } from '@/api/listings';
 import { getFormatIcon } from '@/lib/getFormatIcon';
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { glassSurface } from '@/lib/theme/mixins';
 import { getStatusLabel } from '@/lib/utils';
 
@@ -110,27 +111,30 @@ const LightboxIcon = styled.i`
   font-size: 2.5rem;
   line-height: 1;
   &.hn-times {
-    font-size: 2rem;
+    font-size: ${({ theme }) => theme.fontSize['3xl']};
   }
 `;
+
+/** The gallery column width, mirrored by the item-detail grid and its skeleton. */
+export const GALLERY_MAX_WIDTH = '600px';
 
 const ImageSection = styled.div`
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1rem 0.75rem;
+  gap: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   width: 100%;
-  max-width: 600px;
+  max-width: ${GALLERY_MAX_WIDTH};
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoint.md}) {
     position: sticky;
     top: 5rem;
     align-self: start;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     max-width: 100%;
-    column-gap: 0.5rem;
+    column-gap: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -151,12 +155,12 @@ const StatusBanner = styled.div<{ $status: ListingStatus }>`
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem 1.25rem;
+  padding: ${({ theme }) => theme.spacing.md} 1.25rem;
   background-color: ${(props) =>
     props.$status === 'sold' ? props.theme.primary.main : props.theme.background.tertiary};
   color: ${(props) => (props.$status === 'sold' ? props.theme.text.inverse : props.theme.text.primary)};
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -188,8 +192,8 @@ const ZoomHint = styled.div`
   transform: translateX(-50%);
   background: ${({ theme }) => theme.overlay.darker};
   color: ${({ theme }) => theme.text.inverse};
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   opacity: 0;
   transition: opacity ${({ theme }) => theme.transition.slow};
   pointer-events: none;
@@ -202,9 +206,9 @@ const ImageCounter = styled.div`
   right: 1rem;
   background: ${({ theme }) => theme.black.main};
   color: ${({ theme }) => theme.text.inverse};
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   backdrop-filter: blur(8px);
 `;
 
@@ -212,13 +216,13 @@ const ThumbnailGrid = styled.div`
   grid-column: 2;
   display: grid;
   grid-template-columns: repeat(auto-fill, 64px);
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
   width: 100%;
   min-width: 0;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     grid-template-columns: repeat(auto-fill, 48px);
-    gap: 0.5rem;
+    gap: ${({ theme }) => theme.spacing.xs};
   }
 `;
 
@@ -248,8 +252,8 @@ const NavButton = styled.button`
   color: ${({ theme }) => theme.text.secondary};
   background: transparent;
   border: none;
-  /* margin: 0 1rem; */
-  font-size: 2rem;
+  /* margin: 0 ${({ theme }) => theme.spacing.md}; */
+  font-size: ${({ theme }) => theme.fontSize['3xl']};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,9 +274,9 @@ const NavButton = styled.button`
     cursor: default;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     width: 2rem;
     height: 2rem;
-    font-size: 1.25rem;
+    font-size: ${({ theme }) => theme.fontSize.xl};
   }
 `;

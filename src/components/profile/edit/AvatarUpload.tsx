@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Button } from '@/components/common/Button';
 import { Placeholder, ProfilePicture } from '@/components/profile/ProfileHeader';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 interface AvatarUploadProps {
   avatarUrl?: string;
@@ -66,10 +67,10 @@ const AvatarRow = styled.div`
   align-items: center;
   gap: 1.25rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     flex-direction: column;
     text-align: center;
-    gap: 1rem;
+    gap: ${({ theme }) => theme.spacing.md};
   }
 `;
 
@@ -83,14 +84,14 @@ const AvatarInfo = styled.div`
   gap: 0.2rem;
   min-width: 0;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     align-items: center;
   }
 `;
 
 const AvatarLabel = styled.span`
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${(props) => props.theme.text.primary};
 `;
 
@@ -101,11 +102,11 @@ const AvatarHint = styled.span`
 
 const AvatarControls = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   align-items: center;
   margin-top: 0.6rem;
 
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoint.xs}) {
     justify-content: center;
   }
 `;

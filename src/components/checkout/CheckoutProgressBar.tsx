@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
 import type { CheckoutStep } from '@/store/checkout-store';
 
 interface CheckoutProgressBarProps {
@@ -33,18 +34,18 @@ export function CheckoutProgressBar({ currentStep }: CheckoutProgressBarProps) {
 const ProgressBar = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xs};
   margin-bottom: 1.75rem;
 `;
 
 const Arrow = styled.i`
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   line-height: 1;
   color: ${({ theme }) => theme.text.secondary};
 
-  @media (max-width: 768px) {
-    font-size: 0.875rem;
+  @media (max-width: ${breakpoint.md}) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;
 
@@ -54,8 +55,8 @@ const Step = styled.div<{ $done: boolean; $active: boolean }>`
   gap: 0.375rem;
   flex: 1;
   padding: 0.625rem 0.875rem;
-  font-size: 0.875rem;
-  font-weight: ${({ $active }) => ($active ? 700 : 600)};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ $active, theme }) => ($active ? theme.fontWeight.bold : theme.fontWeight.semibold)};
   border: 1px solid
     ${({ theme, $done, $active }) => ($active ? theme.black.main : $done ? theme.black.light : theme.border.primary)};
   background-color: ${({ theme, $done, $active }) =>
@@ -67,8 +68,8 @@ const Step = styled.div<{ $done: boolean; $active: boolean }>`
     border-color ${({ theme }) => theme.transition.base},
     color ${({ theme }) => theme.transition.base};
 
-  @media (max-width: 768px) {
-    padding: 0.5rem 0.625rem;
-    font-size: 0.75rem;
+  @media (max-width: ${breakpoint.md}) {
+    padding: ${({ theme }) => theme.spacing.xs} 0.625rem;
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `;

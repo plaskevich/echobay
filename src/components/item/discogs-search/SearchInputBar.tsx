@@ -55,15 +55,16 @@ export function SearchInputBar({
 
 const SearchInputGroup = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
   position: relative;
 `;
 
 const SearchInput = styled.input`
   flex: 1;
-  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  padding: ${({ theme }) => theme.spacing.sm} 2.5rem ${({ theme }) => theme.spacing.sm}
+    ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${(props) => props.theme.border.primary};
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
   background-color: ${(props) => props.theme.background.primary};
   color: ${(props) => props.theme.text.primary};
 
@@ -90,7 +91,7 @@ const ClearButton = styled.button`
   background: none;
   border: none;
   color: ${(props) => props.theme.text.secondary};
-  padding: 0.5rem;
+  padding: ${({ theme }) => theme.spacing.xs};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +111,7 @@ const SearchButton = styled.button`
   color: #000;
   border: none;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   display: flex;
   align-items: center;
   justify-content: center;

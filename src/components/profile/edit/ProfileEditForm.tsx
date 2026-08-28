@@ -5,6 +5,7 @@ import { Form } from '@/components/common/Form';
 import { PageContainer as Container } from '@/components/common/PageContainer';
 import { LoadingState } from '@/components/common/StateDisplay';
 import { useProfileEdit } from '@/hooks/useProfileEdit';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 import { AvatarUpload } from './AvatarUpload';
 import { FormHeader } from './FormHeader';
@@ -64,26 +65,26 @@ const Panel = styled.div`
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: ${({ theme }) => theme.spacing.lg};
   }
 
-  @media (max-width: 640px) {
-    padding: 1.5rem 0;
+  @media (max-width: ${breakpoint.sm}) {
+    padding: ${({ theme }) => theme.spacing.lg} 0;
   }
 `;
 
 const FieldsPanel = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     flex-direction: row-reverse;
     width: 100%;
     align-items: stretch;

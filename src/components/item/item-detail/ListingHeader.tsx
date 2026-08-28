@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { breakpoint } from '@/lib/theme/breakpoints';
 import { formatPrice } from '@/lib/utils';
 import { useIsFavorited, useToggleFavorite } from '@/queries/useFavorites';
 import { useAuthStore } from '@/store/auth-store';
@@ -58,7 +59,7 @@ const TitleSection = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const TitleText = styled.div`
@@ -92,37 +93,37 @@ const FavoriteButton = styled.button<{ $isFavorited: boolean }>`
 `;
 
 const Artist = styled.p`
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSize.xl};
   color: ${({ theme }) => theme.text.secondary};
   margin: 0;
 
-  @media (max-width: 640px) {
-    font-size: 1.125rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize.lg};
   }
 `;
 
 const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSize['2xl']};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.text.primary};
   margin: 0;
 
-  @media (max-width: 640px) {
-    font-size: 1.5rem;
+  @media (max-width: ${breakpoint.sm}) {
+    font-size: ${({ theme }) => theme.fontSize['2xl']};
   }
 `;
 
 const PriceSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: ${({ theme }) => theme.spacing['2xs']};
   margin-top: -0.5rem;
 `;
 
 const Price = styled.p`
   font-family: ${({ theme }) => theme.fontFamilyAlt};
   font-size: ${({ theme }) => theme.fontSize['2xl']};
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   line-height: 1;
   color: ${({ theme }) => theme.primary.main};
   margin: 0;
@@ -131,7 +132,7 @@ const Price = styled.p`
 const ShippingPrice = styled.p`
   font-size: ${({ theme }) => theme.fontSize.sm};
   font-family: ${({ theme }) => theme.fontFamilyAlt};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.text.muted};
   margin: 0;
 `;

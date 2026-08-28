@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { minFullContentHeight } from '@/components/layout/viewport';
+import { breakpoint } from '@/lib/theme/breakpoints';
 
 export const AuthContainer = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ export const AuthContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
   ${minFullContentHeight}
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     padding: ${({ theme }) => theme.spacing.md} 0;
     justify-content: flex-start;
     min-height: 0;
@@ -29,7 +30,7 @@ export const AuthCard = styled.div`
     padding: ${({ theme }) => theme.spacing.lg};
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     padding: ${({ theme }) => theme.spacing.lg};
     box-shadow: none;
     border: none;
@@ -39,7 +40,7 @@ export const AuthCard = styled.div`
 
 export const AuthCardTitle = styled.h2`
   text-align: center;
-  font-size: 2rem;
+  font-size: ${({ theme }) => theme.fontSize['3xl']};
   margin: 0;
 `;
 
@@ -51,7 +52,7 @@ export const AuthSubtitle = styled.p`
   text-align: center;
   line-height: ${({ theme }) => theme.lineHeight.normal};
 
-  @media (max-width: 640px) {
+  @media (max-width: ${breakpoint.sm}) {
     margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 `;
