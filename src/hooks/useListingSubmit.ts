@@ -24,8 +24,6 @@ interface UseListingSubmitProps {
   resetImages: () => void;
   listingId?: string;
   existingImages?: string[];
-  initialMainGenreIds?: string[];
-  initialSubgenreIds?: string[];
 }
 
 export function useListingSubmit({
@@ -34,8 +32,6 @@ export function useListingSubmit({
   resetImages,
   listingId,
   existingImages = [],
-  initialMainGenreIds = [],
-  initialSubgenreIds = [],
 }: UseListingSubmitProps) {
   const navigate = useNavigate();
   const createMutation = useCreateListing();
@@ -58,8 +54,8 @@ export function useListingSubmit({
     },
   });
 
-  const [selectedMainGenreIds, setSelectedMainGenreIds] = useState<string[]>(initialMainGenreIds);
-  const [selectedSubgenreIds, setSelectedSubgenreIds] = useState<string[]>(initialSubgenreIds);
+  const [selectedMainGenreIds, setSelectedMainGenreIds] = useState<string[]>([]);
+  const [selectedSubgenreIds, setSelectedSubgenreIds] = useState<string[]>([]);
   const selectedGenreIds = [...selectedMainGenreIds, ...selectedSubgenreIds];
 
   const resetForm = () => {

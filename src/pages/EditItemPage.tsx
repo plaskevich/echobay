@@ -42,22 +42,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     return [];
   }, [existingListing]);
 
-  const { computedExistingMainGenreIds, computedExistingSubgenreIds } = useMemo(() => {
-    const mainGenreIdSet = new Set(mainGenresList.map((g) => g.id));
-    const mainIds: string[] = [];
-    const subIds: string[] = [];
-
-    existingGenres.forEach((g) => {
-      if (mainGenreIdSet.has(g.id)) {
-        mainIds.push(g.id);
-      } else {
-        subIds.push(g.id);
-      }
-    });
-
-    return { computedExistingMainGenreIds: mainIds, computedExistingSubgenreIds: subIds };
-  }, [existingGenres, mainGenresList]);
-
   const {
     searchQuery,
     setSearchQuery,
@@ -97,8 +81,6 @@ export function EditItemPage({ mode = 'create' }: ListingFormProps) {
     resetImages,
     listingId: id,
     existingImages: imagePreviews.length > 0 ? imagePreviews : computedExistingImages,
-    initialMainGenreIds: computedExistingMainGenreIds,
-    initialSubgenreIds: computedExistingSubgenreIds,
   });
 
   const isDirty = form.formState.isDirty || extraDirty;
