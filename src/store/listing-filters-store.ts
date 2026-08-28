@@ -19,7 +19,3 @@ export const useListingFiltersStore = create<ListingFiltersState>((set) => ({
   setAppliedFilters: (filters) => set({ appliedFilters: filters }),
   resetFilters: () => set({ filters: { ...defaultFilters }, appliedFilters: { ...defaultFilters } }),
 }));
-
-export function getDefaultListingFilters() {
-  return { ...defaultFilters };
-}

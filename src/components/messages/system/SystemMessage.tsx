@@ -6,7 +6,7 @@ import type { OrderStatus } from '@/api/orders';
 import { SellerRatingWidget } from './SellerRatingWidget';
 import { ActionButton, SellerShippingDetails, StatusTag } from './SellerShippingDetails';
 
-export interface SystemMessageProps {
+interface SystemMessageProps {
   metadata: MessageMetadata;
   isSeller: boolean;
   isBuyer: boolean;

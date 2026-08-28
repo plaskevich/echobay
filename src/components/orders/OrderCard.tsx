@@ -166,15 +166,12 @@ const StatusBadge = styled.span<{ $status: OrderStatus }>`
     switch (props.$status) {
       case 'paid':
       case 'confirmed':
-        return props.theme.primary.main;
       case 'shipped':
         return props.theme.primary.main;
       case 'delivered':
         return props.theme.state.success;
       case 'failed':
         return props.theme.state.error;
-      default:
-        return props.theme.text.secondary;
     }
   }};
 `;

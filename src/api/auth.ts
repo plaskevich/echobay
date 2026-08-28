@@ -9,11 +9,6 @@ export async function getCurrentUser(): Promise<User | null> {
   return user;
 }
 
-export async function isAuthenticated(): Promise<boolean> {
-  const user = await getCurrentUser();
-  return user !== null;
-}
-
 export async function logInWithEmail(email: string, password: string) {
   return await supabase.auth.signInWithPassword({
     email,

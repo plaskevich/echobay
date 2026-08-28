@@ -209,8 +209,6 @@ export default function MessagesPage() {
       ? listing?.owner_id
       : undefined;
 
-  const otherAvatarUrl = otherUserInfo?.avatar_url ?? null;
-
   const [mobileShowConversation, setMobileShowConversation] = useState(!!showConversation);
 
   useEffect(() => {
@@ -259,7 +257,6 @@ export default function MessagesPage() {
               currentUserId: user.id,
               otherUsername,
               otherUserId,
-              otherAvatarUrl,
               chatBuyerId: selectedChat?.buyer_id ?? (pendingListingForSidebar ? user.id : undefined),
               chatSellerId: selectedChat?.seller_id ?? (pendingListingForSidebar ? listing?.owner_id : undefined),
             }}

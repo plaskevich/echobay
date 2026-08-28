@@ -1,6 +1,3 @@
-export const FORMATS = ['vinyl', 'cd', 'tape'] as const;
-export type Format = (typeof FORMATS)[number];
-
 export const FORMAT_OPTIONS = [
   { value: '', label: 'Select a format' },
   { value: 'vinyl', label: 'Vinyl' },

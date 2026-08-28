@@ -191,7 +191,6 @@ const Content = styled.div`
   }
 
   @media (min-width: ${breakpoint.lg}) {
-    grid-template-columns: minmax(0, ${GALLERY_MAX_WIDTH}) minmax(0, 500px);
     gap: ${({ theme }) => theme.spacing.xl};
   }
 `;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import type { Listing } from '@/api/listings';
-import { ErrorMessage, InfoMessage } from '@/components/common/Message';
+import { ErrorMessage } from '@/components/common/Message';
 import { PageContainer as Container } from '@/components/common/PageContainer';
 import { PageTitle } from '@/components/common/PageTitle';
 import { LoadingState } from '@/components/common/StateDisplay';
@@ -21,14 +21,6 @@ interface FavoriteWithListing {
 export function FavoritesPage() {
   const { user } = useAuthStore();
   const { data: favorites = [], isLoading, error } = useUserFavorites(user?.id);
-
-  if (!user) {
-    return (
-      <Container>
-        <InfoMessage>Please log in to view your favorites</InfoMessage>
-      </Container>
-    );
-  }
 
   if (isLoading) {
     return (

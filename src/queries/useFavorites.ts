@@ -4,7 +4,6 @@ import { type Favorite, addFavorite, fetchUserFavorites, removeFavorite } from '
 
 export const favoriteKeys = {
   all: ['favorites'] as const,
-  lists: () => [...favoriteKeys.all, 'list'] as const,
   userFavorites: (userId: string) => [...favoriteKeys.all, 'user', userId] as const,
 };
 

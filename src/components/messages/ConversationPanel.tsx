@@ -14,7 +14,6 @@ interface ConversationParticipants {
   currentUserId: string;
   otherUsername?: string;
   otherUserId?: string;
-  otherAvatarUrl?: string | null;
   chatBuyerId?: string;
   chatSellerId?: string;
 }
@@ -52,7 +51,7 @@ export function ConversationPanel({
   actions,
   messagesEndRef,
 }: ConversationPanelProps) {
-  const { currentUserId, otherUsername, otherUserId, otherAvatarUrl, chatBuyerId, chatSellerId } = participants;
+  const { currentUserId, otherUsername, otherUserId, chatBuyerId, chatSellerId } = participants;
 
   const { messages, messageDraft, showConversation, isLoading, isConversationLoading, orderStatus, isUpdatingOrder } =
     conversationState;
@@ -88,7 +87,6 @@ export function ConversationPanel({
             hasOrder={!!orderStatus}
             otherUserId={otherUserId}
             otherUsername={otherUsername}
-            otherAvatarUrl={otherAvatarUrl}
           />
           <MessagesList
             ref={messagesEndRef}

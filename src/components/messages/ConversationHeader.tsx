@@ -19,7 +19,6 @@ interface ConversationHeaderProps {
   hasOrder?: boolean;
   otherUserId?: string;
   otherUsername?: string;
-  otherAvatarUrl?: string | null;
 }
 
 export function ConversationHeader({

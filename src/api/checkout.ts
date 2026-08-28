@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase';
 
 const SUPABASE_FUNCTIONS_URL = import.meta.env.VITE_SUPABASE_URL + '/functions/v1';
 
-export interface CheckoutData {
+interface CheckoutData {
   listingId: string;
   shippingAddress: {
     fullName: string;
@@ -17,7 +17,7 @@ export interface CheckoutData {
   paymentIntentId: string;
 }
 
-export interface OrderResult {
+interface OrderResult {
   success: boolean;
   orderId?: string;
   error?: string;

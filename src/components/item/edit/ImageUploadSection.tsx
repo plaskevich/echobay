@@ -83,7 +83,7 @@ export function ImageUploadSection({
   );
 }
 
-export const ImagePreviewContainer = styled.div`
+const ImagePreviewContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: ${({ theme }) => theme.spacing.md};
@@ -95,7 +95,7 @@ export const ImagePreviewContainer = styled.div`
   }
 `;
 
-export const ImagePreview = styled.div<{ $dragOver?: boolean }>`
+const ImagePreview = styled.div<{ $dragOver?: boolean }>`
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
@@ -109,14 +109,14 @@ export const ImagePreview = styled.div<{ $dragOver?: boolean }>`
   }
 `;
 
-export const PreviewImage = styled.img`
+const PreviewImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: none;
 `;
 
-export const MainBadge = styled.span`
+const MainBadge = styled.span`
   position: absolute;
   bottom: 0.25rem;
   left: 50%;
@@ -130,7 +130,7 @@ export const MainBadge = styled.span`
   pointer-events: none;
 `;
 
-export const RemoveImageButton = styled.button`
+const RemoveImageButton = styled.button`
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;

@@ -40,10 +40,6 @@ const ORDER_SELECT = `
   )
 `;
 
-export async function getOrder(orderId: string) {
-  return await supabase.from('orders').select('*').eq('id', orderId).single();
-}
-
 export async function fetchBoughtOrders(userId: string) {
   return await supabase
     .from('orders')

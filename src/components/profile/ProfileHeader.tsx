@@ -6,7 +6,7 @@ import { SellerRatingDisplay } from '@/components/common/SellerRatingDisplay';
 import { formatRelativeDate } from '@/lib/formatRelativeDate';
 import { breakpoint } from '@/lib/theme/breakpoints';
 
-export interface ProfileHeaderProps {
+interface ProfileHeaderProps {
   avatarUrl?: string | null;
   username: string;
   memberSince?: string | null;

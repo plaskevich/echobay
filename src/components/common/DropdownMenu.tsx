@@ -37,7 +37,7 @@ function useDropdownContext() {
   return ctx;
 }
 
-export interface DropdownProps {
+interface DropdownProps {
   trigger: (props: DropdownTriggerRenderProps) => ReactNode;
   children: ReactNode;
   menuLabel: string;
@@ -100,7 +100,7 @@ export function Dropdown({ trigger, children, menuLabel, align = 'right', minWid
   );
 }
 
-export type DropdownMenuLinkProps = LinkProps & {
+type DropdownMenuLinkProps = LinkProps & {
   closeOnSelect?: boolean;
 };
 
@@ -119,7 +119,7 @@ export function DropdownMenuLink({ closeOnSelect = true, onClick, ...props }: Dr
   );
 }
 
-export type DropdownMenuButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type DropdownMenuButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   closeOnSelect?: boolean;
   variant?: 'default' | 'danger';
 };
@@ -155,9 +155,7 @@ const DropdownRoot = styled.div`
   position: relative;
 `;
 
-const DropdownPanel = styled.div.withConfig({
-  shouldForwardProp: (prop) => !['$align', '$minWidth'].includes(prop),
-})<{ $align: DropdownAlign; $minWidth: string }>`
+const DropdownPanel = styled.div<{ $align: DropdownAlign; $minWidth: string }>`
   position: absolute;
   top: calc(100% + 1rem);
   ${(p) => (p.$align === 'left' ? 'left: 0;' : 'right: 0;')}
@@ -200,9 +198,7 @@ const StyledDropdownLink = styled(Link)`
   ${dropdownItemStyles}
 `;
 
-const StyledDropdownButton = styled.button.withConfig({
-  shouldForwardProp: (prop) => prop !== '$variant',
-})<{ $variant: 'default' | 'danger' }>`
+const StyledDropdownButton = styled.button<{ $variant: 'default' | 'danger' }>`
   ${dropdownItemStyles}
   background: none;
   border: none;

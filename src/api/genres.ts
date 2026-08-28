@@ -26,22 +26,6 @@ export async function fetchSubgenres() {
     .order('display_order', { ascending: true });
 }
 
-export async function fetchSubgenresByParentIds(parentIds: string[]) {
-  if (parentIds.length === 0) return { data: [], error: null };
-
-  return await supabase
-    .from('genres')
-    .select('*')
-    .in('parent_id', parentIds)
-    .order('display_order', { ascending: true });
-}
-
-export async function fetchGenresByIds(ids: string[]) {
-  if (ids.length === 0) return { data: [], error: null };
-
-  return await supabase.from('genres').select('*').in('id', ids).order('display_order', { ascending: true });
-}
-
 export async function fetchGenresByNames(names: string[]) {
   if (names.length === 0) return { data: [], error: null };
   const normalizedNames = names.map((n) => n.toLowerCase().trim());

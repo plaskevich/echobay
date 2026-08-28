@@ -5,7 +5,7 @@ import { LoadingState } from '@/components/common/StateDisplay';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { breakpoint } from '@/lib/theme/breakpoints';
 
-export interface UserListingsProps {
+interface UserListingsProps {
   listings: Listing[];
   isLoading?: boolean;
   error?: unknown;
