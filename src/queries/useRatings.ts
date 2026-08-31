@@ -8,7 +8,7 @@ import {
   submitRating,
 } from '@/api/ratings';
 
-export const ratingKeys = {
+const ratingKeys = {
   all: ['ratings'] as const,
   seller: (sellerId: string) => [...ratingKeys.all, 'seller', sellerId] as const,
   order: (orderId: string) => [...ratingKeys.all, 'order', orderId] as const,

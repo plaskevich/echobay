@@ -4,7 +4,7 @@ import type { Listing } from '@/api/listings';
 import { ErrorMessage } from '@/components/common/Message';
 import { PageContainer as Container } from '@/components/common/PageContainer';
 import { PageTitle } from '@/components/common/PageTitle';
-import { LoadingState } from '@/components/common/StateDisplay';
+import { EmptyState, LoadingState } from '@/components/common/StateDisplay';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { breakpoint } from '@/lib/theme/breakpoints';
 import { useUserFavorites } from '@/queries/useFavorites';
@@ -48,11 +48,12 @@ export function FavoritesPage() {
       </Subtitle>
 
       {listings.length === 0 ? (
-        <EmptyState data-testid="favorites-empty">
-          <EmptyIcon className="hn hn-heart" aria-hidden />
-          <EmptyTitle>No favorites yet</EmptyTitle>
-          <EmptyText>Start exploring and add items to your favorites by clicking the heart icon</EmptyText>
-        </EmptyState>
+        <EmptyState
+          data-testid="favorites-empty"
+          icon={<i className="hn hn-heart" aria-hidden />}
+          title="No favorites yet"
+          message="Start exploring and add items to your favorites by clicking the heart icon"
+        />
       ) : (
         <Grid data-testid="favorites-grid">
           {listings.map((listing) => (
@@ -86,37 +87,4 @@ const Grid = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: ${({ theme }) => theme.spacing.sm};
   }
-`;
-
-const EmptyState = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: ${({ theme }) => theme.spacing['3xl']} ${({ theme }) => theme.spacing.xl};
-  text-align: center;
-
-  @media (max-width: ${breakpoint.sm}) {
-    padding: ${({ theme }) => theme.spacing['2xl']} ${({ theme }) => theme.spacing.md};
-  }
-`;
-
-const EmptyIcon = styled.i`
-  font-size: 3.75rem;
-  line-height: 1;
-  color: ${(props) => props.theme.text.secondary};
-`;
-
-const EmptyTitle = styled.h2`
-  font-size: ${({ theme }) => theme.fontSize['2xl']};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
-  color: ${(props) => props.theme.text.primary};
-  margin: ${({ theme }) => theme.spacing.xl} 0 ${({ theme }) => theme.spacing.xs} 0;
-`;
-
-const EmptyText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.base};
-  color: ${(props) => props.theme.text.secondary};
-  margin: 0;
-  max-width: 400px;
 `;

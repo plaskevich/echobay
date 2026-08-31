@@ -20,15 +20,6 @@ export const SORT_LABELS: Record<ListingSortOption, string> = Object.fromEntries
   SORT_OPTIONS.map((o) => [o.value, o.label])
 ) as Record<ListingSortOption, string>;
 
-export const CATEGORY_LABELS: Record<FilterCategory, string> = {
-  sort: 'Sort by',
-  format: 'Format',
-  condition: 'Condition',
-  genres: 'Genres',
-  price: 'Price',
-  year: 'Year',
-};
-
 export const formatOptions = FORMAT_OPTIONS.filter((opt) => opt.value !== '').map((opt) => ({
   value: opt.value as string,
   label: opt.label as string,
@@ -40,10 +31,7 @@ export const conditionOptions = CONDITION_OPTIONS.filter((opt) => opt.value !== 
 }));
 
 export function toOptionLabelMap(options: { value: string; label: string }[]): Record<string, string> {
-  return options.reduce<Record<string, string>>((acc, opt) => {
-    acc[opt.value] = opt.label;
-    return acc;
-  }, {});
+  return Object.fromEntries(options.map((opt) => [opt.value, opt.label]));
 }
 
 export function hasActiveFilters(filters: ListingFilters): boolean {

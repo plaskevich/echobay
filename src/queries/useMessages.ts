@@ -19,7 +19,7 @@ import { fetchProfilesByIds } from '@/api/profile';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth-store';
 
-export const messageKeys = {
+const messageKeys = {
   all: ['messages'] as const,
   chats: (userId: string) => [...messageKeys.all, 'chats', userId] as const,
   chat: (chatId: string) => [...messageKeys.all, 'chat', chatId] as const,

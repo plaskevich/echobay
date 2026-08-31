@@ -1,7 +1,6 @@
 import { sharedTokens } from './tokens';
-import type { ThemeColors } from './types';
 
-export const theme: ThemeColors = {
+export const theme = {
   background: {
     primary: '#F5F5F5',
     secondary: '#E7E7E7',
@@ -41,3 +40,5 @@ export const theme: ThemeColors = {
   },
   ...sharedTokens,
 };
+
+export type ThemeColors = typeof theme;

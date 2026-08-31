@@ -34,7 +34,7 @@ export interface ListingData {
   status?: ListingStatus;
 }
 
-export interface ListingWithGenres extends ListingData {
+interface ListingWithGenres extends ListingData {
   id: string;
   created_at: string;
   listing_genres?: Array<{ genres: GenreRef }>;

@@ -252,7 +252,6 @@ const NavButton = styled.button`
   color: ${({ theme }) => theme.text.secondary};
   background: transparent;
   border: none;
-  /* margin: 0 ${({ theme }) => theme.spacing.md}; */
   font-size: ${({ theme }) => theme.fontSize['3xl']};
   display: flex;
   align-items: center;

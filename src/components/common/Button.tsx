@@ -1,11 +1,10 @@
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { type RuleSet, css } from 'styled-components';
 
 import { Spinner } from '@/components/common/Spinner';
-import { breakpoint } from '@/lib/theme/breakpoints';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'danger-outline';
-export type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'danger-outline';
+type ButtonSize = 'small' | 'medium';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -14,124 +13,93 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-const getVariantStyles = (variant: ButtonVariant) => {
-  switch (variant) {
-    case 'primary':
-      return css`
-        background-color: ${({ theme }) => theme.black.main};
-        color: ${({ theme }) => theme.text.inverse};
-        border: none;
-
-        &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.black.light};
-        }
-      `;
-    case 'secondary':
-      return css`
-        background-color: ${({ theme }) => theme.background.secondary};
-        color: ${({ theme }) => theme.text.primary};
-        border: 1px solid ${({ theme }) => theme.border.primary};
-
-        &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.background.tertiary};
-          border-color: ${({ theme }) => theme.border.hover};
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
-      `;
-    case 'outline':
-      return css`
-        background-color: transparent;
-        color: ${({ theme }) => theme.text.primary};
-        border: 1px solid ${({ theme }) => theme.border.primary};
-
-        &:hover:not(:disabled) {
-          border-color: ${({ theme }) => theme.border.hover};
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
-      `;
-    case 'ghost':
-      return css`
-        background-color: transparent;
-        color: ${({ theme }) => theme.text.primary};
-        border: none;
-
-        &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.background.secondary};
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
-      `;
-    case 'danger':
-      return css`
-        background-color: ${({ theme }) => theme.state.error};
-        color: ${({ theme }) => theme.text.inverse};
-        border: none;
-
-        &:hover:not(:disabled) {
-          opacity: 0.9;
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
-      `;
-    case 'danger-outline':
-      return css`
-        background-color: transparent;
-        color: ${({ theme }) => theme.state.error};
-        border: 1px solid ${({ theme }) => theme.state.error};
-
-        &:hover:not(:disabled) {
-          background-color: ${({ theme }) => theme.state.error};
-          color: ${({ theme }) => theme.text.inverse};
-        }
-
-        &:active:not(:disabled) {
-          transform: translateY(1px);
-        }
-      `;
-    default:
-      return '';
+const press = css`
+  &:active:not(:disabled) {
+    transform: translateY(1px);
   }
+`;
+
+const variantStyles: Record<ButtonVariant, RuleSet> = {
+  primary: css`
+    background-color: ${({ theme }) => theme.black.main};
+    color: ${({ theme }) => theme.text.inverse};
+    border: none;
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.black.light};
+    }
+  `,
+  secondary: css`
+    background-color: ${({ theme }) => theme.background.secondary};
+    color: ${({ theme }) => theme.text.primary};
+    border: 1px solid ${({ theme }) => theme.border.primary};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.background.tertiary};
+      border-color: ${({ theme }) => theme.border.hover};
+    }
+
+    ${press}
+  `,
+  outline: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.text.primary};
+    border: 1px solid ${({ theme }) => theme.border.primary};
+
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => theme.border.hover};
+    }
+
+    ${press}
+  `,
+  ghost: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.text.primary};
+    border: none;
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.background.secondary};
+    }
+
+    ${press}
+  `,
+  danger: css`
+    background-color: ${({ theme }) => theme.state.error};
+    color: ${({ theme }) => theme.text.inverse};
+    border: none;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    ${press}
+  `,
+  'danger-outline': css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.state.error};
+    border: 1px solid ${({ theme }) => theme.state.error};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => theme.state.error};
+      color: ${({ theme }) => theme.text.inverse};
+    }
+
+    ${press}
+  `,
 };
 
-const getSizeStyles = (size: ButtonSize) => {
-  switch (size) {
-    case 'small':
-      return css`
-        padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
-        font-size: ${({ theme }) => theme.fontSize.sm};
-        height: 2rem;
-        gap: 0.3rem;
-      `;
-    case 'medium':
-      return css`
-        padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
-        font-size: ${({ theme }) => theme.fontSize.base};
-        height: 2.75rem;
-      `;
-    case 'large':
-      return css`
-        padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-        font-size: ${({ theme }) => theme.fontSize.lg};
-        height: 3.5rem;
-        @media (max-width: ${breakpoint.sm}) {
-          padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-          font-size: ${({ theme }) => theme.fontSize.base};
-          height: 3rem;
-        }
-      `;
-    default:
-      return '';
-  }
+const sizeStyles: Record<ButtonSize, RuleSet> = {
+  small: css`
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    height: 2rem;
+    gap: 0.3rem;
+  `,
+  medium: css`
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSize.base};
+    height: 2.75rem;
+  `,
 };
 
 const StyledButton = styled.button.withConfig({
@@ -154,8 +122,8 @@ const StyledButton = styled.button.withConfig({
   box-sizing: border-box;
   min-width: 0;
 
-  ${({ variant = 'primary' }) => getVariantStyles(variant)}
-  ${({ size = 'medium' }) => getSizeStyles(size)}
+  ${({ variant = 'primary' }) => variantStyles[variant]}
+  ${({ size = 'medium' }) => sizeStyles[size]}
   ${({ fullWidth }) =>
     fullWidth &&
     css`

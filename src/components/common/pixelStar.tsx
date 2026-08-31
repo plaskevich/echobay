@@ -1,6 +1,6 @@
 import type { ItemStyles } from '@smastrom/react-rating';
 
-import { theme } from '@/lib/theme';
+import { theme } from '@/lib/theme/theme';
 
 const PixelStar = (
   <polygon

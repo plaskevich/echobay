@@ -20,7 +20,7 @@ export async function fetchPublicProfile(userId: string) {
     .single();
 }
 
-export interface ProfileSummary {
+interface ProfileSummary {
   id: string;
   username: string | null;
   avatar_url: string | null;

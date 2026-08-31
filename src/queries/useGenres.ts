@@ -3,14 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   type Genre,
   fetchGenres,
-  fetchGenresByNames,
   fetchListingGenres,
   fetchMainGenres,
   fetchSubgenres,
   setListingGenres,
 } from '@/api/genres';
 
-export const genreKeys = {
+const genreKeys = {
   all: ['genres'] as const,
   lists: () => [...genreKeys.all, 'list'] as const,
   mainGenres: () => [...genreKeys.all, 'main'] as const,
@@ -68,16 +67,6 @@ export function useListingGenres(listingId: string | undefined) {
     },
     enabled: !!listingId,
     staleTime: 1000 * 60 * 5, // 5 minutes
-  });
-}
-
-export function useMatchGenresByNames() {
-  return useMutation({
-    mutationFn: async (names: string[]) => {
-      const { data, error } = await fetchGenresByNames(names);
-      if (error) throw error;
-      return data as Genre[];
-    },
   });
 }
 

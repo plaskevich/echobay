@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Button } from '@/components/common/Button';
 import { EmptyState } from '@/components/common/StateDisplay';
 
-export interface ErrorPageProps {
+interface ErrorPageProps {
   notFound?: boolean;
   title?: string;
   message?: string;

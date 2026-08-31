@@ -9,7 +9,7 @@ import {
   updateOrderStatus,
 } from '@/api/orders';
 
-export const orderKeys = {
+const orderKeys = {
   all: ['orders'] as const,
   bought: (userId: string) => [...orderKeys.all, 'bought', userId] as const,
   sold: (userId: string) => [...orderKeys.all, 'sold', userId] as const,

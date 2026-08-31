@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { updatePassword } from '@/api/auth';
 import {
   AuthCard,
   AuthCardTitle,
@@ -15,6 +14,7 @@ import {
 import { Button } from '@/components/common/Button';
 import { FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
+import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth-store';
 
 interface ResetPasswordFormData {
@@ -27,7 +27,6 @@ export function ResetPassword() {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<ResetPasswordFormData>({
     defaultValues: { password: '', confirmPassword: '' },
   });
@@ -50,12 +49,10 @@ export function ResetPassword() {
     return <Navigate to="/" replace />;
   }
 
-  const password = watch('password');
-
   const onSubmit = async (data: ResetPasswordFormData) => {
     setServerError('');
     setIsLoading(true);
-    const { error } = await updatePassword(data.password);
+    const { error } = await supabase.auth.updateUser({ password: data.password });
     setIsLoading(false);
 
     if (error) {
@@ -99,7 +96,7 @@ export function ResetPassword() {
               $hasError={!!errors.confirmPassword}
               {...register('confirmPassword', {
                 required: 'Please confirm your password',
-                validate: (value) => value === password || 'Passwords do not match',
+                validate: (value, { password }) => value === password || 'Passwords do not match',
               })}
               disabled={isLoading}
               autoComplete="new-password"

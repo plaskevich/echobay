@@ -44,7 +44,7 @@ function normalizeFilters(filters?: ListingFilters): ListingFilters {
   return normalized;
 }
 
-export const listingKeys = {
+const listingKeys = {
   all: ['listings'] as const,
   lists: () => [...listingKeys.all, 'list'] as const,
   list: (filters?: ListingFilters) => [...listingKeys.lists(), normalizeFilters(filters)] as const,

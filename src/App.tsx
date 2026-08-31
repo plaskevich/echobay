@@ -10,7 +10,7 @@ import { ResetPassword } from '@/components/auth/ResetPassword';
 import { AppToaster } from '@/components/common/AppToaster';
 import { RouteError } from '@/components/common/ErrorPage';
 import { ProfileEditForm } from '@/components/profile/edit/ProfileEditForm';
-import { theme } from '@/lib/theme';
+import { theme } from '@/lib/theme/theme';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { EditItemPage } from '@/pages/EditItemPage';
 import FavoritesPage from '@/pages/FavoritesPage';

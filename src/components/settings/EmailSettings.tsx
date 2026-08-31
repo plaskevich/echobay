@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { updateEmail } from '@/api/auth';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
 import { InfoMessage } from '@/components/common/Message';
+import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/auth-store';
 
 import { Container, Description, Form, Message, SectionTitle } from './styles';
@@ -32,7 +32,7 @@ export default function EmailSettings() {
     setMessage(null);
 
     try {
-      const { error } = await updateEmail(data.email);
+      const { error } = await supabase.auth.updateUser({ email: data.email });
       if (error) throw error;
       toast.success('A confirmation link has been sent to your new email address.');
       setMessage(null);

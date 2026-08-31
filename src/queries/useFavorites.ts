@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { type Favorite, addFavorite, fetchUserFavorites, removeFavorite } from '@/api/favorites';
 
-export const favoriteKeys = {
+const favoriteKeys = {
   all: ['favorites'] as const,
   userFavorites: (userId: string) => [...favoriteKeys.all, 'user', userId] as const,
 };
@@ -33,7 +33,7 @@ export function useIsFavorited(userId: string | undefined, listingId: string) {
   return favorites?.some((favorite) => favorite.listing_id === listingId) ?? false;
 }
 
-export function useAddFavorite() {
+function useAddFavorite() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -52,7 +52,7 @@ export function useAddFavorite() {
   });
 }
 
-export function useRemoveFavorite() {
+function useRemoveFavorite() {
   const queryClient = useQueryClient();
 
   return useMutation({

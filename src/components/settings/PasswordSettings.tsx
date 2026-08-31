@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { updatePassword } from '@/api/auth';
 import { Button } from '@/components/common/Button';
 import { ButtonGroup, FieldError, FieldWrapper } from '@/components/common/Form';
 import { Input } from '@/components/common/Input';
+import { supabase } from '@/lib/supabase';
 
 import { Container, Description, Form, Message, SectionTitle } from './styles';
 
@@ -19,7 +19,6 @@ export default function PasswordSettings() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
     reset,
   } = useForm<PasswordFormData>({
     defaultValues: { newPassword: '', confirmPassword: '' },
@@ -28,14 +27,12 @@ export default function PasswordSettings() {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const newPassword = watch('newPassword');
-
   const onSubmit = async (data: PasswordFormData) => {
     setIsSaving(true);
     setMessage(null);
 
     try {
-      const { error } = await updatePassword(data.newPassword);
+      const { error } = await supabase.auth.updateUser({ password: data.newPassword });
 
       if (error) {
         setMessage({ type: 'error', text: error.message });
@@ -79,7 +76,7 @@ export default function PasswordSettings() {
             $hasError={!!errors.confirmPassword}
             {...register('confirmPassword', {
               required: 'Please confirm your password',
-              validate: (value) => value === newPassword || 'Passwords do not match',
+              validate: (value, { newPassword }) => value === newPassword || 'Passwords do not match',
             })}
             placeholder="Confirm new password"
             autoComplete="new-password"

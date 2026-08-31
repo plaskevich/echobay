@@ -1,6 +1,4 @@
-import type { Duration, Easing, FontSize, FontWeight, LineHeight, Spacing, Transition } from './types';
-
-const spacing: Spacing = {
+const spacing = {
   '3xs': '0.125rem',
   '2xs': '0.25rem',
   xs: '0.5rem',
@@ -16,7 +14,7 @@ const fontFamily = "'Archivo Variable', system-ui, Avenir, Helvetica, Arial, san
 
 const fontFamilyAlt = "'Chakra Petch', 'Archivo Variable', system-ui, sans-serif";
 
-const fontSize: FontSize = {
+const fontSize = {
   xs: '0.75rem',
   sm: '0.875rem',
   base: '1rem',
@@ -26,32 +24,32 @@ const fontSize: FontSize = {
   '3xl': '2rem',
 };
 
-const fontWeight: FontWeight = {
+const fontWeight = {
   regular: 400,
   medium: 500,
   semibold: 600,
   bold: 700,
 };
 
-const lineHeight: LineHeight = {
+const lineHeight = {
   tight: 1.2,
   snug: 1.35,
   normal: 1.5,
   relaxed: 1.6,
 };
 
-const easing: Easing = {
+const easing = {
   standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
   emphasized: 'cubic-bezier(0.2, 0, 0, 1)',
 };
 
-const duration: Duration = {
+const duration = {
   fast: '120ms',
   base: '180ms',
   slow: '280ms',
 };
 
-const transition: Transition = {
+const transition = {
   fast: `${duration.fast} ${easing.standard}`,
   base: `${duration.base} ${easing.standard}`,
   slow: `${duration.slow} ${easing.standard}`,

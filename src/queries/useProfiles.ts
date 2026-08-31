@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { type ProfileData, fetchProfile, fetchPublicProfile, upsertProfile } from '@/api/profile';
 
-export const profileKeys = {
+const profileKeys = {
   all: ['profiles'] as const,
   details: () => [...profileKeys.all, 'detail'] as const,
   detail: (userId: string) => [...profileKeys.details(), userId] as const,

@@ -45,7 +45,7 @@ const SelectWrapper = styled.div`
   width: 100%;
 `;
 
-export const StyledSelect = styled.select<{ $hasError?: boolean }>`
+const StyledSelect = styled.select<{ $hasError?: boolean }>`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border: 1px solid ${({ theme, $hasError }) => ($hasError ? theme.state.error : theme.border.primary)};

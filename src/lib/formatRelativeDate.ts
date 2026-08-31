@@ -1,20 +1,12 @@
-type RelativeDateUnit = Intl.RelativeTimeFormatUnit;
+const MINUTE_MS = 6e4;
 
-const SECOND_MS = 1000;
-const MINUTE_MS = 60 * SECOND_MS;
-const HOUR_MS = 60 * MINUTE_MS;
-const DAY_MS = 24 * HOUR_MS;
-const WEEK_MS = 7 * DAY_MS;
-const MONTH_MS = 30 * DAY_MS;
-const YEAR_MS = 365 * DAY_MS;
-
-const RELATIVE_UNITS: Array<{ unit: RelativeDateUnit; ms: number }> = [
-  { unit: 'year', ms: YEAR_MS },
-  { unit: 'month', ms: MONTH_MS },
-  { unit: 'week', ms: WEEK_MS },
-  { unit: 'day', ms: DAY_MS },
-  { unit: 'hour', ms: HOUR_MS },
-  { unit: 'minute', ms: MINUTE_MS },
+const UNITS: [ms: number, unit: Intl.RelativeTimeFormatUnit][] = [
+  [31536e6, 'year'],
+  [2592e6, 'month'],
+  [6048e5, 'week'],
+  [864e5, 'day'],
+  [36e5, 'hour'],
+  [MINUTE_MS, 'minute'],
 ];
 
 interface FormatRelativeDateOptions {
@@ -25,8 +17,7 @@ export function formatRelativeDate(dateInput: string | Date, options?: FormatRel
   const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
   if (Number.isNaN(date.getTime())) return '';
 
-  const now = new Date();
-  const diffMs = date.getTime() - now.getTime();
+  const diffMs = date.getTime() - Date.now();
   const absDiffMs = Math.abs(diffMs);
 
   if (absDiffMs < MINUTE_MS) return options?.short ? 'now' : 'just now';
@@ -36,12 +27,6 @@ export function formatRelativeDate(dateInput: string | Date, options?: FormatRel
     style: options?.short ? 'narrow' : 'long',
   });
 
-  for (const { unit, ms } of RELATIVE_UNITS) {
-    if (absDiffMs >= ms) {
-      const value = Math.round(diffMs / ms);
-      return formatter.format(value, unit);
-    }
-  }
-
-  return formatter.format(Math.round(diffMs / MINUTE_MS), 'minute');
+  const [ms, unit] = UNITS.find(([threshold]) => absDiffMs >= threshold) ?? UNITS[UNITS.length - 1];
+  return formatter.format(Math.round(diffMs / ms), unit);
 }

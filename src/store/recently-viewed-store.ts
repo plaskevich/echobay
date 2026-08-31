@@ -7,7 +7,6 @@ const MAX_RECENTLY_VIEWED = 30;
 interface RecentlyViewedState {
   ids: string[];
   addView: (id: string) => void;
-  clear: () => void;
 }
 
 export const useRecentlyViewedStore = create<RecentlyViewedState>()(
@@ -20,11 +19,7 @@ export const useRecentlyViewedStore = create<RecentlyViewedState>()(
         if (next.length === current.length && next.every((value, index) => value === current[index])) return;
         set({ ids: next });
       },
-      clear: () => set({ ids: [] }),
     }),
-    {
-      name: STORAGE_KEY,
-      partialize: (state) => ({ ids: state.ids }),
-    }
+    { name: STORAGE_KEY }
   )
 );

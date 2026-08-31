@@ -1,16 +1,11 @@
 import { supabase } from '@/lib/supabase';
 
-const DEFAULT_BUCKET = 'listings';
+const BUCKET = 'listings';
 
-export async function uploadImage(
-  filePath: string,
-  file: File,
-  options?: { cacheControl?: string; upsert?: boolean },
-  bucket = DEFAULT_BUCKET
-) {
-  return await supabase.storage.from(bucket).upload(filePath, file, options);
+export async function uploadImage(filePath: string, file: File, options?: { cacheControl?: string; upsert?: boolean }) {
+  return await supabase.storage.from(BUCKET).upload(filePath, file, options);
 }
 
-export function getPublicUrl(filePath: string, bucket = DEFAULT_BUCKET) {
-  return supabase.storage.from(bucket).getPublicUrl(filePath);
+export function getPublicUrl(filePath: string) {
+  return supabase.storage.from(BUCKET).getPublicUrl(filePath);
 }

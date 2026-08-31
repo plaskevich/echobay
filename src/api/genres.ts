@@ -26,18 +26,6 @@ export async function fetchSubgenres() {
     .order('display_order', { ascending: true });
 }
 
-export async function fetchGenresByNames(names: string[]) {
-  if (names.length === 0) return { data: [], error: null };
-  const normalizedNames = names.map((n) => n.toLowerCase().trim());
-
-  const { data, error } = await supabase.from('genres').select('*').order('display_order', { ascending: true });
-
-  if (error) return { data: null, error };
-  const matchedGenres = data?.filter((genre) => normalizedNames.includes(genre.name.toLowerCase())) || [];
-
-  return { data: matchedGenres, error: null };
-}
-
 interface ListingGenreRow {
   genre_id: string;
   genres: Genre | null;

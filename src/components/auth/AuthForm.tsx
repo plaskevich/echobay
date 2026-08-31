@@ -30,9 +30,7 @@ export function AuthForm({
   const {
     register,
     formState: { errors },
-    watch,
   } = form;
-  const password = watch('password');
 
   return (
     <AuthFormLayout onSubmit={onSubmit}>
@@ -87,7 +85,7 @@ export function AuthForm({
             $hasError={!!errors.confirmPassword}
             {...register('confirmPassword', {
               required: 'Please confirm your password',
-              validate: (value) => value === password || 'Passwords do not match',
+              validate: (value, { password }) => value === password || 'Passwords do not match',
             })}
             disabled={isLoading}
             autoComplete="new-password"

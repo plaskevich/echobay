@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { type ShippingAddress, fetchShippingAddress, saveShippingAddress } from '@/api/shipping';
 
-export const shippingKeys = {
+const shippingKeys = {
   all: ['shipping'] as const,
   address: (userId: string) => [...shippingKeys.all, 'address', userId] as const,
 };

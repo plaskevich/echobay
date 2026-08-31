@@ -14,7 +14,6 @@ import { useGenres } from '@/queries/useGenres';
 import { useListingFiltersStore } from '@/store/listing-filters-store';
 
 import {
-  CATEGORY_LABELS,
   DEFAULT_SORT,
   FILTER_CATEGORIES,
   type FilterCategory,
@@ -147,7 +146,9 @@ export function MobileFilterPanel({ onApply }: MobileFilterPanelProps) {
                     <i className="hn hn-times" aria-hidden />
                   </HeaderIconButton>
                 )}
-                <HeaderTitle>{activeCategory ? CATEGORY_LABELS[activeCategory] : 'Filter'}</HeaderTitle>
+                <HeaderTitle>
+                  {FILTER_CATEGORIES.find((cat) => cat.key === activeCategory)?.label ?? 'Filter'}
+                </HeaderTitle>
                 {activeCategory ? (
                   <HeaderAction onClick={handleClearCategory}>Clear</HeaderAction>
                 ) : (

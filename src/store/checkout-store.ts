@@ -5,7 +5,7 @@ import type { ShippingAddress } from '@/api/shipping';
 
 export type CheckoutStep = 'shipping' | 'payment' | 'summary';
 
-export interface CheckoutProgress {
+interface CheckoutProgress {
   step: CheckoutStep;
   shippingAddress: ShippingAddress | null;
   paymentIntentId: string | null;
